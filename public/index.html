@@ -1,11 +1,64 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title><%= htmlWebpackPlugin.options.title %></title>
+    
+    <!-- Tailwind CSS via CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    
+    <!-- Add dark mode variants with custom background color -->
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    <style>
+      /* Custom dark mode background color */
+      .dark body {
+        background-color: #030816;
+      }
+      
+      /* Define dark mode variants manually since CDN doesn't include them by default */
+      .dark .dark\:bg-dark-bg {
+        background-color: #030816; /* Your custom dark background */
+      }
+      .dark .dark\:bg-gray-800 {
+        background-color: #030816; /* Override with your custom color */
+      }
+      .dark .dark\:bg-gray-700 {
+        background-color: #1a1e30; /* Slightly lighter shade for contrast */
+      }
+      .dark .dark\:text-white {
+        color: #ffffff;
+      }
+      .dark .dark\:text-gray-200 {
+        color: #e2e8f0;
+      }
+      .dark .dark\:hover\:bg-gray-700:hover {
+        background-color: #1a1e30; /* Slightly lighter shade for hover states */
+      }
+      .dark .dark\:border-white {
+        border-color: #1a2536;
+      }
+
+      
+      /* Add any additional dark mode classes you need here */
+      
+      /* For smoother transitions between themes */
+      body {
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+    </style>
+    
+    <script>
+      // Check for dark mode preference in localStorage or system setting
+      if (localStorage.theme === 'dark' || 
+          (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    </script>
   </head>
   <body>
     <noscript>
