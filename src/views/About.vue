@@ -15,15 +15,11 @@
                         <h2 class="text-2xl font-bold mb-4 dark:text-white">Your Name</h2>
                         <p class="text-gray-700 dark:text-gray-300 mb-4">
                             I'm a passionate frontend developer with expertise in creating responsive and user-friendly
-                            web
-                            applications. With a strong foundation in JavaScript and modern frameworks like Vue.js, I
-                            love bringing
-                            designs to life with clean code.
+                            web applications. With a strong foundation in JavaScript and modern frameworks like Vue.js, I
+                            love bringing designs to life with clean code.
                         </p>
                         <p class="text-gray-700 dark:text-gray-300 mb-4">
-                            I'm constantly learning and exploring new technologies to stay up-to-date with the latest
-                            trends
-                            in web development.
+                            I'm constantly learning and exploring new technologies to stay up-to-date with the latest trends in web development.
                         </p>
                         <div class="flex flex-wrap gap-4 mt-6">
                             <a href="#"
