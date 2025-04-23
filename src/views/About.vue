@@ -112,15 +112,6 @@
                 </div>
             </div>
 
-            <!-- Personal Details -->
-            <div class="mb-6">
-                <h2 class="text-base font-bold mb-4 pb-2">Personal Details</h2>
-                <div class="flex items-center">
-                    <span class="font-semibold">Date of Birth:</span>
-                    <span class="ml-2">April 17, 2002</span>
-                </div>
-            </div>
-
         </div>
     </div>
 </template>
