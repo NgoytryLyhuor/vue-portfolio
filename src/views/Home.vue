@@ -89,14 +89,13 @@
         </main>
     </div>
 
-    <div class="rss-feed">
+    <div class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-10">
         <h2 class="text-2xl font-bold mb-6 dark:text-white">Latest Updates</h2>
-        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            <div v-for="item in feedItems" :key="item.guid"
-                class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+        <div class="columns-1 md:columns-2 lg:columns-3 gap-6">
+            <div v-for="item in feedItems" :key="item.guid" class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 mb-6 break-inside-avoid">
                 <div class="p-6">
                     <h3 class="text-xl font-semibold mb-2 dark:text-white">
-                        <a :href="item.link" target="_blank" class="hover:text-green-500 transition-colors">
+                        <a :href="item.link" target="_blank" class="hover:text-green-500 transition-colors duration-300">
                             {{ item.title }}
                         </a>
                     </h3>
@@ -163,7 +162,8 @@ export default {
                     category: 'NLP',
                     excerpt: 'Exploring the challenges and solutions for Khmer language processing'
                 }
-            ]
+            ],
+            feedItems: []
         }
     },
     computed: {
@@ -175,6 +175,15 @@ export default {
             return this.blogPosts.filter(post =>
                 this.selectedCategories.includes(post.category)
             )
+        }
+    },
+    async mounted() {
+        try {
+            const response = await fetch('https://rinabuoy.vercel.app/rss.xml');
+            const xmlText = await response.text();
+            this.feedItems = this.parseRss(xmlText);
+        } catch (error) {
+            console.error('Error fetching RSS feed:', error);
         }
     },
     methods: {
@@ -191,7 +200,20 @@ export default {
         formatDate(dateString) {
             const options = { year: 'numeric', month: 'short', day: 'numeric' }
             return new Date(dateString).toLocaleDateString(undefined, options)
-        }
+        },
+        parseRss(xmlText) {
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(xmlText, "text/xml");
+
+            const items = xmlDoc.querySelectorAll('item');
+            return Array.from(items).map(item => ({
+                title: item.querySelector('title').textContent,
+                description: item.querySelector('description').textContent,
+                link: item.querySelector('link').textContent,
+                guid: item.querySelector('guid').textContent,
+                pubDate: item.querySelector('pubDate').textContent
+            }));
+        },
     }
 }
 </script>
@@ -227,8 +249,4 @@ button:focus {
     font-size: 16px;
 }
 
-/* Dark mode transitions */
-.dark .transition-colors {
-    transition-property: background-color, border-color, color, fill, stroke;
-}
 </style>
