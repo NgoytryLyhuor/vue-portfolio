@@ -1,5 +1,5 @@
 <template>
-    <nav class="fixed w-full bg-white/80 dark:bg-gray-900/80 text-gray-800 dark:text-gray-100 py-4 px-4 sm:px-6 lg:px-40 shadow-md backdrop-blur-md z-50 transition-colors duration-300">
+    <nav class="fixed w-full bg-white/80 dark:bg-gray-900/80 text-gray-800 dark:text-gray-100 py-4 px-4 sm:px-6 lg:px-40 shadow-md backdrop-blur-sm z-50 transition-colors duration-300">
         <div class="container mx-auto flex justify-between items-center">
             <div class="flex">
                 <router-link to="/"
@@ -139,7 +139,7 @@
             leave-active-class="transition ease-in duration-150" leave-from-class="transform opacity-100 translate-y-0"
             leave-to-class="transform opacity-0 -translate-y-2">
             <div v-if="isMobileMenuOpen"
-                class="md:hidden py-2 px-4 space-y-2 mt-4 bg-white/95 dark:bg-gray-900/80 backdrop-blur-md border-t dark:border-gray-700">
+                class="md:hidden py-2 px-4 space-y-2 mt-4 bg-white/95 dark:bg-gray-900/80 backdrop-blur-sm border-t dark:border-gray-700">
                 <router-link v-for="link in navLinks" :key="link.path" :to="link.path"
                     class="block hover:text-green-500 dark:hover:text-green-400 py-3 px-2 transition-colors duration-200 rounded-md"
                     :class="{ 'text-green-500 dark:text-green-400 bg-gray-100 dark:bg-gray-800': $route.path === link.path }"
