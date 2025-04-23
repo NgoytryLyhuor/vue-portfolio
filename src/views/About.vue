@@ -1,17 +1,16 @@
 <template>
     <div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-300 bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 text-sm">
         <div class="max-w-4xl mx-auto">
-            <!-- Profile Photo -->
-            <div class="flex justify-center mb-8">
-                <div class="w-40 h-40 rounded-full bg-gray-700 mt-10 overflow-hidden">
-                    <!-- Replace with your actual image path -->
+
+            <h1 class="text-3xl font-bold mb-6 text-center mt-10">NGOYTRY LYHUOR</h1>
+            <div class="flex justify-center mb-10">
+                <div class="w-40 h-40 rounded-full bg-gray-700 overflow-hidden">
                     <img src="@/assets/profile.jpg" alt="Profile" class="object-cover w-full h-full" />
                 </div>
             </div>
 
             <!-- Contact Links -->
             <div class="text-center mb-10">
-                <h1 class="text-3xl font-bold mb-6">NGOYTRY LYHUOR</h1>
                 <div class="text-left">
                     <span class="font-semibold">LinkedIn:</span>
                     <a href="https://www.linkedin.com/in/ngoytry-lyhuor-506a46280/" class="ml-2 text-blue-400 hover:text-blue-300">https://www.linkedin.com/in/ngoytry-lyhuor-506a46280/</a>

@@ -7,7 +7,7 @@
                     aria-label="Home">
                     <div class="flex items-center">
                         <img src="../assets/logo.png" alt="Logo"
-                            class="h-6 w-6 mr-3 transition-transform duration-200 hover:scale-105">
+                            class="h-7 w-7 mr-3 transition-transform duration-200 hover:scale-105">
                         <h1 class="text-[16px] font-bold dark:text-white">Ngoytry Lyhuor</h1>
                     </div>
                 </router-link>
