@@ -4,7 +4,7 @@
             <router-link to="/" class="hover:text-green-500 dark:hover:text-green-400 transition-colors duration-200" aria-label="Home">
                 <div class="flex items-center">
                     <img src="../assets/logo.png" alt="Logo" class="h-8 w-auto mr-3 transition-transform duration-200 hover:scale-105">
-                    <h1 class="text-xl font-bold dark:text-white">Ngoytry Lyhuor</h1>
+                    <h1 class="text-xl font-bold dark:text-white">Ngoytry Lyhuor Update</h1>
                 </div>
             </router-link>
 
