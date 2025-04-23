@@ -9,7 +9,7 @@
                     </div>
                 </router-link>
                 <!-- Desktop Navigation -->
-                <div class="hidden md:flex space-x-6 ml-10">
+                <div class="hidden md:flex space-x-4 ml-10">
                     <router-link v-for="link in navLinks" :key="link.path" :to="link.path"
                         class="hover:text-green-500 dark:hover:text-green-400 text-[14px] transition-colors duration-200 px-2 py-1 rounded-md"
                         :class="{ 'text-green-500 dark:text-green-400': $route.path === link.path }"
@@ -19,10 +19,10 @@
                 </div>
             </div>
 
-            <div class="flex items-center space-x-6">
+            <div class="flex items-center space-x-4">
                 <!-- Theme Switcher -->
                 <div class="relative" ref="themeDropdown">
-                    <div class="flex items-center space-x-6">
+                    <div class="flex items-center space-x-4">
                         <!-- LinkedIn -->
                         <a href="https://www.linkedin.com/in/ngoytry-lyhuor-506a46280/" target="_blank" rel="noopener noreferrer"
                             class="text-gray-700 dark:text-gray-300 hover:text-green-500 dark:hover:text-green-400 transition-colors duration-200 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
