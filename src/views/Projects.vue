@@ -18,12 +18,8 @@
                         All
                     </button>
                     <button 
-                        v-for="category in categories" 
-                        :key="category" 
-                        @click="activeCategory = category" 
-                        :class="[
-                            'px-4 py-2 rounded-full transition-all duration-200 font-medium',
-                            activeCategory === category
+                        v-for="category in categories" :key="category" @click="activeCategory = category" 
+                        :class="[ 'px-4 py-2 rounded-full transition-all duration-200 font-medium', activeCategory === category
                                 ? 'bg-green-500 text-white dark:bg-green-600'
                                 : 'bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600'
                         ]"

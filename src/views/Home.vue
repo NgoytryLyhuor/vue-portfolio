@@ -1,6 +1,6 @@
 <template>
     <div class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
-        
+
         <!-- Main Content -->
         <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-10">
             <!-- Page Header -->
@@ -29,7 +29,8 @@
                     class="flex flex-col rounded-xl overflow-hidden bg-white dark:bg-gray-800 shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                     <div class="h-48 bg-gray-100 dark:bg-gray-700 relative overflow-hidden">
                         <div class="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 opacity-20"></div>
-                        <span v-if="post.year" class="absolute top-4 left-4 inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 z-10">
+                        <span v-if="post.year"
+                            class="absolute top-4 left-4 inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 z-10">
                             {{ post.year }}
                         </span>
                         <div class="absolute bottom-4 left-4">
@@ -43,7 +44,8 @@
                     <div class="p-6 flex-1 flex flex-col">
                         <div class="flex-1">
                             <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 line-clamp-2">
-                                <a :href="post.link" class="hover:text-blue-600 text-base dark:hover:text-blue-400 transition-colors duration-300">
+                                <a :href="post.link"
+                                    class="hover:text-blue-600 text-base dark:hover:text-blue-400 transition-colors duration-300">
                                     {{ post.title }}
                                 </a>
                             </h2>
@@ -52,14 +54,17 @@
                             </p>
                         </div>
 
-                        <div class="mt-auto pt-4 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                        <div
+                            class="mt-auto pt-4 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between">
                             <span class="text-sm text-gray-500 dark:text-gray-400">
                                 {{ formatDate(post.date) }}
                             </span>
-                            <a :href="post.link" class="text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 transition-colors duration-300 flex items-center">
+                            <a :href="post.link"
+                                class="text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 transition-colors duration-300 flex items-center">
                                 Read more
                                 <svg class="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7" />
                                 </svg>
                             </a>
                         </div>
@@ -82,6 +87,29 @@
                 </button>
             </div>
         </main>
+    </div>
+
+    <div class="rss-feed">
+        <h2 class="text-2xl font-bold mb-6 dark:text-white">Latest Updates</h2>
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div v-for="item in feedItems" :key="item.guid"
+                class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2 dark:text-white">
+                        <a :href="item.link" target="_blank" class="hover:text-green-500 transition-colors">
+                            {{ item.title }}
+                        </a>
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">{{ item.description }}</p>
+                    <div class="flex justify-between items-center text-sm text-gray-500 dark:text-gray-400">
+                        <span>{{ formatDate(item.pubDate) }}</span>
+                        <a :href="item.link" target="_blank" class="text-green-500 hover:text-green-600 font-medium">
+                            Read more →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -169,7 +197,6 @@ export default {
 </script>
 
 <style scoped>
-
 /* Line clamping for text */
 .line-clamp-2 {
     display: -webkit-box;
