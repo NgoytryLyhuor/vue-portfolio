@@ -8,7 +8,7 @@
                     <p>&copy; 2025 My Portfolio. All rights reserved.</p>
                 </div>
                 <div class="flex space-x-4">
-                    <a href="https://github.com" target="_blank" class="hover:text-green-500">
+                    <a href="https://github.com/NgoytryLyhuor" target="_blank" class="hover:text-green-500">
                         <span class="sr-only">GitHub</span>
                         <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
                             <path
@@ -16,7 +16,7 @@
                             </path>
                         </svg>
                     </a>
-                    <a href="https://linkedin.com" target="_blank" class="hover:text-green-500">
+                    <a href="https://www.linkedin.com/in/ngoytry-lyhuor/" target="_blank" class="hover:text-green-500">
                         <span class="sr-only">LinkedIn</span>
                         <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
                             <path

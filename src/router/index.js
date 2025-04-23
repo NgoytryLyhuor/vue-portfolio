@@ -8,23 +8,38 @@ const routes = [
     {
         path: '/',
         name: 'Home',
-        component: Home
+        component: Home,
+        meta: {
+            title: 'Ngoytry Lyhuor'
+        }
     },
     {
         path: '/projects',
         name: 'Projects',
-        component: Projects
+        component: Projects,
+        meta: {
+            title: 'Projects'
+        }
     },
     {
         path: '/about',
         name: 'About',
-        component: About
+        component: About,
+        meta: {
+            title: 'About'
+        }
     }
 ]
 
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes
+})
+
+// Add navigation guard to update title
+router.beforeEach((to, from, next) => {
+    document.title = to.meta.title || 'Ngoytry Lyhuor'
+    next()
 })
 
 export default router

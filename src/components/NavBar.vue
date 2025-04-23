@@ -1,12 +1,9 @@
 <template>
-    <nav
-        class="fixed w-full bg-white/80 dark:bg-gray-900/80 text-gray-800 dark:text-gray-100 p-4 shadow-md backdrop-blur-sm z-50 transition-colors duration-300">
+    <nav class="fixed w-full bg-white/80 dark:bg-gray-900/80 text-gray-800 dark:text-gray-100 p-4 shadow-md backdrop-blur-sm z-50 transition-colors duration-300">
         <div class="container mx-auto flex justify-between items-center">
-            <router-link to="/" class="hover:text-green-500 dark:hover:text-green-400 transition-colors duration-200"
-                aria-label="Home">
+            <router-link to="/" class="hover:text-green-500 dark:hover:text-green-400 transition-colors duration-200" aria-label="Home">
                 <div class="flex items-center">
-                    <img src="../assets/logo.png" alt="Logo"
-                        class="h-8 w-auto mr-3 transition-transform duration-200 hover:scale-105">
+                    <img src="../assets/logo.png" alt="Logo" class="h-8 w-auto mr-3 transition-transform duration-200 hover:scale-105">
                     <h1 class="text-xl font-bold dark:text-white">Ngoytry Lyhuor</h1>
                 </div>
             </router-link>
