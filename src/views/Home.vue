@@ -13,29 +13,21 @@
 
             <!-- Category Filters -->
             <div class="mb-8 flex flex-wrap justify-center gap-3">
-                <button v-for="category in categories" :key="category" @click="toggleCategory(category)" :class="[
-                    'px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300',
-                    selectedCategories.includes(category)
-                        ? 'bg-blue-600 text-white shadow-md'
-                        : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 shadow-sm'
-                ]">
+                <button v-for="category in categories" :key="category" @click="toggleCategory(category)" :class="[ 'px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300', selectedCategories.includes(category) ? 'bg-blue-600 text-white shadow-md' : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 shadow-sm']">
                     {{ category }}
                 </button>
             </div>
 
             <!-- Blog Posts Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-                <article v-for="(post, index) in filteredPosts" :key="index"
-                    class="flex flex-col rounded-xl overflow-hidden bg-white dark:bg-gray-800 shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
+                <article v-for="(post, index) in filteredPosts" :key="index" class="flex flex-col rounded-xl overflow-hidden bg-white dark:bg-gray-800 shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
                     <div class="h-48 bg-gray-100 dark:bg-gray-700 relative overflow-hidden">
                         <div class="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 opacity-20"></div>
-                        <span v-if="post.year"
-                            class="absolute top-4 left-4 inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 z-10">
+                        <span v-if="post.year" class="absolute top-4 left-4 inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 z-10">
                             {{ post.year }}
                         </span>
                         <div class="absolute bottom-4 left-4">
-                            <span
-                                class="text-sm inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 shadow-sm">
+                            <span class="text-sm inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 shadow-sm">
                                 {{ post.category || 'General' }}
                             </span>
                         </div>
@@ -44,8 +36,7 @@
                     <div class="p-6 flex-1 flex flex-col">
                         <div class="flex-1">
                             <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 line-clamp-2">
-                                <a :href="post.link"
-                                    class="hover:text-blue-600 text-base dark:hover:text-blue-400 transition-colors duration-300">
+                                <a :href="post.link" class="hover:text-blue-600 text-base dark:hover:text-blue-400 transition-colors duration-300">
                                     {{ post.title }}
                                 </a>
                             </h2>
@@ -59,12 +50,10 @@
                             <span class="text-sm text-gray-500 dark:text-gray-400">
                                 {{ formatDate(post.date) }}
                             </span>
-                            <a :href="post.link"
-                                class="text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 transition-colors duration-300 flex items-center">
+                            <a :href="post.link" class="text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 transition-colors duration-300 flex items-center">
                                 Read more
                                 <svg class="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 5l7 7-7 7" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                                 </svg>
                             </a>
                         </div>
@@ -74,34 +63,31 @@
 
             <!-- Empty State -->
             <div v-if="filteredPosts.length === 0" class="text-center py-12">
-                <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
-                        d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 <h3 class="mt-2 text-lg font-medium text-gray-900 dark:text-white">No posts found</h3>
                 <p class="mt-1 text-gray-500 dark:text-gray-400">Try adjusting your search or filter criteria</p>
-                <button @click="resetFilters"
-                    class="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300">
+                <button @click="resetFilters" class="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300">
                     Reset filters
                 </button>
             </div>
         </main>
     </div>
 
-    <div class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-10">
+    <div class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <h2 class="text-2xl font-bold mb-6 dark:text-white">Latest Updates</h2>
         <div class="columns-1 md:columns-2 lg:columns-3 gap-6">
             <div v-for="item in feedItems" :key="item.guid" class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 mb-6 break-inside-avoid">
                 <div class="p-6">
-                    <h3 class="text-xl font-semibold mb-2 dark:text-white">
-                        <a :href="item.link" target="_blank" class="hover:text-green-500 transition-colors duration-300">
+                    <h3 class="text-xl mb-2 dark:text-white">
+                        <a :href="item.link" target="_blank" class="hover:text-blue-600 text-base dark:hover:text-blue-400 transition-colors duration-300">
                             {{ item.title }}
                         </a>
                     </h3>
-                    <p class="text-gray-600 dark:text-gray-300 mb-4">{{ item.description }}</p>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4 text-sm">{{ item.description }}</p>
                     <div class="flex justify-between items-center text-sm text-gray-500 dark:text-gray-400">
-                        <span>{{ formatDate(item.pubDate) }}</span>
+                        <span class="text-sm">{{ formatDate(item.pubDate) }}</span>
                         <a :href="item.link" target="_blank" class="text-green-500 hover:text-green-600 font-medium">
                             Read more →
                         </a>
@@ -242,11 +228,11 @@ button:focus {
 }
 
 .text-sm {
-    font-size: 14px;
+    font-size: 14px !important;
 }
 
 .text-base {
-    font-size: 16px;
+    font-size: 16px !important;
 }
 
 </style>
