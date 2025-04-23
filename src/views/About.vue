@@ -1,169 +1,159 @@
 <template>
-    <div class="dark:bg-gray-900 min-h-screen py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
+    <div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-300 bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 text-sm">
         <div class="max-w-4xl mx-auto">
-            <!-- Header -->
-            <h1 class="text-3xl font-bold mb-8 text-center dark:text-white">About Me</h1>
-
-            <!-- Profile Section -->
-            <div
-                class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8 mb-12 border border-gray-200 dark:border-gray-700">
-                <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
-                    <img src="https://i.pinimg.com/736x/ad/ab/e6/adabe64b9c091a13598f454c3b4e7b87.jpg" alt="Profile"
-                        class="w-48 h-48 rounded-full object-cover border-4 border-gray-200 dark:border-gray-600">
-
-                    <div>
-                        <h2 class="text-2xl font-bold mb-4 dark:text-white">Your Name</h2>
-                        <p class="text-gray-700 dark:text-gray-300 mb-4">
-                            I'm a passionate frontend developer with expertise in creating responsive and user-friendly
-                            web applications. With a strong foundation in JavaScript and modern frameworks like Vue.js, I
-                            love bringing designs to life with clean code.
-                        </p>
-                        <p class="text-gray-700 dark:text-gray-300 mb-4">
-                            I'm constantly learning and exploring new technologies to stay up-to-date with the latest trends in web development.
-                        </p>
-                        <div class="flex flex-wrap gap-4 mt-6">
-                            <a href="#"
-                                class="bg-gray-800 hover:bg-gray-900 dark:bg-gray-700 dark:hover:bg-gray-600 text-white px-4 py-2 rounded transition-colors duration-200">
-                                Download Resume
-                            </a>
-                            <a href="mailto:your.email@example.com"
-                                class="bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700 text-white px-4 py-2 rounded transition-colors duration-200">
-                                Contact Me
-                            </a>
-                        </div>
-                    </div>
+            <!-- Profile Photo -->
+            <div class="flex justify-center mb-8">
+                <div class="w-40 h-40 rounded-full bg-gray-700 mt-10 overflow-hidden">
+                    <!-- Replace with your actual image path -->
+                    <img src="@/assets/profile.jpg" alt="Profile" class="object-cover w-full h-full" />
                 </div>
             </div>
 
-            <!-- Experience & Education -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-                <!-- Experience -->
-                <div
-                    class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border border-gray-200 dark:border-gray-700">
-                    <h3 class="text-xl font-bold mb-4 flex items-center dark:text-white">
-                        <svg class="w-6 h-6 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z">
-                            </path>
-                        </svg>
-                        Experience
-                    </h3>
-                    <div class="mb-4 pb-4 border-b border-gray-200 dark:border-gray-700">
-                        <h4 class="font-semibold dark:text-gray-200">Frontend Developer at Company Name</h4>
-                        <p class="text-gray-600 dark:text-gray-400 text-sm">January 2022 - Present</p>
-                        <p class="mt-2 text-gray-700 dark:text-gray-300">Developing responsive web applications using
-                            Vue.js and modern CSS frameworks.</p>
+            <!-- Contact Links -->
+            <div class="text-center mb-10">
+                <h1 class="text-3xl font-bold mb-6">NGOYTRY LYHUOR</h1>
+                <div class="text-left">
+                    <span class="font-semibold">LinkedIn:</span>
+                    <a href="https://www.linkedin.com/in/ngoytry-lyhuor-506a46280/" class="ml-2 text-blue-400 hover:text-blue-300">https://www.linkedin.com/in/ngoytry-lyhuor-506a46280/</a>
+                </div>
+                <div class="text-left">
+                    <span class="font-semibold">GitHub:</span>
+                    <a href="https://github.com/NgoytryLyhuor" class="ml-2 text-blue-400 hover:text-blue-300">https://github.com/NgoytryLyhuor</a>
+                </div>
+            </div>
+
+            <!-- Professional Summary -->
+            <div class="mb-12">
+                <h2 class="text-base font-bold mb-4 pb-2">Professional Summary</h2>
+                <p class="mb-4">
+                    A junior web developer with experience in both frontend and backend development. Skilled in HTML,
+                    CSS, JavaScript, Vue.js, PHP, and Laravel.
+                    Currently focusing on implementing new features based on customer requirements and maintaining
+                    restaurant data systems.
+                </p>
+            </div>
+
+            <!-- Current Positions -->
+            <div class="mb-12">
+                <h2 class="text-base font-bold mb-4 pb-2">Experience</h2>
+                <div class="mb-6">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-base font-bold">Junior Web Developer</h3>
+                        <span class="text-blue-400">Jan 2024 – Present</span>
                     </div>
-                    <div>
-                        <h4 class="font-semibold dark:text-gray-200">Web Developer Intern at Another Company</h4>
-                        <p class="text-gray-600 dark:text-gray-400 text-sm">June 2021 - December 2021</p>
-                        <p class="mt-2 text-gray-700 dark:text-gray-300">Assisted in building and maintaining client
-                            websites using HTML, CSS, and JavaScript.</p>
-                    </div>
+                    <h4 class="text-sm font-semibold mb-2">CIJD Co.,ltd.</h4>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>Develop and implement new features based on customer requirements, covering both frontend
+                            and backend processes to enhance system functionality.</li>
+                        <li>Manage and maintain restaurant data, generate reports, and resolve any system-related issues
+                            to ensure smooth daily operations.</li>
+                        <li>Perform thorough testing and debugging to keep the system stable, reliable, and
+                            user-friendly.</li>
+                        <li>Oversee website server operations, including monitoring, updates, and performance
+                            optimization.</li>
+                    </ul>
                 </div>
 
-                <!-- Education -->
-                <div
-                    class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border border-gray-200 dark:border-gray-700">
-                    <h3 class="text-xl font-bold mb-4 flex items-center dark:text-white">
-                        <svg class="w-6 h-6 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
-                            </path>
-                        </svg>
-                        Education
-                    </h3>
-                    <div class="mb-4 pb-4 border-b border-gray-200 dark:border-gray-700">
-                        <h4 class="font-semibold dark:text-gray-200">Bachelor's in Computer Science</h4>
-                        <p class="text-gray-600 dark:text-gray-400 text-sm">University Name, 2018 - 2022</p>
-                        <p class="mt-2 text-gray-700 dark:text-gray-300">Focused on web development and software
-                            engineering fundamentals.</p>
+                <div class="mb-6">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-base font-bold">Instructor</h3>
+                        <span class="text-blue-400">Mar 2022 – Mar 2023</span>
                     </div>
-                    <div>
-                        <h4 class="font-semibold dark:text-gray-200">Relevant Certifications</h4>
-                        <ul class="mt-2 text-gray-700 dark:text-gray-300 list-disc list-inside">
-                            <li>Advanced JavaScript - Platform Name</li>
-                            <li>Vue.js Masterclass - Platform Name</li>
-                            <li>Responsive Web Design - Platform Name</li>
-                        </ul>
-                    </div>
+                    <h4 class="text-sm font-semibold mb-2">ETEC Center</h4>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>Microsoft Office Training - Comprehensive instruction in Word, Excel, and PowerPoint.</li>
+                        <li>Programming Fundamentals - Introduction to C, C++, and object-oriented programming concepts.
+                        </li>
+                        <li>Web Development Essentials - Complete coverage of both frontend and backend technologies.
+                        </li>
+                    </ul>
                 </div>
             </div>
 
             <!-- Skills -->
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border border-gray-200 dark:border-gray-700">
-                <h3 class="text-xl font-bold mb-6 flex items-center dark:text-white">
-                    <svg class="w-6 h-6 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z">
-                        </path>
-                    </svg>
-                    Skills
-                </h3>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <h4 class="font-semibold mb-2 dark:text-gray-200">Frontend</h4>
-                        <div class="space-y-2">
-                            <div v-for="(skill, index) in frontendSkills" :key="'f' + index">
-                                <div class="flex justify-between mb-1 dark:text-gray-300">
-                                    <span>{{ skill.name }}</span>
-                                    <span>{{ skill.level }}%</span>
-                                </div>
-                                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                                    <div class="bg-green-500 h-2 rounded-full" :style="{ width: skill.level + '%' }">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <h4 class="font-semibold mb-2 dark:text-gray-200">Other Skills</h4>
-                        <div class="space-y-2">
-                            <div v-for="(skill, index) in otherSkills" :key="'o' + index">
-                                <div class="flex justify-between mb-1 dark:text-gray-300">
-                                    <span>{{ skill.name }}</span>
-                                    <span>{{ skill.level }}%</span>
-                                </div>
-                                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                                    <div class="bg-green-500 h-2 rounded-full" :style="{ width: skill.level + '%' }">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+            <div class="mb-12">
+                <h2 class="text-base font-bold mb-4 pb-2">Skills</h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                    <div v-for="skill in skills" :key="skill" class="border border-gray-300 dark:border-gray-600 p-2 text-center">
+                        {{ skill }}
                     </div>
                 </div>
             </div>
+
+            <!-- Education -->
+            <div class="mb-12">
+                <h2 class="text-base font-bold mb-4 pb-2">Education</h2>
+                <div class="mb-6">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-base font-bold">Bachelor's Degree</h3>
+                        <span class="text-blue-400">2021 – 2024</span>
+                    </div>
+                    <h4 class="text-sm font-semibold">Industrial Technical Institute (ITI)</h4>
+                    <p>Major: Information Technology (IT)</p>
+                </div>
+
+                <div>
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-base font-bold">Diploma</h3>
+                        <span class="text-blue-400">2017 - 2020</span>
+                    </div>
+                    <h4 class="text-sm font-semibold">Kompong Chherteal High School</h4>
+                    <p>Science Class</p>
+                </div>
+            </div>
+
+            <!-- Languages -->
+            <div class="mb-6">
+                <h2 class="text-base font-bold mb-4 pb-2">Languages</h2>
+                <div class="flex gap-4">
+                    <div v-for="language in languages" :key="language" class="border border-gray-300 dark:border-gray-600 p-2 px-10 text-center">
+                        {{ language }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Personal Details -->
+            <div class="mb-6">
+                <h2 class="text-base font-bold mb-4 pb-2">Personal Details</h2>
+                <div class="flex items-center">
+                    <span class="font-semibold">Date of Birth:</span>
+                    <span class="ml-2">April 17, 2002</span>
+                </div>
+            </div>
+
         </div>
     </div>
 </template>
 
 <script>
 export default {
-    name: 'AboutView',
+    name: 'CVTemplate',
     data() {
         return {
-            frontendSkills: [
-                { name: 'HTML & CSS', level: 95 },
-                { name: 'JavaScript', level: 90 },
-                { name: 'Vue.js', level: 85 },
-                { name: 'Tailwind CSS', level: 80 }
+            darkMode: true,
+            skills: [
+                'HTML', 'CSS', 'JavaScript', 'jQuery',
+                'Restful API', 'Vue JS', 'Nuxt JS', 'PHP',
+                'Laravel', 'MySQL', 'SQL', 'Github'
             ],
-            otherSkills: [
-                { name: 'Git & GitHub', level: 85 },
-                { name: 'Responsive Design', level: 90 },
-                { name: 'API Integration', level: 80 },
-                { name: 'UI/UX Principles', level: 75 }
-            ]
+            languages: ['Khmer', 'English']
         }
     }
 }
 </script>
 
-<style>
-/* Smooth transitions for dark mode */
-body {
-    @apply transition-colors duration-300;
+<style scoped>
+/* Base font sizes */
+.text-sm {
+    font-size: 14px;
+}
+
+.text-base {
+    font-size: 16px;
+}
+
+/* Smooth transition for dark mode */
+.transition-colors {
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 </style>
