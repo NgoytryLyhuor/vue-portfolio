@@ -14,7 +14,7 @@
             <!-- Category Filters -->
             <div class="mb-8 flex flex-wrap justify-center gap-3">
                 <button v-for="category in categories" :key="category" @click="toggleCategory(category)" :class="[
-                    'px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200',
+                    'px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300',
                     selectedCategories.includes(category)
                         ? 'bg-blue-600 text-white shadow-md'
                         : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 shadow-sm'
@@ -43,7 +43,7 @@
                     <div class="p-6 flex-1 flex flex-col">
                         <div class="flex-1">
                             <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 line-clamp-2">
-                                <a :href="post.link" class="hover:text-blue-600 text-base dark:hover:text-blue-400 transition-colors duration-200">
+                                <a :href="post.link" class="hover:text-blue-600 text-base dark:hover:text-blue-400 transition-colors duration-300">
                                     {{ post.title }}
                                 </a>
                             </h2>
@@ -56,7 +56,7 @@
                             <span class="text-sm text-gray-500 dark:text-gray-400">
                                 {{ formatDate(post.date) }}
                             </span>
-                            <a :href="post.link" class="text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 transition-colors duration-200 flex items-center">
+                            <a :href="post.link" class="text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 transition-colors duration-300 flex items-center">
                                 Read more
                                 <svg class="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -77,7 +77,7 @@
                 <h3 class="mt-2 text-lg font-medium text-gray-900 dark:text-white">No posts found</h3>
                 <p class="mt-1 text-gray-500 dark:text-gray-400">Try adjusting your search or filter criteria</p>
                 <button @click="resetFilters"
-                    class="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200">
+                    class="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300">
                     Reset filters
                 </button>
             </div>
@@ -169,12 +169,6 @@ export default {
 </script>
 
 <style scoped>
-/* Custom transitions */
-.transition-colors {
-    transition-property: background-color, border-color, color, fill, stroke;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 200ms;
-}
 
 /* Line clamping for text */
 .line-clamp-2 {

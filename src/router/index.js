@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Projects from '../views/Projects.vue'
 import About from '../views/About.vue'
+import NotFound from '../views/NotFound.vue' // Import your 404 component
 
 const routes = [
     {
@@ -27,6 +28,15 @@ const routes = [
         component: About,
         meta: {
             title: 'About'
+        }
+    },
+    // Add the 404 route as the last route
+    {
+        path: '/:pathMatch(.*)*',
+        name: 'NotFound',
+        component: NotFound,
+        meta: {
+            title: '404 Not Found'
         }
     }
 ]
