@@ -111,8 +111,7 @@
             enter-from-class="transform opacity-0 -translate-y-2" enter-to-class="transform opacity-100 translate-y-0"
             leave-active-class="transition ease-in duration-150" leave-from-class="transform opacity-100 translate-y-0"
             leave-to-class="transform opacity-0 -translate-y-2">
-            <div v-if="isMobileMenuOpen"
-                class="md:hidden py-2 px-4 space-y-2 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-t dark:border-gray-700 shadow-lg">
+            <div v-if="isMobileMenuOpen" class="md:hidden py-2 px-4 space-y-2 mt-4 bg-white/95 dark:bg-gray-900/80 backdrop-blur-sm border-t dark:border-gray-700">
                 <router-link v-for="link in navLinks" :key="link.path" :to="link.path"
                     class="block hover:text-green-500 dark:hover:text-green-400 py-3 px-2 transition-colors duration-200 rounded-md"
                     :class="{ 'text-green-500 dark:text-green-400 bg-gray-100 dark:bg-gray-800': $route.path === link.path }"
@@ -246,11 +245,6 @@ export default {
 </script>
 
 <style scoped>
-.backdrop-blur-sm {
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-}
-
 /* Smooth transitions for dark mode switch */
 html {
     @apply transition-colors duration-300;
