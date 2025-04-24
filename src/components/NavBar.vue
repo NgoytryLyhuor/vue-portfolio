@@ -141,7 +141,8 @@ export default {
             navLinks: [
                 { path: '/', label: 'Home' },
                 { path: '/projects', label: 'Projects' },
-                { path: '/about', label: 'About' }
+                { path: '/about', label: 'About' },
+                { path: '/business', label: 'លក់ត្រពាំង' }
             ]
         }
     },

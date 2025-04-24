@@ -107,16 +107,17 @@ export default {
                 },
                 {
                     id: 2,
-                    title: 'Task Manager App',
-                    description: 'A productivity application...',
+                    title: 'Norkor Architecture',
+                    description: 'A clean and modern portfolio website crafted for Norkor Architecture, a small and passionate team of architects. The site highlights their featured projects, services, and team background, offering a professional digital presence that helps attract potential clients and showcase their work with style.',
                     image: 'norkor-architecture.jpg',
-                    technologies: ['HTML', 'CSS', 'Bootstrap', 'JavaScript', 'AJAX', 'Laravel' ,'MySQL'],
-                    category: 'Web App',
+                    technologies: ['HTML', 'CSS', 'Bootstrap', 'JavaScript', 'AJAX', 'Laravel', 'MySQL'],
+                    category: 'Website',
                     status: 'Under Development',
                     demo: 'https://test.consatech-cambodia.com/',
                     github: 'https://github.com/NgoytryLyhuor/Sokmean-architecture',
-                    showGithub: true // This project will show GitHub link
-                },
+                    showGithub: false
+                }
+
             ],
             fallbackImage: require('@/assets/no-image.jpg') // Add a fallback image
         }
