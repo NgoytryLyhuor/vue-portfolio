@@ -116,7 +116,7 @@
                     <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
                         <p class="text-sm text-gray-500 dark:text-gray-400">ទំនិញទិញចូល</p>
                         <p class="text-xl font-bold text-gray-900 dark:text-white">
-                            {{ activeRound.purchaseAmount }} kg
+                            {{ activeRound.purchase_amount }} kg
                         </p>
                     </div>
 
@@ -181,14 +181,14 @@
                             <div class="flex justify-between items-start">
                                 <div>
                                     <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                                        {{ sale.customerName }} - {{ sale.amount }}kg
+                                        {{ sale.customer_name }} - {{ sale.amount }}kg
                                     </h3>
                                     <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
                                         <span class="font-medium">តម្លៃសរុប:</span> {{ formatCurrency(sale.price) }} ៛ |
                                         <span class="font-medium">ស្ថានភាព:</span>
                                         <span
-                                            :class="sale.paymentStatus === 'paid' ? 'text-green-600 dark:text-green-400' : 'text-yellow-600 dark:text-yellow-400'">
-                                            {{ sale.paymentStatus === 'paid' ? 'បានបង់' : 'មិនទាន់បង' }}
+                                            :class="sale.payment_status === 'paid' ? 'text-green-600 dark:text-green-400' : 'text-yellow-600 dark:text-yellow-400'">
+                                            {{ sale.payment_status === 'paid' ? 'បានបង់' : 'មិនទាន់បង' }}
                                         </span>
                                     </p>
                                 </div>
@@ -202,12 +202,12 @@
 
                             <div class="mt-4 bg-gray-50 dark:bg-gray-700 p-3 rounded-md">
                                 <p class="text-sm text-gray-700 dark:text-gray-300">
-                                    <span class="font-medium">វគ្គលក់:</span> ទី{{ getRoundNumber(sale.roundId) }} |
+                                    <span class="font-medium">វគ្គលក់:</span> ទី{{ getRoundNumber(sale.round_id) }} |
                                     <span class="font-medium">តម្លៃ/kg:</span> {{
                                         formatCurrency(sale.price / sale.amount) }} ៛
                                 </p>
                                 <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                    កាលបរិច្ឆេទ: {{ formatDate(sale.date) }}
+                                    កាលបរិច្ឆេទ: {{ formatDate(sale.sale_date) || 'មិនស្គាល់កាលបរិច្ឆេទ' }}
                                 </p>
                             </div>
                         </div>
@@ -242,10 +242,10 @@
                                 <div>
                                     <p class="text-gray-500 dark:text-gray-400">ទិញចូល</p>
                                     <p class="text-gray-900 dark:text-white">
-                                        {{ round.purchaseAmount }} kg
+                                        {{ round.purchase_amount }} kg
                                     </p>
                                     <p class="text-gray-500 dark:text-gray-400">
-                                        {{ formatCurrency(round.purchasePrice) }} ៛
+                                        {{ formatCurrency(round.purchase_price) }} ៛
                                     </p>
                                 </div>
 
@@ -266,7 +266,7 @@
                                 <div>
                                     <p class="text-gray-500 dark:text-gray-400">ស្ថានភាព</p>
                                     <p class="text-gray-900 dark:text-white">
-                                        {{ Math.round((getSoldAmount(round.id) / round.purchaseAmount) * 100) }}%
+                                        {{ Math.round((getSoldAmount(round.id) / round.purchase_amount) * 100) }}%
                                     </p>
                                 </div>
                             </div>
@@ -309,7 +309,7 @@
                                         ទី{{ getRoundNumber(round.id) }}
                                     </td>
                                     <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                        {{ round.purchaseAmount }} kg ({{ formatCurrency(round.purchasePrice) }} ៛)
+                                        {{ round.purchase_amount }} kg ({{ formatCurrency(round.purchase_price) }} ៛)
                                     </td>
                                     <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
                                         {{ getSoldAmount(round.id) }} kg
@@ -396,14 +396,16 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Error Modal -->
     <div v-if="showErrorModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6">
             <div class="text-center">
                 <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-red-900">
-                    <svg class="h-6 w-6 text-red-600 dark:text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    <svg class="h-6 w-6 text-red-600 dark:text-red-400" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                     </svg>
                 </div>
                 <h3 class="text-lg font-medium text-gray-900 dark:text-white mt-3">
@@ -425,15 +427,18 @@
     </div>
 </template>
 
+
 <script>
-import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
 
 export default {
     name: 'BusinessPage',
     data() {
         return {
-            showRoundForm: false, // Controls visibility of round form
-            showSuccessModal: false, // Controls success modal
+            showRoundForm: false,
+            showSuccessModal: false,
+            showErrorModal: false,
+            showDeleteModal: false,
             currentRound: {
                 purchaseAmount: 0,
                 purchasePrice: 0
@@ -447,9 +452,7 @@ export default {
             rounds: [],
             sales: [],
             activeRoundId: null,
-            showDeleteModal: false,
             saleToDelete: null,
-            showErrorModal: false,
             errorTitle: '',
             errorMessage: ''
         };
@@ -459,20 +462,21 @@ export default {
             return this.rounds.find(round => round.id === this.activeRoundId);
         },
         filteredSales() {
-            return this.sales.filter(sale => sale.roundId === this.activeRoundId);
+            return this.sales.filter(sale => sale.round_id === this.activeRoundId);
         },
         soldAmount() {
-            return this.filteredSales.reduce((sum, sale) => sum + sale.amount, 0);
+            return this.filteredSales.reduce((sum, sale) => sum + Number(sale.amount), 0);
         },
         remainingAmount() {
-            return this.activeRound ? this.activeRound.purchaseAmount - this.soldAmount : 0;
+            if (!this.activeRound) return 0;
+            return Number(this.activeRound.purchase_amount) - this.soldAmount;
         },
         totalRevenue() {
-            return this.filteredSales.reduce((sum, sale) => sum + sale.price, 0);
+            return this.filteredSales.reduce((sum, sale) => sum + Number(sale.price), 0);
         },
         estimatedProfit() {
             if (!this.activeRound) return 0;
-            return this.totalRevenue - this.activeRound.purchasePrice;
+            return this.totalRevenue - Number(this.activeRound.purchase_price);
         }
     },
     created() {
@@ -484,73 +488,93 @@ export default {
             this.errorMessage = message;
             this.showErrorModal = true;
         },
-        startNewRound() {
+        async startNewRound() {
             if (!this.currentRound.purchaseAmount || !this.currentRound.purchasePrice) {
                 this.showError('ព័ត៌មានមិនគ្រប់គ្រាន់', 'សូមបំពេញព័ត៌មានវគ្គលក់ជាមុនសិន!');
                 return;
             }
 
-            const newRound = {
-                id: uuidv4(),
-                ...this.currentRound,
-                startDate: new Date().toISOString()
-            };
+            try {
+                const response = await axios.post('/api/rounds', {
+                    purchase_amount: Number(this.currentRound.purchaseAmount),
+                    purchase_price: Number(this.currentRound.purchasePrice)
+                });
 
-            this.rounds.unshift(newRound);
-            this.activeRoundId = newRound.id;
-            this.showRoundForm = false;
-            this.saveData();
+                // Activate the new round
+                await axios.post(`/api/rounds/${response.data.id}/activate`);
+
+                // Reload data
+                await this.loadData();
+
+                // Reset form and show success
+                this.showRoundForm = false;
+                this.currentRound.purchaseAmount = 0;
+                this.currentRound.purchasePrice = 0;
+                this.showSuccessModal = true;
+            } catch (error) {
+                console.error('Error starting new round:', error);
+                this.showError('កំហុស', 'មិនអាចចាប់ផ្តើមវគ្គថ្មីបានទេ។');
+            }
         },
-        addSale() {
+        async addSale() {
             if (!this.activeRoundId) {
                 this.showError('វគ្គលក់មិនត្រូវបានជ្រើសរើស', 'សូមចាប់ផ្តើមវគ្គលក់ជាមុនសិន!');
                 return;
             }
 
-            if (!this.sale.customerName || !this.sale.amount || !this.sale.price) {
+            if (!this.sale.customerName || Number(this.sale.amount) <= 0 || Number(this.sale.price) <= 0) {
                 this.showError('ព័ត៌មានមិនគ្រប់គ្រាន់', 'សូមបំពេញព័ត៌មានការលក់ជាមុនសិន!');
                 return;
             }
 
-            if (this.sale.amount > this.remainingAmount) {
+            const saleAmount = Number(this.sale.amount);
+            if (saleAmount > this.remainingAmount) {
                 this.showError('បរិមាណលើស', `មានតែ ${this.remainingAmount}kg នៅសល់ក្នុងវគ្គនេះ!`);
                 return;
             }
 
-            const newSale = {
-                id: uuidv4(),
-                roundId: this.activeRoundId,
-                customerName: this.sale.customerName,
-                amount: this.sale.amount,
-                price: this.sale.price,
-                paymentStatus: this.sale.paymentStatus,
-                date: new Date().toISOString()
-            };
+            try {
+                await axios.post('/api/sales', {
+                    round_id: this.activeRoundId,
+                    customer_name: this.sale.customerName,
+                    amount: Number(this.sale.amount),
+                    price: Number(this.sale.price),
+                    payment_status: this.sale.paymentStatus
+                });
 
-            this.sales.unshift(newSale);
-            this.saveData();
+                // Reload data and reset form
+                await this.loadData();
 
-            // Show success modal
-            this.showSuccessModal = true;
-
-            // Clear form fields
-            this.sale.customerName = '';
-            this.sale.amount = 0;
-            this.sale.price = 0;
-            this.sale.paymentStatus = 'paid';
+                this.showSuccessModal = true;
+                this.sale.customerName = '';
+                this.sale.amount = 0;
+                this.sale.price = 0;
+                this.sale.paymentStatus = 'paid';
+            } catch (error) {
+                console.error('Error adding sale:', error);
+                this.showError('កំហុស', 'មិនអាចបញ្ចូលការលក់បានទេ។');
+            }
         },
         confirmDeleteSale(saleId) {
             this.saleToDelete = saleId;
             this.showDeleteModal = true;
         },
-        deleteSale() {
-            const index = this.sales.findIndex(sale => sale.id === this.saleToDelete);
-            if (index !== -1) {
-                this.sales.splice(index, 1);
-                this.saveData();
+        async deleteSale() {
+            if (!this.saleToDelete) return;
+
+            try {
+                await axios.delete(`/api/sales/${this.saleToDelete}`);
+
+                // Reload data
+                await this.loadData();
+
+                this.showDeleteModal = false;
+                this.saleToDelete = null;
+            } catch (error) {
+                console.error('Error deleting sale:', error);
+                this.showError('កំហុស', 'មិនអាចលុបការលក់បានទេ។');
+                this.showDeleteModal = false;
             }
-            this.showDeleteModal = false;
-            this.saleToDelete = null;
         },
         setActiveRound(roundId) {
             this.activeRoundId = roundId;
@@ -560,49 +584,94 @@ export default {
             return this.rounds.length - index;
         },
         getSoldAmount(roundId) {
-            return this.sales.filter(sale => sale.roundId === roundId)
-                .reduce((sum, sale) => sum + sale.amount, 0);
+            return this.sales
+                .filter(sale => sale.round_id === roundId)
+                .reduce((sum, sale) => sum + Number(sale.amount), 0);
         },
         getRoundRevenue(roundId) {
-            return this.sales.filter(sale => sale.roundId === roundId)
-                .reduce((sum, sale) => sum + sale.price, 0);
+            return this.sales
+                .filter(sale => sale.round_id === roundId)
+                .reduce((sum, sale) => sum + Number(sale.price), 0);
         },
         getRoundProfit(roundId) {
             const round = this.rounds.find(r => r.id === roundId);
             if (!round) return 0;
-
-            return this.getRoundRevenue(roundId) - round.purchasePrice;
+            return this.getRoundRevenue(roundId) - Number(round.purchase_price);
         },
         formatCurrency(value) {
-            return new Intl.NumberFormat('km-KH').format(value);
+            // Ensure value is a number before formatting
+            const numValue = Number(value);
+            return isNaN(numValue) ? '0' : new Intl.NumberFormat('km-KH').format(Math.round(numValue));
         },
         formatDate(dateString) {
-            const options = {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            };
-            return new Date(dateString).toLocaleDateString('km-KH', options);
-        },
-        saveData() {
-            localStorage.setItem('businessRounds', JSON.stringify(this.rounds));
-            localStorage.setItem('businessSales', JSON.stringify(this.sales));
-            localStorage.setItem('activeRoundId', this.activeRoundId);
-        },
-        loadData() {
-            const savedRounds = localStorage.getItem('businessRounds');
-            const savedSales = localStorage.getItem('businessSales');
-            const savedActiveRoundId = localStorage.getItem('activeRoundId');
+            if (!dateString) return 'មិនស្គាល់កាលបរិច្ឆេទ';
+            
+            try {
+                const date = new Date(dateString);
+                if (isNaN(date.getTime())) return 'កាលបរិច្ឆេទមិនត្រឹមត្រូវ';
 
-            if (savedRounds) this.rounds = JSON.parse(savedRounds);
-            if (savedSales) this.sales = JSON.parse(savedSales);
-            if (savedActiveRoundId) this.activeRoundId = savedActiveRoundId;
+                // Khmer month names
+                const months = [
+                    'មករា', 'កុម្ភៈ', 'មីនា', 'មេសា', 'ឧសភា', 'មិថុនា',
+                    'កក្កដា', 'សីហា', 'កញ្ញា', 'តុលា', 'វិច្ឆិកា', 'ធ្នូ'
+                ];
 
-            // If no active round but we have rounds, set the first one as active
-            if (!this.activeRoundId && this.rounds.length > 0) {
-                this.activeRoundId = this.rounds[0].id;
+                const day = date.getDate();
+                const month = months[date.getMonth()];
+                const year = date.getFullYear();
+                
+                let hours = date.getHours();
+                const minutes = date.getMinutes().toString().padStart(2, '0');
+                const ampm = hours >= 12 ? 'ល្ងាច' : 'ព្រឹក';
+                
+                // Convert to 12-hour format
+                hours = hours % 12;
+                hours = hours ? hours : 12; // the hour '0' should be '12'
+                
+                return `${day} ${month} ${year}, ${hours}:${minutes} ${ampm}`;
+            } catch (error) {
+                console.error('Error formatting date:', error);
+                return dateString;
+            }
+        },
+        async loadData() {
+            try {
+                // Load active round
+                const activeRoundResponse = await axios.get('/api/current-round');
+                if (activeRoundResponse.data) {
+                    this.activeRoundId = activeRoundResponse.data.id;
+                }
+
+                // Load all rounds
+                const roundsResponse = await axios.get('/api/rounds');
+                this.rounds = roundsResponse.data;
+
+                // Process sales data - get from rounds if nested
+                let salesData = [];
+
+                // Check if rounds contain nested sales data
+                if (this.rounds.length > 0 && this.rounds[0].sales) {
+                    // Extract sales from nested structure in rounds
+                    this.rounds.forEach(round => {
+                        if (Array.isArray(round.sales)) {
+                            salesData = [...salesData, ...round.sales];
+                        }
+                    });
+                } else {
+                    // Fall back to separate sales API endpoint
+                    const salesResponse = await axios.get('/api/sales');
+                    salesData = salesResponse.data;
+                }
+
+                this.sales = salesData;
+
+                // If no active round but we have rounds, set the most recent one as active
+                if (!this.activeRoundId && this.rounds.length > 0) {
+                    this.activeRoundId = this.rounds[0].id;
+                }
+            } catch (error) {
+                console.error('Error loading data:', error);
+                this.showError('កំហុស', 'មិនអាចទាញយកទិន្នន័យបានទេ។');
             }
         }
     }
