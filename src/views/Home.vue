@@ -227,12 +227,4 @@ button:focus {
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
 }
 
-.text-sm {
-    font-size: 14px !important;
-}
-
-.text-base {
-    font-size: 16px !important;
-}
-
 </style>

@@ -14,7 +14,7 @@
             <!-- Current Round Form -->
             <div
                 class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden p-8 mb-12 border border-gray-200 dark:border-gray-700">
-                <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">
+                <h2 class="text-base text-xl font-bold text-gray-900 dark:text-white mb-6">
                     វគ្គលក់បច្ចុប្បន្ន
                 </h2>
 
@@ -24,29 +24,25 @@
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                             ទំនិញទិញចូល (kg)
                         </label>
-                        <input v-model.number="currentRound.purchaseAmount" type="number" placeholder="20"
-                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
+                        <input v-model.number="currentRound.purchaseAmount" type="number" placeholder="20" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                             តម្លៃទិញ (៛)
                         </label>
-                        <input v-model.number="currentRound.purchasePrice" type="number" placeholder="200000"
-                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
+                        <input v-model.number="currentRound.purchasePrice" type="number" placeholder="200000" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                             តម្លៃលក់ (៛/kg)
                         </label>
-                        <input v-model.number="currentRound.sellPricePerKg" type="number" placeholder="17250"
-                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
+                        <input v-model.number="currentRound.sellPricePerKg" type="number" placeholder="17250" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
                     </div>
 
                     <div class="flex items-end">
-                        <button @click="startNewRound"
-                            class="w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors duration-300 shadow-sm">
+                        <button @click="startNewRound" class="w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors duration-300 shadow-sm">
                             ចាប់ផ្តើមវគ្គថ្មី
                         </button>
                     </div>
@@ -56,7 +52,7 @@
             <!-- Sales Form -->
             <div
                 class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden p-8 mb-12 border border-gray-200 dark:border-gray-700">
-                <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">
+                <h2 class="text-base text-xl font-bold text-gray-900 dark:text-white mb-6">
                     កត់ត្រាការលក់
                 </h2>
 
@@ -101,7 +97,7 @@
             <!-- Current Round Summary -->
             <div
                 class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden p-8 mb-12 border border-gray-200 dark:border-gray-700">
-                <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">
+                <h2 class="text-base text-xl font-bold text-gray-900 dark:text-white mb-6">
                     សរុបវគ្គបច្ចុប្បន្ន
                 </h2>
 
@@ -144,7 +140,7 @@
             <!-- Sales Records -->
             <div class="mb-12">
                 <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
+                    <h2 class="text-base text-2xl font-bold text-gray-900 dark:text-white">
                         បញ្ជីការលក់ ({{ filteredSales.length }})
                     </h2>
                     <div class="text-sm text-gray-500 dark:text-gray-400">
@@ -214,7 +210,7 @@
 
             <!-- Rounds Summary -->
             <div>
-                <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+                <h2 class="text-base text-2xl font-bold text-gray-900 dark:text-white mb-6">
                     សរុបវគ្គលក់ទាំងអស់
                 </h2>
 
