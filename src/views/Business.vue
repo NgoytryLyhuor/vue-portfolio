@@ -396,6 +396,33 @@
             </div>
         </div>
     </div>
+    
+    <!-- Error Modal -->
+    <div v-if="showErrorModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6">
+            <div class="text-center">
+                <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-red-900">
+                    <svg class="h-6 w-6 text-red-600 dark:text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                </div>
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white mt-3">
+                    {{ errorTitle }}
+                </h3>
+                <div class="mt-2">
+                    <p class="text-sm text-gray-600 dark:text-gray-300">
+                        {{ errorMessage }}
+                    </p>
+                </div>
+                <div class="mt-5">
+                    <button @click="showErrorModal = false" type="button"
+                        class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md text-sm transition-colors duration-300">
+                        យល់ព្រម
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -421,7 +448,10 @@ export default {
             sales: [],
             activeRoundId: null,
             showDeleteModal: false,
-            saleToDelete: null
+            saleToDelete: null,
+            showErrorModal: false,
+            errorTitle: '',
+            errorMessage: ''
         };
     },
     computed: {
@@ -449,9 +479,14 @@ export default {
         this.loadData();
     },
     methods: {
+        showError(title, message) {
+            this.errorTitle = title;
+            this.errorMessage = message;
+            this.showErrorModal = true;
+        },
         startNewRound() {
             if (!this.currentRound.purchaseAmount || !this.currentRound.purchasePrice) {
-                alert('សូមបំពេញព័ត៌មានវគ្គលក់ជាមុនសិន!');
+                this.showError('ព័ត៌មានមិនគ្រប់គ្រាន់', 'សូមបំពេញព័ត៌មានវគ្គលក់ជាមុនសិន!');
                 return;
             }
 
@@ -468,17 +503,17 @@ export default {
         },
         addSale() {
             if (!this.activeRoundId) {
-                alert('សូមចាប់ផ្តើមវគ្គលក់ជាមុនសិន!');
+                this.showError('វគ្គលក់មិនត្រូវបានជ្រើសរើស', 'សូមចាប់ផ្តើមវគ្គលក់ជាមុនសិន!');
                 return;
             }
 
             if (!this.sale.customerName || !this.sale.amount || !this.sale.price) {
-                alert('សូមបំពេញព័ត៌មានការលក់ជាមុនសិន!');
+                this.showError('ព័ត៌មានមិនគ្រប់គ្រាន់', 'សូមបំពេញព័ត៌មានការលក់ជាមុនសិន!');
                 return;
             }
 
             if (this.sale.amount > this.remainingAmount) {
-                alert(`មានតែ ${this.remainingAmount}kg នៅសល់ក្នុងវគ្គនេះ!`);
+                this.showError('បរិមាណលើស', `មានតែ ${this.remainingAmount}kg នៅសល់ក្នុងវគ្គនេះ!`);
                 return;
             }
 
