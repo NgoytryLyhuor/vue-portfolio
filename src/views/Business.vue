@@ -185,7 +185,7 @@
                                     </h3>
                                     <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
                                         <span class="font-medium">តម្លៃសរុប:</span> {{ formatCurrency(sale.price) }} ៛ |
-                                        <span class="font-medium">ស្ថានភាព:</span>
+                                        <span class="font-medium">ស្ថានភាព: </span>
                                         <span
                                             :class="sale.payment_status === 'paid' ? 'text-green-600 dark:text-green-400' : 'text-yellow-600 dark:text-yellow-400'">
                                             {{ sale.payment_status === 'paid' ? 'បានបង់' : 'មិនទាន់បង' }}
@@ -344,33 +344,12 @@
             </div>
         </div>
 
-        <!-- Delete Confirmation Modal -->
-        <div v-if="showDeleteModal"
-            class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6">
-                <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">
-                    បញ្ជាក់ការលុបការលក់
-                </h3>
-                <p class="text-gray-600 dark:text-gray-300 mb-6">
-                    តើអ្នកពិតជាចង់លុបការលក់នេះមែនទេ? សកម្មភាពនេះមិនអាចត្រឡប់វិញបានទេ។
-                </p>
-                <div class="flex justify-end space-x-3">
-                    <button @click="showDeleteModal = false"
-                        class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-300">
-                        បោះបង់
-                    </button>
-                    <button @click="deleteSale"
-                        class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-md text-sm transition-colors duration-300">
-                        លុប
-                    </button>
-                </div>
-            </div>
-        </div>
     </div>
 
-    <!-- Success Modal -->
-    <div v-if="showSuccessModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6">
+    <!-- Success Modal - Modified -->
+    <div v-if="showSuccessModal" @click.self="showSuccessModal = false"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 cursor-pointer">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6 cursor-default">
             <div class="text-center">
                 <div
                     class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 dark:bg-green-900">
@@ -382,11 +361,6 @@
                 <h3 class="text-lg font-medium text-gray-900 dark:text-white mt-3">
                     ការលក់ត្រូវបានរក្សាទុកដោយជោគជ័យ!
                 </h3>
-                <div class="mt-2">
-                    <p class="text-sm text-gray-600 dark:text-gray-300">
-                        ទិន្នន័យត្រូវបានរក្សាទុកនៅក្នុងប្រព័ន្ធ។
-                    </p>
-                </div>
                 <div class="mt-5">
                     <button @click="showSuccessModal = false" type="button"
                         class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md text-sm transition-colors duration-300">
@@ -397,9 +371,10 @@
         </div>
     </div>
 
-    <!-- Error Modal -->
-    <div v-if="showErrorModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6">
+    <!-- Error Modal - Modified -->
+    <div v-if="showErrorModal" @click.self="showErrorModal = false"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 cursor-pointer">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6 cursor-default">
             <div class="text-center">
                 <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-red-900">
                     <svg class="h-6 w-6 text-red-600 dark:text-red-400" fill="none" viewBox="0 0 24 24"
@@ -422,6 +397,29 @@
                         យល់ព្រម
                     </button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal - Modified -->
+    <div v-if="showDeleteModal" @click.self="showDeleteModal = false"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 cursor-pointer">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6 cursor-default">
+            <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">
+                បញ្ជាក់ការលុបការលក់
+            </h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">
+                តើអ្នកពិតជាចង់លុបការលក់នេះមែនទេ? សកម្មភាពនេះមិនអាចត្រឡប់វិញបានទេ។
+            </p>
+            <div class="flex justify-end space-x-3">
+                <button @click="showDeleteModal = false"
+                    class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-300">
+                    បោះបង់
+                </button>
+                <button @click="deleteSale"
+                    class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-md text-sm transition-colors duration-300">
+                    លុប
+                </button>
             </div>
         </div>
     </div>
@@ -487,6 +485,11 @@ export default {
             this.errorTitle = title;
             this.errorMessage = message;
             this.showErrorModal = true;
+            
+            // Auto-close after 1.5 seconds
+            setTimeout(() => {
+                this.showErrorModal = false;
+            }, 3000);
         },
         async startNewRound() {
             if (!this.currentRound.purchaseAmount || !this.currentRound.purchasePrice) {
@@ -511,6 +514,9 @@ export default {
                 this.currentRound.purchaseAmount = 0;
                 this.currentRound.purchasePrice = 0;
                 this.showSuccessModal = true;
+                setTimeout(() => {
+                    this.showSuccessModal = false;
+                }, 3000);
             } catch (error) {
                 console.error('Error starting new round:', error);
                 this.showError('កំហុស', 'មិនអាចចាប់ផ្តើមវគ្គថ្មីបានទេ។');
@@ -546,6 +552,9 @@ export default {
                 await this.loadData();
 
                 this.showSuccessModal = true;
+                setTimeout(() => {
+                    this.showSuccessModal = false;
+                }, 3000);
                 this.sale.customerName = '';
                 this.sale.amount = 0;
                 this.sale.price = 0;
@@ -605,7 +614,7 @@ export default {
         },
         formatDate(dateString) {
             if (!dateString) return 'មិនស្គាល់កាលបរិច្ឆេទ';
-            
+
             try {
                 const date = new Date(dateString);
                 if (isNaN(date.getTime())) return 'កាលបរិច្ឆេទមិនត្រឹមត្រូវ';
@@ -619,15 +628,15 @@ export default {
                 const day = date.getDate();
                 const month = months[date.getMonth()];
                 const year = date.getFullYear();
-                
+
                 let hours = date.getHours();
                 const minutes = date.getMinutes().toString().padStart(2, '0');
                 const ampm = hours >= 12 ? 'ល្ងាច' : 'ព្រឹក';
-                
+
                 // Convert to 12-hour format
                 hours = hours % 12;
                 hours = hours ? hours : 12; // the hour '0' should be '12'
-                
+
                 return `${day} ${month} ${year}, ${hours}:${minutes} ${ampm}`;
             } catch (error) {
                 console.error('Error formatting date:', error);
