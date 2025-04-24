@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <div class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300 mt-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <!-- Header Section -->
             <div class="text-center mb-12">
@@ -66,7 +66,7 @@
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                             ឈ្មោះអ្នកទិញ
                         </label>
-                        <input v-model="sale.customerName" placeholder="Dara"
+                        <input v-model="sale.customerName" placeholder=""
                             class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
                     </div>
 
@@ -85,7 +85,7 @@
                         <select v-model="sale.paymentStatus"
                             class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
                             <option value="paid">បានបង់</option>
-                            <option value="pending">នៅខ្វះ</option>
+                            <option value="pending">មិនទាន់បង</option>
                         </select>
                     </div>
 
@@ -185,7 +185,7 @@
                                         <span class="font-medium">ស្ថានភាព:</span>
                                         <span
                                             :class="sale.paymentStatus === 'paid' ? 'text-green-600 dark:text-green-400' : 'text-yellow-600 dark:text-yellow-400'">
-                                            {{ sale.paymentStatus === 'paid' ? 'បានបង់' : 'នៅខ្វះ' }}
+                                            {{ sale.paymentStatus === 'paid' ? 'បានបង់' : 'មិនទាន់បង' }}
                                         </span>
                                     </p>
                                 </div>
@@ -320,14 +320,14 @@ export default {
     data() {
         return {
             currentRound: {
-                purchaseAmount: 20,
-                purchasePrice: 200000,
-                sellPricePerKg: 17250
+                purchaseAmount: 0,
+                purchasePrice: 0,
+                sellPricePerKg: 0
             },
             sale: {
-                customerName: 'Dara',
-                amount: 5,
-                paymentStatus: 'paid'
+                customerName: '',
+                amount: 0,
+                paymentStatus: ''
             },
             rounds: [],
             sales: [],
