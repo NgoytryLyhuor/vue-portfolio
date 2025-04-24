@@ -11,40 +11,43 @@
                 </p>
             </div>
 
-            <!-- Current Round Form -->
+            <!-- Current Round Form - Now with toggle button -->
             <div
                 class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden p-8 mb-12 border border-gray-200 dark:border-gray-700">
-                <h2 class="text-base text-xl font-bold text-gray-900 dark:text-white mb-6">
-                    វគ្គលក់បច្ចុប្បន្ន
-                </h2>
+                <div class="flex justify-between items-center">
+                    <h2 class="text-xl font-bold text-gray-900 dark:text-white">
+                        វគ្គលក់បច្ចុប្បន្ន
+                    </h2>
+                    <button @click="showRoundForm = !showRoundForm"
+                        class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors duration-300 shadow-sm">
+                        {{ showRoundForm ? 'លាក់' : 'បង្ហាញ' }}
+                    </button>
+                </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                    <!-- Purchase Info -->
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                            ទំនិញទិញចូល (kg)
-                        </label>
-                        <input v-model.number="currentRound.purchaseAmount" type="number" placeholder="20" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
-                    </div>
+                <div v-if="showRoundForm" class="mt-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                ទំនិញទិញចូល (kg)
+                            </label>
+                            <input v-model.number="currentRound.purchaseAmount" type="number" placeholder=""
+                                class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
+                        </div>
 
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                            តម្លៃទិញ (៛)
-                        </label>
-                        <input v-model.number="currentRound.purchasePrice" type="number" placeholder="200000" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
-                    </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                តម្លៃទិញ (៛)
+                            </label>
+                            <input v-model.number="currentRound.purchasePrice" type="number" placeholder=""
+                                class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
+                        </div>
 
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                            តម្លៃលក់ (៛/kg)
-                        </label>
-                        <input v-model.number="currentRound.sellPricePerKg" type="number" placeholder="17250" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
-                    </div>
-
-                    <div class="flex items-end">
-                        <button @click="startNewRound" class="w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors duration-300 shadow-sm">
-                            ចាប់ផ្តើមវគ្គថ្មី
-                        </button>
+                        <div class="flex items-end">
+                            <button @click="startNewRound"
+                                class="w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors duration-300 shadow-sm">
+                                ចាប់ផ្តើមវគ្គថ្មី
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -56,7 +59,7 @@
                     កត់ត្រាការលក់
                 </h2>
 
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
                     <!-- Customer Info -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -70,7 +73,15 @@
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                             បរិមាណ (kg)
                         </label>
-                        <input v-model.number="sale.amount" type="number" placeholder="5"
+                        <input v-model.number="sale.amount" type="number" placeholder="0"
+                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            តម្លៃ (៛)
+                        </label>
+                        <input v-model.number="sale.price" type="number" placeholder="0"
                             class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
                     </div>
 
@@ -143,9 +154,6 @@
                     <h2 class="text-base text-2xl font-bold text-gray-900 dark:text-white">
                         បញ្ជីការលក់ ({{ filteredSales.length }})
                     </h2>
-                    <div class="text-sm text-gray-500 dark:text-gray-400">
-                        ទិន្នន័យត្រូវបានរក្សាទុកក្នុងឧបករណ៍របស់អ្នក
-                    </div>
                 </div>
 
                 <!-- Empty State -->
@@ -176,8 +184,7 @@
                                         {{ sale.customerName }} - {{ sale.amount }}kg
                                     </h3>
                                     <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                                        <span class="font-medium">តម្លៃសរុប:</span> {{ formatCurrency(sale.amount *
-                                        activeRound.sellPricePerKg) }} ៛ |
+                                        <span class="font-medium">តម្លៃសរុប:</span> {{ formatCurrency(sale.price) }} ៛ |
                                         <span class="font-medium">ស្ថានភាព:</span>
                                         <span
                                             :class="sale.paymentStatus === 'paid' ? 'text-green-600 dark:text-green-400' : 'text-yellow-600 dark:text-yellow-400'">
@@ -197,7 +204,7 @@
                                 <p class="text-sm text-gray-700 dark:text-gray-300">
                                     <span class="font-medium">វគ្គលក់:</span> ទី{{ getRoundNumber(sale.roundId) }} |
                                     <span class="font-medium">តម្លៃ/kg:</span> {{
-                                    formatCurrency(activeRound.sellPricePerKg) }} ៛
+                                        formatCurrency(sale.price / sale.amount) }} ៛
                                 </p>
                                 <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
                                     កាលបរិច្ឆេទ: {{ formatDate(sale.date) }}
@@ -210,60 +217,114 @@
 
             <!-- Rounds Summary -->
             <div>
-                <h2 class="text-base text-2xl font-bold text-gray-900 dark:text-white mb-6">
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">
                     សរុបវគ្គលក់ទាំងអស់
                 </h2>
 
-                <div v-if="rounds.length > 0"
-                    class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 dark:ring-gray-600 rounded-lg">
-                    <table class="min-w-full divide-y divide-gray-300 dark:divide-gray-600">
-                        <thead class="bg-gray-50 dark:bg-gray-700">
-                            <tr>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                    វគ្គលក់
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                    ទំនិញទិញចូល
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                    សរុបលក់
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                    ចំណូល
-                                </th>
-                                <th scope="col"
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                    ចំណេញ
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                            <tr v-for="round in rounds" :key="round.id" @click="setActiveRound(round.id)"
-                                :class="{ 'bg-blue-50 dark:bg-gray-700 cursor-pointer': activeRound?.id === round.id, 'cursor-pointer': true }">
-                                <td
-                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                <div v-if="rounds.length > 0">
+                    <!-- Mobile Cards (show on small screens) -->
+                    <div class="md:hidden space-y-4">
+                        <div v-for="round in rounds" :key="round.id" @click="setActiveRound(round.id)"
+                            class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 border border-gray-200 dark:border-gray-700"
+                            :class="{ 'ring-2 ring-blue-500': activeRound?.id === round.id }">
+
+                            <div class="flex justify-between items-start mb-3">
+                                <h3 class="text-lg font-bold text-gray-900 dark:text-white">
                                     ទី{{ getRoundNumber(round.id) }}
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                    {{ round.purchaseAmount }} kg ({{ formatCurrency(round.purchasePrice) }} ៛)
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                    {{ getSoldAmount(round.id) }} kg
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                    {{ formatCurrency(getRoundRevenue(round.id)) }} ៛
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium"
-                                    :class="getRoundProfit(round.id) >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'">
+                                </h3>
+                                <span class="text-sm px-2 py-1 rounded-full"
+                                    :class="getRoundProfit(round.id) >= 0 ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200' : 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200'">
                                     {{ formatCurrency(getRoundProfit(round.id)) }} ៛
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                </span>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <p class="text-gray-500 dark:text-gray-400">ទិញចូល</p>
+                                    <p class="text-gray-900 dark:text-white">
+                                        {{ round.purchaseAmount }} kg
+                                    </p>
+                                    <p class="text-gray-500 dark:text-gray-400">
+                                        {{ formatCurrency(round.purchasePrice) }} ៛
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <p class="text-gray-500 dark:text-gray-400">សរុបលក់</p>
+                                    <p class="text-gray-900 dark:text-white">
+                                        {{ getSoldAmount(round.id) }} kg
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <p class="text-gray-500 dark:text-gray-400">ចំណូល</p>
+                                    <p class="text-gray-900 dark:text-white">
+                                        {{ formatCurrency(getRoundRevenue(round.id)) }} ៛
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <p class="text-gray-500 dark:text-gray-400">ស្ថានភាព</p>
+                                    <p class="text-gray-900 dark:text-white">
+                                        {{ Math.round((getSoldAmount(round.id) / round.purchaseAmount) * 100) }}%
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Desktop Table (show on medium screens and up) -->
+                    <div
+                        class="hidden md:block overflow-hidden shadow ring-1 ring-black ring-opacity-5 dark:ring-gray-600 rounded-lg">
+                        <table class="min-w-full divide-y divide-gray-300 dark:divide-gray-600">
+                            <thead class="bg-gray-50 dark:bg-gray-700">
+                                <tr>
+                                    <th scope="col"
+                                        class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                        វគ្គលក់
+                                    </th>
+                                    <th scope="col"
+                                        class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                        ទំនិញទិញចូល
+                                    </th>
+                                    <th scope="col"
+                                        class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                        សរុបលក់
+                                    </th>
+                                    <th scope="col"
+                                        class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                        ចំណូល
+                                    </th>
+                                    <th scope="col"
+                                        class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                        ចំណេញ
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                                <tr v-for="round in rounds" :key="round.id" @click="setActiveRound(round.id)"
+                                    :class="{ 'bg-blue-50 dark:bg-gray-700 cursor-pointer': activeRound?.id === round.id, 'cursor-pointer': true }">
+                                    <td
+                                        class="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                                        ទី{{ getRoundNumber(round.id) }}
+                                    </td>
+                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                                        {{ round.purchaseAmount }} kg ({{ formatCurrency(round.purchasePrice) }} ៛)
+                                    </td>
+                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                                        {{ getSoldAmount(round.id) }} kg
+                                    </td>
+                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                                        {{ formatCurrency(getRoundRevenue(round.id)) }} ៛
+                                    </td>
+                                    <td class="px-4 py-4 whitespace-nowrap text-sm font-medium"
+                                        :class="getRoundProfit(round.id) >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'">
+                                        {{ formatCurrency(getRoundProfit(round.id)) }} ៛
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <div v-else
@@ -306,6 +367,35 @@
             </div>
         </div>
     </div>
+
+    <!-- Success Modal -->
+    <div v-if="showSuccessModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6">
+            <div class="text-center">
+                <div
+                    class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 dark:bg-green-900">
+                    <svg class="h-6 w-6 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                </div>
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white mt-3">
+                    ការលក់ត្រូវបានរក្សាទុកដោយជោគជ័យ!
+                </h3>
+                <div class="mt-2">
+                    <p class="text-sm text-gray-600 dark:text-gray-300">
+                        ទិន្នន័យត្រូវបានរក្សាទុកនៅក្នុងប្រព័ន្ធ។
+                    </p>
+                </div>
+                <div class="mt-5">
+                    <button @click="showSuccessModal = false" type="button"
+                        class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md text-sm transition-colors duration-300">
+                        យល់ព្រម
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -315,15 +405,17 @@ export default {
     name: 'BusinessPage',
     data() {
         return {
+            showRoundForm: false, // Controls visibility of round form
+            showSuccessModal: false, // Controls success modal
             currentRound: {
                 purchaseAmount: 0,
-                purchasePrice: 0,
-                sellPricePerKg: 0
+                purchasePrice: 0
             },
             sale: {
                 customerName: '',
                 amount: 0,
-                paymentStatus: ''
+                price: 0,
+                paymentStatus: 'paid'
             },
             rounds: [],
             sales: [],
@@ -346,7 +438,7 @@ export default {
             return this.activeRound ? this.activeRound.purchaseAmount - this.soldAmount : 0;
         },
         totalRevenue() {
-            return this.filteredSales.reduce((sum, sale) => sum + (sale.amount * this.activeRound.sellPricePerKg), 0);
+            return this.filteredSales.reduce((sum, sale) => sum + sale.price, 0);
         },
         estimatedProfit() {
             if (!this.activeRound) return 0;
@@ -358,7 +450,7 @@ export default {
     },
     methods: {
         startNewRound() {
-            if (!this.currentRound.purchaseAmount || !this.currentRound.purchasePrice || !this.currentRound.sellPricePerKg) {
+            if (!this.currentRound.purchaseAmount || !this.currentRound.purchasePrice) {
                 alert('សូមបំពេញព័ត៌មានវគ្គលក់ជាមុនសិន!');
                 return;
             }
@@ -371,6 +463,7 @@ export default {
 
             this.rounds.unshift(newRound);
             this.activeRoundId = newRound.id;
+            this.showRoundForm = false;
             this.saveData();
         },
         addSale() {
@@ -379,7 +472,7 @@ export default {
                 return;
             }
 
-            if (!this.sale.customerName || !this.sale.amount) {
+            if (!this.sale.customerName || !this.sale.amount || !this.sale.price) {
                 alert('សូមបំពេញព័ត៌មានការលក់ជាមុនសិន!');
                 return;
             }
@@ -394,12 +487,22 @@ export default {
                 roundId: this.activeRoundId,
                 customerName: this.sale.customerName,
                 amount: this.sale.amount,
+                price: this.sale.price,
                 paymentStatus: this.sale.paymentStatus,
                 date: new Date().toISOString()
             };
 
             this.sales.unshift(newSale);
             this.saveData();
+
+            // Show success modal
+            this.showSuccessModal = true;
+
+            // Clear form fields
+            this.sale.customerName = '';
+            this.sale.amount = 0;
+            this.sale.price = 0;
+            this.sale.paymentStatus = 'paid';
         },
         confirmDeleteSale(saleId) {
             this.saleToDelete = saleId;
@@ -426,11 +529,8 @@ export default {
                 .reduce((sum, sale) => sum + sale.amount, 0);
         },
         getRoundRevenue(roundId) {
-            const round = this.rounds.find(r => r.id === roundId);
-            if (!round) return 0;
-
             return this.sales.filter(sale => sale.roundId === roundId)
-                .reduce((sum, sale) => sum + (sale.amount * round.sellPricePerKg), 0);
+                .reduce((sum, sale) => sum + sale.price, 0);
         },
         getRoundProfit(roundId) {
             const round = this.rounds.find(r => r.id === roundId);
