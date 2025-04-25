@@ -13,7 +13,8 @@
             </div>
 
             <!-- Current Round Form -->
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden mb-6 border border-gray-200 dark:border-gray-700">
+            <div
+                class="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden mb-6 border border-gray-200 dark:border-gray-700">
                 <div class="p-4">
                     <div class="flex justify-between items-center">
                         <h2 class="text-lg font-bold text-gray-900 dark:text-white">
@@ -31,7 +32,7 @@
                                 <label class="block text-base text-sm text-gray-700 dark:text-gray-300 mb-1">
                                     ទំនិញទិញចូល (kg)
                                 </label>
-                                <input v-model.number="currentRound.purchaseAmount" type="number" 
+                                <input v-model.number="currentRound.purchaseAmount" type="number"
                                     class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
                             </div>
 
@@ -39,7 +40,7 @@
                                 <label class="block text-base text-sm text-gray-700 dark:text-gray-300 mb-1">
                                     តម្លៃទិញ (៛)
                                 </label>
-                                <input v-model.number="currentRound.purchasePrice" type="number" 
+                                <input v-model.number="currentRound.purchasePrice" type="number"
                                     class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
                             </div>
 
@@ -55,7 +56,8 @@
             </div>
 
             <!-- Sales Form -->
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden mb-6 border border-gray-200 dark:border-gray-700">
+            <div
+                class="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden mb-6 border border-gray-200 dark:border-gray-700">
                 <div class="p-4">
                     <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-4">
                         កត់ត្រាការលក់
@@ -67,7 +69,7 @@
                             <label class="block text-base text-sm text-gray-700 dark:text-gray-300 mb-1">
                                 ឈ្មោះអ្នកទិញ
                             </label>
-                            <input v-model="sale.customerName" 
+                            <input v-model="sale.customerName"
                                 class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
                         </div>
 
@@ -111,7 +113,8 @@
             </div>
 
             <!-- Current Round Summary -->
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden mb-6 border border-gray-200 dark:border-gray-700">
+            <div
+                class="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden mb-6 border border-gray-200 dark:border-gray-700">
                 <div class="p-4">
                     <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-4">
                         សរុបជើងបច្ចុប្បន្ន
@@ -170,7 +173,8 @@
                     class="text-center py-8 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
                     <div class="mx-auto max-w-md">
                         <div class="w-16 h-16 mx-auto mb-4 text-gray-400 dark:text-gray-600">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                     d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z" />
                             </svg>
@@ -200,6 +204,10 @@
                                     </p>
                                 </div>
                                 <div class="flex gap-1">
+                                    <button @click.stop="editSale(sale)"
+                                        class="inline-flex items-center px-2 py-1 rounded-full text-base text-sm bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 hover:bg-yellow-200 dark:hover:bg-yellow-800 transition-colors duration-300">
+                                        កែសម្រួល
+                                    </button>
                                     <button @click.stop="confirmDeleteSale(sale.id)"
                                         class="inline-flex items-center px-2 py-1 rounded-full text-base text-sm bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 hover:bg-red-200 dark:hover:bg-red-800 transition-colors duration-300">
                                         លុប
@@ -288,13 +296,15 @@
                     class="text-center py-8 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
                     <div class="mx-auto max-w-md">
                         <div class="w-16 h-16 mx-auto mb-4 text-gray-400 dark:text-gray-600">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                     d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z" />
                             </svg>
                         </div>
                         <h3 class="text-sm text-sm text-gray-600 dark:text-gray-400 mb-1">មិនទាន់មានជើងលក់ទេ</h3>
-                        <p class="text-base text-gray-500 dark:text-gray-500">គ្មានទិន្នន័យជើងលក់ត្រូវបានកត់ត្រានៅឡើយ។</p>
+                        <p class="text-base text-gray-500 dark:text-gray-500">គ្មានទិន្នន័យជើងលក់ត្រូវបានកត់ត្រានៅឡើយ។
+                        </p>
                     </div>
                 </div>
             </div>
@@ -307,7 +317,8 @@
                 <div class="text-center">
                     <div
                         class="mx-auto flex items-center justify-center h-10 w-10 rounded-full bg-green-100 dark:bg-green-900">
-                        <svg class="h-5 w-5 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg class="h-5 w-5 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                         </svg>
                     </div>
@@ -329,7 +340,8 @@
             class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 cursor-pointer">
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-xs w-full p-5 cursor-default">
                 <div class="text-center">
-                    <div class="mx-auto flex items-center justify-center h-10 w-10 rounded-full bg-red-100 dark:bg-red-900">
+                    <div
+                        class="mx-auto flex items-center justify-center h-10 w-10 rounded-full bg-red-100 dark:bg-red-900">
                         <svg class="h-5 w-5 text-red-600 dark:text-red-400" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -373,6 +385,66 @@
                         class="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white text-base text-sm rounded-md transition-colors duration-300">
                         លុប
                     </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Sale Modal -->
+        <div v-if="showEditModal" @click.self="showEditModal = false"
+            class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 cursor-pointer">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-5 cursor-default">
+                <h3 class="text-sm text-sm text-gray-900 dark:text-white mb-4">
+                    កែសម្រួលការលក់
+                </h3>
+
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-base text-sm text-gray-700 dark:text-gray-300 mb-1">
+                            ឈ្មោះអ្នកទិញ
+                        </label>
+                        <input v-model="editingSale.customer_name"
+                            class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-base text-sm text-gray-700 dark:text-gray-300 mb-1">
+                                បរិមាណ (kg)
+                            </label>
+                            <input v-model.number="editingSale.amount" type="number" placeholder="0"
+                                class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
+                        </div>
+
+                        <div>
+                            <label class="block text-base text-sm text-gray-700 dark:text-gray-300 mb-1">
+                                តម្លៃ (៛)
+                            </label>
+                            <input v-model.number="editingSale.price" type="number" placeholder="0"
+                                class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-base text-sm text-gray-700 dark:text-gray-300 mb-1">
+                            ស្ថានភាពបង់ប្រាក់
+                        </label>
+                        <select v-model="editingSale.payment_status"
+                            class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
+                            <option value="paid">បានបង់</option>
+                            <option value="pending">មិនទាន់បង</option>
+                        </select>
+                    </div>
+
+                    <div class="flex justify-end space-x-2 pt-3">
+                        <button @click="showEditModal = false"
+                            class="px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded-md text-base text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-300">
+                            បោះបង់
+                        </button>
+                        <button @click="updateSale"
+                            class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-base text-sm rounded-md transition-colors duration-300">
+                            រក្សាទុក
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -433,6 +505,8 @@ export default {
             errorMessage: '',
             showDeleteRoundModal: false,
             roundToDelete: null,
+            editingSale: null,
+            showEditModal: false,
         };
     },
     computed: {
@@ -578,6 +652,48 @@ export default {
         confirmDeleteSale(saleId) {
             this.saleToDelete = saleId;
             this.showDeleteModal = true;
+        },
+        editSale(sale) {
+            // Create a copy of the sale to edit
+            this.editingSale = {
+                id: sale.id,
+                customer_name: sale.customer_name,
+                amount: sale.amount,
+                price: sale.price,
+                payment_status: sale.payment_status,
+                round_id: sale.round_id
+            };
+            this.showEditModal = true;
+        },
+
+        async updateSale() {
+            if (!this.editingSale.customer_name || Number(this.editingSale.amount) <= 0 || Number(this.editingSale.price) <= 0) {
+                this.showError('ព័ត៌មានមិនគ្រប់គ្រាន់', 'សូមបំពេញព័ត៌មានការលក់ជាមុនសិន!');
+                return;
+            }
+
+            try {
+                await axios.put(`/api/sales/${this.editingSale.id}`, {
+                    customer_name: this.editingSale.customer_name,
+                    amount: Number(this.editingSale.amount),
+                    price: Number(this.editingSale.price),
+                    payment_status: this.editingSale.payment_status
+                });
+
+                // Reload data
+                await this.loadData();
+
+                this.showEditModal = false;
+                this.editingSale = null;
+
+                this.showSuccessModal = true;
+                setTimeout(() => {
+                    this.showSuccessModal = false;
+                }, 3000);
+            } catch (error) {
+                console.error('Error updating sale:', error);
+                this.showError('កំហុស', 'មិនអាចកែសម្រួលការលក់បានទេ។');
+            }
         },
         async deleteSale() {
             if (!this.saleToDelete) return;
