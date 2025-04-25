@@ -12,7 +12,7 @@
                 <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white mb-3">
                     ការតាមដានការលក់ - ត្រពាំង
                 </h1>
-                <p class="max-w-2xl mx-auto text-md text-gray-600 dark:text-gray-300">
+                <p class="max-w-2xl mx-auto text-sm text-gray-600 dark:text-gray-300">
                     កំណត់ត្រាការលក់ជាជើង និងការគណនាចំណេញ
                 </p>
             </div>
@@ -25,7 +25,7 @@
                             ជើងលក់បច្ចុប្បន្ន
                         </h2>
                         <button @click="showRoundForm = !showRoundForm"
-                            class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs text-sm rounded-md transition-colors duration-300 shadow-sm">
+                            class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-base text-sm rounded-md transition-colors duration-300 shadow-sm">
                             {{ showRoundForm ? 'លាក់' : 'បង្ហាញ' }}
                         </button>
                     </div>
@@ -33,7 +33,7 @@
                     <div v-if="showRoundForm" class="mt-4">
                         <div class="space-y-3">
                             <div>
-                                <label class="block text-xs text-sm text-gray-700 dark:text-gray-300 mb-1">
+                                <label class="block text-base text-sm text-gray-700 dark:text-gray-300 mb-1">
                                     ទំនិញទិញចូល (kg)
                                 </label>
                                 <input v-model.number="currentRound.purchaseAmount" type="number" 
@@ -41,7 +41,7 @@
                             </div>
 
                             <div>
-                                <label class="block text-xs text-sm text-gray-700 dark:text-gray-300 mb-1">
+                                <label class="block text-base text-sm text-gray-700 dark:text-gray-300 mb-1">
                                     តម្លៃទិញ (៛)
                                 </label>
                                 <input v-model.number="currentRound.purchasePrice" type="number" 
@@ -69,7 +69,7 @@
                     <div class="space-y-3">
                         <!-- Customer Info -->
                         <div>
-                            <label class="block text-xs text-sm text-gray-700 dark:text-gray-300 mb-1">
+                            <label class="block text-base text-sm text-gray-700 dark:text-gray-300 mb-1">
                                 ឈ្មោះអ្នកទិញ
                             </label>
                             <input v-model="sale.customerName" 
@@ -78,7 +78,7 @@
 
                         <div class="grid grid-cols-2 gap-3">
                             <div>
-                                <label class="block text-xs text-sm text-gray-700 dark:text-gray-300 mb-1">
+                                <label class="block text-base text-sm text-gray-700 dark:text-gray-300 mb-1">
                                     បរិមាណ (kg)
                                 </label>
                                 <input v-model.number="sale.amount" type="number" placeholder="0"
@@ -86,7 +86,7 @@
                             </div>
 
                             <div>
-                                <label class="block text-xs text-sm text-gray-700 dark:text-gray-300 mb-1">
+                                <label class="block text-base text-sm text-gray-700 dark:text-gray-300 mb-1">
                                     តម្លៃ (៛)
                                 </label>
                                 <input v-model.number="sale.price" type="number" placeholder="0"
@@ -95,7 +95,7 @@
                         </div>
 
                         <div>
-                            <label class="block text-xs text-sm text-gray-700 dark:text-gray-300 mb-1">
+                            <label class="block text-base text-sm text-gray-700 dark:text-gray-300 mb-1">
                                 ស្ថានភាពបង់ប្រាក់
                             </label>
                             <select v-model="sale.paymentStatus"
@@ -124,33 +124,33 @@
 
                     <div v-if="activeRound" class="grid grid-cols-2 gap-3">
                         <div class="bg-gray-50 dark:bg-gray-700 p-3 rounded-md">
-                            <p class="text-xs text-gray-500 dark:text-gray-400">ទំនិញទិញចូល</p>
-                            <p class="text-md font-bold text-gray-900 dark:text-white">
+                            <p class="text-base text-gray-500 dark:text-gray-400">ទំនិញទិញចូល</p>
+                            <p class="text-sm font-bold text-gray-900 dark:text-white">
                                 {{ activeRound.purchase_amount }} kg
                             </p>
                         </div>
 
                         <div class="bg-gray-50 dark:bg-gray-700 p-3 rounded-md">
-                            <p class="text-xs text-gray-500 dark:text-gray-400">សរុបលក់ហើយ</p>
-                            <p class="text-md font-bold text-gray-900 dark:text-white">
+                            <p class="text-base text-gray-500 dark:text-gray-400">សរុបលក់ហើយ</p>
+                            <p class="text-sm font-bold text-gray-900 dark:text-white">
                                 {{ soldAmount }} kg
                             </p>
-                            <p class="text-xs text-gray-500 dark:text-gray-400">
+                            <p class="text-base text-gray-500 dark:text-gray-400">
                                 ({{ remainingAmount }} kg នៅសល់)
                             </p>
                         </div>
 
                         <div class="bg-gray-50 dark:bg-gray-700 p-3 rounded-md">
-                            <p class="text-xs text-gray-500 dark:text-gray-400">សរុបប្រាក់ចំណូល</p>
-                            <p class="text-md font-bold text-gray-900 dark:text-white">
+                            <p class="text-base text-gray-500 dark:text-gray-400">សរុបប្រាក់ចំណូល</p>
+                            <p class="text-sm font-bold text-gray-900 dark:text-white">
                                 {{ formatCurrency(totalRevenue) }} ៛
                             </p>
                         </div>
 
                         <div class="bg-gray-50 dark:bg-gray-700 p-3 rounded-md">
-                            <p class="text-xs text-gray-500 dark:text-gray-400">ចំណេញប៉ាន់ស្មាន</p>
-                            <p class="text-md font-bold"
-                                :class="estimatedProfit >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'">
+                            <p class="text-base text-gray-500 dark:text-gray-400">ចំណេញប៉ាន់ស្មាន</p>
+                            <p class="text-sm font-bold"
+                                :class="estimatedProfit >= 0 ? 'text-green-600 dark:text-green-400 text-sm' : 'text-red-600 dark:text-red-400 text-sm'">
                                 {{ formatCurrency(estimatedProfit) }} ៛
                             </p>
                         </div>
@@ -180,8 +180,8 @@
                                     d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z" />
                             </svg>
                         </div>
-                        <h3 class="text-md text-sm text-gray-600 dark:text-gray-400 mb-1">មិនទាន់មានកំណត់ត្រាលក់ទេ</h3>
-                        <p class="text-xs text-gray-500 dark:text-gray-500">គ្មានទិន្នន័យលក់ត្រូវបានកត់ត្រានៅឡើយ។</p>
+                        <h3 class="text-sm text-sm text-gray-600 dark:text-gray-400 mb-1">មិនទាន់មានកំណត់ត្រាលក់ទេ</h3>
+                        <p class="text-base text-gray-500 dark:text-gray-500">គ្មានទិន្នន័យលក់ត្រូវបានកត់ត្រានៅឡើយ។</p>
                     </div>
                 </div>
 
@@ -192,10 +192,10 @@
                         <div class="p-4">
                             <div class="flex justify-between items-start">
                                 <div>
-                                    <h3 class="text-md font-bold text-gray-900 dark:text-white">
+                                    <h3 class="text-sm font-bold text-gray-900 dark:text-white">
                                         {{ sale.customer_name }} - {{ sale.amount }}kg
                                     </h3>
-                                    <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                                    <p class="text-base text-gray-600 dark:text-gray-400 mt-1">
                                         <span class="text-sm">តម្លៃសរុប:</span> {{ formatCurrency(sale.price) }} ៛ |
                                         <span class="text-sm">ស្ថានភាព: </span>
                                         <span
@@ -206,14 +206,14 @@
                                 </div>
                                 <div class="flex gap-1">
                                     <button @click.stop="confirmDeleteSale(sale.id)"
-                                        class="inline-flex items-center px-2 py-1 rounded-full text-xs text-sm bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 hover:bg-red-200 dark:hover:bg-red-800 transition-colors duration-300">
+                                        class="inline-flex items-center px-2 py-1 rounded-full text-base text-sm bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 hover:bg-red-200 dark:hover:bg-red-800 transition-colors duration-300">
                                         លុប
                                     </button>
                                 </div>
                             </div>
 
                             <div class="mt-3 bg-gray-50 dark:bg-gray-700 p-2 rounded">
-                                <p class="text-xs text-gray-700 dark:text-gray-300">
+                                <p class="text-base text-gray-700 dark:text-gray-300">
                                     <span class="text-sm">ជើងលក់:</span> ទី{{ getRoundNumber(sale.round_id) }} |
                                     <span class="text-sm">តម្លៃ/kg:</span> {{
                                         formatCurrency(sale.price / sale.amount) }} ៛
@@ -239,22 +239,22 @@
                         :class="{ 'ring-1 ring-blue-500': activeRound?.id === round.id }">
 
                         <div class="flex justify-between items-start mb-2">
-                            <h3 class="text-md font-bold text-gray-900 dark:text-white">
+                            <h3 class="text-sm font-bold text-gray-900 dark:text-white">
                                 ទី{{ getRoundNumber(round.id) }}
                             </h3>
                             <div class="flex gap-1 items-center">
-                                <span class="text-xs px-2 py-1 rounded-full"
+                                <span class="text-base px-2 py-1 rounded-full"
                                     :class="getRoundProfit(round.id) >= 0 ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200' : 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200'">
                                     {{ formatCurrency(getRoundProfit(round.id)) }} ៛
                                 </span>
                                 <button @click.stop="confirmDeleteRound(round.id)"
-                                    class="inline-flex items-center px-2 py-1 rounded-full text-xs text-sm bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 hover:bg-red-200 dark:hover:bg-red-800 transition-colors duration-300">
+                                    class="inline-flex items-center px-2 py-1 rounded-full text-base text-sm bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 hover:bg-red-200 dark:hover:bg-red-800 transition-colors duration-300">
                                     លុប
                                 </button>
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-2 gap-3 text-xs">
+                        <div class="grid grid-cols-2 gap-3 text-base">
                             <div>
                                 <p class="text-gray-500 dark:text-gray-400">ទិញចូល</p>
                                 <p class="text-gray-900 dark:text-white">
@@ -298,8 +298,8 @@
                                     d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z" />
                             </svg>
                         </div>
-                        <h3 class="text-md text-sm text-gray-600 dark:text-gray-400 mb-1">មិនទាន់មានជើងលក់ទេ</h3>
-                        <p class="text-xs text-gray-500 dark:text-gray-500">គ្មានទិន្នន័យជើងលក់ត្រូវបានកត់ត្រានៅឡើយ។</p>
+                        <h3 class="text-sm text-sm text-gray-600 dark:text-gray-400 mb-1">មិនទាន់មានជើងលក់ទេ</h3>
+                        <p class="text-base text-gray-500 dark:text-gray-500">គ្មានទិន្នន័យជើងលក់ត្រូវបានកត់ត្រានៅឡើយ។</p>
                     </div>
                 </div>
             </div>
@@ -317,7 +317,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                         </svg>
                     </div>
-                    <h3 class="text-md text-sm text-gray-900 dark:text-white mt-3">
+                    <h3 class="text-sm text-sm text-gray-900 dark:text-white mt-3">
                         ការលក់ត្រូវបានរក្សាទុកដោយជោគជ័យ!
                     </h3>
                     <div class="mt-4">
@@ -342,11 +342,11 @@
                                 d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                         </svg>
                     </div>
-                    <h3 class="text-md text-sm text-gray-900 dark:text-white mt-3">
+                    <h3 class="text-sm text-sm text-gray-900 dark:text-white mt-3">
                         {{ errorTitle }}
                     </h3>
                     <div class="mt-2">
-                        <p class="text-xs text-gray-600 dark:text-gray-300">
+                        <p class="text-base text-gray-600 dark:text-gray-300">
                             {{ errorMessage }}
                         </p>
                     </div>
@@ -364,19 +364,19 @@
         <div v-if="showDeleteModal" @click.self="showDeleteModal = false"
             class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 cursor-pointer">
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-xs w-full p-5 cursor-default">
-                <h3 class="text-md text-sm text-gray-900 dark:text-white mb-3">
+                <h3 class="text-sm text-sm text-gray-900 dark:text-white mb-3">
                     បញ្ជាក់ការលុបការលក់
                 </h3>
-                <p class="text-xs text-gray-600 dark:text-gray-300 mb-4">
+                <p class="text-base text-gray-600 dark:text-gray-300 mb-4">
                     តើអ្នកពិតជាចង់លុបការលក់នេះមែនទេ? សកម្មភាពនេះមិនអាចត្រឡប់វិញបានទេ។
                 </p>
                 <div class="flex justify-end space-x-2">
                     <button @click="showDeleteModal = false"
-                        class="px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded-md text-xs text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-300">
+                        class="px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded-md text-base text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-300">
                         បោះបង់
                     </button>
                     <button @click="deleteSale"
-                        class="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white text-xs text-sm rounded-md transition-colors duration-300">
+                        class="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white text-base text-sm rounded-md transition-colors duration-300">
                         លុប
                     </button>
                 </div>
@@ -387,20 +387,20 @@
         <div v-if="showDeleteRoundModal" @click.self="showDeleteRoundModal = false"
             class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 cursor-pointer">
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-xs w-full p-5 cursor-default">
-                <h3 class="text-md text-sm text-gray-900 dark:text-white mb-3">
+                <h3 class="text-sm text-sm text-gray-900 dark:text-white mb-3">
                     បញ្ជាក់ការលុបជើងលក់
                 </h3>
-                <p class="text-xs text-gray-600 dark:text-gray-300 mb-4">
+                <p class="text-base text-gray-600 dark:text-gray-300 mb-4">
                     តើអ្នកពិតជាចង់លុបជើងលក់នេះមែនទេ? ការលក់ទាំងអស់នៅក្នុងជើងនេះក៏នឹងត្រូវលុបផងដែរ។
                     សកម្មភាពនេះមិនអាចត្រឡប់វិញបានទេ។
                 </p>
                 <div class="flex justify-end space-x-2">
                     <button @click="showDeleteRoundModal = false"
-                        class="px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded-md text-xs text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-300">
+                        class="px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded-md text-base text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-300">
                         បោះបង់
                     </button>
                     <button @click="deleteRound"
-                        class="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white text-xs text-sm rounded-md transition-colors duration-300">
+                        class="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white text-base text-sm rounded-md transition-colors duration-300">
                         លុប
                     </button>
                 </div>
