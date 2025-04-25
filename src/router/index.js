@@ -2,8 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Projects from '../views/Projects.vue'
 import About from '../views/About.vue'
-import Business from '../views/Business.vue' 
+import Business from '../views/Business.vue'
 import NotFound from '../views/NotFound.vue'
+import TroPang from '../views/TroPang.vue'
 
 const routes = [
     {
@@ -36,6 +37,14 @@ const routes = [
         component: Business,
         meta: {
             title: 'Business'
+        }
+    },
+    {
+        path: '/tropang',
+        name: 'tropang',
+        component: TroPang,
+        meta: {
+            title: 'Selling TroPang'
         }
     },
     // Add the 404 route as the last route
