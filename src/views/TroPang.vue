@@ -1,14 +1,9 @@
 <template>
     <div class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
-        <div class="md:hidden top-0 z-10 bg-white dark:bg-gray-800 shadow-sm p-4 border-b border-gray-200 dark:border-gray-700 mt-10">
-            <h1 class="text-xl font-bold text-gray-900 dark:text-white">
-                ការតាមដានការលក់ - ត្រពាំង
-            </h1>
-        </div>
 
         <div class="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-4 md:py-8 mt-10">
             <!-- Header Section (desktop) -->
-            <div class="hidden md:block text-center mb-8">
+            <div class="text-center mb-8">
                 <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white mb-3">
                     ការតាមដានការលក់ - ត្រពាំង
                 </h1>
@@ -218,7 +213,7 @@
                                     <span class="text-sm">តម្លៃ/kg:</span> {{
                                         formatCurrency(sale.price / sale.amount) }} ៛
                                 </p>
-                                <p class="text-2xs text-gray-500 dark:text-gray-400 mt-1">
+                                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
                                     កាលបរិច្ឆេទ: {{ formatDate(sale.sale_date) || 'មិនស្គាល់កាលបរិច្ឆេទ' }}
                                 </p>
                             </div>

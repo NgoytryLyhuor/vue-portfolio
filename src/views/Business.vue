@@ -258,7 +258,7 @@ export default {
                 const salesActivities = salesResponse.data.map(sale => ({
                     type: 'sale',
                     title: 'ការលក់ថ្មី - ត្រពាំង',
-                    description: `លក់បាន ${sale.amount}kg ទៅកាន់ ${sale.customer_name} ក្នុងតម្លៃ ៛${this.formatCurrency(sale.price)}`,
+                    description: `បានលក់ ${sale.amount}kg ទៅកាន់ ${sale.customer_name} ក្នុងតម្លៃ ៛${this.formatCurrency(sale.price)}`,
                     timestamp: sale.created_at || sale.date
                 }));
                 
