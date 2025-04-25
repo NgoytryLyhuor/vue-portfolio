@@ -2,7 +2,7 @@
     <div class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
         <div class="md:hidden sticky top-0 z-10 bg-white dark:bg-gray-800 shadow-sm p-4 border-b border-gray-200 dark:border-gray-700 mt-10">
             <h1 class="text-xl font-bold text-gray-900 dark:text-white">
-                ការតាមដានការលក់
+                ការតាមដានការលក់ - ត្រពាំង
             </h1>
         </div>
 
@@ -10,7 +10,7 @@
             <!-- Header Section (desktop) -->
             <div class="hidden md:block text-center mb-8">
                 <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white mb-3">
-                    ការតាមដានការលក់
+                    ការតាមដានការលក់ - ត្រពាំង
                 </h1>
                 <p class="max-w-2xl mx-auto text-md text-gray-600 dark:text-gray-300">
                     កំណត់ត្រាការលក់ជាជើង និងការគណនាចំណេញ
