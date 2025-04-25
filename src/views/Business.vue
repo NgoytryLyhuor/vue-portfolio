@@ -232,10 +232,16 @@
                                 <h3 class="text-lg font-bold text-gray-900 dark:text-white">
                                     ទី{{ getRoundNumber(round.id) }}
                                 </h3>
-                                <span class="text-sm px-2 py-1 rounded-full"
-                                    :class="getRoundProfit(round.id) >= 0 ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200' : 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200'">
-                                    {{ formatCurrency(getRoundProfit(round.id)) }} ៛
-                                </span>
+                                <div class="flex gap-2 items-center">
+                                    <span class="text-sm px-2 py-1 rounded-full"
+                                        :class="getRoundProfit(round.id) >= 0 ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200' : 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200'">
+                                        {{ formatCurrency(getRoundProfit(round.id)) }} ៛
+                                    </span>
+                                    <button @click.stop="confirmDeleteRound(round.id)"
+                                        class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 hover:bg-red-200 dark:hover:bg-red-800 transition-colors duration-300">
+                                        លុប
+                                    </button>
+                                </div>
                             </div>
 
                             <div class="grid grid-cols-2 gap-4 text-sm">
@@ -299,6 +305,10 @@
                                         class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                                         ចំណេញ
                                     </th>
+                                    <th scope="col"
+                                        class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                        សកម្មភាព
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
@@ -320,6 +330,12 @@
                                     <td class="px-4 py-4 whitespace-nowrap text-sm font-medium"
                                         :class="getRoundProfit(round.id) >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'">
                                         {{ formatCurrency(getRoundProfit(round.id)) }} ៛
+                                    </td>
+                                    <td class="px-4 py-4 whitespace-nowrap text-sm">
+                                        <button @click.stop="confirmDeleteRound(round.id)"
+                                            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 hover:bg-red-200 dark:hover:bg-red-800 transition-colors duration-300">
+                                            លុប
+                                        </button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -423,6 +439,30 @@
             </div>
         </div>
     </div>
+
+    <!-- Add a Delete Round Confirmation Modal -->
+    <div v-if="showDeleteRoundModal" @click.self="showDeleteRoundModal = false"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 cursor-pointer">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6 cursor-default">
+            <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">
+                បញ្ជាក់ការលុបវគ្គលក់
+            </h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">
+                តើអ្នកពិតជាចង់លុបវគ្គលក់នេះមែនទេ? ការលក់ទាំងអស់នៅក្នុងវគ្គនេះក៏នឹងត្រូវលុបផងដែរ។
+                សកម្មភាពនេះមិនអាចត្រឡប់វិញបានទេ។
+            </p>
+            <div class="flex justify-end space-x-3">
+                <button @click="showDeleteRoundModal = false"
+                    class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-300">
+                    បោះបង់
+                </button>
+                <button @click="deleteRound"
+                    class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-md text-sm transition-colors duration-300">
+                    លុប
+                </button>
+            </div>
+        </div>
+    </div>
 </template>
 
 
@@ -452,7 +492,9 @@ export default {
             activeRoundId: null,
             saleToDelete: null,
             errorTitle: '',
-            errorMessage: ''
+            errorMessage: '',
+            showDeleteRoundModal: false,
+            roundToDelete: null,
         };
     },
     computed: {
@@ -485,7 +527,7 @@ export default {
             this.errorTitle = title;
             this.errorMessage = message;
             this.showErrorModal = true;
-            
+
             // Auto-close after 1.5 seconds
             setTimeout(() => {
                 this.showErrorModal = false;
@@ -520,6 +562,37 @@ export default {
             } catch (error) {
                 console.error('Error starting new round:', error);
                 this.showError('កំហុស', 'មិនអាចចាប់ផ្តើមវគ្គថ្មីបានទេ។');
+            }
+        },
+        confirmDeleteRound(roundId) {
+            this.roundToDelete = roundId;
+            this.showDeleteRoundModal = true;
+        },
+        async deleteRound() {
+            if (!this.roundToDelete) return;
+
+            try {
+                // Delete the round
+                await axios.delete(`/api/rounds/${this.roundToDelete}`);
+
+                // Reload data
+                await this.loadData();
+
+                // If the deleted round was the active one, set active to another one if available
+                if (this.roundToDelete === this.activeRoundId) {
+                    if (this.rounds.length > 0) {
+                        this.activeRoundId = this.rounds[0].id;
+                    } else {
+                        this.activeRoundId = null;
+                    }
+                }
+
+                this.showDeleteRoundModal = false;
+                this.roundToDelete = null;
+            } catch (error) {
+                console.error('Error deleting round:', error);
+                this.showError('កំហុស', 'មិនអាចលុបវគ្គលក់បានទេ។');
+                this.showDeleteRoundModal = false;
             }
         },
         async addSale() {
