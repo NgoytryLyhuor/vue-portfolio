@@ -81,12 +81,11 @@
                                 <input v-model.number="sale.amount" type="number" placeholder="0"
                                     class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
                             </div>
-
                             <div>
                                 <label class="block text-base text-sm text-gray-700 dark:text-gray-300 mb-1">
-                                    តម្លៃ (៛)
+                                    តម្លៃក្នុង១គីឡូ (៛)
                                 </label>
-                                <input v-model.number="sale.price" type="number" placeholder="0"
+                                <input v-model.number="sale.pricePerKg" type="number" placeholder="0"
                                     class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
                             </div>
                         </div>
@@ -116,15 +115,30 @@
             <div
                 class="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden mb-6 border border-gray-200 dark:border-gray-700">
                 <div class="p-4">
-                    <h2 class="text-lg font-bold text-gray-900 dark:text-white mb-4">
-                        សរុបជើងបច្ចុប្បន្ន
-                    </h2>
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-bold text-gray-900 dark:text-white">
+                            សរុបជើងបច្ចុប្បន្ន
+                        </h2>
+                        <div class="flex gap-1" v-if="activeRound">
+                            <button @click.stop="editRound(activeRound)"
+                                class="inline-flex items-center px-2 py-1 rounded-md text-sm bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors duration-300">
+                                កែសម្រួល
+                            </button>
+                            <button @click.stop="confirmDeleteRound(activeRound.id)"
+                                class="inline-flex items-center px-2 py-1 rounded-md text-sm bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 hover:bg-red-200 dark:hover:bg-red-800 transition-colors duration-300">
+                                លុបជើង
+                            </button>
+                        </div>
+                    </div>
 
                     <div v-if="activeRound" class="grid grid-cols-2 gap-3">
                         <div class="bg-gray-50 dark:bg-gray-700 p-3 rounded-md">
                             <p class="text-base text-gray-500 dark:text-gray-400">ទំនិញទិញចូល</p>
                             <p class="text-sm font-bold text-gray-900 dark:text-white">
                                 {{ activeRound.purchase_amount }} kg
+                            </p>
+                            <p class="text-base text-gray-500 dark:text-gray-400">
+                                ({{ formatCurrency(activeRound.purchase_price) }} ៛)
                             </p>
                         </div>
 
@@ -150,6 +164,22 @@
                             <p class="text-sm font-bold"
                                 :class="estimatedProfit >= 0 ? 'text-green-600 dark:text-green-400 text-sm' : 'text-red-600 dark:text-red-400 text-sm'">
                                 {{ formatCurrency(estimatedProfit) }} ៛
+                            </p>
+                        </div>
+
+                        <!-- New: Total Customers -->
+                        <div class="bg-gray-50 dark:bg-gray-700 p-3 rounded-md">
+                            <p class="text-base text-gray-500 dark:text-gray-400">ចំនួនអតិថិជនសរុប</p>
+                            <p class="text-sm font-bold text-gray-900 dark:text-white">
+                                {{ totalCustomers }} នាក់
+                            </p>
+                        </div>
+
+                        <!-- New: Total Paid Amount -->
+                        <div class="bg-gray-50 dark:bg-gray-700 p-3 rounded-md">
+                            <p class="text-base text-gray-500 dark:text-gray-400">សរុបប្រាក់ដែលបានបង់</p>
+                            <p class="text-sm font-bold text-green-600 dark:text-green-400">
+                                {{ formatCurrency(totalPaidAmount) }} ៛
                             </p>
                         </div>
                     </div>
@@ -189,27 +219,27 @@
                     <div v-for="(sale, index) in filteredSales" :key="index"
                         class="bg-white dark:bg-gray-800 rounded-md shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-200 dark:border-gray-700 overflow-hidden">
                         <div class="p-4">
-                            <div class="flex justify-between items-start">
+                            <div class="relative">
                                 <div>
                                     <h3 class="text-base font-bold text-gray-900 dark:text-white">
                                         {{ sale.customer_name }} - {{ sale.amount }}kg
                                     </h3>
-                                    <p class="text-base text-gray-600 dark:text-gray-400 mt-1">
+                                    <p class="text-base text-gray-600 dark:text-gray-400 mt-3">
                                         <span class="text-sm">តម្លៃសរុប:</span> {{ formatCurrency(sale.price) }} ៛ |
                                         <span class="text-sm">ស្ថានភាព: </span>
                                         <span
                                             :class="sale.payment_status === 'paid' ? 'text-green-600 dark:text-green-400' : 'text-yellow-600 dark:text-yellow-400'">
-                                            {{ sale.payment_status === 'paid' ? 'បានបង់' : 'មិនទាន់បង' }}
+                                            {{ sale.payment_status === 'paid' ? 'បានបង់' : 'មិនទាន់បង់' }}
                                         </span>
                                     </p>
                                 </div>
-                                <div class="flex gap-1">
+                                <div class="absolute top-0 right-0 flex flex-wrap gap-1">
                                     <button @click.stop="editSale(sale)"
-                                        class="inline-flex items-center px-2 py-1 rounded-full text-base text-sm bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 hover:bg-yellow-200 dark:hover:bg-yellow-800 transition-colors duration-300">
+                                        class="inline-flex items-center px-2 py-1 rounded-full text-sm bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 hover:bg-yellow-200 dark:hover:bg-yellow-800 transition-colors duration-300">
                                         កែសម្រួល
                                     </button>
                                     <button @click.stop="confirmDeleteSale(sale.id)"
-                                        class="inline-flex items-center px-2 py-1 rounded-full text-base text-sm bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 hover:bg-red-200 dark:hover:bg-red-800 transition-colors duration-300">
+                                        class="inline-flex items-center px-2 py-1 rounded-full text-sm bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 hover:bg-red-200 dark:hover:bg-red-800 transition-colors duration-300">
                                         លុប
                                     </button>
                                 </div>
@@ -218,8 +248,8 @@
                             <div class="mt-3 bg-gray-50 dark:bg-gray-700 p-2 rounded">
                                 <p class="text-base text-gray-700 dark:text-gray-300">
                                     <span class="text-sm">ជើងលក់:</span> ទី{{ getRoundNumber(sale.round_id) }} |
-                                    <span class="text-sm">តម្លៃ/kg:</span> {{
-                                        formatCurrency(sale.price / sale.amount) }} ៛
+                                    <span class="text-sm">តម្លៃ/kg:</span> {{ formatCurrency(sale.price / sale.amount)
+                                    }} ៛
                                 </p>
                                 <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
                                     កាលបរិច្ឆេទ: {{ formatDate(sale.sale_date) || 'មិនស្គាល់កាលបរិច្ឆេទ' }}
@@ -250,10 +280,6 @@
                                     :class="getRoundProfit(round.id) >= 0 ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200' : 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200'">
                                     {{ formatCurrency(getRoundProfit(round.id)) }} ៛
                                 </span>
-                                <button @click.stop="confirmDeleteRound(round.id)"
-                                    class="inline-flex items-center px-2 py-1 rounded-full text-base text-sm bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 hover:bg-red-200 dark:hover:bg-red-800 transition-colors duration-300">
-                                    លុប
-                                </button>
                             </div>
                         </div>
 
@@ -414,12 +440,11 @@
                             <input v-model.number="editingSale.amount" type="number" placeholder="0"
                                 class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
                         </div>
-
                         <div>
                             <label class="block text-base text-sm text-gray-700 dark:text-gray-300 mb-1">
-                                តម្លៃ (៛)
+                                តម្លៃក្នុង១គីឡូ (៛)
                             </label>
-                            <input v-model.number="editingSale.price" type="number" placeholder="0"
+                            <input v-model.number="editingSale.pricePerKg" type="number" placeholder="0"
                                 class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
                         </div>
                     </div>
@@ -473,6 +498,44 @@
             </div>
         </div>
     </div>
+    <!-- Edit Round Modal -->
+    <div v-if="showEditRoundModal" @click.self="showEditRoundModal = false"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 cursor-pointer">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-5 cursor-default">
+            <h3 class="text-sm font-bold text-gray-900 dark:text-white mb-4">
+                កែសម្រួលជើងលក់
+            </h3>
+
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-sm text-gray-700 dark:text-gray-300 mb-1">
+                        ទំនិញទិញចូល (kg)
+                    </label>
+                    <input v-model.number="editingRound.purchase_amount" type="number"
+                        class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
+                </div>
+
+                <div>
+                    <label class="block text-sm text-gray-700 dark:text-gray-300 mb-1">
+                        តម្លៃទិញ (៛)
+                    </label>
+                    <input v-model.number="editingRound.purchase_price" type="number"
+                        class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
+                </div>
+
+                <div class="flex justify-end space-x-2 pt-3">
+                    <button @click="showEditRoundModal = false"
+                        class="px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded-md text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-300">
+                        បោះបង់
+                    </button>
+                    <button @click="updateRound"
+                        class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-md transition-colors duration-300">
+                        រក្សាទុក
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 
@@ -487,6 +550,8 @@ export default {
             showSuccessModal: false,
             showErrorModal: false,
             showDeleteModal: false,
+            showEditRoundModal: false,
+            editingRound: null,
             currentRound: {
                 purchaseAmount: 0,
                 purchasePrice: 0
@@ -494,7 +559,7 @@ export default {
             sale: {
                 customerName: '',
                 amount: 0,
-                price: 0,
+                pricePerKg: 0,
                 paymentStatus: 'paid'
             },
             rounds: [],
@@ -529,6 +594,15 @@ export default {
         estimatedProfit() {
             if (!this.activeRound) return 0;
             return this.totalRevenue - Number(this.activeRound.purchase_price);
+        },
+        totalCustomers() {
+            return this.filteredSales.length;
+        },
+
+        totalPaidAmount() {
+            return this.filteredSales
+                .filter(sale => sale.payment_status === 'paid')
+                .reduce((sum, sale) => sum + Number(sale.price), 0);
         }
     },
     created() {
@@ -613,7 +687,7 @@ export default {
                 return;
             }
 
-            if (!this.sale.customerName || Number(this.sale.amount) <= 0 || Number(this.sale.price) <= 0) {
+            if (!this.sale.customerName || Number(this.sale.amount) <= 0 || Number(this.sale.pricePerKg) <= 0) {
                 this.showError('ព័ត៌មានមិនគ្រប់គ្រាន់', 'សូមបំពេញព័ត៌មានការលក់ជាមុនសិន!');
                 return;
             }
@@ -629,7 +703,7 @@ export default {
                     round_id: this.activeRoundId,
                     customer_name: this.sale.customerName,
                     amount: Number(this.sale.amount),
-                    price: Number(this.sale.price),
+                    price: Number(this.sale.pricePerKg) * Number(this.sale.amount), // Calculate total price
                     payment_status: this.sale.paymentStatus
                 });
 
@@ -642,11 +716,49 @@ export default {
                 }, 3000);
                 this.sale.customerName = '';
                 this.sale.amount = 0;
-                this.sale.price = 0;
+                this.sale.pricePerKg = 0;
                 this.sale.paymentStatus = 'paid';
             } catch (error) {
                 console.error('Error adding sale:', error);
                 this.showError('កំហុស', 'មិនអាចបញ្ចូលការលក់បានទេ។');
+            }
+        },
+        // Add or update these methods for round editing
+        editRound(round) {
+            // Create a copy of the round to edit
+            this.editingRound = {
+                id: round.id,
+                purchase_amount: round.purchase_amount,
+                purchase_price: round.purchase_price
+            };
+            this.showEditRoundModal = true;
+        },
+
+        async updateRound() {
+            if (!this.editingRound.purchase_amount || !this.editingRound.purchase_price) {
+                this.showError('ព័ត៌មានមិនគ្រប់គ្រាន់', 'សូមបំពេញព័ត៌មានជើងលក់ជាមុនសិន!');
+                return;
+            }
+
+            try {
+                await axios.put(`/api/rounds/${this.editingRound.id}`, {
+                    purchase_amount: Number(this.editingRound.purchase_amount),
+                    purchase_price: Number(this.editingRound.purchase_price)
+                });
+
+                // Reload data
+                await this.loadData();
+
+                this.showEditRoundModal = false;
+                this.editingRound = null;
+
+                this.showSuccessModal = true;
+                setTimeout(() => {
+                    this.showSuccessModal = false;
+                }, 3000);
+            } catch (error) {
+                console.error('Error updating round:', error);
+                this.showError('កំហុស', 'មិនអាចកែសម្រួលជើងលក់បានទេ។');
             }
         },
         confirmDeleteSale(saleId) {
@@ -659,7 +771,7 @@ export default {
                 id: sale.id,
                 customer_name: sale.customer_name,
                 amount: sale.amount,
-                price: sale.price,
+                pricePerKg: sale.amount > 0 ? (sale.price / sale.amount) : 0, // Calculate price per kg
                 payment_status: sale.payment_status,
                 round_id: sale.round_id
             };
