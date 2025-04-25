@@ -160,7 +160,7 @@
                         </div>
 
                         <div class="bg-gray-50 dark:bg-gray-700 p-3 rounded-md">
-                            <p class="text-base text-gray-500 dark:text-gray-400">ចំណេញប៉ាន់ស្មាន</p>
+                            <p class="text-base text-gray-500 dark:text-gray-400">ចំណេញ </p>
                             <p class="text-sm font-bold"
                                 :class="estimatedProfit >= 0 ? 'text-green-600 dark:text-green-400 text-sm' : 'text-red-600 dark:text-red-400 text-sm'">
                                 {{ formatCurrency(estimatedProfit) }} ៛
@@ -271,48 +271,16 @@
                         class="bg-white dark:bg-gray-800 rounded-md shadow-sm p-4 border border-gray-200 dark:border-gray-700"
                         :class="{ 'ring-1 ring-blue-500': activeRound?.id === round.id }">
 
-                        <div class="flex justify-between items-start mb-2">
+                        <div class="flex justify-between items-center ">
                             <h3 class="text-base font-bold text-gray-900 dark:text-white">
-                                ទី{{ getRoundNumber(round.id) }}
+                                ជើងទី{{ getRoundNumber(round.id) }}
                             </h3>
                             <div class="flex gap-1 items-center">
+                                សរុបប្រាក់ចំណេញ 
                                 <span class="text-base px-2 py-1 rounded-full"
                                     :class="getRoundProfit(round.id) >= 0 ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200' : 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200'">
                                     {{ formatCurrency(getRoundProfit(round.id)) }} ៛
                                 </span>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-2 gap-3 text-base">
-                            <div>
-                                <p class="text-gray-500 dark:text-gray-400">ទិញចូល</p>
-                                <p class="text-gray-900 dark:text-white">
-                                    {{ round.purchase_amount }} kg
-                                </p>
-                                <p class="text-gray-500 dark:text-gray-400">
-                                    {{ formatCurrency(round.purchase_price) }} ៛
-                                </p>
-                            </div>
-
-                            <div>
-                                <p class="text-gray-500 dark:text-gray-400">សរុបលក់</p>
-                                <p class="text-gray-900 dark:text-white">
-                                    {{ getSoldAmount(round.id) }} kg
-                                </p>
-                            </div>
-
-                            <div>
-                                <p class="text-gray-500 dark:text-gray-400">ចំណូល</p>
-                                <p class="text-gray-900 dark:text-white">
-                                    {{ formatCurrency(getRoundRevenue(round.id)) }} ៛
-                                </p>
-                            </div>
-
-                            <div>
-                                <p class="text-gray-500 dark:text-gray-400">ស្ថានភាព</p>
-                                <p class="text-gray-900 dark:text-white">
-                                    {{ Math.round((getSoldAmount(round.id) / round.purchase_amount) * 100) }}%
-                                </p>
                             </div>
                         </div>
                     </div>
