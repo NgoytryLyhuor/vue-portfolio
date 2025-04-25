@@ -861,6 +861,8 @@ export default {
             this.showDeleteModal = true;
         },
         editSale(sale) {
+            console.log(sale);
+            
             // Create a copy of the sale to edit
             this.editingSale = {
                 id: sale.id,
@@ -874,6 +876,9 @@ export default {
         },
 
         async updateSale() {
+
+            console.log(this.editingSale);
+
             if (!this.editingSale.customer_name || Number(this.editingSale.amount) <= 0 || Number(this.editingSale.price) <= 0) {
                 this.showError('ព័ត៌មានមិនគ្រប់គ្រាន់', 'សូមបំពេញព័ត៌មានការលក់ជាមុនសិន!');
                 return;
@@ -883,7 +888,7 @@ export default {
                 await axios.put(`/api/sales/${this.editingSale.id}`, {
                     customer_name: this.editingSale.customer_name,
                     amount: Number(this.editingSale.amount),
-                    price: Number(this.editingSale.price),
+                    price: Number(this.editingSale.pricePerKg)*Number(this.editingSale.amount),
                     payment_status: this.editingSale.payment_status
                 });
 
