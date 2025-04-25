@@ -113,7 +113,7 @@ export default {
                     technologies: ['HTML', 'CSS', 'Bootstrap', 'JavaScript', 'AJAX', 'Laravel', 'MySQL'],
                     category: 'Website',
                     status: 'Under Development',
-                    demo: 'https://test.consatech-cambodia.com/',
+                    demo: 'https://norkor-architecture.consatech-cambodia.com/',
                     github: 'https://github.com/NgoytryLyhuor/Sokmean-architecture',
                     showGithub: false
                 }
