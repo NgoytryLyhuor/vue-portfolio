@@ -1,6 +1,6 @@
 <template>
     <div class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
-        <div class="md:hidden sticky top-0 z-10 bg-white dark:bg-gray-800 shadow-sm p-4 border-b border-gray-200 dark:border-gray-700 mt-10">
+        <div class="md:hidden top-0 z-10 bg-white dark:bg-gray-800 shadow-sm p-4 border-b border-gray-200 dark:border-gray-700 mt-10">
             <h1 class="text-xl font-bold text-gray-900 dark:text-white">
                 ការតាមដានការលក់ - ត្រពាំង
             </h1>
