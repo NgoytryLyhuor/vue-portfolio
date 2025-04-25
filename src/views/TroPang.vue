@@ -192,7 +192,7 @@
                         <div class="p-4">
                             <div class="flex justify-between items-start">
                                 <div>
-                                    <h3 class="text-sm font-bold text-gray-900 dark:text-white">
+                                    <h3 class="text-base font-bold text-gray-900 dark:text-white">
                                         {{ sale.customer_name }} - {{ sale.amount }}kg
                                     </h3>
                                     <p class="text-base text-gray-600 dark:text-gray-400 mt-1">
