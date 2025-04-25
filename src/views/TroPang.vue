@@ -239,7 +239,7 @@
                         :class="{ 'ring-1 ring-blue-500': activeRound?.id === round.id }">
 
                         <div class="flex justify-between items-start mb-2">
-                            <h3 class="text-sm font-bold text-gray-900 dark:text-white">
+                            <h3 class="text-base font-bold text-gray-900 dark:text-white">
                                 ទី{{ getRoundNumber(round.id) }}
                             </h3>
                             <div class="flex gap-1 items-center">
@@ -312,8 +312,7 @@
                 <div class="text-center">
                     <div
                         class="mx-auto flex items-center justify-center h-10 w-10 rounded-full bg-green-100 dark:bg-green-900">
-                        <svg class="h-5 w-5 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
+                        <svg class="h-5 w-5 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                         </svg>
                     </div>
