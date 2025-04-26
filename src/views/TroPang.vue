@@ -341,7 +341,7 @@
         </transition>
 
         <!-- Error Modal with enhanced animation -->
-        <transition name="shake-fade">
+        <transition name="zoom-fade">
             <div v-if="showErrorModal" @click.self="showErrorModal = false"
                 class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 cursor-pointer">
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-xs w-full p-5 cursor-default">
@@ -723,10 +723,6 @@ export default {
             this.errorMessage = message;
             this.showErrorModal = true;
 
-            // Auto-close after 1.5 seconds
-            setTimeout(() => {
-                this.showErrorModal = false;
-            }, 3000);
         },
         async startNewRound() {
             if (!this.currentRound.purchaseAmount || !this.currentRound.purchasePrice) {
@@ -751,9 +747,6 @@ export default {
                 this.currentRound.purchaseAmount = 0;
                 this.currentRound.purchasePrice = 0;
                 this.showSuccessModal = true;
-                setTimeout(() => {
-                    this.showSuccessModal = false;
-                }, 3000);
             } catch (error) {
                 console.error('Error starting new round:', error);
                 this.showError('កំហុស', 'មិនអាចចាប់ផ្តើមជើងថ្មីបានទេ។');
@@ -820,9 +813,6 @@ export default {
                 await this.loadData();
 
                 this.showSuccessModal = true;
-                setTimeout(() => {
-                    this.showSuccessModal = false;
-                }, 3000);
                 this.sale.customerName = '';
                 this.sale.amount = 0;
                 this.sale.pricePerKg = 0;
@@ -862,9 +852,6 @@ export default {
                 this.editingRound = null;
 
                 this.showSuccessModal = true;
-                setTimeout(() => {
-                    this.showSuccessModal = false;
-                }, 3000);
             } catch (error) {
                 console.error('Error updating round:', error);
                 this.showError('កំហុស', 'មិនអាចកែសម្រួលជើងលក់បានទេ។');
@@ -913,9 +900,6 @@ export default {
                 this.editingSale = null;
 
                 this.showSuccessModal = true;
-                setTimeout(() => {
-                    this.showSuccessModal = false;
-                }, 3000);
             } catch (error) {
                 console.error('Error updating sale:', error);
                 this.showError('កំហុស', 'មិនអាចកែសម្រួលការលក់បានទេ។');
