@@ -138,12 +138,6 @@ export default {
             isMobileMenuOpen: false,
             systemThemeIsDark: false,
             mediaQuery: null,
-            navLinks: [
-                { path: '/', label: 'Home' },
-                { path: '/projects', label: 'Projects' },
-                { path: '/about', label: 'About' },
-                { path: '/business', label: 'Business' },
-            ]
         }
     },
     computed: {
@@ -152,6 +146,20 @@ export default {
                 return this.systemThemeIsDark ? 'dark' : 'light';
             }
             return this.currentTheme;
+        },
+        navLinks() {
+            const links = [
+                { path: '/', label: 'Home' },
+                { path: '/projects', label: 'Projects' },
+                { path: '/about', label: 'About' }
+            ];
+            
+            // Only add Business link in development
+            if (process.env.NODE_ENV === 'development') {
+                links.push({ path: '/business', label: 'Business' });
+            }
+            
+            return links;
         }
     },
     mounted() {
