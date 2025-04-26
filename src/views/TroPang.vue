@@ -984,6 +984,7 @@ export default {
             try {
                 // Load active round
                 const activeRoundResponse = await axios.get('/api/current-round');
+                
                 if (activeRoundResponse.data) {
                     this.activeRoundId = activeRoundResponse.data.id;
                 }
