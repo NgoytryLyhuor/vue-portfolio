@@ -62,8 +62,7 @@
 
                 <!-- Projects Grid -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <article v-for="project in filteredProjects" :key="project.id"
-                        class="flex flex-col rounded-xl overflow-hidden bg-white dark:bg-gray-800 shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
+                    <article v-for="project in filteredProjects" :key="project.id" class="flex flex-col rounded-xl overflow-hidden bg-white dark:bg-gray-800 shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
 
                         <div class="h-48 bg-gray-100 dark:bg-gray-700 relative overflow-hidden">
                             <div class="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 opacity-20">

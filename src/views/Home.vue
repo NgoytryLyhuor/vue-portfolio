@@ -1,6 +1,5 @@
 <template>
     <div class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
-
         <!-- Main Content -->
         <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-10">
             <!-- Page Header -->
@@ -11,90 +10,64 @@
                 </p>
             </div>
 
-            <!-- Category Filters -->
-            <div class="mb-8 flex flex-wrap justify-center gap-3">
-                <button v-for="category in categories" :key="category" @click="toggleCategory(category)" :class="[ 'px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300', selectedCategories.includes(category) ? 'bg-blue-600 text-white shadow-md' : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 shadow-sm']">
-                    {{ category }}
-                </button>
-            </div>
+            <div class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <!-- Loading state -->
+                <div v-if="loading" class="text-center py-10">
+                    <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
+                    <p class="mt-2 text-gray-600 dark:text-gray-300">Loading articles...</p>
+                </div>
 
-            <!-- Blog Posts Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-                <article v-for="(post, index) in filteredPosts" :key="index" class="flex flex-col rounded-xl overflow-hidden bg-white dark:bg-gray-800 shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
-                    <div class="h-48 bg-gray-100 dark:bg-gray-700 relative overflow-hidden">
-                        <div class="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 opacity-20"></div>
-                        <span v-if="post.year" class="absolute top-4 left-4 inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 z-10">
-                            {{ post.year }}
-                        </span>
-                        <div class="absolute bottom-4 left-4">
-                            <span class="text-sm inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 shadow-sm">
-                                {{ post.category || 'General' }}
-                            </span>
-                        </div>
-                    </div>
+                <!-- Error state -->
+                <div v-if="error" class="text-center py-10">
+                    <div class="text-red-500 mb-2">⚠️ Error loading articles</div>
+                    <p class="text-gray-600 dark:text-gray-300">{{ error }}</p>
+                    <button @click="fetchArticles" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">
+                        Retry
+                    </button>
+                </div>
 
-                    <div class="p-6 flex-1 flex flex-col">
-                        <div class="flex-1">
-                            <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 line-clamp-2">
-                                <a :href="post.link" class="hover:text-blue-600 text-base dark:hover:text-blue-400 transition-colors duration-300">
-                                    {{ post.title }}
+                <!-- Articles grid -->
+                <div v-if="!loading && !error" class="columns-1 md:columns-2 lg:columns-3 gap-6">
+                    <div v-for="article in articles" :key="article.id"
+                        class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 mb-6 break-inside-avoid">
+                        <div class="p-6">
+                            <div class="flex items-center mb-3">
+                                <img v-if="article.user.profile_image" :src="article.user.profile_image" :alt="article.user.name" class="w-8 h-8 rounded-full mr-2">
+                                <span class="text-sm text-gray-500 dark:text-gray-400">{{ article.user.name }}</span>
+                            </div>
+                            <h3 class="text-xl mb-2 dark:text-white">
+                                <a :href="article.url" target="_blank"
+                                    class="hover:text-blue-600 text-base dark:hover:text-blue-400 transition-colors duration-300">
+                                    {{ article.title }}
                                 </a>
-                            </h2>
-                            <p class="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3 text-sm">
-                                {{ post.excerpt || 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' }}
-                            </p>
+                            </h3>
+                            <div class="flex flex-wrap gap-2 mb-3">
+                                <span v-for="tag in article.tag_list.slice(0, 3)" :key="tag" 
+                                    class="px-2 py-1 text-xs rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">
+                                    {{ tag }}
+                                </span>
+                            </div>
+                            <p class="text-gray-600 dark:text-gray-300 mb-4 text-sm line-clamp-3">{{ article.description || 'No description available' }}</p>
+                            <div class="flex justify-between items-center text-sm text-gray-500 dark:text-gray-400">
+                                <span class="text-sm">{{ formatDate(article.published_at) }}</span>
+                                <div class="flex items-center">
+                                    <span class="mr-3 flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
+                                        </svg>
+                                        {{ article.positive_reactions_count }}
+                                    </span>
+                                    <a :href="article.url" target="_blank"
+                                        class="text-green-500 hover:text-green-600 font-medium">
+                                        Read more →
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-
-                        <div
-                            class="mt-auto pt-4 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between">
-                            <span class="text-sm text-gray-500 dark:text-gray-400">
-                                {{ formatDate(post.date) }}
-                            </span>
-                            <a :href="post.link" class="text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 transition-colors duration-300 flex items-center">
-                                Read more
-                                <svg class="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-                </article>
-            </div>
-
-            <!-- Empty State -->
-            <div v-if="filteredPosts.length === 0" class="text-center py-12">
-                <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <h3 class="mt-2 text-lg font-medium text-gray-900 dark:text-white">No posts found</h3>
-                <p class="mt-1 text-gray-500 dark:text-gray-400">Try adjusting your search or filter criteria</p>
-                <button @click="resetFilters" class="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300">
-                    Reset filters
-                </button>
-            </div>
-        </main>
-    </div>
-
-    <div class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h2 class="text-2xl font-bold mb-6 dark:text-white">Latest Updates</h2>
-        <div class="columns-1 md:columns-2 lg:columns-3 gap-6">
-            <div v-for="item in feedItems" :key="item.guid" class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 mb-6 break-inside-avoid">
-                <div class="p-6">
-                    <h3 class="text-xl mb-2 dark:text-white">
-                        <a :href="item.link" target="_blank" class="hover:text-blue-600 text-base dark:hover:text-blue-400 transition-colors duration-300">
-                            {{ item.title }}
-                        </a>
-                    </h3>
-                    <p class="text-gray-600 dark:text-gray-300 mb-4 text-sm">{{ item.description }}</p>
-                    <div class="flex justify-between items-center text-sm text-gray-500 dark:text-gray-400">
-                        <span class="text-sm">{{ formatDate(item.pubDate) }}</span>
-                        <a :href="item.link" target="_blank" class="text-green-500 hover:text-green-600 font-medium">
-                            Read more →
-                        </a>
                     </div>
                 </div>
             </div>
-        </div>
+        </main>
     </div>
 </template>
 
@@ -103,103 +76,64 @@ export default {
     name: 'BlogView',
     data() {
         return {
-            selectedCategories: [],
-            blogPosts: [
-                {
-                    year: '2025',
-                    title: 'Preliminary Knowledge Statistics Part II - Interactive Notebook',
-                    date: '2025-04-20',
-                    link: '#',
-                    category: 'Statistics',
-                    excerpt: 'Deep dive into statistical methods with interactive Jupyter notebooks'
-                },
-                {
-                    title: 'Preliminary Knowledge Statistics - Interactive Notebook',
-                    date: '2025-04-19',
-                    link: '#',
-                    category: 'Statistics',
-                    excerpt: 'Introduction to fundamental statistics concepts with practical examples'
-                },
-                {
-                    title: 'Linear Regression Uncertainty Simulation',
-                    date: '2025-04-17',
-                    link: '#',
-                    category: 'Data Science',
-                    excerpt: 'Visualizing and understanding uncertainty in linear regression models'
-                },
-                {
-                    title: 'A New Year Wish from the Federation of Cambodian Startups',
-                    date: '2025-04-13',
-                    link: '#',
-                    category: 'Announcement',
-                    excerpt: 'Celebrating the new year with the Cambodian startup community'
-                },
-                {
-                    title: 'Our manuscript has been accepted in the CITA 2025',
-                    date: '2025-04-13',
-                    link: '#',
-                    category: 'Research',
-                    excerpt: 'Exciting news about our latest research publication'
-                },
-                {
-                    title: 'Interested in building a Khmer spell-checking software?',
-                    date: '2025-04-10',
-                    link: '#',
-                    category: 'NLP',
-                    excerpt: 'Exploring the challenges and solutions for Khmer language processing'
-                }
-            ],
-            feedItems: []
+            articles: [],
+            loading: true,
+            error: null,
+            selectedCategories: []
         }
     },
     computed: {
         categories() {
-            return [...new Set(this.blogPosts.map(post => post.category))].sort()
+            // Extract unique tags from all articles
+            const allTags = this.articles.flatMap(article => article.tag_list);
+            return [...new Set(allTags)].sort();
         },
         filteredPosts() {
-            if (this.selectedCategories.length === 0) return this.blogPosts
-            return this.blogPosts.filter(post =>
-                this.selectedCategories.includes(post.category)
-            )
+            if (this.selectedCategories.length === 0) return this.articles;
+            return this.articles.filter(article =>
+                this.selectedCategories.some(tag => article.tag_list.includes(tag))
+            );
         }
     },
     async mounted() {
-        try {
-            const response = await fetch('https://rinabuoy.vercel.app/rss.xml');
-            const xmlText = await response.text();
-            this.feedItems = this.parseRss(xmlText);
-        } catch (error) {
-            console.error('Error fetching RSS feed:', error);
-        }
+        await this.fetchArticles();
     },
     methods: {
+        async fetchArticles() {
+            this.loading = true;
+            this.error = null;
+            
+            try {
+                // Fetch top articles from dev.to with data science tag
+                const response = await fetch('https://dev.to/api/articles?tag=datascience&top=30');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                this.articles = await response.json();
+            } catch (err) {
+                console.error('Error fetching articles:', err);
+                this.error = err.message || 'Failed to load articles';
+            } finally {
+                this.loading = false;
+            }
+        },
         toggleCategory(category) {
             if (this.selectedCategories.includes(category)) {
-                this.selectedCategories = this.selectedCategories.filter(c => c !== category)
+                this.selectedCategories = this.selectedCategories.filter(c => c !== category);
             } else {
-                this.selectedCategories = [...this.selectedCategories, category]
+                this.selectedCategories = [...this.selectedCategories, category];
             }
         },
         resetFilters() {
-            this.selectedCategories = []
+            this.selectedCategories = [];
         },
         formatDate(dateString) {
-            const options = { year: 'numeric', month: 'short', day: 'numeric' }
-            return new Date(dateString).toLocaleDateString(undefined, options)
-        },
-        parseRss(xmlText) {
-            const parser = new DOMParser();
-            const xmlDoc = parser.parseFromString(xmlText, "text/xml");
-
-            const items = xmlDoc.querySelectorAll('item');
-            return Array.from(items).map(item => ({
-                title: item.querySelector('title').textContent,
-                description: item.querySelector('description').textContent,
-                link: item.querySelector('link').textContent,
-                guid: item.querySelector('guid').textContent,
-                pubDate: item.querySelector('pubDate').textContent
-            }));
-        },
+            if (!dateString) return '';
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString(undefined, options);
+        }
     }
 }
 </script>
@@ -227,4 +161,12 @@ button:focus {
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
 }
 
+/* Animation for loading spinner */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
 </style>
