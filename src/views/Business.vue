@@ -1,97 +1,84 @@
 <template>
-    <div
-        class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 duration-500 mt-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="min-h-screen bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-800 transition-colors duration-500">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <!-- Header Section -->
-            <div class="text-center mb-16">
-                <div class="relative inline-block">
-                    <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 relative z-10">
-                        អាជីវកម្មរបស់ខ្ញុំ
-                    </h1>
-                    <div
-                        class="absolute -bottom-1 left-0 w-full h-2 bg-orange-200 dark:bg-orange-800 opacity-60 rounded-full z-0">
-                    </div>
-                </div>
-                <p class="max-w-2xl mx-auto text-lg text-gray-600 dark:text-gray-300 mt-6">
-                    ជ្រើសរើសអាជីវកម្មដើម្បីចាប់ផ្តើមការតាមដាន
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-blue-900 dark:text-blue-200 tracking-tight animate-fade-in">
+                    អាជីវកម្មរបស់អ្នក
+                </h1>
+                <div class="w-32 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 mx-auto mt-4 rounded-full"></div>
+                <p class="max-w-2xl mx-auto mt-6 text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+                    គ្រប់គ្រងអាជីវកម្មរបស់អ្នកជាមួយនឹងភាពងាយស្រួល និងប្រសិទ្ធភាព
                 </p>
             </div>
 
             <!-- Business Cards Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Tropang Business Card -->
                 <div v-if="businessData"
-                    class="group bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700 hover:shadow-2xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2 relative"
+                    class="group relative bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700 transform hover:scale-105 hover:shadow-2xl transition-all duration-300 cursor-pointer"
                     @click="navigateTo('tropang')">
-                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-400 to-orange-600"></div>
-                    <div class="p-6">
-                        <div class="flex items-center mb-6">
-                            <div
-                                class="p-3 rounded-xl bg-gradient-to-br from-orange-100 to-orange-50 dark:from-orange-900 dark:to-orange-800 text-orange-600 dark:text-orange-300 mr-4 shadow-inner">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                    <div class="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-indigo-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="relative p-5">
+                        <div class="flex items-center mb-4">
+                            <div class="p-2 rounded-full bg-blue-500/10 text-blue-500 dark:text-blue-400 mr-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                                 </svg>
                             </div>
                             <div>
-                                <h2 class="text-xl font-bold text-gray-900 dark:text-white">ត្រពាំង</h2>
-                                <p class="text-sm text-orange-500 dark:text-orange-400">អាជីវកម្មសកម្ម</p>
+                                <h2 class="text-xl font-semibold text-gray-900 dark:text-white">ត្រពាំង</h2>
+                                <p class="text-xs font-medium text-blue-500 dark:text-blue-400">សកម្ម</p>
                             </div>
                         </div>
-                        <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                            ការតាមដានការលក់ត្រពាំង និងការគណនាចំណេញ
+                        <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 leading-relaxed">
+                            តាមដានការលក់ និងចំណេញប្រចាំថ្ងៃរបស់អ្នក
                         </p>
-                        <div class="flex justify-between text-sm text-gray-500 dark:text-gray-400 mb-6">
-                            <div class="text-center">
-                                <p class="font-semibold text-gray-700 dark:text-gray-200">{{ businessData.activeRounds
-                                }}</p>
+                        <div class="grid grid-cols-2 gap-3 text-sm text-gray-500 dark:text-gray-400 mb-4">
+                            <div class="bg-gray-100 dark:bg-gray-700/50 rounded-lg p-2 text-center">
+                                <p class="font-semibold text-gray-900 dark:text-white">{{ businessData.activeRounds }}</p>
                                 <p>ជើងសកម្ម</p>
                             </div>
-                            <div class="text-center">
-                                <p class="font-semibold text-gray-700 dark:text-gray-200">{{ businessData.todaySales }}
-                                </p>
+                            <div class="bg-gray-100 dark:bg-gray-700/50 rounded-lg p-2 text-center">
+                                <p class="font-semibold text-gray-900 dark:text-white">{{ businessData.todaySales }}</p>
                                 <p>ការលក់ថ្ងៃនេះ</p>
                             </div>
                         </div>
                     </div>
-                    <div
-                        class="bg-gradient-to-r from-orange-50 to-orange-100 dark:from-orange-900 dark:to-orange-800 px-6 py-4 border-t border-gray-100 dark:border-gray-700">
+                    <div class="bg-blue-500 px-5 py-3 text-white">
                         <div class="flex justify-between items-center">
-                            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">ចំណូលសរុបថ្ងៃនេះ</span>
-                            <span class="text-lg font-bold text-green-600 dark:text-green-400 animate-pulse">៛{{
-                                formatCurrency(businessData.todayRevenue) }}</span>
+                            <span class="text-sm font-medium">ចំណូលថ្ងៃនេះ</span>
+                            <span class="text-base font-bold animate-pulse">៛{{ formatCurrency(businessData.todayRevenue) }}</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Loading State -->
-                <div v-else
-                    class="bg-white dark:bg-gray-800 rounded-2xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700 p-6">
-                    <div class="animate-pulse space-y-4">
+                <div v-else class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700 p-5">
+                    <div class="animate-pulse space-y-3">
                         <div class="flex items-center">
-                            <div class="h-12 w-12 bg-gray-200 dark:bg-gray-700 rounded-xl mr-4"></div>
+                            <div class="h-10 w-10 bg-gray-200 dark:bg-gray-700 rounded-full mr-3"></div>
                             <div class="space-y-2">
-                                <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-24"></div>
-                                <div class="h-3 bg-gray-200 dark:bg-gray-700 rounded w-16"></div>
+                                <div class="h-3 bg-gray-200 dark:bg-gray-700 rounded w-20"></div>
+                                <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded w-12"></div>
                             </div>
                         </div>
-                        <div class="h-3 bg-gray-200 dark:bg-gray-700 rounded w-full"></div>
-                        <div class="h-3 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
-                        <div class="flex justify-between pt-4">
+                        <div class="h-2差点-200 dark:bg-gray-700 rounded w-full"></div>
+                        <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
+                        <div class="grid grid-cols-2 gap-3">
                             <div class="space-y-2">
-                                <div class="h-3 bg-gray-200 dark:bg-gray-700 rounded w-8 mx-auto"></div>
-                                <div class="h-3 bg-gray-200 dark:bg-gray-700 rounded w-16"></div>
+                                <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded w-6 mx-auto"></div>
+                                <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded w-12"></div>
                             </div>
                             <div class="space-y-2">
-                                <div class="h-3 bg-gray-200 dark:bg-gray-700 rounded w-8 mx-auto"></div>
-                                <div class="h-3 bg-gray-200 dark:bg-gray-700 rounded w-16"></div>
+                                <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded w-6 mx-auto"></div>
+                                <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded w-12"></div>
                             </div>
                         </div>
-                        <div class="pt-4 mt-4 border-t border-gray-200 dark:border-gray-700">
+                        <div class="pt-3 mt-3 border-t border-gray-200 dark:border-gray-700">
                             <div class="flex justify-between">
+                                <div class="h-2 bg-gray-200 dark:bg-gray-700 rounded w-12"></div>
                                 <div class="h-3 bg-gray-200 dark:bg-gray-700 rounded w-16"></div>
-                                <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-20"></div>
                             </div>
                         </div>
                     </div>
@@ -99,41 +86,27 @@
             </div>
 
             <!-- Recent Activity Section -->
-            <div class="mt-20">
-                <div class="flex justify-between items-center mb-8">
-                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white relative inline-block">
-                        <span class="relative z-10">សកម្មភាពថ្មីៗ</span>
-                        <span
-                            class="absolute bottom-0 left-0 w-full h-1.5 bg-orange-200 dark:bg-orange-800 opacity-60 rounded-full z-0"></span>
-                    </h2>
-                    <button @click="viewAllActivities"
-                        class="text-sm font-medium text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 transition-colors">
-                        មើលទាំងអស់
+            <div class="mt-16">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-semibold text-gray-900 dark:text-white">សកម្មភាពថ្មីៗ</h2>
+                    <button @click="viewAllActivities" class="text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-200">
+                        មើលទាំងអស់ →
                     </button>
                 </div>
 
-                <div
-                    class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden border border-gray-100 dark:border-gray-700">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-100 dark:border-gray-700">
                     <ul class="divide-y divide-gray-100 dark:divide-gray-700">
-                        <li v-for="(activity, index) in visibleActivities" :key="index"
-                            class="p-6 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors duration-300 group">
-                            <div class="flex items-start">
-                                <div class="flex-shrink-0 mr-4 mt-1 p-2 rounded-lg group-hover:scale-110 transition-transform duration-300"
-                                    :class="getActivityIconColor(activity.type).bg">
-                                    <component :is="getActivityIcon(activity.type)" class="h-5 w-5"
-                                        :class="getActivityIconColor(activity.type).text" />
+                        <li v-for="(activity, index) in visibleActivities" :key="index" class="p-5 hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors duration-200 group">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 mr-3 p-2 rounded-full transition-transform duration-200 group-hover:scale-110" :class="getActivityIconColor(activity.type).bg">
+                                    <component :is="getActivityIcon(activity.type)" class="h-5 w-5" :class="getActivityIconColor(activity.type).text" />
                                 </div>
                                 <div class="flex-1 min-w-0">
-                                    <p class="text-sm font-semibold text-gray-900 dark:text-white">
-                                        {{ activity.title }}
-                                    </p>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                                        {{ activity.description }}
-                                    </p>
+                                    <p class="text-sm font-medium text-gray-900 dark:text-white">{{ activity.title }}</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ activity.description }}</p>
                                 </div>
-                                <div class="ml-4 flex-shrink-0">
-                                    <p
-                                        class="text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded-full">
+                                <div class="ml-3 flex-shrink-0">
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded-full">
                                         {{ formatTimeAgo(activity.timestamp) }}
                                     </p>
                                 </div>
@@ -141,11 +114,9 @@
                         </li>
                     </ul>
 
-                    <div v-if="showLoadMore"
-                        class="bg-gray-50 dark:bg-gray-700/30 px-6 py-4 text-center border-t border-gray-100 dark:border-gray-700">
-                        <button @click="loadMoreActivities"
-                            class="text-sm font-medium text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 transition-colors">
-                            បង្ហាញច្រើនទៀត
+                    <div v-if="showLoadMore" class="bg-gray-50 dark:bg-gray-700/20 px-5 py-3 text-center border-t border-gray-100 dark:border-gray-700">
+                        <button @click="loadMoreActivities" class="text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-200">
+                            បង្ហាញបន្ថែម
                         </button>
                     </div>
                 </div>
@@ -162,11 +133,11 @@ import {
     CurrencyDollarIcon,
     UserAddIcon,
     ChartBarIcon
-} from '@heroicons/vue/24/outline'
+} from '@heroicons/vue/24/outline';
 import axios from 'axios';
 
 export default {
-    name: 'BusinessPage',
+    name: 'EnhancedBusinessPageWithAPI',
     components: {
         ArrowUpIcon,
         ArrowDownIcon,
@@ -181,15 +152,15 @@ export default {
             newBusiness: {
                 name: '',
                 type: 'product',
-                color: 'orange'
+                color: 'blue'
             },
             colorOptions: [
-                { value: 'orange', bg: 'bg-orange-500' },
                 { value: 'blue', bg: 'bg-blue-500' },
+                { value: 'indigo', bg: 'bg-indigo-500' },
                 { value: 'green', bg: 'bg-green-500' },
                 { value: 'purple', bg: 'bg-purple-500' },
                 { value: 'red', bg: 'bg-red-500' },
-                { value: 'indigo', bg: 'bg-indigo-500' },
+                { value: 'orange', bg: 'bg-orange-500' },
             ],
             recentActivities: [],
             businessData: null,
@@ -228,43 +199,49 @@ export default {
         getActivityIconColor(type) {
             switch (type) {
                 case 'sale': return {
-                    bg: 'bg-green-100 dark:bg-green-900/70 group-hover:bg-green-200 dark:group-hover:bg-green-800/90',
-                    text: 'text-green-600 dark:text-green-300'
+                    bg: 'bg-green-500/10',
+                    text: 'text-green-500'
                 };
                 case 'round': return {
-                    bg: 'bg-blue-100 dark:bg-blue-900/70 group-hover:bg-blue-200 dark:group-hover:bg-blue-800/90',
-                    text: 'text-blue-600 dark:text-blue-300'
+                    bg: 'bg-blue-500/10',
+                    text: 'text-blue-500'
                 };
                 case 'payment': return {
-                    bg: 'bg-purple-100 dark:bg-purple-900/70 group-hover:bg-purple-200 dark:group-hover:bg-purple-800/90',
-                    text: 'text-purple-600 dark:text-purple-300'
+                    bg: 'bg-purple-500/10',
+                    text: 'text-purple-500'
                 };
                 case 'business': return {
-                    bg: 'bg-orange-100 dark:bg-orange-900/70 group-hover:bg-orange-200 dark:group-hover:bg-orange-800/90',
-                    text: 'text-orange-600 dark:text-orange-300'
+                    bg: 'bg-indigo-500/10',
+                    text: 'text-indigo-500'
                 };
                 default: return {
-                    bg: 'bg-gray-100 dark:bg-gray-700/70 group-hover:bg-gray-200 dark:group-hover:bg-gray-600/90',
-                    text: 'text-gray-600 dark:text-gray-300'
+                    bg: 'bg-gray-500/10',
+                    text: 'text-gray-500'
                 };
             }
         },
         viewAllActivities() {
             this.showAllActivities = true;
-            // Alternatively: navigate to a dedicated activities page
-            // this.$router.push('/activities');
         },
-        
         loadMoreActivities() {
             this.activityLimit += 5;
         },
-        
         async fetchAllActivities() {
             try {
-                const response = await axios.get('/api/activities');
-                this.recentActivities = response.data;
+                const response = await axios.get('/api/activities', {
+                    params: {
+                        limit: 100,
+                        sort: 'created_at',
+                        order: 'desc'
+                    },
+                    headers: {
+                        'Authorization': 'Bearer YOUR_API_TOKEN',
+                        'Accept': 'application/json'
+                    }
+                });
+                this.recentActivities = response.data || [];
             } catch (error) {
-                console.error('Error fetching activities:', error);
+                console.error('Error fetching all activities:', error);
             }
         },
         formatTimeAgo(timestamp) {
@@ -277,7 +254,6 @@ export default {
             if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} ម៉ោងមុន`;
             if (diffInSeconds < 2592000) return `${Math.floor(diffInSeconds / 86400)} ថ្ងៃមុន`;
 
-            // Khmer month names
             const months = [
                 'មករា', 'កុម្ភៈ', 'មីនា', 'មេសា', 'ឧសភា', 'មិថុនា',
                 'កក្កដា', 'សីហា', 'កញ្ញា', 'តុលា', 'វិច្ឆិកា', 'ធ្នូ'
@@ -291,18 +267,21 @@ export default {
         async fetchBusinessData() {
             try {
                 this.loading = true;
-
-                // Fetch all rounds
-                const roundsResponse = await axios.get('/api/rounds');
-
-                // Fetch today's sales
+                const roundsResponse = await axios.get('/api/rounds', {
+                    headers: {
+                        'Authorization': 'Bearer YOUR_API_TOKEN',
+                        'Accept': 'application/json'
+                    }
+                });
                 const today = new Date().toISOString().split('T')[0];
-                const salesResponse = await axios.get(`/api/sales?date=${today}`);
-
-                // Calculate today's revenue
+                const salesResponse = await axios.get('/api/sales', {
+                    params: { date: today },
+                    headers: {
+                        'Authorization': 'Bearer YOUR_API_TOKEN',
+                        'Accept': 'application/json'
+                    }
+                });
                 const todayRevenue = salesResponse.data.reduce((sum, sale) => sum + Number(sale.price), 0);
-
-                // Count active rounds (assuming active rounds are those with remaining amount)
                 const activeRounds = roundsResponse.data.filter(round => {
                     const sales = round.sales || [];
                     const soldAmount = sales.reduce((sum, sale) => sum + Number(sale.amount), 0);
@@ -314,10 +293,8 @@ export default {
                     todaySales: salesResponse.data.length,
                     todayRevenue
                 };
-
             } catch (error) {
                 console.error('Error fetching business data:', error);
-                // Fallback to default values if API fails
                 this.businessData = {
                     activeRounds: 3,
                     todaySales: 12,
@@ -329,25 +306,36 @@ export default {
         },
         async fetchRecentActivities() {
             try {
-                // Fetch recent sales
-                const salesResponse = await axios.get('/api/sales?_limit=5&_sort=created_at&_order=desc');
-
                 // Fetch recent rounds
-                const roundsResponse = await axios.get('/api/rounds?_limit=3&_sort=created_at&_order=desc');
+                const roundsResponse = await axios.get('/api/rounds', {
+                    headers: {
+                        'Authorization': 'Bearer YOUR_API_TOKEN',
+                        'Accept': 'application/json'
+                    }
+                });
 
-                // Transform data into activity format
-                const salesActivities = salesResponse.data.map(sale => ({
-                    type: 'sale',
-                    title: 'ការលក់ថ្មី - ត្រពាំង',
-                    description: `បានលក់ ${sale.amount}kg ទៅកាន់ ${sale.customer_name} ក្នុងតម្លៃ ៛${this.formatCurrency(sale.price)}`,
-                    timestamp: sale.created_at || sale.date
-                }));
+                // Fetch recent sales
+                const salesResponse = await axios.get('/api/sales', {
+                    headers: {
+                        'Authorization': 'Bearer YOUR_API_TOKEN',
+                        'Accept': 'application/json'
+                    }
+                });
 
-                const roundsActivities = roundsResponse.data.map(round => ({
+                // Process rounds into activities
+                const roundsActivities = roundsResponse.data.slice(0, 3).map(round => ({
                     type: 'round',
                     title: 'ជើងលក់ថ្មី - ត្រពាំង',
                     description: `ចាប់ផ្តើមជើងលក់ថ្មី ${round.purchase_amount}kg ក្នុងតម្លៃ ៛${this.formatCurrency(round.purchase_price)}`,
                     timestamp: round.created_at
+                }));
+
+                // Process sales into activities
+                const salesActivities = salesResponse.data.slice(0, 5).map(sale => ({
+                    type: 'sale',
+                    title: 'ការលក់ថ្មី - ត្រពាំង',
+                    description: `បានលក់ ${sale.amount}kg ទៅកាន់ ${sale.customer_name} ក្នុងតម្លៃ ៛${this.formatCurrency(sale.price)}`,
+                    timestamp: sale.created_at || sale.sale_date
                 }));
 
                 // Combine and sort activities by timestamp
@@ -356,13 +344,14 @@ export default {
                     .slice(0, 5);
 
             } catch (error) {
-                console.error('Error fetching recent activities:', error);
-                // Fallback to default activities if API fails
+                console.error('Error fetching recent activities from API:', error);
+
+                // Fallback to mock data
                 this.recentActivities = [
                     {
                         type: 'sale',
                         title: 'ការលក់ថ្មីនៅត្រពាំង',
-                        description: 'លក់បាន 25kg ទៅកាន់ លោក សុខា ក្នុងតម្លៃ ៛500,000',
+                        description: 'លក់បាន 25kg ទៅកាន់ លោក �សុខា ក្នុងតម្លៃ ៛500,000',
                         timestamp: new Date(Date.now() - 1000 * 60 * 15).toISOString()
                     },
                     {
@@ -396,18 +385,16 @@ export default {
             if (!this.newBusiness.name) {
                 return;
             }
-
             this.recentActivities.unshift({
                 type: 'business',
                 title: 'អាជីវកម្មថ្មី',
                 description: `បានបន្ថែមអាជីវកម្ម ${this.newBusiness.name}`,
                 timestamp: new Date().toISOString()
             });
-
             this.newBusiness = {
                 name: '',
                 type: 'product',
-                color: 'orange'
+                color: 'blue'
             };
             this.showAddBusinessModal = false;
         }
@@ -416,8 +403,25 @@ export default {
 </script>
 
 <style scoped>
-/* Smooth transitions for dark mode */
 html {
     @apply transition-colors duration-300;
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
 }
 </style>

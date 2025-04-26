@@ -311,205 +311,219 @@
             </div>
         </div>
 
-        <!-- Success Modal -->
-        <div v-if="showSuccessModal" @click.self="showSuccessModal = false"
-            class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 cursor-pointer">
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-xs w-full p-5 cursor-default">
-                <div class="text-center">
-                    <div
-                        class="mx-auto flex items-center justify-center h-10 w-10 rounded-full bg-green-100 dark:bg-green-900">
-                        <svg class="h-5 w-5 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
+        <!-- Success Modal with enhanced animation -->
+        <transition name="zoom-fade">
+            <div v-if="showSuccessModal" @click.self="showSuccessModal = false"
+                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 cursor-pointer">
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-xs w-full p-5 cursor-default transform transition-all">
+                    <div class="text-center">
+                        <div
+                            class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 dark:bg-green-900 animate-bounce">
+                            <svg class="h-6 w-6 text-green-600 dark:text-green-400 animate-ping" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-medium text-gray-900 dark:text-white mt-3 animate-fade-in">
+                            {{ t('saleSavedSuccess') }}
+                        </h3>
+                        <div class="mt-4">
+                            <button @click="showSuccessModal = false" type="button"
+                                class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-md transition-all duration-300 hover:scale-105">
+                                {{ t('ok') }}
+                            </button>
+                        </div>
                     </div>
-                    <h3 class="text-sm text-sm text-gray-900 dark:text-white mt-3">
-                        {{ t('saleSavedSuccess') }}
+                </div>
+            </div>
+        </transition>
+
+        <!-- Error Modal with enhanced animation -->
+        <transition name="shake-fade">
+            <div v-if="showErrorModal" @click.self="showErrorModal = false"
+                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 cursor-pointer">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-xs w-full p-5 cursor-default">
+                    <div class="text-center">
+                        <div
+                            class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-red-900 animate-pulse">
+                            <svg class="h-6 w-6 text-red-600 dark:text-red-400" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-medium text-gray-900 dark:text-white mt-3 animate-fade-in">
+                            {{ errorTitle }}
+                        </h3>
+                        <div class="mt-2 animate-fade-in">
+                            <p class="text-sm text-gray-600 dark:text-gray-300">
+                                {{ errorMessage }}
+                            </p>
+                        </div>
+                        <div class="mt-4">
+                            <button @click="showErrorModal = false" type="button"
+                                class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-md transition-all duration-300 hover:scale-105">
+                                {{ t('ok') }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </transition>
+
+        <!-- Delete Confirmation Modal with enhanced animation -->
+        <transition name="slide-up-fade">
+            <div v-if="showDeleteModal" @click.self="showDeleteModal = false"
+                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 cursor-pointer">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-xs w-full p-5 cursor-default">
+                    <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-3 animate-fade-in">
+                        {{ t('confirmDeleteSale') }}
                     </h3>
-                    <div class="mt-4">
-                        <button @click="showSuccessModal = false" type="button"
-                            class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm text-sm rounded-md transition-colors duration-300">
-                            {{ t('ok') }}
+                    <p class="text-sm text-gray-600 dark:text-gray-300 mb-4 animate-fade-in">
+                        {{ t('confirmDeleteSaleMessage') }}
+                    </p>
+                    <div class="flex justify-end space-x-2 animate-fade-in">
+                        <button @click="showDeleteModal = false"
+                            class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 hover:scale-105">
+                            {{ t('cancel') }}
+                        </button>
+                        <button @click="deleteSale"
+                            class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm rounded-md transition-all duration-300 hover:scale-105">
+                            {{ t('delete') }}
                         </button>
                     </div>
                 </div>
             </div>
-        </div>
+        </transition>
 
-        <!-- Error Modal -->
-        <div v-if="showErrorModal" @click.self="showErrorModal = false"
-            class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 cursor-pointer">
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-xs w-full p-5 cursor-default">
-                <div class="text-center">
-                    <div
-                        class="mx-auto flex items-center justify-center h-10 w-10 rounded-full bg-red-100 dark:bg-red-900">
-                        <svg class="h-5 w-5 text-red-600 dark:text-red-400" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-sm text-sm text-gray-900 dark:text-white mt-3">
-                        {{ errorTitle }}
+        <!-- Edit Sale Modal with enhanced animation -->
+        <transition name="slide-down-fade">
+            <div v-if="showEditModal" @click.self="showEditModal = false"
+                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 cursor-pointer">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-5 cursor-default">
+                    <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4 animate-fade-in">
+                        {{ t('editSale') }}
                     </h3>
-                    <div class="mt-2">
-                        <p class="text-base text-gray-600 dark:text-gray-300">
-                            {{ errorMessage }}
-                        </p>
+
+                    <div class="space-y-3 animate-fade-in">
+                        <div>
+                            <label class="block text-base text-sm text-gray-700 dark:text-gray-300 mb-1">
+                                {{ t('customerName') }}
+                            </label>
+                            <input v-model="editingSale.customer_name"
+                                class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-base text-sm text-gray-700 dark:text-gray-300 mb-1">
+                                    {{ t('quantity') }}
+                                </label>
+                                <input v-model.number="editingSale.amount" type="number" placeholder="0"
+                                    class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
+                            </div>
+                            <div>
+                                <label class="block text-base text-sm text-gray-700 dark:text-gray-300 mb-1">
+                                    {{ t('pricePerKg') }}
+                                </label>
+                                <input v-model.number="editingSale.pricePerKg" type="number" placeholder="0"
+                                    class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-base text-sm text-gray-700 dark:text-gray-300 mb-1">
+                                {{ t('paymentStatus') }}
+                            </label>
+                            <select v-model="editingSale.payment_status"
+                                class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
+                                <option value="paid">{{ t('paymentOptions')[0] }}</option>
+                                <option value="pending">{{ t('paymentOptions')[1] }}</option>
+                            </select>
+                        </div>
+
+                        <div class="flex justify-end space-x-2 pt-3">
+                            <button @click="showEditModal = false"
+                                class="px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded-md text-base text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-300">
+                                {{ t('cancel') }}
+                            </button>
+                            <button @click="updateSale"
+                                class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-base text-sm rounded-md transition-colors duration-300">
+                                {{ t('save') }}
+                            </button>
+                        </div>
                     </div>
-                    <div class="mt-4">
-                        <button @click="showErrorModal = false" type="button"
-                            class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm text-sm rounded-md transition-colors duration-300">
-                            {{ t('ok') }}
+                </div>
+            </div>
+        </transition>
+
+        <!-- Delete Round Confirmation Modal with enhanced animation -->
+        <transition name="slide-up-fade">
+            <div v-if="showDeleteRoundModal" @click.self="showDeleteRoundModal = false"
+                class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 cursor-pointer">
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-xs w-full p-5 cursor-default">
+                    <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-3 animate-fade-in">
+                        {{ t('confirmDeleteRound') }}
+                    </h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 mb-4 animate-fade-in">
+                        {{ t('confirmDeleteRoundMessage') }}
+                    </p>
+                    <div class="flex justify-end space-x-2 animate-fade-in">
+                        <button @click="showDeleteRoundModal = false"
+                            class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300 hover:scale-105">
+                            {{ t('cancel') }}
+                        </button>
+                        <button @click="deleteRound"
+                            class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm rounded-md transition-all duration-300 hover:scale-105">
+                            {{ t('delete') }}
                         </button>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- Delete Confirmation Modal -->
-        <div v-if="showDeleteModal" @click.self="showDeleteModal = false"
-            class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 cursor-pointer">
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-xs w-full p-5 cursor-default">
-                <h3 class="text-sm text-sm text-gray-900 dark:text-white mb-3">
-                    {{ t('confirmDeleteSale') }}
-                </h3>
-                <p class="text-base text-gray-600 dark:text-gray-300 mb-4">
-                    {{ t('confirmDeleteSaleMessage') }}
-                </p>
-                <div class="flex justify-end space-x-2">
-                    <button @click="showDeleteModal = false"
-                        class="px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded-md text-base text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-300">
-                        {{ t('cancel') }}
-                    </button>
-                    <button @click="deleteSale"
-                        class="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white text-base text-sm rounded-md transition-colors duration-300">
-                        {{ t('delete') }}
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Edit Sale Modal -->
-        <div v-if="showEditModal" @click.self="showEditModal = false"
+        </transition>
+    </div>
+    <!-- Edit Round Modal with enhanced animation -->
+    <transition name="slide-down-fade">
+        <div v-if="showEditRoundModal" @click.self="showEditRoundModal = false"
             class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 cursor-pointer">
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-5 cursor-default">
-                <h3 class="text-sm text-sm text-gray-900 dark:text-white mb-4">
-                    {{ t('editSale') }}
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4 animate-fade-in">
+                    {{ t('editRound') }}
                 </h3>
 
-                <div class="space-y-3">
+                <div class="space-y-3 animate-fade-in">
                     <div>
-                        <label class="block text-base text-sm text-gray-700 dark:text-gray-300 mb-1">
-                            {{ t('customerName') }}
+                        <label class="block text-sm text-gray-700 dark:text-gray-300 mb-1">
+                            {{ t('purchaseAmount') }}
                         </label>
-                        <input v-model="editingSale.customer_name"
+                        <input v-model.number="editingRound.purchase_amount" type="number"
                             class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
                     </div>
 
-                    <div class="grid grid-cols-2 gap-3">
-                        <div>
-                            <label class="block text-base text-sm text-gray-700 dark:text-gray-300 mb-1">
-                                {{ t('quantity') }}
-                            </label>
-                            <input v-model.number="editingSale.amount" type="number" placeholder="0"
-                                class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
-                        </div>
-                        <div>
-                            <label class="block text-base text-sm text-gray-700 dark:text-gray-300 mb-1">
-                                {{ t('pricePerKg') }}
-                            </label>
-                            <input v-model.number="editingSale.pricePerKg" type="number" placeholder="0"
-                                class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
-                        </div>
-                    </div>
-
                     <div>
-                        <label class="block text-base text-sm text-gray-700 dark:text-gray-300 mb-1">
-                            {{ t('paymentStatus') }}
+                        <label class="block text-sm text-gray-700 dark:text-gray-300 mb-1">
+                            {{ t('purchasePrice') }}
                         </label>
-                        <select v-model="editingSale.payment_status"
+                        <input v-model.number="editingRound.purchase_price" type="number"
                             class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
-                            <option value="paid">{{ t('paymentOptions')[0] }}</option>
-                            <option value="pending">{{ t('paymentOptions')[1] }}</option>
-                        </select>
                     </div>
 
                     <div class="flex justify-end space-x-2 pt-3">
-                        <button @click="showEditModal = false"
-                            class="px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded-md text-base text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-300">
+                        <button @click="showEditRoundModal = false"
+                            class="px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded-md text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-300">
                             {{ t('cancel') }}
                         </button>
-                        <button @click="updateSale"
-                            class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-base text-sm rounded-md transition-colors duration-300">
+                        <button @click="updateRound"
+                            class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-md transition-colors duration-300">
                             {{ t('save') }}
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Delete Round Confirmation Modal -->
-        <div v-if="showDeleteRoundModal" @click.self="showDeleteRoundModal = false"
-            class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 cursor-pointer">
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-xs w-full p-5 cursor-default">
-                <h3 class="text-sm text-sm text-gray-900 dark:text-white mb-3">
-                    {{ t('confirmDeleteRound') }}
-                </h3>
-                <p class="text-base text-gray-600 dark:text-gray-300 mb-4">
-                    {{ t('confirmDeleteRoundMessage') }}
-                </p>
-                <div class="flex justify-end space-x-2">
-                    <button @click="showDeleteRoundModal = false"
-                        class="px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded-md text-base text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-300">
-                        {{ t('cancel') }}
-                    </button>
-                    <button @click="deleteRound"
-                        class="px-3 py-1.5 bg-red-600 hover:bg-red-700 text-white text-base text-sm rounded-md transition-colors duration-300">
-                        {{ t('delete') }}
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Edit Round Modal -->
-    <div v-if="showEditRoundModal" @click.self="showEditRoundModal = false"
-        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 cursor-pointer">
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-5 cursor-default">
-            <h3 class="text-sm font-bold text-gray-900 dark:text-white mb-4">
-                {{ t('editRound') }}
-            </h3>
-
-            <div class="space-y-3">
-                <div>
-                    <label class="block text-sm text-gray-700 dark:text-gray-300 mb-1">
-                        {{ t('purchaseAmount') }}
-                    </label>
-                    <input v-model.number="editingRound.purchase_amount" type="number"
-                        class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
-                </div>
-
-                <div>
-                    <label class="block text-sm text-gray-700 dark:text-gray-300 mb-1">
-                        {{ t('purchasePrice') }}
-                    </label>
-                    <input v-model.number="editingRound.purchase_price" type="number"
-                        class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-colors duration-300">
-                </div>
-
-                <div class="flex justify-end space-x-2 pt-3">
-                    <button @click="showEditRoundModal = false"
-                        class="px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded-md text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-300">
-                        {{ t('cancel') }}
-                    </button>
-                    <button @click="updateRound"
-                        class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded-md transition-colors duration-300">
-                        {{ t('save') }}
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+    </transition>
 </template>
 
 
@@ -862,7 +876,7 @@ export default {
         },
         editSale(sale) {
             console.log(sale);
-            
+
             // Create a copy of the sale to edit
             this.editingSale = {
                 id: sale.id,
@@ -888,7 +902,7 @@ export default {
                 await axios.put(`/api/sales/${this.editingSale.id}`, {
                     customer_name: this.editingSale.customer_name,
                     amount: Number(this.editingSale.amount),
-                    price: Number(this.editingSale.pricePerKg)*Number(this.editingSale.amount),
+                    price: Number(this.editingSale.pricePerKg) * Number(this.editingSale.amount),
                     payment_status: this.editingSale.payment_status
                 });
 
@@ -1028,4 +1042,161 @@ export default {
 
 <style scoped>
 /* Custom styles if needed */
+/* Animation styles */
+.zoom-fade-enter-active,
+.zoom-fade-leave-active {
+    transition: all 0.3s ease;
+}
+
+.zoom-fade-enter-from,
+.zoom-fade-leave-to {
+    opacity: 0;
+    transform: scale(0.95);
+}
+
+.zoom-fade-enter-to,
+.zoom-fade-leave-from {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.shake-fade-enter-active {
+    animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+}
+
+.shake-fade-leave-active {
+    transition: opacity 0.3s ease;
+}
+
+.shake-fade-enter-from,
+.shake-fade-leave-to {
+    opacity: 0;
+}
+
+.shake-fade-enter-to,
+.shake-fade-leave-from {
+    opacity: 1;
+}
+
+.slide-up-fade-enter-active,
+.slide-up-fade-leave-active {
+    transition: all 0.3s ease;
+}
+
+.slide-up-fade-enter-from,
+.slide-up-fade-leave-to {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.slide-up-fade-enter-to,
+.slide-up-fade-leave-from {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.slide-down-fade-enter-active,
+.slide-down-fade-leave-active {
+    transition: all 0.3s ease;
+}
+
+.slide-down-fade-enter-from,
+.slide-down-fade-leave-to {
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
+.slide-down-fade-enter-to,
+.slide-down-fade-leave-from {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+        transform: translateX(-5px);
+    }
+
+    20%,
+    40%,
+    60%,
+    80% {
+        transform: translateX(5px);
+    }
+}
+
+.animate-bounce {
+    animation: bounce 2s infinite;
+}
+
+.animate-ping {
+    animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes ping {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    75%,
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 </style>
