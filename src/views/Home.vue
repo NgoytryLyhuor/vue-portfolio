@@ -10,25 +10,75 @@
                 </p>
             </div>
 
-            <div class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                <!-- Loading state -->
-                <div v-if="loading" class="text-center py-10">
-                    <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
-                    <p class="mt-2 text-gray-600 dark:text-gray-300">Loading articles...</p>
-                </div>
-
-                <!-- Error state -->
-                <div v-if="error" class="text-center py-10">
-                    <div class="text-red-500 mb-2">⚠️ Error loading articles</div>
-                    <p class="text-gray-600 dark:text-gray-300">{{ error }}</p>
-                    <button @click="fetchArticles" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">
-                        Retry
+            <!-- Tag Filter Section -->
+            <div class="mb-8">
+                <div class="flex flex-wrap items-center justify-center gap-3 mb-4">
+                    <button 
+                        @click="resetFilters"
+                        :class="{
+                            'bg-blue-500 text-white': selectedTags.length === 0,
+                            'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300': selectedTags.length > 0
+                        }"
+                        class="px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 hover:bg-blue-600 hover:text-white"
+                    >
+                        All Articles
+                    </button>
+                    
+                    <button 
+                        v-for="tag in popularTags"
+                        :key="tag"
+                        @click="toggleTag(tag)"
+                        :class="{
+                            'bg-blue-500 text-white': selectedTags.includes(tag),
+                            'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300': !selectedTags.includes(tag)
+                        }"
+                        class="px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 hover:bg-blue-600 hover:text-white"
+                    >
+                        {{ tag }}
                     </button>
                 </div>
 
-                <!-- Articles grid -->
-                <div v-if="!loading && !error" class="columns-1 md:columns-2 lg:columns-3 gap-6">
-                    <div v-for="article in articles" :key="article.id"
+                <div class="text-center">
+                    <div class="relative max-w-md mx-auto">
+                        <input
+                            v-model="searchQuery"
+                            type="text"
+                            placeholder="Search articles..."
+                            class="w-full px-4 py-2 rounded-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 absolute right-3 top-2.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading state -->
+            <div v-if="loading" class="text-center py-10">
+                <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
+                <p class="mt-2 text-gray-600 dark:text-gray-300">Loading articles...</p>
+            </div>
+
+            <!-- Error state -->
+            <div v-if="error" class="text-center py-10">
+                <div class="text-red-500 mb-2">⚠️ Error loading articles</div>
+                <p class="text-gray-600 dark:text-gray-300">{{ error }}</p>
+                <button @click="fetchArticles" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">
+                    Retry
+                </button>
+            </div>
+
+            <!-- Articles grid -->
+            <div v-if="!loading && !error">
+                <div v-if="filteredArticles.length === 0" class="text-center py-10">
+                    <p class="text-gray-600 dark:text-gray-300">No articles found matching your criteria</p>
+                    <button @click="resetFilters" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">
+                        Reset filters
+                    </button>
+                </div>
+
+                <div v-else class="columns-1 md:columns-2 lg:columns-3 gap-6">
+                    <div v-for="article in filteredArticles" :key="article.id"
                         class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 mb-6 break-inside-avoid">
                         <div class="p-6">
                             <div class="flex items-center mb-3">
@@ -43,7 +93,8 @@
                             </h3>
                             <div class="flex flex-wrap gap-2 mb-3">
                                 <span v-for="tag in article.tag_list.slice(0, 3)" :key="tag" 
-                                    class="px-2 py-1 text-xs rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">
+                                    @click="toggleTag(tag)"
+                                    class="px-2 py-1 text-xs rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-blue-100 dark:hover:bg-blue-900 cursor-pointer transition-colors">
                                     {{ tag }}
                                 </span>
                             </div>
@@ -79,20 +130,43 @@ export default {
             articles: [],
             loading: true,
             error: null,
-            selectedCategories: []
+            selectedTags: [],
+            searchQuery: ''
         }
     },
     computed: {
-        categories() {
-            // Extract unique tags from all articles
-            const allTags = this.articles.flatMap(article => article.tag_list);
-            return [...new Set(allTags)].sort();
+        allTags() {
+            // Extract all tags from articles and count occurrences
+            const tagCounts = {};
+            this.articles.forEach(article => {
+                article.tag_list.forEach(tag => {
+                    tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+                });
+            });
+            return tagCounts;
         },
-        filteredPosts() {
-            if (this.selectedCategories.length === 0) return this.articles;
-            return this.articles.filter(article =>
-                this.selectedCategories.some(tag => article.tag_list.includes(tag))
-            );
+        popularTags() {
+            // Get top 10 most popular tags
+            return Object.entries(this.allTags)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 10)
+                .map(([tag]) => tag);
+        },
+        filteredArticles() {
+            let filtered = this.articles;
+            
+            // Filter by selected tags
+            if (this.selectedTags.length > 0) {
+                filtered = filtered.filter(article => this.selectedTags.some(tag => article.tag_list.includes(tag)));
+            }
+            
+            // Filter by search query
+            if (this.searchQuery) {
+                const query = this.searchQuery.toLowerCase();
+                filtered = filtered.filter(article => article.title.toLowerCase().includes(query) || (article.description && article.description.toLowerCase().includes(query)) || article.tag_list.some(tag => tag.toLowerCase().includes(query)));
+            }
+            
+            return filtered;
         }
     },
     async mounted() {
@@ -119,15 +193,16 @@ export default {
                 this.loading = false;
             }
         },
-        toggleCategory(category) {
-            if (this.selectedCategories.includes(category)) {
-                this.selectedCategories = this.selectedCategories.filter(c => c !== category);
+        toggleTag(tag) {
+            if (this.selectedTags.includes(tag)) {
+                this.selectedTags = this.selectedTags.filter(t => t !== tag);
             } else {
-                this.selectedCategories = [...this.selectedCategories, category];
+                this.selectedTags = [...this.selectedTags, tag];
             }
         },
         resetFilters() {
-            this.selectedCategories = [];
+            this.selectedTags = [];
+            this.searchQuery = '';
         },
         formatDate(dateString) {
             if (!dateString) return '';
@@ -168,5 +243,10 @@ button:focus {
 }
 .animate-spin {
     animation: spin 1s linear infinite;
+}
+
+/* Smooth transitions for tag buttons */
+.tag-transition {
+    transition: all 0.2s ease-in-out;
 }
 </style>
