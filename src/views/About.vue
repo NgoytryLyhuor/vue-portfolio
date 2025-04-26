@@ -24,11 +24,8 @@
             <!-- Professional Summary -->
             <div class="mb-12">
                 <h2 class="text-base font-bold mb-4 pb-2">Professional Summary</h2>
-                <p class="mb-4">
-                    A junior web developer with experience in both frontend and backend development. Skilled in HTML,
-                    CSS, JavaScript, Vue.js, PHP, and Laravel.
-                    Currently focusing on implementing new features based on customer requirements and maintaining
-                    restaurant data systems.
+                <p class="mb-4 text-justify">
+                    I am a flexible, reliable, self-motivated, and hardworking individual with a strong academic record, consistently achieving excellent grades since high school. I am eager to take on this opportunity to further develop my skills and contribute effectively to your team.
                 </p>
             </div>
 
