@@ -15,10 +15,10 @@
                     <span class="font-semibold">LinkedIn:</span>
                     <a href="https://www.linkedin.com/in/ngoytry-lyhuor-506a46280/" class="ml-2 text-blue-400 hover:text-blue-300">https://www.linkedin.com/in/ngoytry-lyhuor-506a46280/</a>
                 </div>
-                <div class="text-left">
+                <!-- <div class="text-left">
                     <span class="font-semibold">GitHub:</span>
                     <a href="https://github.com/NgoytryLyhuor" class="ml-2 text-blue-400 hover:text-blue-300">https://github.com/NgoytryLyhuor</a>
-                </div>
+                </div> -->
             </div>
 
             <!-- Professional Summary -->
