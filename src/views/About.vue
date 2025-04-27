@@ -24,7 +24,7 @@
             <!-- Professional Summary -->
             <div class="mb-12">
                 <h2 class="text-base font-bold mb-4 pb-2">Professional Summary</h2>
-                <p class="mb-4 text-justify">
+                <p class="mb-4">
                     I am a flexible, reliable, self-motivated, and hardworking individual with a strong academic record, consistently achieving excellent grades since high school. I am eager to take on this opportunity to further develop my skills and contribute effectively to your team.
                 </p>
             </div>
@@ -121,7 +121,7 @@ export default {
             skills: [
                 'HTML', 'CSS', 'JavaScript', 'jQuery',
                 'Restful API', 'Vue JS', 'Nuxt JS', 'PHP',
-                'Laravel', 'MySQL', 'SQL', 'Github'
+                'Laravel', 'MySQL', 'Github'
             ],
             languages: ['Khmer', 'English']
         }

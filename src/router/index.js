@@ -28,7 +28,7 @@ const routes = [
         name: 'About',
         component: About,
         meta: {
-            title: 'About'
+            title: 'About Me'
         }
     },
     {
