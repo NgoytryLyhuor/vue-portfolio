@@ -13,12 +13,44 @@
                 </router-link>
                 <!-- Desktop Navigation -->
                 <div class="hidden md:flex space-x-6 ml-10">
-                    <router-link v-for="link in navLinks" :key="link.path" :to="link.path"
+                    <router-link v-for="link in standardNavLinks" :key="link.path" :to="link.path"
                         class="hover:text-green-500 dark:hover:text-green-400 text-[14px] transition-colors duration-200 px-2 py-1 rounded-md"
                         :class="{ 'text-green-500 dark:text-green-400': $route.path === link.path }"
                         :aria-label="link.label">
                         {{ link.label }}
                     </router-link>
+                    
+                    <!-- Interactive Features Dropdown -->
+                    <div class="relative" ref="featuresDropdown">
+                        <button @click="toggleFeaturesMenu"
+                            class="flex items-center hover:text-green-500 dark:hover:text-green-400 text-[14px] transition-colors duration-200 px-2 py-1 rounded-md"
+                            :class="{ 'text-green-500 dark:text-green-400': isFeatureActive }"
+                            aria-label="Interactive Features" aria-haspopup="true" :aria-expanded="isFeaturesMenuOpen">
+                            Interactive Features
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor"
+                                :class="{ 'transform rotate-180': isFeaturesMenuOpen }">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                        
+                        <!-- Features dropdown menu -->
+                        <transition enter-active-class="transition ease-out duration-100"
+                            enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100"
+                            leave-active-class="transition ease-in duration-75"
+                            leave-from-class="transform opacity-100 scale-100"
+                            leave-to-class="transform opacity-0 scale-95">
+                            <div v-if="isFeaturesMenuOpen"
+                                class="absolute left-0 w-56 rounded-xl dark:bg-gray-800 mt-2 shadow-lg z-50 border dark:border-gray-700 bg-white overflow-hidden">
+                                <router-link v-for="feature in featureLinks" :key="feature.path" :to="feature.path"
+                                    class="flex items-center px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 w-full text-left transition-colors duration-150"
+                                    :class="{ 'bg-gray-100 dark:bg-gray-700': $route.path === feature.path }"
+                                    @click="isFeaturesMenuOpen = false">
+                                    <component :is="feature.icon" class="h-5 w-5 mr-3" />
+                                    {{ feature.label }}
+                                </router-link>
+                            </div>
+                        </transition>
+                    </div>
                 </div>
             </div>
 
@@ -117,12 +149,40 @@
             leave-to-class="transform opacity-0 -translate-y-2">
             <div v-if="isMobileMenuOpen"
                 class="md:hidden py-2 px-4 space-y-2 mt-4 bg-white/95 dark:bg-gray-900/80 backdrop-blur-sm border-t dark:border-gray-700">
-                <router-link v-for="link in navLinks" :key="link.path" :to="link.path"
+                <router-link v-for="link in standardNavLinks" :key="link.path" :to="link.path"
                     class="block hover:text-green-500 dark:hover:text-green-400 py-3 px-2 transition-colors duration-200 rounded-md"
                     :class="{ 'text-green-500 dark:text-green-400 bg-gray-100 dark:bg-gray-800': $route.path === link.path }"
                     @click="isMobileMenuOpen = false" :aria-label="link.label">
                     {{ link.label }}
                 </router-link>
+                
+                <!-- Interactive Features section in mobile menu -->
+                <div class="py-2 px-2">
+                    <button @click="toggleMobileFeatures" 
+                        class="flex items-center justify-between w-full py-3 px-2 hover:text-green-500 dark:hover:text-green-400 transition-colors duration-200 rounded-md"
+                        :class="{ 'text-green-500 dark:text-green-400': isFeatureActive }">
+                        <span>Interactive Features</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor"
+                            :class="{ 'transform rotate-180': isMobileFeaturesOpen }">
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    
+                    <transition enter-active-class="transition ease-out duration-200"
+                        enter-from-class="transform opacity-0 -translate-y-2" enter-to-class="transform opacity-100 translate-y-0"
+                        leave-active-class="transition ease-in duration-150" leave-from-class="transform opacity-100 translate-y-0"
+                        leave-to-class="transform opacity-0 -translate-y-2">
+                        <div v-if="isMobileFeaturesOpen" class="pl-4 space-y-2 mt-2">
+                            <router-link v-for="feature in featureLinks" :key="feature.path" :to="feature.path"
+                                class="flex items-center py-3 px-2 hover:text-green-500 dark:hover:text-green-400 transition-colors duration-200 rounded-md"
+                                :class="{ 'text-green-500 dark:text-green-400 bg-gray-100 dark:bg-gray-800': $route.path === feature.path }"
+                                @click="isMobileMenuOpen = false">
+                                <component :is="feature.icon" class="h-5 w-5 mr-3" />
+                                {{ feature.label }}
+                            </router-link>
+                        </div>
+                    </transition>
+                </div>
             </div>
         </transition>
     </nav>
@@ -136,8 +196,21 @@ export default {
             currentTheme: 'system',
             isThemeMenuOpen: false,
             isMobileMenuOpen: false,
+            isFeaturesMenuOpen: false,
+            isMobileFeaturesOpen: false,
             systemThemeIsDark: false,
             mediaQuery: null,
+            featureLinks: [
+                { 
+                    path: '/expense-tracker',
+                    label: 'Expense Tracker',
+                    icon: {
+                        template: `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>`
+                    }
+                }
+            ]
         }
     },
     computed: {
@@ -147,11 +220,11 @@ export default {
             }
             return this.currentTheme;
         },
-        navLinks() {
+        standardNavLinks() {
             const links = [
                 { path: '/', label: 'Home' },
                 { path: '/projects', label: 'Projects' },
-                { path: '/about', label: 'About' }
+                { path: '/about', label: 'About' },
             ];
             
             // Only add Business link in development
@@ -160,6 +233,9 @@ export default {
             }
             
             return links;
+        },
+        isFeatureActive() {
+            return this.featureLinks.some(link => this.$route.path === link.path);
         }
     },
     mounted() {
@@ -197,14 +273,24 @@ export default {
         toggleThemeMenu() {
             this.isThemeMenuOpen = !this.isThemeMenuOpen;
             if (this.isThemeMenuOpen) {
-                this.isMobileMenuOpen = false;
+                this.isFeaturesMenuOpen = false;
+            }
+        },
+        toggleFeaturesMenu() {
+            this.isFeaturesMenuOpen = !this.isFeaturesMenuOpen;
+            if (this.isFeaturesMenuOpen) {
+                this.isThemeMenuOpen = false;
             }
         },
         toggleMobileMenu() {
             this.isMobileMenuOpen = !this.isMobileMenuOpen;
             if (this.isMobileMenuOpen) {
                 this.isThemeMenuOpen = false;
+                this.isFeaturesMenuOpen = false;
             }
+        },
+        toggleMobileFeatures() {
+            this.isMobileFeaturesOpen = !this.isMobileFeaturesOpen;
         },
         setTheme(theme) {
             this.currentTheme = theme;
@@ -235,10 +321,17 @@ export default {
             }
         },
         closeMenusOnClickOutside(event) {
+            // Close theme dropdown if clicked outside
             if (this.isThemeMenuOpen && this.$refs.themeDropdown && !this.$refs.themeDropdown.contains(event.target)) {
                 this.isThemeMenuOpen = false;
             }
+            
+            // Close features dropdown if clicked outside
+            if (this.isFeaturesMenuOpen && this.$refs.featuresDropdown && !this.$refs.featuresDropdown.contains(event.target)) {
+                this.isFeaturesMenuOpen = false;
+            }
 
+            // Close mobile menu if clicked outside
             if (this.isMobileMenuOpen && !event.target.closest('.md\\:hidden')) {
                 this.isMobileMenuOpen = false;
             }
@@ -249,8 +342,14 @@ export default {
                 if (this.isThemeMenuOpen) {
                     this.isThemeMenuOpen = false;
                 }
+                if (this.isFeaturesMenuOpen) {
+                    this.isFeaturesMenuOpen = false;
+                }
                 if (this.isMobileMenuOpen) {
                     this.isMobileMenuOpen = false;
+                }
+                if (this.isMobileFeaturesOpen) {
+                    this.isMobileFeaturesOpen = false;
                 }
             }
         }

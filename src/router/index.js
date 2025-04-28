@@ -5,8 +5,17 @@ import About from '../views/About.vue'
 import Business from '../views/Business.vue'
 import NotFound from '../views/NotFound.vue'
 import TroPang from '../views/TroPang.vue'
+import ExpenseTracker from '../views/projects/ExpenseTracker.vue'
 
 const routes = [
+    {
+        path: '/:pathMatch(.*)*',
+        name: 'NotFound',
+        component: NotFound,
+        meta: {
+            title: '404 Not Found'
+        }
+    },
     {
         path: '/',
         name: 'Home',
@@ -47,15 +56,15 @@ const routes = [
             title: 'Selling TroPang'
         }
     },
-    // Add the 404 route as the last route
     {
-        path: '/:pathMatch(.*)*',
-        name: 'NotFound',
-        component: NotFound,
+        path: '/expense-tracker',
+        name: 'expense-tracker',
+        component: ExpenseTracker,
         meta: {
-            title: '404 Not Found'
+            title: 'Expense Tracker'
         }
-    }
+    },
+    
 ]
 
 const router = createRouter({
