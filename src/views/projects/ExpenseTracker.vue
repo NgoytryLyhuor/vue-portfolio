@@ -1,10 +1,9 @@
 <template>
     <div
-        class="min-h-screen py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-300 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 text-gray-800 dark:text-gray-200">
+        class="min-h-screen py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-300 from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 text-gray-800 dark:text-gray-200">
         <div class="max-w-3xl mx-auto">
             <div class="text-center mb-10">
-                <h1
-                    class="text-4xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
+                <h1 class="text-3xl font-bold mb-6 text-center mt-10">
                     Expense Tracker</h1>
                 <p class="text-gray-500 dark:text-gray-400">Track your income and expenses with ease</p>
             </div>
@@ -15,8 +14,7 @@
                         d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2h-1V9z"
                         clip-rule="evenodd" />
                 </svg>
-                Note: All data is stored <strong>only in your browser's local storage</strong>. It will not be saved to
-                any server/database.
+                Note: All data is stored <strong>in your browser's local storage</strong>.
             </div>
 
             <!-- Loading indicator -->
@@ -134,13 +132,13 @@
                             </div>
                             <div v-else class="max-h-96 overflow-y-auto">
                                 <div v-for="(transaction, index) in transactions" :key="transaction.id || index"
-                                    class="p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-150"
+                                    class="p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-350"
                                     :class="transaction.amount >= 0 ? 'border-l-4 border-l-green-500' : 'border-l-4 border-l-red-500'">
                                     <div class="flex justify-between items-start">
                                         <div>
                                             <p class="font-medium">{{ transaction.text }}</p>
                                             <p class="text-sm text-gray-500 dark:text-gray-400">{{ transaction.category
-                                            }} • {{ formatDate(transaction.date) }}</p>
+                                                }} • {{ formatDate(transaction.date) }}</p>
                                         </div>
                                         <div class="flex items-center">
                                             <span class="font-semibold"
@@ -148,8 +146,8 @@
                                                 {{ transaction.amount >= 0 ? '+' : '' }}{{ transaction.amount.toFixed(2)
                                                 }}
                                             </span>
-                                            <button @click="deleteTransaction(index, transaction)"
-                                                class="ml-3 text-gray-400 hover:text-red-500 transition p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600"
+                                            <button @click="promptDelete(index, transaction)"
+                                                class="text-gray-400 hover:text-red-500 transition p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600"
                                                 :disabled="deleting === transaction.id">
                                                 <svg v-if="deleting !== transaction.id"
                                                     xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
@@ -192,6 +190,37 @@
             </transition>
         </div>
     </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div v-if="showDeleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-md w-full p-6">
+            <div class="flex items-center mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500 mr-2" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <h3 class="text-lg font-semibold">Delete Transaction</h3>
+            </div>
+            <p class="text-gray-600 dark:text-gray-300 mb-6">Are you sure you want to delete this transaction? This
+                action cannot be undone.</p>
+            <div class="flex justify-end space-x-3">
+                <button @click="showDeleteModal = false"
+                    class="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 transition">
+                    Cancel
+                </button>
+                <button @click="confirmDelete"
+                    class="px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition flex items-center">
+                    <svg v-if="deleting" xmlns="http://www.w3.org/2000/svg" class="animate-spin h-4 w-4 mr-2"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </svg>
+                    {{ deleting === deleteCandidate?.id ? 'Deleting...' : 'Delete' }}
+                </button>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -213,7 +242,9 @@ export default {
             deleting: null,
             statusMessage: '',
             statusMessageType: 'success',
-            statusMessageTimeout: null
+            statusMessageTimeout: null,
+            showDeleteModal: false,
+            deleteCandidate: null,
         }
     },
     created() {
@@ -286,7 +317,6 @@ export default {
                 // Save locally anyway
                 this.transactions.unshift(localTransaction);
                 this.saveToLocalStorage();
-                this.showStatus('Network error, saved locally only', 'error');
             } finally {
                 // Reset form
                 this.newTransaction = {
@@ -299,16 +329,25 @@ export default {
             }
         },
 
-        async deleteTransaction(index, transaction) {
-            if (confirm('Are you sure you want to delete this transaction?')) {
-                this.deleting = transaction.id;
+        promptDelete(index, transaction) {
+            this.deleteCandidate = { index, ...transaction };
+            this.showDeleteModal = true;
+        },
 
-                // Only remove from local array and storage
-                this.transactions.splice(index, 1);
+        async confirmDelete() {
+            if (!this.deleteCandidate) return;
+
+            this.deleting = this.deleteCandidate.id;
+            try {
+                this.transactions.splice(this.deleteCandidate.index, 1);
                 this.saveToLocalStorage();
-
-                this.showStatus('Transaction deleted from local storage');
+                this.showStatus('Transaction deleted');
+            } catch (error) {
+                this.showStatus('Failed to delete transaction', 'error');
+            } finally {
                 this.deleting = null;
+                this.showDeleteModal = false;
+                this.deleteCandidate = null;
             }
         },
 
@@ -361,5 +400,26 @@ export default {
 .slide-fade-leave-to {
     transform: translateX(20px);
     opacity: 0;
+}
+
+.modal-enter-active,
+.modal-leave-active {
+    transition: opacity 0.3s ease;
+}
+
+.modal-enter-from,
+.modal-leave-to {
+    opacity: 0;
+}
+
+.modal-content-enter-active,
+.modal-content-leave-active {
+    transition: all 0.3s ease;
+}
+
+.modal-content-enter-from,
+.modal-content-leave-to {
+    opacity: 0;
+    transform: translateY(-20px);
 }
 </style>

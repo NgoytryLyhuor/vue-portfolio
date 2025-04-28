@@ -1,5 +1,6 @@
 <template>
-    <nav class="fixed w-full bg-white/80 dark:bg-gray-900/80 text-gray-800 dark:text-gray-100 py-4 px-4 sm:px-6 lg:px-40 shadow-md backdrop-blur-sm z-50 transition-colors duration-300">
+    <nav
+        class="fixed w-full bg-white/80 dark:bg-gray-900/80 text-gray-800 dark:text-gray-100 py-4 px-4 sm:px-6 lg:px-40 shadow-md backdrop-blur-sm z-50 transition-colors duration-300">
         <div class="container mx-auto flex justify-between items-center">
             <div class="flex">
                 <router-link to="/"
@@ -19,23 +20,26 @@
                         :aria-label="link.label">
                         {{ link.label }}
                     </router-link>
-                    
-                    <!-- Interactive Features Dropdown -->
+
+                    <!-- Other Features Dropdown -->
                     <div class="relative" ref="featuresDropdown">
                         <button @click="toggleFeaturesMenu"
                             class="flex items-center hover:text-green-500 dark:hover:text-green-400 text-[14px] transition-colors duration-200 px-2 py-1 rounded-md"
                             :class="{ 'text-green-500 dark:text-green-400': isFeatureActive }"
-                            aria-label="Interactive Features" aria-haspopup="true" :aria-expanded="isFeaturesMenuOpen">
-                            Interactive Features
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor"
-                                :class="{ 'transform rotate-180': isFeaturesMenuOpen }">
-                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            aria-label="Other Features" aria-haspopup="true" :aria-expanded="isFeaturesMenuOpen">
+                            Other Features
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20"
+                                fill="currentColor" :class="{ 'transform rotate-180': isFeaturesMenuOpen }">
+                                <path fill-rule="evenodd"
+                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                    clip-rule="evenodd" />
                             </svg>
                         </button>
-                        
+
                         <!-- Features dropdown menu -->
                         <transition enter-active-class="transition ease-out duration-100"
-                            enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100"
+                            enter-from-class="transform opacity-0 scale-95"
+                            enter-to-class="transform opacity-100 scale-100"
                             leave-active-class="transition ease-in duration-75"
                             leave-from-class="transform opacity-100 scale-100"
                             leave-to-class="transform opacity-0 scale-95">
@@ -155,22 +159,26 @@
                     @click="isMobileMenuOpen = false" :aria-label="link.label">
                     {{ link.label }}
                 </router-link>
-                
-                <!-- Interactive Features section in mobile menu -->
+
+                <!-- Other Features section in mobile menu -->
                 <div class="py-2 px-2">
-                    <button @click="toggleMobileFeatures" 
+                    <button @click="toggleMobileFeatures"
                         class="flex items-center justify-between w-full py-3 px-2 hover:text-green-500 dark:hover:text-green-400 transition-colors duration-200 rounded-md"
                         :class="{ 'text-green-500 dark:text-green-400': isFeatureActive }">
-                        <span>Interactive Features</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor"
-                            :class="{ 'transform rotate-180': isMobileFeaturesOpen }">
-                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        <span>Other Features</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20"
+                            fill="currentColor" :class="{ 'transform rotate-180': isMobileFeaturesOpen }">
+                            <path fill-rule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                clip-rule="evenodd" />
                         </svg>
                     </button>
-                    
+
                     <transition enter-active-class="transition ease-out duration-200"
-                        enter-from-class="transform opacity-0 -translate-y-2" enter-to-class="transform opacity-100 translate-y-0"
-                        leave-active-class="transition ease-in duration-150" leave-from-class="transform opacity-100 translate-y-0"
+                        enter-from-class="transform opacity-0 -translate-y-2"
+                        enter-to-class="transform opacity-100 translate-y-0"
+                        leave-active-class="transition ease-in duration-150"
+                        leave-from-class="transform opacity-100 translate-y-0"
                         leave-to-class="transform opacity-0 -translate-y-2">
                         <div v-if="isMobileFeaturesOpen" class="pl-4 space-y-2 mt-2">
                             <router-link v-for="feature in featureLinks" :key="feature.path" :to="feature.path"
@@ -201,7 +209,7 @@ export default {
             systemThemeIsDark: false,
             mediaQuery: null,
             featureLinks: [
-                { 
+                {
                     path: '/expense-tracker',
                     label: 'Expense Tracker',
                     icon: {
@@ -226,12 +234,12 @@ export default {
                 { path: '/projects', label: 'Projects' },
                 { path: '/about', label: 'About' },
             ];
-            
+
             // Only add Business link in development
             if (process.env.NODE_ENV === 'development') {
                 links.push({ path: '/business', label: 'Business' });
             }
-            
+
             return links;
         },
         isFeatureActive() {
@@ -325,7 +333,7 @@ export default {
             if (this.isThemeMenuOpen && this.$refs.themeDropdown && !this.$refs.themeDropdown.contains(event.target)) {
                 this.isThemeMenuOpen = false;
             }
-            
+
             // Close features dropdown if clicked outside
             if (this.isFeaturesMenuOpen && this.$refs.featuresDropdown && !this.$refs.featuresDropdown.contains(event.target)) {
                 this.isFeaturesMenuOpen = false;
