@@ -7,14 +7,19 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <link rel="icon" href="<%= BASE_URL %>favicon.ico">
   <title id="dynamic-title">Ngoytry Lyhuor</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+    rel="stylesheet">
   <!-- Open Graph / Social Media Meta Tags -->
   <meta property="og:title" content="Ngoytry Lyhuor">
   <meta property="og:description" content="Welcome to my personal website and portfolio">
   <meta property="og:image" content="https://i.pinimg.com/736x/9e/96/b3/9e96b3f72dc23ae178aeca9d668eaabf.jpg">
   <meta property="og:url" content="https://ngoytrylyhuor.vercel.app">
-  <link href="https://fonts.googleapis.com/css2?family=Hanuman:wght@100;300;400;700;900&family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Hanuman:wght@100;300;400;700;900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Hanuman:wght@100;300;400;700;900&family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&display=swap"
+    rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Hanuman:wght@100;300;400;700;900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+    rel="stylesheet">
   <meta property="og:type" content="website">
 
   <!-- Tailwind CSS via CDN with custom configuration -->
@@ -39,9 +44,10 @@
   </script>
 
   <style>
-    *{
+    * {
       font-family: "Nunito", "Kantumruy Pro" !important;
     }
+
     /* Ensure your dark background is applied */
     .dark {
       background-color: #030816;
@@ -97,9 +103,19 @@
 
 <body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
   <noscript>
-    <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled.
+        Please enable it to continue.</strong>
   </noscript>
   <div id="app"></div>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-KZ6TPEPK8G"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-KZ6TPEPK8G');
+  </script>
 </body>
 
 </html>
