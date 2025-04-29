@@ -1,5 +1,6 @@
 <template>
-    <div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8 text-gray-800 dark:text-gray-100 font-sans">
+    <div
+        class="min-h-screen py-12 px-4 sm:px-6 lg:px-8 text-gray-800 dark:text-gray-100 font-sans">
         <!-- Currency Rates Section -->
         <div class="max-w-4xl mx-auto mb-12">
             <div class="text-center mb-10">
@@ -44,6 +45,12 @@
                 </div>
             </div>
 
+            <!-- Request Date -->
+            <div v-if="!loading && !error && requestDate"
+                class="text-center text-sm text-gray-500 dark:text-gray-400 mb-8">
+                Rates fetched on: {{ requestDate }}
+            </div>
+
             <!-- Currency Converter -->
             <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700">
                 <h3 class="font-semibold text-lg mb-4">Currency Converter</h3>
@@ -81,8 +88,10 @@
 </template>
 
 <script>
+import { debounce } from 'lodash';
+
 export default {
-    name: 'CVTemplate',
+    name: 'CurrencyConverter',
     data() {
         return {
             currencyRates: [],
@@ -94,6 +103,7 @@ export default {
             convertFrom: 'USD',
             convertTo: 'KHR',
             convertedResult: null,
+            requestDate: null,
             apiKey: '3f2821bad5ae9cf57118f68f',
             apiUrl: 'https://v6.exchangerate-api.com/v6/'
         }
@@ -103,20 +113,15 @@ export default {
         this.convertCurrency();
     },
     watch: {
-        convertAmount() {
-            this.convertCurrency();
-        },
-        convertFrom() {
-            this.convertCurrency();
-        },
-        convertTo() {
-            this.convertCurrency();
-        }
+        convertAmount: 'debouncedConvertCurrency',
+        convertFrom: 'debouncedConvertCurrency',
+        convertTo: 'debouncedConvertCurrency'
     },
     methods: {
         async fetchCurrencyRates() {
             this.loading = true;
             this.error = null;
+            this.requestDate = new Date().toLocaleString(); // Log request date
             try {
                 const response = await fetch(`${this.apiUrl}${this.apiKey}/latest/${this.baseCurrency}`);
                 const data = await response.json();
@@ -153,7 +158,7 @@ export default {
                 }
             ];
         },
-        async convertCurrency() {
+        convertCurrency: debounce(async function () {
             if (this.convertAmount <= 0) {
                 this.convertedResult = null;
                 return;
@@ -182,19 +187,22 @@ export default {
                 console.error('Conversion error:', err);
                 this.error = 'Conversion failed. Please try again.';
             }
+        }, 300),
+        debouncedConvertCurrency() {
+            this.convertCurrency();
         }
     }
 }
 </script>
 
 <style scoped>
-/* Add smooth transitions for interactive elements */
+/* Smooth transitions for interactive elements */
 select,
 input {
     transition: all 0.2s ease-in-out;
 }
 
-/* Enhance focus states */
+/* Enhanced focus states */
 input:focus,
 select:focus {
     outline: none;
