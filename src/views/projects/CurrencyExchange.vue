@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8 text-gray-800 dark:text-gray-100 font-sans">
+    <div class="py-12 px-4 sm:px-6 lg:px-8 text-gray-800 dark:text-gray-100 font-sans">
         <!-- Currency Rates Section -->
         <div class="max-w-4xl mx-auto mb-12">
             <div class="text-center mb-10">
