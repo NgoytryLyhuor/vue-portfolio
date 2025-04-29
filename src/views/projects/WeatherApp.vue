@@ -2,7 +2,7 @@
     <div class="min-h-screen transition-colors duration-300">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8 mt-10">
             <!-- Header Section -->
-            <div class="flex flex-col items-center text-center mb-5">
+            <div class="flex flex-col items-center text-center mb-5 mt-5">
                 <div>
                     <h1 class="text-3xl font-bold mb-6 text-center">
                         Phnom Penh Weather
