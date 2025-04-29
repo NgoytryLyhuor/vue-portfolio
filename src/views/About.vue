@@ -70,8 +70,9 @@
             <div class="mb-12">
                 <h2 class="text-base font-bold mb-4 pb-2">Skills</h2>
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                    <div v-for="skill in skills" :key="skill" class="border border-gray-300 dark:border-gray-600 p-2 text-center">
-                        {{ skill }}
+                    <div v-for="skill in skills" :key="skill.name" class="border border-gray-300 dark:border-gray-600 p-2 text-center flex flex-col items-center">
+                        <i :class="skill.icon" class="text-2xl mb-1"></i>
+                        <span>{{ skill.name }}</span>
                     </div>
                 </div>
             </div>
@@ -119,9 +120,17 @@ export default {
         return {
             darkMode: true,
             skills: [
-                'HTML', 'CSS', 'JavaScript', 'jQuery',
-                'Restful API', 'Vue JS', 'Nuxt JS', 'PHP',
-                'Laravel', 'MySQL', 'Github'
+                { name: 'HTML', icon: 'devicon-html5-plain colored' },
+                { name: 'CSS', icon: 'devicon-css3-plain colored' },
+                { name: 'JavaScript', icon: 'devicon-javascript-plain colored' },
+                { name: 'jQuery', icon: 'devicon-jquery-plain colored' },
+                { name: 'Restful API', icon: 'devicon-nodejs-plain colored' },
+                { name: 'Vue JS', icon: 'devicon-vuejs-plain colored' },
+                { name: 'Nuxt JS', icon: 'devicon-nuxtjs-plain colored' },
+                { name: 'PHP', icon: 'devicon-php-plain colored' },
+                { name: 'Laravel', icon: 'devicon-laravel-plain colored' },
+                { name: 'MySQL', icon: 'devicon-mysql-plain colored' },
+                { name: 'Github', icon: 'devicon-github-plain colored' }
             ],
             languages: ['Khmer', 'English']
         }
@@ -139,4 +148,6 @@ export default {
     font-size: 16px;
 }
 
+/* Import Devicons */
+@import "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css";
 </style>
