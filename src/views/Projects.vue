@@ -86,9 +86,7 @@
                                 <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 line-clamp-2">
                                     {{ project.title }}
                                 </h2>
-                                <p class="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3 text-sm">
-                                    {{ project.description }}
-                                </p>
+                                <p class="text-gray-600 dark:text-gray-300 mb-4 text-sm" v-html="project.description"></p>
                             </div>
 
                             <div class="flex flex-wrap gap-2 mb-5">
