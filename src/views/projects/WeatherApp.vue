@@ -2,7 +2,7 @@
     <div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-300 from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 text-gray-800 dark:text-gray-200">
         <div class="max-w-3xl mx-auto">
             <!-- Header Section -->
-            <div class="flex flex-col items-center text-center mb-5 mt-5">
+            <div class="flex flex-col items-center text-center mb-5 mt-10">
                 <div>
                     <h1 class="text-3xl font-bold mb-6 text-center">
                         Phnom Penh Weather

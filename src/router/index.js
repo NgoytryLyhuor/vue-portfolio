@@ -7,6 +7,7 @@ import NotFound from '../views/NotFound.vue'
 import TroPang from '../views/TroPang.vue'
 import ExpenseTracker from '../views/projects/ExpenseTracker.vue'
 import WeatherApp from '@/views/projects/WeatherApp.vue'
+import CurrencyExchange from '@/views/projects/CurrencyExchange.vue'
 
 const routes = [
     {
@@ -71,6 +72,14 @@ const routes = [
         component: WeatherApp,
         meta: {
             title: 'Weather App'
+        }
+    },
+    {
+        path: '/currency-exchange',
+        name: 'currency-exchange',
+        component: CurrencyExchange,
+        meta: {
+            title: 'Currency Exchange'
         }
     },
     
