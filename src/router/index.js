@@ -8,6 +8,7 @@ import TroPang from '../views/TroPang.vue'
 import ExpenseTracker from '../views/projects/ExpenseTracker.vue'
 import WeatherApp from '@/views/projects/WeatherApp.vue'
 import CurrencyExchange from '@/views/projects/CurrencyExchange.vue'
+import AirQuality from '@/views/projects/AirQuality.vue'
 
 const routes = [
     {
@@ -80,6 +81,14 @@ const routes = [
         component: CurrencyExchange,
         meta: {
             title: 'Currency Exchange'
+        }
+    },
+    {
+        path: '/air-quality',
+        name: 'air-quality',
+        component: AirQuality,
+        meta: {
+            title: 'Air Quality'
         }
     },
     
