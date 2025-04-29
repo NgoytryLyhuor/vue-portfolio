@@ -1,10 +1,10 @@
 <template>
-    <div
-        class="min-h-screen py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-300 from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 text-gray-800 dark:text-gray-200">
+    <div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-300 from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 text-gray-800 dark:text-gray-200">
         <div class="max-w-3xl mx-auto">
             <div class="text-center mb-10">
                 <h1 class="text-3xl font-bold mb-6 text-center mt-10">
-                    Expense Tracker</h1>
+                    Expense Tracker
+                </h1>
                 <p class="text-gray-500 dark:text-gray-400">Track your income and expenses with ease</p>
             </div>
             <div

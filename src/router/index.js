@@ -6,6 +6,7 @@ import Business from '../views/Business.vue'
 import NotFound from '../views/NotFound.vue'
 import TroPang from '../views/TroPang.vue'
 import ExpenseTracker from '../views/projects/ExpenseTracker.vue'
+import WeatherApp from '@/views/projects/WeatherApp.vue'
 
 const routes = [
     {
@@ -62,6 +63,14 @@ const routes = [
         component: ExpenseTracker,
         meta: {
             title: 'Expense Tracker'
+        }
+    },
+    {
+        path: '/weather-app',
+        name: 'weather-app',
+        component: WeatherApp,
+        meta: {
+            title: 'Weather App'
         }
     },
     
