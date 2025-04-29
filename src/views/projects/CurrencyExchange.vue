@@ -1,6 +1,5 @@
 <template>
-    <div
-        class="min-h-screen py-12 px-4 sm:px-6 lg:px-8 text-gray-800 dark:text-gray-100 font-sans">
+    <div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8 text-gray-800 dark:text-gray-100 font-sans">
         <!-- Currency Rates Section -->
         <div class="max-w-4xl mx-auto mb-12">
             <div class="text-center mb-10">
@@ -110,7 +109,6 @@ export default {
     },
     mounted() {
         this.fetchCurrencyRates();
-        this.convertCurrency();
     },
     watch: {
         convertAmount: 'debouncedConvertCurrency',
@@ -121,13 +119,15 @@ export default {
         async fetchCurrencyRates() {
             this.loading = true;
             this.error = null;
-            this.requestDate = new Date().toLocaleString(); // Log request date
+            this.requestDate = new Date().toLocaleString();
             try {
                 const response = await fetch(`${this.apiUrl}${this.apiKey}/latest/${this.baseCurrency}`);
                 const data = await response.json();
                 if (data.result === 'error') throw new Error(data['error-type']);
                 this.processRates(data.conversion_rates);
                 this.lastUpdated = new Date().toLocaleString();
+                // Convert only after we have rates
+                this.convertCurrency();
             } catch (err) {
                 console.error('Error fetching rates:', err);
                 this.error = 'Failed to fetch rates. Please try again.';
@@ -136,46 +136,67 @@ export default {
             }
         },
         processRates(rates) {
-            const usdToKhr = 4050;
+            // Use these same rates in the converter
+            const usdToKhr = rates.KHR || 4050;
+            const usdToCny = rates.CNY || 7.23;
+            const cnyToKhr = usdToKhr / usdToCny;
+
             this.currencyRates = [
                 {
                     pair: 'USD → KHR',
-                    rate: (rates.KHR || usdToKhr).toLocaleString() + ' ៛',
+                    rate: usdToKhr.toLocaleString() + ' ៛',
                     change: 0.2,
                     updated: this.lastUpdated
                 },
                 {
                     pair: 'CNY → KHR',
-                    rate: ((rates.KHR || usdToKhr) / (rates.CNY || 7.23)).toFixed(0).toLocaleString() + ' ៛',
+                    rate: cnyToKhr.toFixed(0).toLocaleString() + ' ៛',
                     change: -0.1,
                     updated: this.lastUpdated
                 },
                 {
                     pair: 'USD → CNY',
-                    rate: rates.CNY ? rates.CNY.toFixed(2) + ' ¥' : '7.23 ¥',
+                    rate: usdToCny.toFixed(2) + ' ¥',
                     change: 0.3,
                     updated: this.lastUpdated
                 }
             ];
+
+            // Store these for use in conversion
+            this.usdToKhr = usdToKhr;
+            this.cnyToKhr = cnyToKhr;
+            this.usdToCny = usdToCny;
         },
         convertCurrency: debounce(async function () {
-            if (this.convertAmount <= 0) {
+            if (this.convertAmount <= 0 || isNaN(this.convertAmount)) {
                 this.convertedResult = null;
                 return;
             }
+
+            // Don't convert if we don't have rates yet
+            if (!this.currencyRates || this.currencyRates.length === 0) {
+                return;
+            }
+
             this.error = null;
             try {
-                const usdToKhr = 4050;
-                const cnyToKhr = 560;
+                // Use the rates we stored from processRates
+                const { usdToKhr, cnyToKhr, usdToCny } = this;
+
                 if (this.convertFrom === 'USD' && this.convertTo === 'KHR') {
                     this.convertedResult = (this.convertAmount * usdToKhr).toLocaleString();
                 } else if (this.convertFrom === 'CNY' && this.convertTo === 'KHR') {
                     this.convertedResult = (this.convertAmount * cnyToKhr).toLocaleString();
+                } else if (this.convertFrom === 'USD' && this.convertTo === 'CNY') {
+                    this.convertedResult = (this.convertAmount * usdToCny).toFixed(4);
+                } else if (this.convertFrom === 'CNY' && this.convertTo === 'USD') {
+                    this.convertedResult = (this.convertAmount / usdToCny).toFixed(4);
                 } else if (this.convertFrom === 'KHR' && this.convertTo === 'USD') {
                     this.convertedResult = (this.convertAmount / usdToKhr).toFixed(4);
                 } else if (this.convertFrom === 'KHR' && this.convertTo === 'CNY') {
                     this.convertedResult = (this.convertAmount / cnyToKhr).toFixed(4);
                 } else {
+                    // Fallback to API for other conversions
                     const response = await fetch(
                         `${this.apiUrl}${this.apiKey}/pair/${this.convertFrom}/${this.convertTo}/${this.convertAmount}`
                     );
