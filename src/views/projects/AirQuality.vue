@@ -266,7 +266,7 @@
             <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
                 <div class="p-6">
                     <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2" align="center">Air Quality Telegram Auto Alerts</h2>
-                    <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2" align="center">Coming Soon...</h2>
+                    <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2" align="center">Coming Soon</h2>
                 </div>
             </div>
 
