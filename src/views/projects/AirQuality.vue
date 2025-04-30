@@ -6,22 +6,22 @@
                 <h1 class="text-3xl font-bold mb-6 text-center mb-0">
                     Phnom Penh Air Quality
                 </h1>
-                <p class="text-lg text-gray-600 dark:text-gray-300 pt-0">
-                    Real-time air pollution monitoring and alerts
+                <p class="text-lg text-gray-600 dark:text-gray-300 pt-0"> Real-time air pollution monitoring and alerts
                 </p>
+                <span class="text-xs text-gray-500 dark:text-gray-400">Updated: {{ formattedTime }}</span>
+                <button @click="fetchPollutionData"
+                    class="mt-2 p-2 rounded-full bg-blue-100 dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-sm hover:shadow-md transition-all">
+                    <ArrowPathIcon class="h-5 w-5" :class="{ 'animate-spin': loading }" />
+                </button>
             </div>
 
-            <!-- Main Dashboard -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-                <!-- AQI Card -->
                 <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 transition-all hover:shadow-2xl">
                     <div class="flex justify-between items-start mb-4">
                         <div>
-                            <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200">Air Quality Index
-                            </h2>
+                            <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200">Air Quality Index </h2>
                             <p class="text-sm text-gray-500 dark:text-gray-400">US EPA Standard</p>
                         </div>
-                        <span class="text-xs text-gray-500 dark:text-gray-400">Updated: {{ formattedTime }}</span>
                     </div>
 
                     <div v-if="loading" class="flex justify-center py-8">
@@ -32,7 +32,6 @@
                     <div v-else-if="pollutionData" class="text-center">
                         <div class="flex justify-center mb-2">
                             <div class="relative">
-                                <!-- AQI Circle Gauge -->
                                 <svg width="180" height="180" viewBox="0 0 180 180" class="transform -rotate-90">
                                     <circle cx="90" cy="90" r="80" stroke="#e5e7eb" stroke-width="10" fill="none"
                                         class="dark:stroke-gray-700" />
@@ -42,7 +41,7 @@
                                 </svg>
                                 <div class="absolute inset-0 flex items-center justify-center">
                                     <span class="text-5xl font-bold" :class="aqiTextColor">{{ pollutionData.aqius
-                                    }}</span>
+                                        }}</span>
                                 </div>
                             </div>
                         </div>
@@ -61,7 +60,6 @@
                     </div>
                 </div>
 
-                <!-- Primary Pollutant Card -->
                 <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 transition-all hover:shadow-2xl">
                     <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-4">Primary Pollutant</h2>
 
@@ -72,7 +70,7 @@
 
                     <div v-else-if="pollutionData" class="text-center">
                         <div class="mb-6">
-                            <div class="w-24 h-24 mx-auto mb-4 flex items-center justify-center rounded-full"
+                            <div class="w-[120px] h-[120px] mx-auto mb-4 flex items-center justify-center rounded-full"
                                 :class="pollutantBgClass">
                                 <span class="text-3xl font-bold" :class="pollutantTextClass">
                                     {{ formatPollutantShort(pollutionData.mainus) }}
@@ -92,7 +90,6 @@
                     </div>
                 </div>
 
-                <!-- Weather Conditions Card -->
                 <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 transition-all hover:shadow-2xl">
                     <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-4">Weather Conditions</h2>
 
@@ -102,65 +99,60 @@
                     </div>
 
                     <div v-else-if="weatherData" class="space-y-4">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center">
-                                <div class="p-2 rounded-lg bg-blue-100 dark:bg-blue-900 mr-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                        class="h-6 w-6 text-blue-500 dark:text-blue-300" fill="none" viewBox="0 0 24 24"
-                                        stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400">Humidity</p>
-                                    <p class="font-semibold">{{ weatherData.hu }}%</p>
-                                </div>
+                        <div class="flex items-center">
+                            <div class="p-2 rounded-lg bg-blue-100 dark:bg-blue-900 mr-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500 dark:text-blue-300"
+                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+                                </svg>
                             </div>
-                            <div class="flex items-center">
-                                <div class="p-2 rounded-lg bg-yellow-100 dark:bg-yellow-900 mr-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                        class="h-6 w-6 text-yellow-500 dark:text-yellow-300" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400">Temperature</p>
-                                    <p class="font-semibold">{{ weatherData.tp }}°C</p>
-                                </div>
+                            <div>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Humidity</p>
+                                <p class="font-semibold">{{ weatherData.hu }}%</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="p-2 rounded-lg bg-yellow-100 dark:bg-yellow-900 mr-3">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    class="h-6 w-6 text-yellow-500 dark:text-yellow-300" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Temperature</p>
+                                <p class="font-semibold">{{ weatherData.tp }}°C</p>
                             </div>
                         </div>
 
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center">
-                                <div class="p-2 rounded-lg bg-purple-100 dark:bg-purple-900 mr-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                        class="h-6 w-6 text-purple-500 dark:text-purple-300" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400">Wind Speed</p>
-                                    <p class="font-semibold">{{ weatherData.ws }} m/s</p>
-                                </div>
+                        <div class="flex items-center">
+                            <div class="p-2 rounded-lg bg-purple-100 dark:bg-purple-900 mr-3">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    class="h-6 w-6 text-purple-500 dark:text-purple-300" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                </svg>
                             </div>
-                            <div class="flex items-center">
-                                <div class="p-2 rounded-lg bg-green-100 dark:bg-green-900 mr-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                        class="h-6 w-6 text-green-500 dark:text-green-300" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400">Pressure</p>
-                                    <p class="font-semibold">{{ weatherData.pr }} hPa</p>
-                                </div>
+                            <div>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Wind Speed</p>
+                                <p class="font-semibold">{{ weatherData.ws }} m/s</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="p-2 rounded-lg bg-green-100 dark:bg-green-900 mr-3">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    class="h-6 w-6 text-green-500 dark:text-green-300" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Pressure</p>
+                                <p class="font-semibold">{{ weatherData.pr }} hPa</p>
                             </div>
                         </div>
 
@@ -181,32 +173,34 @@
                         </div>
                     </div>
                 </div>
+
             </div>
 
-            <!-- Notification Panel -->
+            <!-- Updated Notification Panel -->
             <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden" style="display: none;">
                 <div class="p-6">
                     <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2">Air Quality Alerts</h2>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">
-                        Receive Telegram notifications when air quality reaches dangerous levels.
-                    </p>
 
                     <div class="space-y-5">
+                        <!-- Telegram ID Input -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Telegram
-                                Chat
-                                ID</label>
-                            <input v-model="telegramChatId" type="text" placeholder="Your Telegram Chat ID"
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                Telegram ID or Username
+                            </label>
+                            <input v-model="notificationSettings.telegram_id" type="text"
+                                placeholder="e.g. 123456789 or @username"
                                 class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
                             <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                                How to get your Chat ID: Send a message to @RawDataBot on Telegram
+                                Enter your numeric Telegram ID (from @RawDataBot) or @username
                             </p>
                         </div>
 
+                        <!-- Alert Threshold -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Alert
-                                Threshold</label>
-                            <select v-model="alertThreshold"
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                Alert Threshold
+                            </label>
+                            <select v-model="notificationSettings.alert_threshold"
                                 class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
                                 <option value="50">Good (AQI 50+)</option>
                                 <option value="100">Moderate (AQI 100+)</option>
@@ -217,18 +211,11 @@
                             </select>
                         </div>
 
-                        <div class="flex items-center">
-                            <input v-model="alertsEnabled" type="checkbox" id="enable-alerts"
-                                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded dark:bg-gray-700">
-                            <label for="enable-alerts" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">
-                                Enable Alerts
-                            </label>
-                        </div>
-
+                        <!-- Save Button -->
                         <div class="pt-2">
                             <button @click="saveNotificationSettings" :disabled="savingSettings"
                                 class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed">
-                                <span v-if="!savingSettings">Save Notification Settings</span>
+                                <span v-if="!savingSettings">Save Settings</span>
                                 <span v-else class="flex items-center">
                                     <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
                                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -243,6 +230,7 @@
                             </button>
                         </div>
 
+                        <!-- Status Messages -->
                         <div v-if="settingsSaved" class="p-3 bg-green-50 dark:bg-green-900 rounded-lg">
                             <div class="flex items-center">
                                 <svg class="h-5 w-5 text-green-500 dark:text-green-400"
@@ -252,7 +240,7 @@
                                         clip-rule="evenodd" />
                                 </svg>
                                 <p class="ml-2 text-sm text-green-700 dark:text-green-300">
-                                    Notification settings saved successfully!
+                                    Settings saved successfully!
                                 </p>
                             </div>
                         </div>
@@ -274,40 +262,47 @@
                 </div>
             </div>
 
-            <!-- Refresh Button -->
-            <div class="mt-6 text-right">
-                <button @click="fetchPollutionData"
-                    class="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="-ml-1 mr-2 h-5 w-5 text-gray-500" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                    </svg>
-                    Refresh Data
-                </button>
+            <!-- coming soon -->
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
+                <div class="p-6">
+                    <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2" align="center">Air Quality Telegram Auto Alerts</h2>
+                    <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2" align="center">Coming Soon...</h2>
+                </div>
             </div>
+
         </div>
     </div>
 </template>
 
 <script>
+import {
+    ArrowPathIcon
+} from '@heroicons/vue/24/outline';
+import axios from 'axios';
 export default {
     name: 'AirQualityDashboard',
+    components: {
+        ArrowPathIcon
+    },
     data() {
         return {
             loading: true,
             pollutionData: null,
             weatherData: null,
             lastUpdated: null,
-            telegramChatId: '',
+            telegramId: '',
             alertThreshold: '100',
             alertsEnabled: false,
             savingSettings: false,
             settingsSaved: false,
             settingsError: null,
             apiEndpoint: 'https://api.airvisual.com/v2/city?city=Phnom%20Penh&state=Phnom%20Penh&country=Cambodia&key=fd0705c4-9945-44b6-95a0-c4cc8052cea9',
-            telegramApiEndpoint: 'https://your-backend-api.com/send-telegram-alert', // Replace with your actual backend API
-            circumference: 2 * Math.PI * 80 // For the circular gauge
+            circumference: 2 * Math.PI * 80,
+            notificationSettings: {
+                telegram_id: '',
+                alert_threshold: '100',
+                alerts_enabled: false
+            },
         }
     },
     computed: {
@@ -402,74 +397,84 @@ export default {
             }
         },
         async sendAlertNotification() {
-            if (!this.telegramChatId) return
+            if (!this.telegramId) return;
 
             try {
-                // In a real app, this would call your backend API
-                const response = await fetch(this.telegramApiEndpoint, {
-                    method: 'POST',
+                const payload = {
+                    recipient: this.telegramId, // assuming your backend expects `recipient`
+                    aqi: this.pollutionData.aqius,
+                    level: this.getAqiLevel(this.pollutionData.aqius),
+                    threshold: this.alertThreshold,
+                    timestamp: this.lastUpdated
+                };
+
+                const response = await axios.post('/api/notifications', payload, {
                     headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        chatId: this.telegramChatId,
-                        aqi: this.pollutionData.aqius,
-                        level: this.getAqiLevel(this.pollutionData.aqius),
-                        threshold: this.alertThreshold,
-                        timestamp: this.lastUpdated
-                    })
-                })
+                        'Content-Type': 'application/json'
+                    }
+                });
 
-                if (!response.ok) throw new Error('Failed to send alert')
-
-                console.log('Alert notification sent successfully')
-            } catch (error) {
-                console.error('Error sending Telegram alert:', error)
-                this.settingsError = 'Failed to send alert notification'
-                setTimeout(() => this.settingsError = null, 5000)
-            }
-        },
-        loadSettings() {
-            const savedSettings = localStorage.getItem('airQualitySettings')
-            if (savedSettings) {
-                try {
-                    const settings = JSON.parse(savedSettings)
-                    this.telegramChatId = settings.telegramChatId || ''
-                    this.alertThreshold = settings.alertThreshold || '100'
-                    this.alertsEnabled = settings.alertsEnabled || false
-                } catch (e) {
-                    console.error('Failed to load settings', e)
+                if (response.data.success) {
+                    console.log('Alert notification sent successfully');
+                } else {
+                    throw new Error('Notification failed to send');
                 }
+
+            } catch (error) {
+                console.error('Error sending Telegram alert:', error);
+                this.settingsError = 'Failed to send alert notification';
+                setTimeout(() => this.settingsError = null, 5000);
             }
         },
-        saveNotificationSettings() {
-            this.savingSettings = true
-            this.settingsSaved = false
-            this.settingsError = null
-
+        async saveNotificationSettings() {
             try {
-                const settings = {
-                    telegramChatId: this.telegramChatId,
-                    alertThreshold: this.alertThreshold,
-                    alertsEnabled: this.alertsEnabled
-                }
+                const response = await axios.post('/api/notifications/send-alert', {
+                    telegram_id: this.notificationSettings.telegram_id,
+                    aqi: this.pollutionData.aqius,
+                    level: this.getAqiLevel(this.pollutionData.aqius),
+                    threshold: this.notificationSettings.alert_threshold
+                }, {
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
 
-                localStorage.setItem('airQualitySettings', JSON.stringify(settings))
-                this.settingsSaved = true
-                setTimeout(() => this.settingsSaved = false, 5000)
-
-                // If alerts are enabled and current AQI exceeds threshold, send test notification
-                if (this.alertsEnabled && this.pollutionData &&
-                    this.pollutionData.aqius >= parseInt(this.alertThreshold)) {
-                    this.sendAlertNotification()
+                if (response.data.success) {
+                    this.showSuccess('Test notification sent!');
                 }
             } catch (error) {
-                console.error('Error saving settings:', error)
-                this.settingsError = 'Failed to save settings'
-                setTimeout(() => this.settingsError = null, 5000)
-            } finally {
-                this.savingSettings = false
+                this.showError('Failed to send test notification');
             }
+        },
+        // Example API call to load settings
+        async loadSettings() {
+            try {
+                const response = await axios.get('/api/notifications', {
+                    params: {
+                        telegram_id: this.notificationSettings.telegram_id
+                    },
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.data.data) {
+                    this.notificationSettings = response.data.data;
+                }
+            } catch (error) {
+                console.error('Failed to load settings:', error);
+            }
+        },
+
+        // Helper methods
+        showSuccess(message) {
+            // Your success notification implementation
+            console.log('Success:', message);
+        },
+
+        showError(message) {
+            // Your error notification implementation
+            console.error('Error:', message);
         },
         getAqiLevel(aqi) {
             if (aqi <= 50) return 'Good'
