@@ -206,200 +206,210 @@
     </nav>
 </template>
 
-<script>
-export default {
-    name: 'NavBarComponent',
-    data() {
-        return {
-            currentTheme: 'system',
-            isThemeMenuOpen: false,
-            isMobileMenuOpen: false,
-            isFeaturesMenuOpen: false,
-            isMobileFeaturesOpen: false,
-            systemThemeIsDark: false,
-            mediaQuery: null,
-            featureLinks: [
-                {
-                    path: '/expense-tracker',
-                    label: 'Expense Tracker',
-                    icon: {
-                        template: `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-                        </svg>`
-                    }
-                },
-                {
-                    path: '/weather-app',
-                    label: 'Weather App',
-                    icon: {
-                        template: `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-                        </svg>`
-                    }
-                },
-                {
-                    path: '/currency-exchange',
-                    label: 'Currency Exchange',
-                    icon: {
-                        template: `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-                        </svg>`
-                    }
-                },
-                {
-                    path: '/air-quality',
-                    label: 'Air Quality',
-                    icon: {
-                        template: `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-                        </svg>`
-                    }
-                }
-            ]
+<script setup>
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+
+// Refs
+const currentTheme = ref('system');
+const isThemeMenuOpen = ref(false);
+const isMobileMenuOpen = ref(false);
+const isFeaturesMenuOpen = ref(false);
+const isMobileFeaturesOpen = ref(false);
+const systemThemeIsDark = ref(false);
+const mediaQuery = ref(null);
+const themeDropdown = ref(null);
+const featuresDropdown = ref(null);
+
+// Feature links
+const featureLinks = [
+    {
+        path: '/expense-tracker',
+        label: 'Expense Tracker',
+        icon: {
+            template: `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>`
         }
     },
-    computed: {
-        effectiveTheme() {
-            if (this.currentTheme === 'system') {
-                return this.systemThemeIsDark ? 'dark' : 'light';
-            }
-            return this.currentTheme;
-        },
-        standardNavLinks() {
-            const links = [
-                { path: '/', label: 'Home' },
-                { path: '/projects', label: 'Projects' },
-                { path: '/about', label: 'About' },
-            ];
-
-            // Only add Business link in development
-            if (process.env.NODE_ENV === 'development') {
-                links.push({ path: '/business', label: 'Business' });
-            }
-
-            return links;
-        },
-        isFeatureActive() {
-            return this.featureLinks.some(link => this.$route.path === link.path);
+    {
+        path: '/weather-app',
+        label: 'Weather App',
+        icon: {
+            template: `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>`
         }
     },
-    mounted() {
-        // Initialize theme from localStorage or default to system
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme && ['light', 'dark', 'system'].includes(savedTheme)) {
-            this.currentTheme = savedTheme;
-        } else {
-            this.currentTheme = 'system';
+    {
+        path: '/currency-exchange',
+        label: 'Currency Exchange',
+        icon: {
+            template: `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>`
         }
-
-        // Detect system preference
-        this.detectSystemTheme();
-
-        // Apply the theme
-        this.applyTheme();
-
-        // Add event listener for system theme changes
-        this.mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-        this.mediaQuery.addEventListener('change', this.handleSystemThemeChange);
-
-        // Close dropdowns when clicking outside
-        document.addEventListener('click', this.closeMenusOnClickOutside);
-        document.addEventListener('keydown', this.handleKeyDown);
     },
-    beforeUnmount() {
-        // Clean up event listeners
-        if (this.mediaQuery) {
-            this.mediaQuery.removeEventListener('change', this.handleSystemThemeChange);
-        }
-        document.removeEventListener('click', this.closeMenusOnClickOutside);
-        document.removeEventListener('keydown', this.handleKeyDown);
-    },
-    methods: {
-        toggleThemeMenu() {
-            this.isThemeMenuOpen = !this.isThemeMenuOpen;
-            if (this.isThemeMenuOpen) {
-                this.isFeaturesMenuOpen = false;
-            }
-        },
-        toggleFeaturesMenu() {
-            this.isFeaturesMenuOpen = !this.isFeaturesMenuOpen;
-            if (this.isFeaturesMenuOpen) {
-                this.isThemeMenuOpen = false;
-            }
-        },
-        toggleMobileMenu() {
-            this.isMobileMenuOpen = !this.isMobileMenuOpen;
-            if (this.isMobileMenuOpen) {
-                this.isThemeMenuOpen = false;
-                this.isFeaturesMenuOpen = false;
-            }
-        },
-        toggleMobileFeatures() {
-            this.isMobileFeaturesOpen = !this.isMobileFeaturesOpen;
-        },
-        setTheme(theme) {
-            this.currentTheme = theme;
-            localStorage.setItem('theme', theme);
-            this.applyTheme();
-            this.isThemeMenuOpen = false;
-
-            // Dispatch event for other components to react to theme changes
-            window.dispatchEvent(new CustomEvent('theme-changed', { detail: theme }));
-        },
-        applyTheme() {
-            const shouldBeDark = this.currentTheme === 'dark' ||
-                (this.currentTheme === 'system' && this.systemThemeIsDark);
-
-            if (shouldBeDark) {
-                document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-            }
-        },
-        detectSystemTheme() {
-            this.systemThemeIsDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        },
-        handleSystemThemeChange(e) {
-            this.systemThemeIsDark = e.matches;
-            if (this.currentTheme === 'system') {
-                this.applyTheme();
-            }
-        },
-        closeMenusOnClickOutside(event) {
-            // Close theme dropdown if clicked outside
-            if (this.isThemeMenuOpen && this.$refs.themeDropdown && !this.$refs.themeDropdown.contains(event.target)) {
-                this.isThemeMenuOpen = false;
-            }
-
-            // Close features dropdown if clicked outside
-            if (this.isFeaturesMenuOpen && this.$refs.featuresDropdown && !this.$refs.featuresDropdown.contains(event.target)) {
-                this.isFeaturesMenuOpen = false;
-            }
-
-            // Close mobile menu if clicked outside
-            if (this.isMobileMenuOpen && !event.target.closest('.md\\:hidden')) {
-                this.isMobileMenuOpen = false;
-            }
-        },
-        handleKeyDown(event) {
-            // Close menus on Escape key
-            if (event.key === 'Escape') {
-                if (this.isThemeMenuOpen) {
-                    this.isThemeMenuOpen = false;
-                }
-                if (this.isFeaturesMenuOpen) {
-                    this.isFeaturesMenuOpen = false;
-                }
-                if (this.isMobileMenuOpen) {
-                    this.isMobileMenuOpen = false;
-                }
-                if (this.isMobileFeaturesOpen) {
-                    this.isMobileFeaturesOpen = false;
-                }
-            }
+    {
+        path: '/air-quality',
+        label: 'Air Quality',
+        icon: {
+            template: `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>`
         }
     }
-}
+];
+
+// Computed properties
+const standardNavLinks = computed(() => {
+    const links = [
+        { path: '/', label: 'Home' },
+        { path: '/projects', label: 'Projects' },
+        { path: '/about', label: 'About' },
+    ];
+
+    // Only add Business link in development
+    if (process.env.NODE_ENV === 'development') {
+        links.push({ path: '/business', label: 'Business' });
+    }
+
+    return links;
+});
+
+const isFeatureActive = computed(() => {
+    return featureLinks.some(link => route.path === link.path);
+});
+
+// Methods
+const toggleThemeMenu = () => {
+    isThemeMenuOpen.value = !isThemeMenuOpen.value;
+    if (isThemeMenuOpen.value) {
+        isFeaturesMenuOpen.value = false;
+    }
+};
+
+const toggleFeaturesMenu = () => {
+    isFeaturesMenuOpen.value = !isFeaturesMenuOpen.value;
+    if (isFeaturesMenuOpen.value) {
+        isThemeMenuOpen.value = false;
+    }
+};
+
+const toggleMobileMenu = () => {
+    isMobileMenuOpen.value = !isMobileMenuOpen.value;
+    if (isMobileMenuOpen.value) {
+        isThemeMenuOpen.value = false;
+        isFeaturesMenuOpen.value = false;
+    }
+};
+
+const toggleMobileFeatures = () => {
+    isMobileFeaturesOpen.value = !isMobileFeaturesOpen.value;
+};
+
+const setTheme = (theme) => {
+    currentTheme.value = theme;
+    localStorage.setItem('theme', theme);
+    applyTheme();
+    isThemeMenuOpen.value = false;
+
+    // Dispatch event for other components to react to theme changes
+    window.dispatchEvent(new CustomEvent('theme-changed', { detail: theme }));
+};
+
+const applyTheme = () => {
+    const shouldBeDark = currentTheme.value === 'dark' ||
+        (currentTheme.value === 'system' && systemThemeIsDark.value);
+
+    if (shouldBeDark) {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+    }
+};
+
+const detectSystemTheme = () => {
+    systemThemeIsDark.value = window.matchMedia('(prefers-color-scheme: dark)').matches;
+};
+
+const handleSystemThemeChange = (e) => {
+    systemThemeIsDark.value = e.matches;
+    if (currentTheme.value === 'system') {
+        applyTheme();
+    }
+};
+
+const closeMenusOnClickOutside = (event) => {
+    // Close theme dropdown if clicked outside
+    if (isThemeMenuOpen.value && themeDropdown.value && !themeDropdown.value.contains(event.target)) {
+        isThemeMenuOpen.value = false;
+    }
+
+    // Close features dropdown if clicked outside
+    if (isFeaturesMenuOpen.value && featuresDropdown.value && !featuresDropdown.value.contains(event.target)) {
+        isFeaturesMenuOpen.value = false;
+    }
+
+    // Close mobile menu if clicked outside
+    if (isMobileMenuOpen.value && !event.target.closest('.md\\:hidden')) {
+        isMobileMenuOpen.value = false;
+    }
+};
+
+const handleKeyDown = (event) => {
+    // Close menus on Escape key
+    if (event.key === 'Escape') {
+        if (isThemeMenuOpen.value) {
+            isThemeMenuOpen.value = false;
+        }
+        if (isFeaturesMenuOpen.value) {
+            isFeaturesMenuOpen.value = false;
+        }
+        if (isMobileMenuOpen.value) {
+            isMobileMenuOpen.value = false;
+        }
+        if (isMobileFeaturesOpen.value) {
+            isMobileFeaturesOpen.value = false;
+        }
+    }
+};
+
+// Lifecycle hooks
+onMounted(() => {
+    // Initialize theme from localStorage or default to system
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme && ['light', 'dark', 'system'].includes(savedTheme)) {
+        currentTheme.value = savedTheme;
+    } else {
+        currentTheme.value = 'system';
+    }
+
+    // Detect system preference
+    detectSystemTheme();
+
+    // Apply the theme
+    applyTheme();
+
+    // Add event listener for system theme changes
+    mediaQuery.value = window.matchMedia('(prefers-color-scheme: dark)');
+    mediaQuery.value.addEventListener('change', handleSystemThemeChange);
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', closeMenusOnClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
+});
+
+onBeforeUnmount(() => {
+    // Clean up event listeners
+    if (mediaQuery.value) {
+        mediaQuery.value.removeEventListener('change', handleSystemThemeChange);
+    }
+    document.removeEventListener('click', closeMenusOnClickOutside);
+    document.removeEventListener('keydown', handleKeyDown);
+});
 </script>
 
 <style scoped>

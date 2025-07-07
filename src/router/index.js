@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
-import Projects from '../views/Projects.vue'
+import Projects from '../views/ProjectView.vue'
 import About from '../views/About.vue'
 import Business from '../views/Business.vue'
 import NotFound from '../views/NotFound.vue'
@@ -9,6 +9,8 @@ import ExpenseTracker from '../views/projects/ExpenseTracker.vue'
 import WeatherApp from '@/views/projects/WeatherApp.vue'
 import CurrencyExchange from '@/views/projects/CurrencyExchange.vue'
 import AirQuality from '@/views/projects/AirQuality.vue'
+import Login from '@/views/auth/LoginView.vue'
+import Dashboard from '@/views/auth/DashboardView.vue'
 
 const routes = [
     {
@@ -16,6 +18,7 @@ const routes = [
         name: 'NotFound',
         component: NotFound,
         meta: {
+            showNavBar: true,
             title: '404 Not Found'
         }
     },
@@ -24,6 +27,7 @@ const routes = [
         name: 'Home',
         component: Home,
         meta: {
+            showNavBar: true,
             title: 'Ngoytry Lyhuor'
         }
     },
@@ -32,6 +36,7 @@ const routes = [
         name: 'Projects',
         component: Projects,
         meta: {
+            showNavBar: true,
             title: 'Projects'
         }
     },
@@ -40,6 +45,7 @@ const routes = [
         name: 'About',
         component: About,
         meta: {
+            showNavBar: true,
             title: 'About Me'
         }
     },
@@ -48,6 +54,7 @@ const routes = [
         name: 'Business',
         component: Business,
         meta: {
+            showNavBar: true,
             title: 'Business'
         }
     },
@@ -56,6 +63,7 @@ const routes = [
         name: 'tropang',
         component: TroPang,
         meta: {
+            showNavBar: true,
             title: 'Selling TroPang'
         }
     },
@@ -64,6 +72,7 @@ const routes = [
         name: 'expense-tracker',
         component: ExpenseTracker,
         meta: {
+            showNavBar: true,
             title: 'Expense Tracker'
         }
     },
@@ -72,6 +81,7 @@ const routes = [
         name: 'weather-app',
         component: WeatherApp,
         meta: {
+            showNavBar: true,
             title: 'Weather App'
         }
     },
@@ -80,6 +90,7 @@ const routes = [
         name: 'currency-exchange',
         component: CurrencyExchange,
         meta: {
+            showNavBar: true,
             title: 'Currency Exchange'
         }
     },
@@ -88,10 +99,29 @@ const routes = [
         name: 'air-quality',
         component: AirQuality,
         meta: {
+            showNavBar: true,
             title: 'Air Quality'
         }
     },
-    
+    {
+        path: '/login',
+        name: 'Login',
+        component: Login,
+        meta: {
+            showNavBar: true,
+            title: 'Login'
+        }
+    },
+    {
+        path: '/dashboard',
+        name: 'Dashboard',
+        component: Dashboard,
+        meta: {
+            showNavBar: false,
+            title: 'Dashboard',
+            requiresAuth: true
+        }
+    }
 ]
 
 const router = createRouter({
@@ -99,10 +129,23 @@ const router = createRouter({
     routes
 })
 
-// Add navigation guard to update title
+// Navigation guard for authentication and title updates
 router.beforeEach((to, from, next) => {
+    // Update page title
     document.title = to.meta.title || 'Ngoytry Lyhuor'
-    next()
+    
+    // Check authentication
+    const token = localStorage.getItem('token')
+    
+    if (to.meta.requiresAuth && !token) {
+        // Redirect to login if route requires auth but no token exists
+        next({ name: 'Login' })
+    } else if (to.name === 'Login' && token) {
+        // Redirect to dashboard if already logged in and trying to access login
+        next({ name: 'Dashboard' })
+    } else {
+        next()
+    }
 })
 
 export default router

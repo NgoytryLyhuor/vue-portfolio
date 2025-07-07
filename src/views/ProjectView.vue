@@ -132,124 +132,90 @@
     </div>
 </template>
 
-<script>
-import axios from 'axios';
+<script setup>
+import api from '@/service/api'
+import { ref, computed, onMounted } from 'vue'
 
-export default {
-    name: 'ProjectsView',
-    data() {
-        return {
-            activeCategory: 'all',
-            projects: [],
-            categories: [],
-            isLoading: true, // Start with true to show loading state initially
-            error: null,
-            fallbackImage: require('@/assets/no-image.jpg')
-        };
-    },
-    methods: {
-        getProjectImage(imageUrl) {
-            if (!imageUrl) return this.fallbackImage;
-            if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) {
-                return imageUrl;
-            }
-            try {
-                return require(`@/assets/${imageUrl}`);
-            } catch {
-                return this.fallbackImage;
-            }
-        },
-        handleImageError(event) {
-            event.target.src = this.fallbackImage;
-        },
-        shouldShowGithub(project) {
-            return project.showGithub !== false &&
-                project.github &&
-                project.github !== '#' &&
-                !project.github.includes('undefined');
-        },
-        async fetchProjects() {
-            this.isLoading = true;
-            this.error = null;
-            try {
-                // Replace with your actual API endpoint
-                const response = await axios.get('/api/projects');
+// Reactive state
+const activeCategory = ref('all')
+const projects = ref([])
+const categories = ref([])
+const isLoading = ref(true)
+const error = ref(null)
+const fallbackImage = ref(require('@/assets/no-image.jpg'))
 
-                // Handle nested array structure
-                const data = response.data;
-                this.projects = Array.isArray(data) ?
-                    (data.length > 0 && Array.isArray(data[0]) ? data[0] : data) :
-                    [];
-
-                this.extractCategories();
-                console.log(this.projects);
-
-            } catch (err) {
-                console.error('Error loading projects:', err);
-                this.error = err.response?.data?.message || 'Failed to load projects. Please try again later.';
-
-                // Fallback to sample data if API fails (remove in production)
-                if (process.env.NODE_ENV === 'development') {
-                    this.projects = this.getSampleProjects();
-                    this.extractCategories();
-                }
-            } finally {
-                this.isLoading = false;
-            }
-        },
-        extractCategories() {
-            // Get all unique categories from projects (case-insensitive)
-            const allCategories = this.projects
-                .map(project => project.category ? project.category.trim() : '')
-                .filter(Boolean)
-                .map(category => category.toLowerCase());
-
-            // Create a Set to get unique values (case-insensitive)
-            const uniqueCategories = [...new Set(allCategories)];
-
-            // Capitalize first letter of each category
-            this.categories = uniqueCategories.map(category =>
-                category.charAt(0).toUpperCase() + category.slice(1)
-            );
-
-            // Sort categories alphabetically
-            this.categories.sort();
-
-            // Add "All" at the beginning
-            this.categories = ['All', ...this.categories.filter(c => c !== 'All')];
-        },
-        getSampleProjects() {
-            return [{
-                "id": 1,
-                "title": "Consatech Cambodia - Company Website",
-                "description": "A professional business website for Consatech Cambodia showcasing their services, company information, and contact details. Built with responsive design for optimal viewing on all devices.",
-                "image": "https://example.com/storage/images/consatech-cambodia.png",
-                "technologies": ["HTML", "CSS", "Bootstrap", "JavaScript", "PHP", "MySQL"],
-                "category": "Business Website",
-                "status": "Live",
-                "demo": "https://www.consatech-cambodia.com",
-                "github": "#",
-                "showGithub": false,
-                "created_at": "2025-04-26 12:00:00"
-            }];
-        }
-    },
-    computed: {
-        filteredProjects() {
-            if (!Array.isArray(this.projects)) return [];
-
-            if (this.activeCategory === 'all') {
-                return this.projects;
-            }
-
-            return this.projects.filter(project => {
-                return project.category &&
-                    project.category.toLowerCase() === this.activeCategory.toLowerCase();
-            });
-        }
-    },
-    async created() {
-        await this.fetchProjects();
+// Methods
+const getProjectImage = (imageUrl) => {
+    if (!imageUrl) return fallbackImage.value
+    if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) {
+        return imageUrl
     }
-};
+    try {
+        return require(`@/assets/${imageUrl}`)
+    } catch {
+        return fallbackImage.value
+    }
+}
+
+const handleImageError = (event) => {
+    event.target.src = fallbackImage.value
+}
+
+const shouldShowGithub = (project) => {
+    return project.showGithub !== false &&
+        project.github &&
+        project.github !== '#' &&
+        !project.github.includes('undefined')
+}
+
+const fetchProjects = async () => {
+    isLoading.value = true
+    error.value = null
+    try {
+        const response = await api.get('/project')
+        projects.value = response.data.data
+        extractCategories()
+        console.log(projects.value)
+    } catch (err) {
+        console.error('Error loading projects:', err)
+        error.value = err.response?.data?.message || 'Failed to load projects. Please try again later.'
+    } finally {
+        isLoading.value = false
+    }
+}
+
+const extractCategories = () => {
+    const allCategories = projects.value
+        .map(project => project.category ? project.category.trim() : '')
+        .filter(Boolean)
+        .map(category => category.toLowerCase())
+
+    const uniqueCategories = [...new Set(allCategories)]
+    
+    categories.value = uniqueCategories.map(category =>
+        category.charAt(0).toUpperCase() + category.slice(1)
+    )
+
+    categories.value.sort()
+    categories.value = ['All', ...categories.value.filter(c => c !== 'All')]
+}
+
+// Computed properties
+const filteredProjects = computed(() => {
+    if (!Array.isArray(projects.value)) return []
+
+    if (activeCategory.value === 'all') {
+        return projects.value
+    }
+
+    return projects.value.filter(project => {
+        return project.category &&
+            project.category.toLowerCase() === activeCategory.value.toLowerCase()
+    })
+})
+
+// Lifecycle hook
+onMounted(async () => {
+    await fetchProjects()
+})
 </script>
