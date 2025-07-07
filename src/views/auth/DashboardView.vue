@@ -106,45 +106,6 @@
                   </div>
                 </div>
               </div>
-
-              <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md transition-shadow">
-                <div class="flex items-center justify-between">
-                  <div>
-                    <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Active Projects</p>
-                    <p class="text-2xl font-bold text-emerald-600 dark:text-emerald-400 mt-1">{{ liveProjectsCount }}</p>
-                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">+1 from last week</p>
-                  </div>
-                  <div class="w-12 h-12 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg flex items-center justify-center">
-                    <CheckCircleIcon class="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
-                  </div>
-                </div>
-              </div>
-
-              <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md transition-shadow">
-                <div class="flex items-center justify-between">
-                  <div>
-                    <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Completed</p>
-                    <p class="text-2xl font-bold text-purple-600 dark:text-purple-400 mt-1">{{ underDevelopmentProjectsCount }}</p>
-                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">No change</p>
-                  </div>
-                  <div class="w-12 h-12 bg-purple-50 dark:bg-purple-900/20 rounded-lg flex items-center justify-center">
-                    <CheckBadgeIcon class="w-6 h-6 text-purple-600 dark:text-purple-400" />
-                  </div>
-                </div>
-              </div>
-
-              <div class="bg-white dark:bg-gray-800 rounded-xl p-5 shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md transition-shadow">
-                <div class="flex items-center justify-between">
-                  <div>
-                    <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Team Members</p>
-                    <p class="text-2xl font-bold text-amber-600 dark:text-amber-400 mt-1">8</p>
-                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">+2 new hires</p>
-                  </div>
-                  <div class="w-12 h-12 bg-amber-50 dark:bg-amber-900/20 rounded-lg flex items-center justify-center">
-                    <UserGroupIcon class="w-6 h-6 text-amber-600 dark:text-amber-400" />
-                  </div>
-                </div>
-              </div>
             </div>
 
             <!-- Recent Projects -->
@@ -284,7 +245,7 @@
                       target="_blank" 
                       class="inline-flex items-center px-3 py-1.5 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-lg text-xs font-medium hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors">
                       <ExternalLinkIcon class="w-3.5 h-3.5 mr-1.5" />
-                      Demo
+                      Website Link
                     </a>
                     <a 
                       v-if="project.show_github && project.github_url" 
@@ -292,7 +253,7 @@
                       target="_blank" 
                       class="inline-flex items-center px-3 py-1.5 bg-gray-50 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-lg text-xs font-medium hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
                       <CodeBracketIcon class="w-3.5 h-3.5 mr-1.5" />
-                      GitHub
+                      GitHub Link
                     </a>
                   </div>
                   <div class="flex space-x-1">
@@ -477,6 +438,18 @@
                     <input 
                       v-model="modalProject.status" 
                       type="radio" 
+                      value="demo" 
+                      class="sr-only" />
+                    <span 
+                      :class="modalProject.status === 'demo' ? 'bg-sky-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'" 
+                      class="px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                      Demo
+                    </span>
+                  </label>
+                  <label class="flex items-center cursor-pointer">
+                    <input 
+                      v-model="modalProject.status" 
+                      type="radio" 
                       value="under-development" 
                       class="sr-only" />
                     <span 
@@ -588,9 +561,6 @@ import {
   ExternalLinkIcon,
   CodeBracketIcon,
   ExclamationTriangleIcon,
-  CheckCircleIcon,
-  CheckBadgeIcon,
-  UserGroupIcon,
   EllipsisVerticalIcon,
   ChevronRightIcon,
   PhotoIcon,
@@ -637,10 +607,12 @@ const projectsData = async () => {
     const response = await api.get('/project')
     projects.value = response.data.data.map(project => ({
       ...project,
-      image_url: project.image || '', // Map image field to image_url for display
-      technologies: typeof project.technologies === 'string' 
-        ? JSON.parse(project.technologies || '[]') 
-        : project.technologies
+      image_url: project.image || project.image_url || '', // Handle both fields
+      technologies: Array.isArray(project.technologies) 
+        ? project.technologies 
+        : (typeof project.technologies === 'string' 
+            ? JSON.parse(project.technologies || '[]') 
+            : [])
     }))
   } catch (error) {
     console.error('Error fetching projects:', error)
@@ -654,7 +626,6 @@ onMounted(() => {
 
 // Computed properties
 const liveProjectsCount = computed(() => projects.value.filter(p => p.status === 'live').length)
-const underDevelopmentProjectsCount = computed(() => projects.value.filter(p => p.status === 'under-development').length)
 
 // Methods
 const setActiveMenu = (menuId) => {
@@ -668,8 +639,13 @@ const getProjectStatusColor = (status) => {
       return 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400'
     case 'under-development':
       return 'bg-amber-100 text-amber-700 dark:bg-amber-900/20 dark:text-amber-400'
+    case 'demo':
+      return 'bg-sky-100 text-sky-700 dark:bg-sky-900/20 dark:text-sky-400'
+    default:
+      return 'bg-gray-100 text-gray-700 dark:bg-gray-900/20 dark:text-gray-400'
   }
 }
+
 
 const formatDate = (dateString) => {
   const options = { year: 'numeric', month: 'short', day: 'numeric' }
@@ -705,11 +681,22 @@ const openAddModal = () => {
 const openEditModal = (project) => {
   modalProject.value = { 
     ...project,
-    image_url: project.image || project.image_url // For preview
+    image_url: project.image || project.image_url,
+    // Fix: Ensure technologies is always an array
+    technologies: Array.isArray(project.technologies) 
+      ? project.technologies 
+      : (typeof project.technologies === 'string' 
+          ? JSON.parse(project.technologies || '[]') 
+          : [])
   }
+  
+  // Fix: Handle technologies input properly
   technologiesInput.value = Array.isArray(project.technologies) 
     ? project.technologies.join(', ') 
-    : (typeof project.technologies === 'string' ? JSON.parse(project.technologies || '[]').join(', ') : '')
+    : (typeof project.technologies === 'string' 
+        ? JSON.parse(project.technologies || '[]').join(', ') 
+        : '')
+  
   isEditing.value = true
   showModal.value = true
   openProjectId.value = null
@@ -739,8 +726,8 @@ const handleImageUpload = (event) => {
     // Convert image to base64
     const reader = new FileReader()
     reader.onload = (e) => {
-      modalProject.value.image = e.target.result // This will be the base64 string for API
-      modalProject.value.image_url = e.target.result // For preview display
+      modalProject.value.image = e.target.result // Base64 for API
+      modalProject.value.image_url = e.target.result // For preview
     }
     reader.onerror = (error) => {
       console.error('Error reading file:', error)
@@ -765,7 +752,7 @@ const saveProject = async () => {
   const projectData = {
     title: modalProject.value.title,
     description: modalProject.value.description,
-    technologies: technologies,
+    technologies: technologies, // Make sure this is an array
     category: modalProject.value.category,
     status: modalProject.value.status,
     demo_url: modalProject.value.demo_url || null,
@@ -773,9 +760,9 @@ const saveProject = async () => {
     show_github: modalProject.value.show_github
   }
 
-  // Add image data if present
-  if (modalProject.value.image) {
-    projectData.image = modalProject.value.image // This is the base64 string
+  // Add image data if present (only if it's a new image)
+  if (modalProject.value.image && modalProject.value.image.startsWith('data:')) {
+    projectData.image = modalProject.value.image
   }
 
   try {
@@ -783,13 +770,21 @@ const saveProject = async () => {
       // Update existing project
       const response = await api.put(`/project/${modalProject.value.id}`, projectData)
       
+      console.log('Update response:', response.data) // Debug log
+      
       if (response.data.status) {
         // Update local projects array
         const index = projects.value.findIndex(p => p.id === modalProject.value.id)
         if (index !== -1) {
           projects.value[index] = {
             ...response.data.data,
-            image_url: response.data.data.image // Set image_url for display
+            image_url: response.data.data.image || response.data.data.image_url,
+            // Ensure technologies is properly handled
+            technologies: Array.isArray(response.data.data.technologies) 
+              ? response.data.data.technologies 
+              : (typeof response.data.data.technologies === 'string' 
+                  ? JSON.parse(response.data.data.technologies || '[]') 
+                  : [])
           }
         }
         closeModal()
@@ -798,13 +793,18 @@ const saveProject = async () => {
         alert('Failed to update project: ' + (response.data.message || 'Unknown error'))
       }
     } else {
-      // Create new project
+      // Create new project logic...
       const response = await api.post('/project', projectData)
       
       if (response.data.status) {
         const newProject = {
           ...response.data.data,
-          image_url: response.data.data.image // Set image_url for display
+          image_url: response.data.data.image || response.data.data.image_url,
+          technologies: Array.isArray(response.data.data.technologies) 
+            ? response.data.data.technologies 
+            : (typeof response.data.data.technologies === 'string' 
+                ? JSON.parse(response.data.data.technologies || '[]') 
+                : [])
         }
         projects.value.unshift(newProject)
         closeModal()
@@ -815,13 +815,27 @@ const saveProject = async () => {
     }
   } catch (error) {
     console.error('Error saving project:', error)
-    if (error.response?.data?.message) {
-      alert('Error: ' + error.response.data.message)
-    } else if (error.response?.data?.errors) {
-      const errors = Object.values(error.response.data.errors).flat()
-      alert('Validation errors: ' + errors.join(', '))
+    
+    // Better error handling
+    if (error.response) {
+      // Server responded with error status
+      console.error('Server error:', error.response.data)
+      if (error.response.data?.message) {
+        alert('Error: ' + error.response.data.message)
+      } else if (error.response.data?.errors) {
+        const errors = Object.values(error.response.data.errors).flat()
+        alert('Validation errors: ' + errors.join(', '))
+      } else {
+        alert('Server error: ' + error.response.status)
+      }
+    } else if (error.request) {
+      // Request was made but no response received
+      console.error('Network error:', error.request)
+      alert('Network error: Please check your connection')
     } else {
-      alert('An unexpected error occurred. Please try again.')
+      // Something else happened
+      console.error('Error:', error.message)
+      alert('An unexpected error occurred: ' + error.message)
     }
   }
 }

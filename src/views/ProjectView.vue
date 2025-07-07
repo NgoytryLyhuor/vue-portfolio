@@ -67,9 +67,8 @@
                         <div class="h-48 bg-gray-100 dark:bg-gray-700 relative overflow-hidden">
                             <div class="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 opacity-20">
                             </div>
-                            <span v-if="project.status"
-                                class="absolute font-bold top-4 left-4 inline-flex items-center px-3 py-1 rounded-full text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 z-10">
-                                {{ project.status }}
+                            <span v-if="project.status" class="absolute font-bold top-4 left-4 inline-flex items-center px-3 py-1 rounded-full text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 z-10">
+                                {{ formatCategory(project.status) }}
                             </span>
                             <img :src="getProjectImage(project.image)" :alt="project.title"
                                 class="w-full h-full object-cover" @error="handleImageError">
@@ -182,6 +181,15 @@ const fetchProjects = async () => {
     } finally {
         isLoading.value = false
     }
+}
+
+const formatCategory = (category) => {
+    if (!category) return ''
+    
+    return category
+        .split('-')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(' ')
 }
 
 const extractCategories = () => {
