@@ -11,6 +11,7 @@ import CurrencyExchange from '@/views/projects/CurrencyExchange.vue'
 import AirQuality from '@/views/projects/AirQuality.vue'
 import Login from '@/views/auth/LoginView.vue'
 import Dashboard from '@/views/auth/DashboardView.vue'
+import api from '@/service/api'
 
 const routes = [
     {
@@ -129,20 +130,49 @@ const router = createRouter({
     routes
 })
 
+// Function to validate token
+const validateToken = async () => {
+    try {
+        // Make a request to verify token validity using your /me endpoint
+        const response = await api.get('/me')
+        return response.data.status === true
+    } catch (error) {
+        // Token is invalid or expired
+        localStorage.removeItem('token')
+        return false
+    }
+}
+
 // Navigation guard for authentication and title updates
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
     // Update page title
     document.title = to.meta.title || 'Ngoytry Lyhuor'
     
     // Check authentication
     const token = localStorage.getItem('token')
     
-    if (to.meta.requiresAuth && !token) {
-        // Redirect to login if route requires auth but no token exists
-        next({ name: 'Login' })
+    if (to.meta.requiresAuth) {
+        if (!token) {
+            // No token, redirect to login
+            next({ name: 'Login' })
+        } else {
+            // Token exists, validate it
+            const isValid = await validateToken()
+            if (isValid) {
+                next()
+            } else {
+                // Token is invalid, redirect to login
+                next({ name: 'Login' })
+            }
+        }
     } else if (to.name === 'Login' && token) {
-        // Redirect to dashboard if already logged in and trying to access login
-        next({ name: 'Dashboard' })
+        // Check if token is still valid before redirecting to dashboard
+        const isValid = await validateToken()
+        if (isValid) {
+            next({ name: 'Dashboard' })
+        } else {
+            next()
+        }
     } else {
         next()
     }

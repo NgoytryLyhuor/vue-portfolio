@@ -99,7 +99,7 @@
                                 class="mt-auto pt-4 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between gap-4">
                                 <a :href="project.demo_url" target="_blank" rel="noopener noreferrer"
                                     class="flex-1 text-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-300 text-sm">
-                                    Live Demo
+                                    Visit Site
                                 </a>
                                 <a v-if="shouldShowGithub(project)" :href="project.github" target="_blank"
                                     rel="noopener noreferrer"

@@ -48,4 +48,31 @@ api.interceptors.response.use(
     }
 );
 
+// Helper function to check if token is valid
+export const isTokenValid = async () => {
+    try {
+        const token = localStorage.getItem('token');
+        if (!token) return false;
+        
+        // Make a lightweight request to verify token using your /me endpoint
+        const response = await api.get('/me');
+        return response.data.status === true;
+    } catch (error) {
+        return false;
+    }
+};
+
+// Helper function to check token expiration from JWT
+export const isTokenExpired = (token) => {
+    if (!token) return true;
+    
+    try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        const currentTime = Date.now() / 1000;
+        return payload.exp < currentTime;
+    } catch (error) {
+        return true;
+    }
+};
+
 export default api;
