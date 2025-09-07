@@ -126,7 +126,6 @@ export default {
                 { name: 'jQuery', icon: 'devicon-jquery-plain colored' },
                 { name: 'Restful API', icon: 'devicon-nodejs-plain colored' },
                 { name: 'Vue JS', icon: 'devicon-vuejs-plain colored' },
-                { name: 'Nuxt JS', icon: 'devicon-nuxtjs-plain colored' },
                 { name: 'PHP', icon: 'devicon-php-plain colored' },
                 { name: 'Laravel', icon: 'devicon-laravel-plain colored' },
                 { name: 'MySQL', icon: 'devicon-mysql-plain colored' },
