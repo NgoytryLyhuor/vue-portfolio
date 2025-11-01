@@ -32,10 +32,27 @@
             <!-- Current Positions -->
             <div class="mb-12">
                 <h2 class="text-base font-bold mb-4 pb-2">Experience</h2>
+                
+                <!-- New Position -->
+                <div class="mb-6">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-base font-bold">Junior Java Developer</h3>
+                        <span class="text-blue-400">Oct 2025 – Present</span>
+                    </div>
+                    <h4 class="text-sm font-semibold mb-2">Mobile C&C</h4>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>Integrate with enterprise logging systems using MDC, DTO-based payloads, and traceid linkage</li>
+                        <li>Collaborate with frontend, QA, and DevOps teams to deliver secure, scalable solutions</li>
+                        <li>Optimize performance, memory usage, and thread safety across services</li>
+                        <li>Document APIs, workflows, and audit trails for internal and client use</li>
+                        <li>Support production deployments and troubleshoot issues across environments</li>
+                    </ul>
+                </div>
+
                 <div class="mb-6">
                     <div class="flex justify-between items-start mb-2">
                         <h3 class="text-base font-bold">Junior Web Developer</h3>
-                        <span class="text-blue-400">Jan 2024 – Present</span>
+                        <span class="text-blue-400">Jan 2024 – Oct 2025</span>
                     </div>
                     <h4 class="text-sm font-semibold mb-2">CIJD Co.,ltd.</h4>
                     <ul class="list-disc pl-5 space-y-2">
@@ -128,6 +145,8 @@ export default {
                 { name: 'Vue JS', icon: 'devicon-vuejs-plain colored' },
                 { name: 'PHP', icon: 'devicon-php-plain colored' },
                 { name: 'Laravel', icon: 'devicon-laravel-plain colored' },
+                { name: 'Java', icon: 'devicon-java-plain colored' },
+                { name: 'Spring Boot', icon: 'devicon-spring-plain colored' },
                 { name: 'MySQL', icon: 'devicon-mysql-plain colored' },
                 { name: 'Github', icon: 'devicon-github-plain colored' }
             ],
