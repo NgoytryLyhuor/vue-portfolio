@@ -10,6 +10,7 @@ import CurrencyExchange from '@/views/projects/CurrencyExchange.vue'
 import AirQuality from '@/views/projects/AirQuality.vue'
 import IpLookup from '@/views/projects/IpLookup.vue'
 import GithubStats from '@/views/projects/GithubStats.vue'
+import KhmerCalendar from '@/views/projects/KhmerCalendar.vue'
 import Login from '@/views/auth/LoginView.vue'
 import Dashboard from '@/views/auth/DashboardView.vue'
 import api from '@/service/api'
@@ -103,6 +104,15 @@ const routes = [
         meta: {
             showNavBar: true,
             title: 'GitHub Stats'
+        }
+    },
+    {
+        path: '/khmer-calendar',
+        name: 'khmer-calendar',
+        component: KhmerCalendar,
+        meta: {
+            showNavBar: true,
+            title: 'Khmer Calendar'
         }
     },
     {
