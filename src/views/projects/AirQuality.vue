@@ -255,6 +255,41 @@
                             </select>
                         </div>
 
+                        <!-- Auto Check Interval -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                Auto-Check Interval
+                            </label>
+                            <select v-model="telegramSettings.checkInterval"
+                                class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                                @change="updateAutoCheck">
+                                <option value="0">🔴 Disabled (Manual only)</option>
+                                <option value="5">⚡ Every 5 minutes</option>
+                                <option value="10">🕐 Every 10 minutes</option>
+                                <option value="30">🕑 Every 30 minutes</option>
+                                <option value="60">🕐 Every 1 hour</option>
+                            </select>
+                        </div>
+
+                        <!-- Auto-Check Status -->
+                        <div v-if="telegramSettings.checkInterval > 0" class="p-4 bg-green-50 dark:bg-green-900/30 rounded-xl border border-green-200 dark:border-green-800">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    <div class="relative">
+                                        <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                                        <div class="absolute inset-0 w-3 h-3 bg-green-500 rounded-full animate-ping opacity-75"></div>
+                                    </div>
+                                    <span class="text-sm font-medium text-green-700 dark:text-green-300">Auto-Check Active</span>
+                                </div>
+                                <span class="text-xs text-green-600 dark:text-green-400">
+                                    Next check: {{ nextCheckTime }}
+                                </span>
+                            </div>
+                            <p class="text-xs text-green-600 dark:text-green-400 mt-2">
+                                🔔 Will automatically send alert if AQI ≥ {{ telegramSettings.threshold }}
+                            </p>
+                        </div>
+
                         <!-- Current Status -->
                         <div class="p-4 rounded-xl" :class="currentAqiStatus.bgClass">
                             <div class="flex items-center justify-between">
@@ -349,14 +384,17 @@ export default {
                 enabled: false,
                 botToken: '',
                 chatId: '',
-                threshold: '150'
+                threshold: '150',
+                checkInterval: '10' // minutes (0 = disabled)
             },
             sendingAlert: false,
             alertStatus: {
                 show: false,
                 success: false,
                 message: ''
-            }
+            },
+            autoCheckTimer: null,
+            nextCheckTimestamp: null
         }
     },
     computed: {
@@ -434,11 +472,19 @@ export default {
             if (aqi <= 200) return { emoji: '😷', bgClass: 'bg-red-50 dark:bg-red-900/30', textClass: 'text-red-700 dark:text-red-300', subTextClass: 'text-red-600 dark:text-red-400' }
             if (aqi <= 300) return { emoji: '🤢', bgClass: 'bg-purple-50 dark:bg-purple-900/30', textClass: 'text-purple-700 dark:text-purple-300', subTextClass: 'text-purple-600 dark:text-purple-400' }
             return { emoji: '☠️', bgClass: 'bg-red-100 dark:bg-red-900/50', textClass: 'text-red-800 dark:text-red-200', subTextClass: 'text-red-700 dark:text-red-300' }
+        },
+        nextCheckTime() {
+            if (!this.nextCheckTimestamp) return '--:--'
+            return new Date(this.nextCheckTimestamp).toLocaleTimeString()
         }
     },
     created() {
         this.loadTelegramSettings()
         this.fetchPollutionData()
+        this.startAutoCheck()
+    },
+    beforeUnmount() {
+        this.stopAutoCheck()
     },
     methods: {
         async fetchPollutionData() {
@@ -483,6 +529,87 @@ export default {
         // Save settings to localStorage
         saveSettings() {
             localStorage.setItem('airQualityTelegramSettings', JSON.stringify(this.telegramSettings))
+        },
+
+        // Start auto-check timer
+        startAutoCheck() {
+            this.stopAutoCheck() // Clear any existing timer
+            
+            const interval = parseInt(this.telegramSettings.checkInterval)
+            if (interval <= 0 || !this.telegramSettings.enabled) return
+            
+            const intervalMs = interval * 60 * 1000 // Convert minutes to ms
+            this.nextCheckTimestamp = Date.now() + intervalMs
+            
+            this.autoCheckTimer = setInterval(() => {
+                this.performAutoCheck()
+                this.nextCheckTimestamp = Date.now() + intervalMs
+            }, intervalMs)
+            
+            console.log(`Auto-check started: every ${interval} minutes`)
+        },
+
+        // Stop auto-check timer
+        stopAutoCheck() {
+            if (this.autoCheckTimer) {
+                clearInterval(this.autoCheckTimer)
+                this.autoCheckTimer = null
+                this.nextCheckTimestamp = null
+                console.log('Auto-check stopped')
+            }
+        },
+
+        // Update auto-check when settings change
+        updateAutoCheck() {
+            this.saveSettings()
+            if (this.telegramSettings.enabled && parseInt(this.telegramSettings.checkInterval) > 0) {
+                this.startAutoCheck()
+                this.showAlertStatus(true, `✅ Auto-check enabled: every ${this.telegramSettings.checkInterval} minutes`)
+            } else {
+                this.stopAutoCheck()
+                this.showAlertStatus(true, '🔴 Auto-check disabled')
+            }
+        },
+
+        // Perform automatic check and alert
+        async performAutoCheck() {
+            console.log('Performing auto-check...')
+            
+            // First, fetch fresh data
+            try {
+                const response = await fetch(this.apiEndpoint)
+                if (!response.ok) throw new Error('API request failed')
+                
+                const data = await response.json()
+                if (data.status !== 'success') throw new Error('API returned unsuccessful')
+                
+                this.pollutionData = data.data.current.pollution
+                this.weatherData = data.data.current.weather
+                this.lastUpdated = new Date(this.pollutionData.ts).toISOString()
+                
+                // Check if AQI exceeds threshold
+                const aqi = this.pollutionData.aqius
+                const threshold = parseInt(this.telegramSettings.threshold)
+                
+                console.log(`Auto-check: AQI=${aqi}, Threshold=${threshold}`)
+                
+                if (aqi >= threshold) {
+                    // Check cooldown (1 hour between alerts)
+                    const lastAlertTime = localStorage.getItem('lastAirQualityAlert')
+                    const oneHour = 60 * 60 * 1000
+                    
+                    if (!lastAlertTime || (Date.now() - parseInt(lastAlertTime)) >= oneHour) {
+                        console.log('Sending automatic alert...')
+                        await this.sendDangerAlert(true)
+                        localStorage.setItem('lastAirQualityAlert', Date.now().toString())
+                    } else {
+                        const minutesLeft = Math.ceil((oneHour - (Date.now() - parseInt(lastAlertTime))) / 60000)
+                        console.log(`Alert cooldown: ${minutesLeft} minutes remaining`)
+                    }
+                }
+            } catch (error) {
+                console.error('Auto-check error:', error)
+            }
         },
 
         // Send test alert to verify setup

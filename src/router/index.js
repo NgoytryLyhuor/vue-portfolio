@@ -7,7 +7,6 @@ import NotFound from '../views/NotFound.vue'
 import WeatherApp from '@/views/projects/WeatherApp.vue'
 import CurrencyExchange from '@/views/projects/CurrencyExchange.vue'
 import AirQuality from '@/views/projects/AirQuality.vue'
-import IpLookup from '@/views/projects/IpLookup.vue'
 import GithubStats from '@/views/projects/GithubStats.vue'
 import KhmerCalendar from '@/views/projects/KhmerCalendar.vue'
 import Login from '@/views/auth/LoginView.vue'
@@ -76,15 +75,6 @@ const routes = [
         meta: {
             showNavBar: true,
             title: 'Air Quality'
-        }
-    },
-    {
-        path: '/ip-lookup',
-        name: 'ip-lookup',
-        component: IpLookup,
-        meta: {
-            showNavBar: true,
-            title: 'IP Address Lookup'
         }
     },
     {
