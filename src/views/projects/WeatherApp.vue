@@ -264,6 +264,7 @@
 </template>
 
 <script>
+// Weather App - Phnom Penh weather forecast
 import {
     SunIcon,
     MoonIcon,

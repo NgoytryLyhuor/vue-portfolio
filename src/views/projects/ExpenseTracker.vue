@@ -228,6 +228,7 @@
 </template>
 
 <script>
+// Expense Tracker - Track income and expenses
 import axios from 'axios';
 
 export default {

@@ -549,6 +549,7 @@
 </template>
 
 <script setup>
+// Dashboard - Admin panel for project management
 import { ref, computed, onMounted } from 'vue'
 import {
   PlusIcon,

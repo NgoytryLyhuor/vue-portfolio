@@ -264,6 +264,7 @@
 </template>
 
 <script>
+// IP Address Lookup - Discover your digital footprint
 import {
     GlobeAltIcon,
     MagnifyingGlassIcon,

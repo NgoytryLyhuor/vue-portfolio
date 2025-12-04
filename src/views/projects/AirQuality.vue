@@ -275,6 +275,7 @@
 </template>
 
 <script>
+// Air Quality Monitor - Phnom Penh AQI dashboard
 import {
     ArrowPathIcon
 } from '@heroicons/vue/24/outline';

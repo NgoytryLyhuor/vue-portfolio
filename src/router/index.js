@@ -1,3 +1,4 @@
+// Vue Router configuration - Portfolio routes
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Projects from '../views/ProjectView.vue'

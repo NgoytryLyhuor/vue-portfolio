@@ -9,6 +9,7 @@
 </template>
 
 <script>
+// 404 Not Found page
 export default {
     name: 'NotFound'
 }

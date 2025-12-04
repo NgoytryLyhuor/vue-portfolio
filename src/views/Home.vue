@@ -118,6 +118,7 @@
 </template>
 
 <script>
+// Home page - Blog articles from dev.to
 export default {
     name: 'BlogView',
     data() {

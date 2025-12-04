@@ -311,6 +311,7 @@
 </template>
 
 <script>
+// GitHub Stats - Explore GitHub profiles and statistics
 import {
     MagnifyingGlassIcon,
     MapPinIcon,

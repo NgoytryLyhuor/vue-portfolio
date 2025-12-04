@@ -87,6 +87,7 @@
 </template>
 
 <script>
+// Currency Exchange - Live rates and converter
 import { debounce } from 'lodash';
 
 export default {
