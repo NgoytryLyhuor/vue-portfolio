@@ -207,7 +207,7 @@
 </template>
 
 <script setup>
-// Navigation Bar - Main site navigation with theme switcher
+// NavBar Component - Site Navigation & Theme Toggle
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useRoute } from 'vue-router';
 

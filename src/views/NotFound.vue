@@ -9,7 +9,7 @@
 </template>
 
 <script>
-// 404 Not Found page
+// 404 Error - Page Not Found
 export default {
     name: 'NotFound'
 }

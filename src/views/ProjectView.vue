@@ -132,7 +132,7 @@
 </template>
 
 <script setup>
-// Projects page - Portfolio projects showcase
+// Projects Page - Portfolio Showcase Gallery
 import api from '@/service/api'
 import { ref, computed, onMounted } from 'vue'
 

@@ -228,7 +228,7 @@
 </template>
 
 <script>
-// Expense Tracker - Track income and expenses
+// Expense Tracker - Personal Finance Manager
 import axios from 'axios';
 
 export default {

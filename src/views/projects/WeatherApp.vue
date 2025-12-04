@@ -264,7 +264,7 @@
 </template>
 
 <script>
-// Weather App - Phnom Penh weather forecast
+// Weather App - Real-time Forecast Dashboard
 import {
     SunIcon,
     MoonIcon,

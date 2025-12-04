@@ -1,4 +1,4 @@
-// Main entry point - Vue Portfolio Application
+// Vue Portfolio - Application Entry Point
 import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';

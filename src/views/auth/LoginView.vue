@@ -147,7 +147,7 @@
 </template>
 
 <script setup>
-// Login page - User authentication
+// Login Page - User Sign In Portal
 import { ref } from 'vue'
 import api from '@/service/api'
 import { useRouter } from 'vue-router'

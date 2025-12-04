@@ -1,4 +1,4 @@
-// API Service - Axios configuration with auth interceptors
+// API Service - HTTP Client with Authentication
 import axios from 'axios';
 
 const getBaseUrl = () => {

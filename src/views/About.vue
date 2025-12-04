@@ -131,7 +131,7 @@
 </template>
 
 <script>
-// About page - CV/Resume template
+// About Page - Professional CV & Resume
 export default {
     name: 'CVTemplate',
     data() {

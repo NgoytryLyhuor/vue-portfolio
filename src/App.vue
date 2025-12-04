@@ -1,4 +1,4 @@
-<!-- App.vue - Main application component -->
+<!-- App.vue - Vue Portfolio Main Component -->
 <template>
   <div class="min-h-screen bg-gray-50 dark:bg-dark-bg text-gray-900 dark:text-white transition-colors duration-300">
     <NavBar v-if="route.meta.showNavBar" />

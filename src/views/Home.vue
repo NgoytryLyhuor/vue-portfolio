@@ -118,7 +118,7 @@
 </template>
 
 <script>
-// Home page - Blog articles from dev.to
+// Home Page - Dev.to Blog Articles Feed
 export default {
     name: 'BlogView',
     data() {
