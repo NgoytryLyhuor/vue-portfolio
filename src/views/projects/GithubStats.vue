@@ -20,7 +20,7 @@
                         <input 
                             v-model="username" 
                             type="text" 
-                            placeholder="Enter GitHub username (e.g. NgoytryLyhuor)"
+                            placeholder="Enter GitHub username (e.g. torvalds, gaearon)"
                             @keyup.enter="fetchGithubData"
                             class="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
                         />
@@ -349,7 +349,7 @@ export default {
     },
     data() {
         return {
-            username: 'NgoytryLyhuor',
+            username: '',
             userData: null,
             repos: [],
             languages: [],
@@ -423,8 +423,6 @@ export default {
     mounted() {
         this.checkDarkMode()
         window.addEventListener('theme-changed', this.checkDarkMode)
-        // Auto-fetch on mount
-        this.fetchGithubData()
     },
     beforeUnmount() {
         window.removeEventListener('theme-changed', this.checkDarkMode)
