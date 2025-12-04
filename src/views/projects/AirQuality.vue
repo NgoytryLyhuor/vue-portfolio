@@ -273,7 +273,7 @@
 
                         <!-- Auto-Check Status -->
                         <div v-if="telegramSettings.checkInterval > 0" class="p-4 bg-green-50 dark:bg-green-900/30 rounded-xl border border-green-200 dark:border-green-800">
-                            <div class="flex items-center justify-between">
+                            <div class="flex items-center justify-between mb-2">
                                 <div class="flex items-center gap-2">
                                     <div class="relative">
                                         <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
@@ -281,13 +281,18 @@
                                     </div>
                                     <span class="text-sm font-medium text-green-700 dark:text-green-300">Auto-Check Active</span>
                                 </div>
-                                <span class="text-xs text-green-600 dark:text-green-400">
-                                    Next check: {{ nextCheckTime }}
-                                </span>
                             </div>
-                            <p class="text-xs text-green-600 dark:text-green-400 mt-2">
-                                🔔 Will automatically send alert if AQI ≥ {{ telegramSettings.threshold }}
-                            </p>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs text-green-600 dark:text-green-400">
+                                    🔔 Will automatically send alert if AQI ≥ {{ telegramSettings.threshold }}
+                                </span>
+                                <div class="text-right">
+                                    <p class="text-xs text-green-600 dark:text-green-400 mb-1">Next check in:</p>
+                                    <p class="text-lg font-bold text-green-700 dark:text-green-300 font-mono">
+                                        {{ nextCheckTime }}
+                                    </p>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Current Status -->
@@ -394,7 +399,9 @@ export default {
                 message: ''
             },
             autoCheckTimer: null,
-            nextCheckTimestamp: null
+            nextCheckTimestamp: null,
+            countdownTimer: null,
+            currentTime: Date.now()
         }
     },
     computed: {
@@ -475,16 +482,34 @@ export default {
         },
         nextCheckTime() {
             if (!this.nextCheckTimestamp) return '--:--'
-            return new Date(this.nextCheckTimestamp).toLocaleTimeString()
+            
+            const now = this.currentTime
+            const diff = this.nextCheckTimestamp - now
+            
+            if (diff <= 0) return 'Checking now...'
+            
+            const hours = Math.floor(diff / (1000 * 60 * 60))
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000)
+            
+            if (hours > 0) {
+                return `${hours}h ${minutes}m ${seconds}s`
+            } else if (minutes > 0) {
+                return `${minutes}m ${seconds}s`
+            } else {
+                return `${seconds}s`
+            }
         }
     },
     created() {
         this.loadTelegramSettings()
         this.fetchPollutionData()
         this.startAutoCheck()
+        this.startCountdown()
     },
     beforeUnmount() {
         this.stopAutoCheck()
+        this.stopCountdown()
     },
     methods: {
         async fetchPollutionData() {
@@ -536,7 +561,10 @@ export default {
             this.stopAutoCheck() // Clear any existing timer
             
             const interval = parseInt(this.telegramSettings.checkInterval)
-            if (interval <= 0 || !this.telegramSettings.enabled) return
+            if (interval <= 0 || !this.telegramSettings.enabled) {
+                this.nextCheckTimestamp = null
+                return
+            }
             
             const intervalMs = interval * 60 * 1000 // Convert minutes to ms
             this.nextCheckTimestamp = Date.now() + intervalMs
@@ -547,6 +575,22 @@ export default {
             }, intervalMs)
             
             console.log(`Auto-check started: every ${interval} minutes`)
+        },
+
+        // Start countdown timer for live updates
+        startCountdown() {
+            this.stopCountdown()
+            this.countdownTimer = setInterval(() => {
+                this.currentTime = Date.now()
+            }, 1000) // Update every second
+        },
+
+        // Stop countdown timer
+        stopCountdown() {
+            if (this.countdownTimer) {
+                clearInterval(this.countdownTimer)
+                this.countdownTimer = null
+            }
         },
 
         // Stop auto-check timer
@@ -567,6 +611,7 @@ export default {
                 this.showAlertStatus(true, `✅ Auto-check enabled: every ${this.telegramSettings.checkInterval} minutes`)
             } else {
                 this.stopAutoCheck()
+                this.nextCheckTimestamp = null
                 this.showAlertStatus(true, '🔴 Auto-check disabled')
             }
         },
