@@ -176,97 +176,149 @@
 
             </div>
 
-            <!-- Updated Notification Panel -->
-            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden" style="display: none;">
+            <!-- Telegram Notification Panel -->
+            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
                 <div class="p-6">
-                    <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2">Air Quality Alerts</h2>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg">
+                                <svg class="h-6 w-6 text-blue-500" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.053 5.56-5.023c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200">Telegram Alerts</h2>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">Get notified when air quality is dangerous</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" v-model="telegramSettings.enabled" class="sr-only peer" @change="saveSettings">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                            </label>
+                        </div>
+                    </div>
 
-                    <div class="space-y-5">
-                        <!-- Telegram ID Input -->
+                    <div v-if="telegramSettings.enabled" class="space-y-4 mt-6">
+                        <!-- Setup Instructions -->
+                        <div class="p-4 bg-blue-50 dark:bg-blue-900/30 rounded-xl border border-blue-200 dark:border-blue-800">
+                            <h3 class="font-medium text-blue-800 dark:text-blue-200 mb-2 flex items-center gap-2">
+                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                How to Setup
+                            </h3>
+                            <ol class="text-sm text-blue-700 dark:text-blue-300 space-y-1 list-decimal list-inside">
+                                <li>Open Telegram and search for <strong>@BotFather</strong></li>
+                                <li>Send <code class="bg-blue-100 dark:bg-blue-800 px-1 rounded">/newbot</code> and follow instructions to create a bot</li>
+                                <li>Copy the Bot Token and paste below</li>
+                                <li>Search for <strong>@userinfobot</strong> and send any message to get your Chat ID</li>
+                                <li>Enter your Chat ID below</li>
+                            </ol>
+                        </div>
+
+                        <!-- Bot Token Input -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                Telegram ID or Username
+                                Bot Token
                             </label>
-                            <input v-model="notificationSettings.telegram_id" type="text"
-                                placeholder="e.g. 123456789 or @username"
-                                class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
-                            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                                Enter your numeric Telegram ID (from @RawDataBot) or @username
-                            </p>
+                            <input v-model="telegramSettings.botToken" type="password"
+                                placeholder="123456789:ABCdefGHIjklMNOpqrsTUVwxyz"
+                                class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white font-mono text-sm"
+                                @change="saveSettings">
+                        </div>
+
+                        <!-- Chat ID Input -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                Your Chat ID
+                            </label>
+                            <input v-model="telegramSettings.chatId" type="text"
+                                placeholder="e.g. 123456789"
+                                class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white font-mono"
+                                @change="saveSettings">
                         </div>
 
                         <!-- Alert Threshold -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                Alert Threshold
+                                Alert When AQI Reaches
                             </label>
-                            <select v-model="notificationSettings.alert_threshold"
-                                class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white">
-                                <option value="50">Good (AQI 50+)</option>
-                                <option value="100">Moderate (AQI 100+)</option>
-                                <option value="150">Unhealthy for Sensitive Groups (AQI 150+)</option>
-                                <option value="200">Unhealthy (AQI 200+)</option>
-                                <option value="300">Very Unhealthy (AQI 300+)</option>
-                                <option value="400">Hazardous (AQI 400+)</option>
+                            <select v-model="telegramSettings.threshold"
+                                class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                                @change="saveSettings">
+                                <option value="50">🟢 Good (AQI 50+)</option>
+                                <option value="100">🟡 Moderate (AQI 100+)</option>
+                                <option value="150">🟠 Unhealthy for Sensitive Groups (AQI 150+)</option>
+                                <option value="200">🔴 Unhealthy (AQI 200+)</option>
+                                <option value="300">🟣 Very Unhealthy (AQI 300+)</option>
                             </select>
                         </div>
 
-                        <!-- Save Button -->
-                        <div class="pt-2">
-                            <button @click="saveNotificationSettings" :disabled="savingSettings"
-                                class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed">
-                                <span v-if="!savingSettings">Save Settings</span>
-                                <span v-else class="flex items-center">
-                                    <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
-                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                            stroke-width="4"></circle>
-                                        <path class="opacity-75" fill="currentColor"
-                                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                                        </path>
+                        <!-- Current Status -->
+                        <div class="p-4 rounded-xl" :class="currentAqiStatus.bgClass">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium" :class="currentAqiStatus.textClass">Current AQI: {{ pollutionData?.aqius || '--' }}</p>
+                                    <p class="text-xs" :class="currentAqiStatus.subTextClass">
+                                        {{ pollutionData ? (pollutionData.aqius >= telegramSettings.threshold ? '⚠️ Above threshold - Alert would be sent' : '✅ Below threshold - No alert needed') : 'Loading...' }}
+                                    </p>
+                                </div>
+                                <span class="text-2xl">{{ currentAqiStatus.emoji }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex gap-3">
+                            <button @click="sendTestAlert" :disabled="sendingAlert || !telegramSettings.botToken || !telegramSettings.chatId"
+                                class="flex-1 flex justify-center items-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all">
+                                <span v-if="!sendingAlert" class="flex items-center gap-2">
+                                    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.053 5.56-5.023c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
                                     </svg>
-                                    Saving...
+                                    Send Test Alert
+                                </span>
+                                <span v-else class="flex items-center gap-2">
+                                    <svg class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    Sending...
+                                </span>
+                            </button>
+                            
+                            <button @click="checkAndAlert" :disabled="sendingAlert || !telegramSettings.botToken || !telegramSettings.chatId"
+                                class="flex-1 flex justify-center items-center py-3 px-4 border border-gray-300 dark:border-gray-600 rounded-xl shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all">
+                                <span class="flex items-center gap-2">
+                                    <ArrowPathIcon class="h-5 w-5" />
+                                    Check & Alert Now
                                 </span>
                             </button>
                         </div>
 
-                        <!-- Status Messages -->
-                        <div v-if="settingsSaved" class="p-3 bg-green-50 dark:bg-green-900 rounded-lg">
-                            <div class="flex items-center">
-                                <svg class="h-5 w-5 text-green-500 dark:text-green-400"
-                                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                        clip-rule="evenodd" />
+                        <!-- Success/Error Messages -->
+                        <div v-if="alertStatus.show" class="p-3 rounded-lg" :class="alertStatus.success ? 'bg-green-50 dark:bg-green-900/30' : 'bg-red-50 dark:bg-red-900/30'">
+                            <div class="flex items-center gap-2">
+                                <svg v-if="alertStatus.success" class="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
                                 </svg>
-                                <p class="ml-2 text-sm text-green-700 dark:text-green-300">
-                                    Settings saved successfully!
-                                </p>
-                            </div>
-                        </div>
-
-                        <div v-if="settingsError" class="p-3 bg-red-50 dark:bg-red-900 rounded-lg">
-                            <div class="flex items-center">
-                                <svg class="h-5 w-5 text-red-500 dark:text-red-400" xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd"
-                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                                        clip-rule="evenodd" />
+                                <svg v-else class="h-5 w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
                                 </svg>
-                                <p class="ml-2 text-sm text-red-700 dark:text-red-300">
-                                    {{ settingsError }}
+                                <p class="text-sm" :class="alertStatus.success ? 'text-green-700 dark:text-green-300' : 'text-red-700 dark:text-red-300'">
+                                    {{ alertStatus.message }}
                                 </p>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- coming soon -->
-            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
-                <div class="p-6">
-                    <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2" align="center">Air Quality Telegram Auto Alerts</h2>
-                    <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-2" align="center">Coming Soon</h2>
+                    
+                    <!-- Disabled State -->
+                    <div v-else class="text-center py-6 text-gray-500 dark:text-gray-400">
+                        <svg class="h-12 w-12 mx-auto mb-3 opacity-50" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.053 5.56-5.023c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
+                        </svg>
+                        <p class="text-sm">Enable alerts to receive notifications on Telegram</p>
+                    </div>
                 </div>
             </div>
 
@@ -279,7 +331,6 @@
 import {
     ArrowPathIcon
 } from '@heroicons/vue/24/outline';
-import axios from 'axios';
 export default {
     name: 'AirQualityDashboard',
     components: {
@@ -291,19 +342,21 @@ export default {
             pollutionData: null,
             weatherData: null,
             lastUpdated: null,
-            telegramId: '',
-            alertThreshold: '100',
-            alertsEnabled: false,
-            savingSettings: false,
-            settingsSaved: false,
-            settingsError: null,
             apiEndpoint: 'https://api.airvisual.com/v2/city?city=Phnom%20Penh&state=Phnom%20Penh&country=Cambodia&key=fd0705c4-9945-44b6-95a0-c4cc8052cea9',
             circumference: 2 * Math.PI * 80,
-            notificationSettings: {
-                telegram_id: '',
-                alert_threshold: '100',
-                alerts_enabled: false
+            // Telegram Settings
+            telegramSettings: {
+                enabled: false,
+                botToken: '',
+                chatId: '',
+                threshold: '150'
             },
+            sendingAlert: false,
+            alertStatus: {
+                show: false,
+                success: false,
+                message: ''
+            }
         }
     },
     computed: {
@@ -364,11 +417,28 @@ export default {
             if (aqi <= 200) return 'text-red-500'
             if (aqi <= 300) return 'text-purple-500'
             return 'text-red-600'
+        },
+        currentAqiStatus() {
+            if (!this.pollutionData) {
+                return {
+                    emoji: '⏳',
+                    bgClass: 'bg-gray-100 dark:bg-gray-700',
+                    textClass: 'text-gray-700 dark:text-gray-300',
+                    subTextClass: 'text-gray-500 dark:text-gray-400'
+                }
+            }
+            const aqi = this.pollutionData.aqius
+            if (aqi <= 50) return { emoji: '😊', bgClass: 'bg-green-50 dark:bg-green-900/30', textClass: 'text-green-700 dark:text-green-300', subTextClass: 'text-green-600 dark:text-green-400' }
+            if (aqi <= 100) return { emoji: '🙂', bgClass: 'bg-yellow-50 dark:bg-yellow-900/30', textClass: 'text-yellow-700 dark:text-yellow-300', subTextClass: 'text-yellow-600 dark:text-yellow-400' }
+            if (aqi <= 150) return { emoji: '😐', bgClass: 'bg-orange-50 dark:bg-orange-900/30', textClass: 'text-orange-700 dark:text-orange-300', subTextClass: 'text-orange-600 dark:text-orange-400' }
+            if (aqi <= 200) return { emoji: '😷', bgClass: 'bg-red-50 dark:bg-red-900/30', textClass: 'text-red-700 dark:text-red-300', subTextClass: 'text-red-600 dark:text-red-400' }
+            if (aqi <= 300) return { emoji: '🤢', bgClass: 'bg-purple-50 dark:bg-purple-900/30', textClass: 'text-purple-700 dark:text-purple-300', subTextClass: 'text-purple-600 dark:text-purple-400' }
+            return { emoji: '☠️', bgClass: 'bg-red-100 dark:bg-red-900/50', textClass: 'text-red-800 dark:text-red-200', subTextClass: 'text-red-700 dark:text-red-300' }
         }
     },
     created() {
+        this.loadTelegramSettings()
         this.fetchPollutionData()
-        this.loadSettings()
     },
     methods: {
         async fetchPollutionData() {
@@ -384,98 +454,161 @@ export default {
                 this.weatherData = data.data.current.weather
                 this.lastUpdated = new Date(this.pollutionData.ts).toISOString()
 
-                // Check if we should send alert
-                if (this.alertsEnabled && this.telegramChatId &&
-                    this.pollutionData.aqius >= parseInt(this.alertThreshold)) {
-                    this.sendAlertNotification()
+                // Auto-check and send alert if enabled and above threshold
+                if (this.telegramSettings.enabled && 
+                    this.telegramSettings.botToken && 
+                    this.telegramSettings.chatId &&
+                    this.pollutionData.aqius >= parseInt(this.telegramSettings.threshold)) {
+                    this.autoSendAlert()
                 }
             } catch (error) {
                 console.error('Error fetching air quality data:', error)
-                this.settingsError = 'Failed to fetch latest air quality data'
-                setTimeout(() => this.settingsError = null, 5000)
             } finally {
                 this.loading = false
             }
         },
-        async sendAlertNotification() {
-            if (!this.telegramId) return;
 
-            try {
-                const payload = {
-                    recipient: this.telegramId, // assuming your backend expects `recipient`
-                    aqi: this.pollutionData.aqius,
-                    level: this.getAqiLevel(this.pollutionData.aqius),
-                    threshold: this.alertThreshold,
-                    timestamp: this.lastUpdated
-                };
-
-                const response = await axios.post('/api/notifications', payload, {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                if (response.data.success) {
-                    console.log('Alert notification sent successfully');
-                } else {
-                    throw new Error('Notification failed to send');
+        // Load settings from localStorage
+        loadTelegramSettings() {
+            const saved = localStorage.getItem('airQualityTelegramSettings')
+            if (saved) {
+                try {
+                    this.telegramSettings = JSON.parse(saved)
+                } catch (e) {
+                    console.error('Failed to load telegram settings:', e)
                 }
-
-            } catch (error) {
-                console.error('Error sending Telegram alert:', error);
-                this.settingsError = 'Failed to send alert notification';
-                setTimeout(() => this.settingsError = null, 5000);
             }
         },
-        async saveNotificationSettings() {
-            try {
-                const response = await axios.post('/api/notifications/send-alert', {
-                    telegram_id: this.notificationSettings.telegram_id,
-                    aqi: this.pollutionData.aqius,
-                    level: this.getAqiLevel(this.pollutionData.aqius),
-                    threshold: this.notificationSettings.alert_threshold
-                }, {
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                });
 
-                if (response.data.success) {
-                    this.showSuccess('Test notification sent!');
-                }
-            } catch (error) {
-                this.showError('Failed to send test notification');
+        // Save settings to localStorage
+        saveSettings() {
+            localStorage.setItem('airQualityTelegramSettings', JSON.stringify(this.telegramSettings))
+        },
+
+        // Send test alert to verify setup
+        async sendTestAlert() {
+            if (!this.telegramSettings.botToken || !this.telegramSettings.chatId) {
+                this.showAlertStatus(false, 'Please enter Bot Token and Chat ID first')
+                return
+            }
+
+            this.sendingAlert = true
+            
+            const message = `🧪 *Test Alert - Air Quality Monitor*
+
+✅ Your Telegram alerts are working!
+
+📊 *Current Status:*
+• AQI: ${this.pollutionData?.aqius || 'N/A'}
+• Level: ${this.pollutionData ? this.getAqiLevel(this.pollutionData.aqius) : 'N/A'}
+• Location: Phnom Penh, Cambodia
+
+⚙️ *Your Settings:*
+• Alert Threshold: AQI ${this.telegramSettings.threshold}+
+• Status: ${this.telegramSettings.enabled ? 'Enabled' : 'Disabled'}
+
+_You will receive alerts when AQI exceeds your threshold._`
+
+            await this.sendTelegramMessage(message)
+        },
+
+        // Check current AQI and send alert if above threshold
+        async checkAndAlert() {
+            if (!this.pollutionData) {
+                this.showAlertStatus(false, 'No air quality data available')
+                return
+            }
+
+            if (this.pollutionData.aqius >= parseInt(this.telegramSettings.threshold)) {
+                await this.sendDangerAlert()
+            } else {
+                this.showAlertStatus(true, `AQI is ${this.pollutionData.aqius} - below your threshold of ${this.telegramSettings.threshold}. No alert needed.`)
             }
         },
-        // Example API call to load settings
-        async loadSettings() {
+
+        // Auto-send alert (called when data refreshes)
+        async autoSendAlert() {
+            // Check if we already sent an alert recently (within 1 hour)
+            const lastAlertTime = localStorage.getItem('lastAirQualityAlert')
+            const oneHour = 60 * 60 * 1000
+            
+            if (lastAlertTime && (Date.now() - parseInt(lastAlertTime)) < oneHour) {
+                console.log('Alert already sent within the last hour, skipping...')
+                return
+            }
+
+            await this.sendDangerAlert(true)
+            localStorage.setItem('lastAirQualityAlert', Date.now().toString())
+        },
+
+        // Send danger alert
+        async sendDangerAlert(isAuto = false) {
+            this.sendingAlert = true
+
+            const aqi = this.pollutionData.aqius
+            const level = this.getAqiLevel(aqi)
+            const emoji = aqi <= 100 ? '🟡' : aqi <= 150 ? '🟠' : aqi <= 200 ? '🔴' : aqi <= 300 ? '🟣' : '☠️'
+
+            const message = `${emoji} *AIR QUALITY ALERT* ${emoji}
+
+⚠️ *${level.toUpperCase()}*
+
+📊 *Current Readings:*
+• AQI: *${aqi}* (Threshold: ${this.telegramSettings.threshold})
+• Main Pollutant: ${this.formatPollutantName(this.pollutionData.mainus)}
+• Location: Phnom Penh, Cambodia
+
+🌡️ *Weather:*
+• Temperature: ${this.weatherData?.tp || 'N/A'}°C
+• Humidity: ${this.weatherData?.hu || 'N/A'}%
+• Wind: ${this.weatherData?.ws || 'N/A'} m/s
+
+💡 *Health Advice:*
+${this.getHealthAdvice(this.pollutionData.mainus, aqi)}
+
+⏰ Updated: ${new Date().toLocaleString()}
+${isAuto ? '_This is an automatic alert._' : ''}`
+
+            await this.sendTelegramMessage(message)
+        },
+
+        // Send message via Telegram Bot API
+        async sendTelegramMessage(message) {
             try {
-                const response = await axios.get('/api/notifications', {
-                    params: {
-                        telegram_id: this.notificationSettings.telegram_id
+                const url = `https://api.telegram.org/bot${this.telegramSettings.botToken}/sendMessage`
+                
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
                     },
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                });
+                    body: JSON.stringify({
+                        chat_id: this.telegramSettings.chatId,
+                        text: message,
+                        parse_mode: 'Markdown'
+                    })
+                })
 
-                if (response.data.data) {
-                    this.notificationSettings = response.data.data;
+                const data = await response.json()
+
+                if (data.ok) {
+                    this.showAlertStatus(true, '✅ Alert sent to Telegram successfully!')
+                } else {
+                    throw new Error(data.description || 'Failed to send message')
                 }
             } catch (error) {
-                console.error('Failed to load settings:', error);
+                console.error('Telegram API error:', error)
+                this.showAlertStatus(false, `❌ Failed: ${error.message}`)
+            } finally {
+                this.sendingAlert = false
             }
         },
 
-        // Helper methods
-        showSuccess(message) {
-            // Your success notification implementation
-            console.log('Success:', message);
-        },
-
-        showError(message) {
-            // Your error notification implementation
-            console.error('Error:', message);
+        showAlertStatus(success, message) {
+            this.alertStatus = { show: true, success, message }
+            setTimeout(() => {
+                this.alertStatus.show = false
+            }, 5000)
         },
         getAqiLevel(aqi) {
             if (aqi <= 50) return 'Good'
