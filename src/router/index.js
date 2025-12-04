@@ -5,9 +5,7 @@ import Projects from '../views/ProjectView.vue'
 import About from '../views/About.vue'
 import NotFound from '../views/NotFound.vue'
 import WeatherApp from '@/views/projects/WeatherApp.vue'
-import CurrencyExchange from '@/views/projects/CurrencyExchange.vue'
 import AirQuality from '@/views/projects/AirQuality.vue'
-import GithubStats from '@/views/projects/GithubStats.vue'
 import KhmerCalendar from '@/views/projects/KhmerCalendar.vue'
 import Login from '@/views/auth/LoginView.vue'
 import Dashboard from '@/views/auth/DashboardView.vue'
@@ -60,30 +58,12 @@ const routes = [
         }
     },
     {
-        path: '/currency-exchange',
-        name: 'currency-exchange',
-        component: CurrencyExchange,
-        meta: {
-            showNavBar: true,
-            title: 'Currency Exchange'
-        }
-    },
-    {
         path: '/air-quality',
         name: 'air-quality',
         component: AirQuality,
         meta: {
             showNavBar: true,
             title: 'Air Quality'
-        }
-    },
-    {
-        path: '/github-stats',
-        name: 'github-stats',
-        component: GithubStats,
-        meta: {
-            showNavBar: true,
-            title: 'GitHub Stats'
         }
     },
     {
