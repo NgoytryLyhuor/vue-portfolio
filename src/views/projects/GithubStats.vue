@@ -136,7 +136,7 @@
                     <!-- Language Bar -->
                     <div class="h-4 rounded-full overflow-hidden flex mb-4">
                         <div 
-                            v-for="(lang, index) in languages.slice(0, 6)" 
+                            v-for="lang in languages.slice(0, 6)" 
                             :key="lang.name"
                             :style="{ width: lang.percentage + '%', backgroundColor: lang.color }"
                             class="transition-all duration-500"
