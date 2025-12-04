@@ -2,13 +2,13 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Projects from '../views/ProjectView.vue'
 import About from '../views/About.vue'
-import Business from '../views/Business.vue'
 import NotFound from '../views/NotFound.vue'
-import TroPang from '../views/TroPang.vue'
 import ExpenseTracker from '../views/projects/ExpenseTracker.vue'
 import WeatherApp from '@/views/projects/WeatherApp.vue'
 import CurrencyExchange from '@/views/projects/CurrencyExchange.vue'
 import AirQuality from '@/views/projects/AirQuality.vue'
+import IpLookup from '@/views/projects/IpLookup.vue'
+import GithubStats from '@/views/projects/GithubStats.vue'
 import Login from '@/views/auth/LoginView.vue'
 import Dashboard from '@/views/auth/DashboardView.vue'
 import api from '@/service/api'
@@ -51,24 +51,6 @@ const routes = [
         }
     },
     {
-        path: '/business',
-        name: 'Business',
-        component: Business,
-        meta: {
-            showNavBar: true,
-            title: 'Business'
-        }
-    },
-    {
-        path: '/tropang',
-        name: 'tropang',
-        component: TroPang,
-        meta: {
-            showNavBar: true,
-            title: 'Selling TroPang'
-        }
-    },
-    {
         path: '/expense-tracker',
         name: 'expense-tracker',
         component: ExpenseTracker,
@@ -102,6 +84,24 @@ const routes = [
         meta: {
             showNavBar: true,
             title: 'Air Quality'
+        }
+    },
+    {
+        path: '/ip-lookup',
+        name: 'ip-lookup',
+        component: IpLookup,
+        meta: {
+            showNavBar: true,
+            title: 'IP Address Lookup'
+        }
+    },
+    {
+        path: '/github-stats',
+        name: 'github-stats',
+        component: GithubStats,
+        meta: {
+            showNavBar: true,
+            title: 'GitHub Stats'
         }
     },
     {
