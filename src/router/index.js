@@ -4,7 +4,6 @@ import Home from '../views/Home.vue'
 import Projects from '../views/ProjectView.vue'
 import About from '../views/About.vue'
 import NotFound from '../views/NotFound.vue'
-import ExpenseTracker from '../views/projects/ExpenseTracker.vue'
 import WeatherApp from '@/views/projects/WeatherApp.vue'
 import CurrencyExchange from '@/views/projects/CurrencyExchange.vue'
 import AirQuality from '@/views/projects/AirQuality.vue'
@@ -50,15 +49,6 @@ const routes = [
         meta: {
             showNavBar: true,
             title: 'About Me'
-        }
-    },
-    {
-        path: '/expense-tracker',
-        name: 'expense-tracker',
-        component: ExpenseTracker,
-        meta: {
-            showNavBar: true,
-            title: 'Expense Tracker'
         }
     },
     {
