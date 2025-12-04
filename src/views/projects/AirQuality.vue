@@ -1,38 +1,38 @@
 <template>
-    <div class="py-12 px-4 sm:px-6 lg:px-8 text-gray-800 dark:text-gray-200">
-        <div class="max-w-5xl mx-auto mt-10">
+    <div class="py-6 sm:py-8 lg:py-12 px-3 sm:px-4 lg:px-6 xl:px-8 text-gray-800 dark:text-gray-200">
+        <div class="max-w-5xl mx-auto mt-4 sm:mt-6 lg:mt-10">
 
-            <div class="flex flex-col items-center text-center mb-10 mt-10">
-                <h1 class="text-3xl font-bold mb-6 text-center mb-0">
+            <div class="flex flex-col items-center text-center mb-6 sm:mb-8 lg:mb-10 mt-4 sm:mt-6 lg:mt-10">
+                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4 lg:mb-6 text-center">
                     Phnom Penh Air Quality
                 </h1>
-                <p class="text-lg text-gray-600 dark:text-gray-300 pt-0"> Real-time air pollution monitoring and alerts
+                <p class="text-sm sm:text-base lg:text-lg text-gray-600 dark:text-gray-300 pt-0 px-2"> Real-time air pollution monitoring and alerts
                 </p>
-                <span class="text-xs text-gray-500 dark:text-gray-400">Updated: {{ formattedTime }}</span>
+                <span class="text-xs text-gray-500 dark:text-gray-400 mt-1">Updated: {{ formattedTime }}</span>
                 <button @click="fetchPollutionData"
-                    class="mt-2 p-2 rounded-full bg-blue-100 dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-sm hover:shadow-md transition-all">
-                    <ArrowPathIcon class="h-5 w-5" :class="{ 'animate-spin': loading }" />
+                    class="mt-3 sm:mt-4 p-2 sm:p-2.5 rounded-full bg-blue-100 dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-sm hover:shadow-md transition-all touch-manipulation">
+                    <ArrowPathIcon class="h-5 w-5 sm:h-6 sm:w-6" :class="{ 'animate-spin': loading }" />
                 </button>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 transition-all hover:shadow-2xl">
-                    <div class="flex justify-between items-start mb-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 mb-6 sm:mb-8">
+                <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-5 lg:p-6 transition-all hover:shadow-2xl">
+                    <div class="flex justify-between items-start mb-3 sm:mb-4">
                         <div>
-                            <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200">Air Quality Index </h2>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">US EPA Standard</p>
+                            <h2 class="text-lg sm:text-xl font-semibold text-gray-700 dark:text-gray-200">Air Quality Index </h2>
+                            <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">US EPA Standard</p>
                         </div>
                     </div>
 
-                    <div v-if="loading" class="flex justify-center py-8">
-                        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500">
+                    <div v-if="loading" class="flex justify-center py-6 sm:py-8">
+                        <div class="animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-t-2 border-b-2 border-blue-500">
                         </div>
                     </div>
 
                     <div v-else-if="pollutionData" class="text-center">
-                        <div class="flex justify-center mb-2">
-                            <div class="relative">
-                                <svg width="180" height="180" viewBox="0 0 180 180" class="transform -rotate-90">
+                        <div class="flex justify-center mb-2 sm:mb-3">
+                            <div class="relative w-[140px] h-[140px] sm:w-[160px] sm:h-[160px] lg:w-[180px] lg:h-[180px]">
+                                <svg viewBox="0 0 180 180" class="transform -rotate-90 w-full h-full">
                                     <circle cx="90" cy="90" r="80" stroke="#e5e7eb" stroke-width="10" fill="none"
                                         class="dark:stroke-gray-700" />
                                     <circle cx="90" cy="90" r="80" :stroke="aqiGradientColor" stroke-width="10"
@@ -40,17 +40,17 @@
                                         :stroke-dashoffset="circumference - (aqiPercentage * circumference)" />
                                 </svg>
                                 <div class="absolute inset-0 flex items-center justify-center">
-                                    <span class="text-5xl font-bold" :class="aqiTextColor">{{ pollutionData.aqius
+                                    <span class="text-4xl sm:text-5xl font-bold" :class="aqiTextColor">{{ pollutionData.aqius
                                         }}</span>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="px-4 py-2 rounded-full text-sm font-medium inline-block mb-3"
+                        <div class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium inline-block mb-2 sm:mb-3"
                             :class="aqiLevelClass">
                             {{ getAqiLevel(pollutionData.aqius) }}
                         </div>
-                        <p class="text-sm text-gray-600 dark:text-gray-300 px-4">
+                        <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-300 px-2 sm:px-4">
                             {{ getAqiDescription(pollutionData.aqius) }}
                         </p>
                     </div>
@@ -60,38 +60,38 @@
                     </div>
                 </div>
 
-                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 transition-all hover:shadow-2xl">
-                    <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-4">Primary Pollutant</h2>
+                <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-5 lg:p-6 transition-all hover:shadow-2xl">
+                    <h2 class="text-lg sm:text-xl font-semibold text-gray-700 dark:text-gray-200 mb-3 sm:mb-4">Primary Pollutant</h2>
 
-                    <div v-if="loading" class="flex justify-center py-8">
-                        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500">
+                    <div v-if="loading" class="flex justify-center py-6 sm:py-8">
+                        <div class="animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-t-2 border-b-2 border-blue-500">
                         </div>
                     </div>
 
                     <div v-else-if="pollutionData" class="text-center">
-                        <div class="mb-6">
-                            <div class="w-[120px] h-[120px] mx-auto mb-4 flex items-center justify-center rounded-full"
+                        <div class="mb-4 sm:mb-6">
+                            <div class="w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] mx-auto mb-3 sm:mb-4 flex items-center justify-center rounded-full"
                                 :class="pollutantBgClass">
-                                <span class="text-3xl font-bold" :class="pollutantTextClass">
+                                <span class="text-2xl sm:text-3xl font-bold" :class="pollutantTextClass">
                                     {{ formatPollutantShort(pollutionData.mainus) }}
                                 </span>
                             </div>
-                            <h3 class="text-xl font-semibold mb-1">{{ formatPollutantName(pollutionData.mainus) }}
+                            <h3 class="text-base sm:text-lg lg:text-xl font-semibold mb-1 px-2">{{ formatPollutantName(pollutionData.mainus) }}
                             </h3>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">Main contributor to current AQI</p>
+                            <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">Main contributor to current AQI</p>
                         </div>
 
-                        <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
-                            <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Health Advice</h4>
-                            <p class="text-xs text-gray-600 dark:text-gray-400">
+                        <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-3 sm:p-4">
+                            <h4 class="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">Health Advice</h4>
+                            <p class="text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
                                 {{ getHealthAdvice(pollutionData.mainus, pollutionData.aqius) }}
                             </p>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 transition-all hover:shadow-2xl">
-                    <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-4">Weather Conditions</h2>
+                <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-5 lg:p-6 transition-all hover:shadow-2xl md:col-span-2 lg:col-span-1">
+                    <h2 class="text-lg sm:text-xl font-semibold text-gray-700 dark:text-gray-200 mb-3 sm:mb-4">Weather Conditions</h2>
 
                     <div v-if="loading" class="flex justify-center py-8">
                         <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500">
@@ -177,40 +177,40 @@
             </div>
 
             <!-- Telegram Notification Panel -->
-            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
-                <div class="p-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <div class="flex items-center gap-3">
-                            <div class="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg">
-                                <svg class="h-6 w-6 text-blue-500" viewBox="0 0 24 24" fill="currentColor">
+            <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-xl overflow-hidden">
+                <div class="p-4 sm:p-5 lg:p-6">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0 mb-4">
+                        <div class="flex items-center gap-2 sm:gap-3">
+                            <div class="p-1.5 sm:p-2 bg-blue-100 dark:bg-blue-900 rounded-lg flex-shrink-0">
+                                <svg class="h-5 w-5 sm:h-6 sm:w-6 text-blue-500" viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.053 5.56-5.023c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
                                 </svg>
                             </div>
-                            <div>
-                                <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200">Telegram Alerts</h2>
-                                <p class="text-sm text-gray-500 dark:text-gray-400">Get notified when air quality is dangerous</p>
+                            <div class="min-w-0 flex-1">
+                                <h2 class="text-lg sm:text-xl font-semibold text-gray-700 dark:text-gray-200">Telegram Alerts</h2>
+                                <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">Get notified when air quality is dangerous</p>
                             </div>
                         </div>
-                        <div class="flex items-center">
-                            <label class="relative inline-flex items-center cursor-pointer">
+                        <div class="flex items-center justify-end sm:justify-start">
+                            <label class="relative inline-flex items-center cursor-pointer touch-manipulation">
                                 <input type="checkbox" v-model="telegramSettings.enabled" class="sr-only peer" @change="saveSettings">
                                 <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
                             </label>
                         </div>
                     </div>
 
-                    <div v-if="telegramSettings.enabled" class="space-y-4 mt-6">
+                    <div v-if="telegramSettings.enabled" class="space-y-3 sm:space-y-4 mt-4 sm:mt-6">
                         <!-- Setup Instructions -->
-                        <div class="p-4 bg-blue-50 dark:bg-blue-900/30 rounded-xl border border-blue-200 dark:border-blue-800">
-                            <h3 class="font-medium text-blue-800 dark:text-blue-200 mb-2 flex items-center gap-2">
-                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <div class="p-3 sm:p-4 bg-blue-50 dark:bg-blue-900/30 rounded-lg sm:rounded-xl border border-blue-200 dark:border-blue-800">
+                            <h3 class="text-sm sm:text-base font-medium text-blue-800 dark:text-blue-200 mb-2 flex items-center gap-2">
+                                <svg class="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
                                 How to Setup
                             </h3>
-                            <ol class="text-sm text-blue-700 dark:text-blue-300 space-y-1 list-decimal list-inside">
+                            <ol class="text-xs sm:text-sm text-blue-700 dark:text-blue-300 space-y-1.5 sm:space-y-1 list-decimal list-inside leading-relaxed">
                                 <li>Open Telegram and search for <strong>@BotFather</strong></li>
-                                <li>Send <code class="bg-blue-100 dark:bg-blue-800 px-1 rounded">/newbot</code> and follow instructions to create a bot</li>
+                                <li>Send <code class="bg-blue-100 dark:bg-blue-800 px-1 rounded text-xs">/newbot</code> and follow instructions to create a bot</li>
                                 <li>Copy the Bot Token and paste below</li>
                                 <li>Search for <strong>@userinfobot</strong> and send any message to get your Chat ID</li>
                                 <li>Enter your Chat ID below</li>
@@ -219,33 +219,33 @@
 
                         <!-- Bot Token Input -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            <label class="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
                                 Bot Token
                             </label>
                             <input v-model="telegramSettings.botToken" type="password"
                                 placeholder="123456789:ABCdefGHIjklMNOpqrsTUVwxyz"
-                                class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white font-mono text-sm"
+                                class="w-full px-3 sm:px-4 py-2.5 sm:py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white font-mono text-xs sm:text-sm touch-manipulation"
                                 @change="saveSettings">
                         </div>
 
                         <!-- Chat ID Input -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            <label class="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
                                 Your Chat ID
                             </label>
                             <input v-model="telegramSettings.chatId" type="text"
                                 placeholder="e.g. 123456789"
-                                class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white font-mono"
+                                class="w-full px-3 sm:px-4 py-2.5 sm:py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white font-mono text-sm touch-manipulation"
                                 @change="saveSettings">
                         </div>
 
                         <!-- Alert Threshold -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            <label class="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
                                 Alert When AQI Reaches
                             </label>
                             <select v-model="telegramSettings.threshold"
-                                class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                                class="w-full px-3 sm:px-4 py-2.5 sm:py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white text-sm touch-manipulation"
                                 @change="saveSettings">
                                 <option value="50">🟢 Good (AQI 50+)</option>
                                 <option value="100">🟡 Moderate (AQI 100+)</option>
@@ -257,11 +257,11 @@
 
                         <!-- Auto Check Interval -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            <label class="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">
                                 Auto-Check Interval
                             </label>
                             <select v-model="telegramSettings.checkInterval"
-                                class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                                class="w-full px-3 sm:px-4 py-2.5 sm:py-2 rounded-lg border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white text-sm touch-manipulation"
                                 @change="updateAutoCheck">
                                 <option value="0">🔴 Disabled (Manual only)</option>
                                 <option value="5">⚡ Every 5 minutes</option>
@@ -272,23 +272,21 @@
                         </div>
 
                         <!-- Auto-Check Status -->
-                        <div v-if="telegramSettings.checkInterval > 0" class="p-4 bg-green-50 dark:bg-green-900/30 rounded-xl border border-green-200 dark:border-green-800">
-                            <div class="flex items-center justify-between mb-2">
-                                <div class="flex items-center gap-2">
-                                    <div class="relative">
-                                        <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                                        <div class="absolute inset-0 w-3 h-3 bg-green-500 rounded-full animate-ping opacity-75"></div>
-                                    </div>
-                                    <span class="text-sm font-medium text-green-700 dark:text-green-300">Auto-Check Active</span>
+                        <div v-if="telegramSettings.checkInterval > 0" class="p-3 sm:p-4 bg-green-50 dark:bg-green-900/30 rounded-lg sm:rounded-xl border border-green-200 dark:border-green-800">
+                            <div class="flex items-center gap-2 mb-2 sm:mb-3">
+                                <div class="relative flex-shrink-0">
+                                    <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                                    <div class="absolute inset-0 w-3 h-3 bg-green-500 rounded-full animate-ping opacity-75"></div>
                                 </div>
+                                <span class="text-xs sm:text-sm font-medium text-green-700 dark:text-green-300">Auto-Check Active</span>
                             </div>
-                            <div class="flex items-center justify-between">
-                                <span class="text-xs text-green-600 dark:text-green-400">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
+                                <span class="text-xs text-green-600 dark:text-green-400 leading-relaxed">
                                     🔔 Will automatically send alert if AQI ≥ {{ telegramSettings.threshold }}
                                 </span>
-                                <div class="text-right">
-                                    <p class="text-xs text-green-600 dark:text-green-400 mb-1">Next check in:</p>
-                                    <p class="text-lg font-bold text-green-700 dark:text-green-300 font-mono">
+                                <div class="text-left sm:text-right flex-shrink-0">
+                                    <p class="text-xs text-green-600 dark:text-green-400 mb-0.5 sm:mb-1">Next check in:</p>
+                                    <p class="text-base sm:text-lg font-bold text-green-700 dark:text-green-300 font-mono">
                                         {{ nextCheckTime }}
                                     </p>
                                 </div>
@@ -296,30 +294,31 @@
                         </div>
 
                         <!-- Current Status -->
-                        <div class="p-4 rounded-xl" :class="currentAqiStatus.bgClass">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <p class="text-sm font-medium" :class="currentAqiStatus.textClass">Current AQI: {{ pollutionData?.aqius || '--' }}</p>
-                                    <p class="text-xs" :class="currentAqiStatus.subTextClass">
+                        <div class="p-3 sm:p-4 rounded-lg sm:rounded-xl" :class="currentAqiStatus.bgClass">
+                            <div class="flex items-center justify-between gap-2">
+                                <div class="min-w-0 flex-1">
+                                    <p class="text-xs sm:text-sm font-medium" :class="currentAqiStatus.textClass">Current AQI: {{ pollutionData?.aqius || '--' }}</p>
+                                    <p class="text-xs leading-relaxed" :class="currentAqiStatus.subTextClass">
                                         {{ pollutionData ? (pollutionData.aqius >= telegramSettings.threshold ? '⚠️ Above threshold - Alert would be sent' : '✅ Below threshold - No alert needed') : 'Loading...' }}
                                     </p>
                                 </div>
-                                <span class="text-2xl">{{ currentAqiStatus.emoji }}</span>
+                                <span class="text-xl sm:text-2xl flex-shrink-0">{{ currentAqiStatus.emoji }}</span>
                             </div>
                         </div>
 
                         <!-- Action Buttons -->
-                        <div class="flex gap-3">
+                        <div class="flex flex-col sm:flex-row gap-2 sm:gap-3">
                             <button @click="sendTestAlert" :disabled="sendingAlert || !telegramSettings.botToken || !telegramSettings.chatId"
-                                class="flex-1 flex justify-center items-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all">
+                                class="flex-1 flex justify-center items-center py-3 px-4 border border-transparent rounded-lg sm:rounded-xl shadow-sm text-xs sm:text-sm font-medium text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all touch-manipulation min-h-[44px]">
                                 <span v-if="!sendingAlert" class="flex items-center gap-2">
-                                    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                                    <svg class="h-4 w-4 sm:h-5 sm:w-5" viewBox="0 0 24 24" fill="currentColor">
                                         <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.053 5.56-5.023c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
                                     </svg>
-                                    Send Test Alert
+                                    <span class="hidden sm:inline">Send Test Alert</span>
+                                    <span class="sm:hidden">Test Alert</span>
                                 </span>
                                 <span v-else class="flex items-center gap-2">
-                                    <svg class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <svg class="animate-spin h-4 w-4 sm:h-5 sm:w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                     </svg>
@@ -328,24 +327,25 @@
                             </button>
                             
                             <button @click="checkAndAlert" :disabled="sendingAlert || !telegramSettings.botToken || !telegramSettings.chatId"
-                                class="flex-1 flex justify-center items-center py-3 px-4 border border-gray-300 dark:border-gray-600 rounded-xl shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all">
+                                class="flex-1 flex justify-center items-center py-3 px-4 border border-gray-300 dark:border-gray-600 rounded-lg sm:rounded-xl shadow-sm text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all touch-manipulation min-h-[44px]">
                                 <span class="flex items-center gap-2">
-                                    <ArrowPathIcon class="h-5 w-5" />
-                                    Check & Alert Now
+                                    <ArrowPathIcon class="h-4 w-4 sm:h-5 sm:w-5" />
+                                    <span class="hidden sm:inline">Check & Alert Now</span>
+                                    <span class="sm:hidden">Check Now</span>
                                 </span>
                             </button>
                         </div>
 
                         <!-- Success/Error Messages -->
                         <div v-if="alertStatus.show" class="p-3 rounded-lg" :class="alertStatus.success ? 'bg-green-50 dark:bg-green-900/30' : 'bg-red-50 dark:bg-red-900/30'">
-                            <div class="flex items-center gap-2">
-                                <svg v-if="alertStatus.success" class="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+                            <div class="flex items-start gap-2">
+                                <svg v-if="alertStatus.success" class="h-4 w-4 sm:h-5 sm:w-5 text-green-500 flex-shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
                                 </svg>
-                                <svg v-else class="h-5 w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor">
+                                <svg v-else class="h-4 w-4 sm:h-5 sm:w-5 text-red-500 flex-shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
                                 </svg>
-                                <p class="text-sm" :class="alertStatus.success ? 'text-green-700 dark:text-green-300' : 'text-red-700 dark:text-red-300'">
+                                <p class="text-xs sm:text-sm leading-relaxed" :class="alertStatus.success ? 'text-green-700 dark:text-green-300' : 'text-red-700 dark:text-red-300'">
                                     {{ alertStatus.message }}
                                 </p>
                             </div>
@@ -353,11 +353,11 @@
                     </div>
                     
                     <!-- Disabled State -->
-                    <div v-else class="text-center py-6 text-gray-500 dark:text-gray-400">
-                        <svg class="h-12 w-12 mx-auto mb-3 opacity-50" viewBox="0 0 24 24" fill="currentColor">
+                    <div v-else class="text-center py-4 sm:py-6 text-gray-500 dark:text-gray-400">
+                        <svg class="h-10 w-10 sm:h-12 sm:w-12 mx-auto mb-2 sm:mb-3 opacity-50" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.053 5.56-5.023c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
                         </svg>
-                        <p class="text-sm">Enable alerts to receive notifications on Telegram</p>
+                        <p class="text-xs sm:text-sm px-2">Enable alerts to receive notifications on Telegram</p>
                     </div>
                 </div>
             </div>
