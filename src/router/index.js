@@ -18,6 +18,7 @@ const PlanetExplorer = () => import('@/views/space/PlanetExplorer.vue')
 const MoonPhase = () => import('@/views/space/MoonPhase.vue')
 const ISSTracker = () => import('@/views/space/ISSTracker.vue')
 const SpaceEvents = () => import('@/views/space/SpaceEvents.vue')
+const SpaceEventDetail = () => import('@/views/space/SpaceEventDetail.vue')
 const Login = () => import('@/views/auth/LoginView.vue')
 const Dashboard = () => import('@/views/auth/DashboardView.vue')
 
@@ -183,6 +184,17 @@ const routes = [
             showNavBar: true,
             title: 'Space Events Calendar - Meteor Showers, Eclipses & More',
             description: 'Upcoming space events including meteor showers, eclipses, planetary alignments, rocket launches, and astronomical phenomena.',
+            robots: 'index, follow'
+        }
+    },
+    {
+        path: '/space-events/:id',
+        name: 'space-event-detail',
+        component: SpaceEventDetail,
+        meta: {
+            showNavBar: true,
+            title: 'Space Event Details',
+            description: 'Detailed information about space events',
             robots: 'index, follow'
         }
     },

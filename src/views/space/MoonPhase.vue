@@ -7,7 +7,7 @@
                     🌙 Moon Phase Tracker
                 </h1>
                 <p class="text-sm text-gray-600 dark:text-gray-400">
-                    Track lunar phases and moon times
+                    Lunar phases for Phnom Penh, Cambodia
                 </p>
             </div>
 
@@ -42,11 +42,15 @@
                             </div>
                             <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
                                 <div class="text-xs text-gray-600 dark:text-gray-400 mb-1">Moonrise</div>
-                                <div class="text-base sm:text-xl font-bold text-gray-900 dark:text-white">{{ moonriseTime }}</div>
+                                <div class="text-base sm:text-xl font-bold text-gray-900 dark:text-white">
+                                    {{ moonriseTime || 'Calculating...' }}
+                                </div>
                             </div>
                             <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
                                 <div class="text-xs text-gray-600 dark:text-gray-400 mb-1">Moonset</div>
-                                <div class="text-base sm:text-xl font-bold text-gray-900 dark:text-white">{{ moonsetTime }}</div>
+                                <div class="text-base sm:text-xl font-bold text-gray-900 dark:text-white">
+                                    {{ moonsetTime || 'Calculating...' }}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -55,7 +59,7 @@
 
             <!-- Moon Phase Calendar - Mobile Optimized -->
             <div class="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-lg mb-6 border border-gray-200 dark:border-gray-700">
-                <h3 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-4">Lunar Calendar</h3>
+                <h3 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-4">Lunar Calendar (Cambodia Time)</h3>
                 <div class="grid grid-cols-7 gap-2 sm:gap-3">
                     <div 
                         v-for="(day, index) in lunarCalendar" 
@@ -75,7 +79,7 @@
 
             <!-- Upcoming Moon Events -->
             <div class="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-lg border border-gray-200 dark:border-gray-700">
-                <h3 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-4">Upcoming Events</h3>
+                <h3 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-4">Upcoming Events (Cambodia)</h3>
                 <div class="space-y-3">
                     <div 
                         v-for="event in upcomingEvents" 
@@ -96,60 +100,155 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import logger from '@/utils/logger'
 
-// Calculate current moon phase
-const calculateMoonPhase = () => {
+// Cambodia location (Phnom Penh)
+const CAMBODIA_LAT = 11.5564
+const CAMBODIA_LON = 104.9282
+const CAMBODIA_TIMEZONE = 'Asia/Phnom_Penh' // UTC+7
+
+const loading = ref(true)
+const moonriseTime = ref('')
+const moonsetTime = ref('')
+const currentMoonPhase = ref({})
+
+// Get current date in Cambodia timezone
+const getCambodiaDate = () => {
     const now = new Date()
-    const year = now.getFullYear()
-    const month = now.getMonth() + 1
-    const day = now.getDate()
+    // Convert to Cambodia time (UTC+7)
+    const cambodiaTime = new Date(now.toLocaleString('en-US', { timeZone: CAMBODIA_TIMEZONE }))
+    return cambodiaTime
+}
+
+// Calculate moon phase accurately
+const calculateMoonPhase = () => {
+    const date = getCambodiaDate()
+    const year = date.getFullYear()
+    const month = date.getMonth() + 1
+    const day = date.getDate()
     
-    // Simple moon phase calculation (approximate)
-    const daysSinceNewMoon = (year * 365.25 + month * 30.44 + day) % 29.53
-    const phase = daysSinceNewMoon / 29.53
+    // More accurate moon phase calculation
+    // Using Julian Day calculation
+    const jd = (367 * year - Math.floor(7 * (year + Math.floor((month + 9) / 12)) / 4) + 
+                Math.floor(275 * month / 9) + day + 1721013.5)
+    
+    // Days since last new moon (Jan 6, 2000 was a new moon)
+    const daysSinceNewMoon = (jd - 2451545) % 29.53058867
+    const phase = daysSinceNewMoon / 29.53058867
+    
+    let name, emoji, illumination, description
     
     if (phase < 0.03 || phase > 0.97) {
-        return { name: 'New Moon', emoji: '🌑', illumination: 0, description: 'The moon is not visible from Earth' }
+        name = 'New Moon'
+        emoji = '🌑'
+        illumination = 0
+        description = 'The moon is not visible from Earth'
     } else if (phase < 0.22) {
-        return { name: 'Waxing Crescent', emoji: '🌒', illumination: Math.round(phase * 100), description: 'A thin crescent is visible' }
+        name = 'Waxing Crescent'
+        emoji = '🌒'
+        illumination = Math.round(phase * 100)
+        description = 'A thin crescent is visible'
     } else if (phase < 0.28) {
-        return { name: 'First Quarter', emoji: '🌓', illumination: 50, description: 'Half of the moon is visible' }
+        name = 'First Quarter'
+        emoji = '🌓'
+        illumination = 50
+        description = 'Half of the moon is visible'
     } else if (phase < 0.47) {
-        return { name: 'Waxing Gibbous', emoji: '🌔', illumination: Math.round(phase * 100), description: 'More than half is visible' }
+        name = 'Waxing Gibbous'
+        emoji = '🌔'
+        illumination = Math.round(phase * 100)
+        description = 'More than half is visible'
     } else if (phase < 0.53) {
-        return { name: 'Full Moon', emoji: '🌕', illumination: 100, description: 'The entire moon is visible' }
+        name = 'Full Moon'
+        emoji = '🌕'
+        illumination = 100
+        description = 'The entire moon is visible'
     } else if (phase < 0.72) {
-        return { name: 'Waning Gibbous', emoji: '🌖', illumination: Math.round((1 - phase) * 100), description: 'More than half is visible' }
+        name = 'Waning Gibbous'
+        emoji = '🌖'
+        illumination = Math.round((1 - phase) * 100)
+        description = 'More than half is visible'
     } else if (phase < 0.78) {
-        return { name: 'Last Quarter', emoji: '🌗', illumination: 50, description: 'Half of the moon is visible' }
+        name = 'Last Quarter'
+        emoji = '🌗'
+        illumination = 50
+        description = 'Half of the moon is visible'
     } else {
-        return { name: 'Waning Crescent', emoji: '🌘', illumination: Math.round((1 - phase) * 100), description: 'A thin crescent is visible' }
+        name = 'Waning Crescent'
+        emoji = '🌘'
+        illumination = Math.round((1 - phase) * 100)
+        description = 'A thin crescent is visible'
+    }
+    
+    return { name, emoji, illumination, description, phase }
+}
+
+// Calculate moonrise/moonset times for Cambodia
+const calculateMoonTimes = () => {
+    const date = getCambodiaDate()
+    const phase = currentMoonPhase.value.phase || 0
+    
+    // Moonrise/moonset calculation based on moon phase
+    // The moon rises approximately 50 minutes later each day
+    // At new moon, moonrise is around sunrise
+    // At full moon, moonrise is around sunset
+    
+    const daysSinceNewMoon = phase * 29.53
+    
+    // Calculate approximate moonrise time (in hours, 0-24)
+    // Base time is around 6 AM (sunrise in Cambodia), adjusted by phase
+    let moonriseHour = 6 + (daysSinceNewMoon * 0.8)
+    if (moonriseHour >= 24) moonriseHour -= 24
+    if (moonriseHour < 0) moonriseHour += 24
+    
+    // Moonset is approximately 12.5 hours after moonrise
+    let moonsetHour = moonriseHour + 12.5
+    if (moonsetHour >= 24) moonsetHour -= 24
+    
+    // Format times in 24-hour format for Cambodia
+    const formatTime = (hour) => {
+        const h = Math.floor(hour)
+        const m = Math.floor((hour % 1) * 60)
+        return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`
+    }
+    
+    moonriseTime.value = formatTime(moonriseHour)
+    moonsetTime.value = formatTime(moonsetHour)
+    loading.value = false
+}
+
+// Fetch moonrise/moonset times for Cambodia
+const fetchMoonTimes = async () => {
+    try {
+        const today = getCambodiaDate()
+        const dateStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`
+        
+        // Try to use an API that provides moon data
+        // Using a calculation-based approach for now
+        calculateMoonTimes()
+        
+        // Alternative: Could use https://api.visibleplanets.info/v3?latitude=11.5564&longitude=104.9282
+        // But for simplicity, using calculation method
+    } catch (err) {
+        logger.error('Error calculating moon times:', err)
+        calculateMoonTimes() // Use calculation as fallback
     }
 }
 
-const currentMoonPhase = ref(calculateMoonPhase())
-
-const moonIllumination = computed(() => currentMoonPhase.value.illumination)
+const moonIllumination = computed(() => currentMoonPhase.value.illumination || 0)
 
 const daysUntilFullMoon = computed(() => {
-    const now = new Date()
-    const year = now.getFullYear()
-    const month = now.getMonth() + 1
-    const day = now.getDate()
-    const daysSinceNewMoon = (year * 365.25 + month * 30.44 + day) % 29.53
-    const daysToFull = 14.77 - (daysSinceNewMoon % 29.53)
+    const phase = currentMoonPhase.value.phase || 0
+    let daysToFull
+    
+    if (phase < 0.5) {
+        daysToFull = (0.5 - phase) * 29.53
+    } else {
+        daysToFull = (1.5 - phase) * 29.53
+    }
+    
     return Math.round(Math.abs(daysToFull))
-})
-
-const moonriseTime = computed(() => {
-    const hour = (12 + Math.random() * 6) % 24
-    return `${Math.floor(hour)}:${Math.floor((hour % 1) * 60).toString().padStart(2, '0')}`
-})
-
-const moonsetTime = computed(() => {
-    const hour = (12 + Math.random() * 12) % 24
-    return `${Math.floor(hour)}:${Math.floor((hour % 1) * 60).toString().padStart(2, '0')}`
 })
 
 const moonPhaseStyle = computed(() => {
@@ -175,7 +274,7 @@ const moonPhaseStyle = computed(() => {
 
 const lunarCalendar = computed(() => {
     const days = []
-    const today = new Date()
+    const today = getCambodiaDate()
     
     for (let i = -3; i <= 3; i++) {
         const date = new Date(today)
@@ -184,8 +283,12 @@ const lunarCalendar = computed(() => {
         const year = date.getFullYear()
         const month = date.getMonth() + 1
         const day = date.getDate()
-        const daysSinceNewMoon = (year * 365.25 + month * 30.44 + day) % 29.53
-        const phase = daysSinceNewMoon / 29.53
+        
+        // Calculate moon phase for this date
+        const jd = (367 * year - Math.floor(7 * (year + Math.floor((month + 9) / 12)) / 4) + 
+                    Math.floor(275 * month / 9) + day + 1721013.5)
+        const daysSinceNewMoon = (jd - 2451545) % 29.53058867
+        const phase = daysSinceNewMoon / 29.53058867
         
         let emoji = '🌑'
         let phaseName = 'New'
@@ -229,35 +332,55 @@ const lunarCalendar = computed(() => {
 
 const upcomingEvents = computed(() => {
     const events = []
-    const now = new Date()
+    const date = getCambodiaDate()
+    const phase = currentMoonPhase.value.phase || 0
     
-    const year = now.getFullYear()
-    const month = now.getMonth() + 1
-    const day = now.getDate()
-    const daysSinceNewMoon = (year * 365.25 + month * 30.44 + day) % 29.53
-    const daysToFull = 14.77 - (daysSinceNewMoon % 29.53)
-    const nextFullMoon = new Date(now)
-    nextFullMoon.setDate(nextFullMoon.getDate() + Math.round(Math.abs(daysToFull)))
+    // Calculate next full moon
+    let daysToFull
+    if (phase < 0.5) {
+        daysToFull = (0.5 - phase) * 29.53
+    } else {
+        daysToFull = (1.5 - phase) * 29.53
+    }
+    
+    const nextFullMoon = new Date(date)
+    nextFullMoon.setDate(nextFullMoon.getDate() + Math.round(daysToFull))
     
     events.push({
         name: 'Full Moon',
         emoji: '🌕',
-        date: nextFullMoon.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-        daysUntil: Math.round(Math.abs(daysToFull)) === 0 ? 'Today' : `${Math.round(Math.abs(daysToFull))} days`
+        date: nextFullMoon.toLocaleDateString('en-KH', { 
+            timeZone: CAMBODIA_TIMEZONE,
+            month: 'long', 
+            day: 'numeric', 
+            year: 'numeric' 
+        }),
+        daysUntil: Math.round(daysToFull) === 0 ? 'Today' : `${Math.round(daysToFull)} days`
     })
     
-    const daysToNew = 29.53 - (daysSinceNewMoon % 29.53)
-    const nextNewMoon = new Date(now)
+    // Calculate next new moon
+    const daysToNew = (1 - phase) * 29.53
+    const nextNewMoon = new Date(date)
     nextNewMoon.setDate(nextNewMoon.getDate() + Math.round(daysToNew))
     
     events.push({
         name: 'New Moon',
         emoji: '🌑',
-        date: nextNewMoon.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+        date: nextNewMoon.toLocaleDateString('en-KH', { 
+            timeZone: CAMBODIA_TIMEZONE,
+            month: 'long', 
+            day: 'numeric', 
+            year: 'numeric' 
+        }),
         daysUntil: `${Math.round(daysToNew)} days`
     })
     
     return events
+})
+
+onMounted(() => {
+    currentMoonPhase.value = calculateMoonPhase()
+    fetchMoonTimes()
 })
 </script>
 
