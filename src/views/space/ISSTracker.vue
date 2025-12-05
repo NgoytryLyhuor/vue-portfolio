@@ -1,15 +1,15 @@
 <template>
-    <div class="min-h-screen py-4 px-3 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 transition-colors duration-300">
+    <div class="min-h-screen py-2 sm:py-4 px-3 sm:px-4 lg:px-8 bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 transition-colors duration-300">
         <div class="max-w-7xl mx-auto">
             <!-- Header -->
-            <div class="text-center mb-6 mt-4 sm:mt-6">
+            <div class="text-center mb-4 sm:mb-6 mt-2 sm:mt-4 lg:mt-6">
                 <div class="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 mb-4 shadow-lg">
                     <span class="text-3xl sm:text-4xl">🛰️</span>
                 </div>
-                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+                <h1 class="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-900 dark:text-white mb-2">
                     ISS Tracker
                 </h1>
-                <p class="text-sm text-gray-600 dark:text-gray-400">
+                <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                     Live International Space Station position tracking
                 </p>
                 <div v-if="!loading && !error" class="flex items-center justify-center gap-2 mt-2">
@@ -39,8 +39,8 @@
             <!-- Main Content -->
             <div v-else class="space-y-4 sm:space-y-6">
                 <!-- Stats Cards - Enhanced Design -->
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                    <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-4 sm:p-5 shadow-lg transform transition-transform hover:scale-105 border border-blue-400/20">
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 lg:gap-4">
+                    <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-3 sm:p-4 lg:p-5 shadow-lg transform transition-transform hover:scale-105 active:scale-95 border border-blue-400/20">
                         <div class="flex items-center justify-between mb-2">
                             <div class="text-2xl">🚀</div>
                             <div class="w-2 h-2 bg-white rounded-full animate-pulse"></div>

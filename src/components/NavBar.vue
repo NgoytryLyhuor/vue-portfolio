@@ -374,15 +374,6 @@ const spaceLinks = [
         }
     },
     {
-        path: '/moon-phase',
-        label: 'Moon Phase',
-        icon: {
-            template: `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
-            </svg>`
-        }
-    },
-    {
         path: '/iss-tracker',
         label: 'ISS Tracker',
         icon: {

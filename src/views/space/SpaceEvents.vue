@@ -1,18 +1,18 @@
 <template>
-    <div class="min-h-screen py-4 px-3 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <div class="min-h-screen py-2 sm:py-4 px-3 sm:px-4 lg:px-8 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
         <div class="max-w-7xl mx-auto">
             <!-- Header -->
-            <div class="text-center mb-6 mt-4 sm:mt-6">
-                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+            <div class="text-center mb-4 sm:mb-6 mt-2 sm:mt-4 lg:mt-6">
+                <h1 class="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-900 dark:text-white mb-2">
                     📅 Space Events Calendar
                 </h1>
-                <p class="text-sm text-gray-600 dark:text-gray-400">
+                <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                     Upcoming astronomical events
                 </p>
             </div>
 
             <!-- Filter Tabs - Mobile Optimized -->
-            <div class="flex flex-wrap gap-2 mb-6 justify-center">
+            <div class="flex flex-wrap gap-2 mb-4 sm:mb-6 justify-center px-2">
                 <button
                     v-for="category in categories"
                     :key="category"
@@ -35,12 +35,12 @@
             </div>
 
             <!-- Events List - Mobile Optimized -->
-            <div v-else class="space-y-3 sm:space-y-4">
+            <div v-else class="space-y-3 sm:space-y-4 px-2">
                 <div 
                     v-for="event in filteredEvents" 
                     :key="event.id"
                     @click="viewEventDetail(event)"
-                    class="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-md hover:shadow-lg transition-all border border-gray-200 dark:border-gray-700 cursor-pointer"
+                    class="bg-white dark:bg-gray-800 rounded-xl p-3 sm:p-4 lg:p-6 shadow-md hover:shadow-lg transition-all border border-gray-200 dark:border-gray-700 cursor-pointer active:scale-[0.98]"
                 >
                     <div class="flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-4">
                         <!-- Event Icon -->

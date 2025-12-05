@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen py-4 px-3 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <div class="min-h-screen py-2 sm:py-4 px-3 sm:px-4 lg:px-8 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
         <div class="max-w-4xl mx-auto">
             <!-- Loading State -->
             <div v-if="loading" class="flex flex-col items-center justify-center py-20">
@@ -18,7 +18,7 @@
                 <!-- Back Button -->
                 <button 
                     @click="$router.back()"
-                    class="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors mb-4"
+                    class="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors mb-3 sm:mb-4 px-2 py-1 -ml-2"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -27,14 +27,14 @@
                 </button>
 
                 <!-- Header -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl p-6 sm:p-8 shadow-lg border border-gray-200 dark:border-gray-700">
-                    <div class="flex items-start gap-4 sm:gap-6 mb-6">
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 lg:p-8 shadow-lg border border-gray-200 dark:border-gray-700">
+                    <div class="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 mb-4 sm:mb-6">
                         <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-lg flex items-center justify-center text-3xl sm:text-4xl flex-shrink-0"
                             :style="{ backgroundColor: event.color + '20' }">
                             {{ event.emoji }}
                         </div>
-                        <div class="flex-1 min-w-0">
-                            <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+                        <div class="flex-1 min-w-0 w-full">
+                            <h1 class="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-900 dark:text-white mb-2 break-words">
                                 {{ event.name }}
                             </h1>
                             <div class="flex flex-wrap items-center gap-3 mb-3">
@@ -299,7 +299,51 @@ onMounted(() => {
         return
     }
     
-    // Otherwise, find event by ID
+    // Check if it's a rocket launch (starts with 'launch-')
+    if (eventId && eventId.startsWith('launch-')) {
+        // Try to fetch rocket launch data
+        fetch(`https://lldev.thespacedevs.com/2.2.0/launch/${eventId.replace('launch-', '')}/`)
+            .then(response => response.json())
+            .then(data => {
+                event.value = {
+                    id: `launch-${data.id}`,
+                    name: data.name || 'Rocket Launch',
+                    emoji: '🚀',
+                    category: 'Rocket Launches',
+                    color: '#10B981',
+                    date: data.net ? new Date(data.net).toLocaleDateString('en-US', { 
+                        month: 'long', 
+                        day: 'numeric', 
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    }) : 'TBD',
+                    description: data.mission?.description || data.launch_service_provider?.description || 'Rocket launch mission.',
+                    fullDescription: data.mission?.description || data.launch_service_provider?.description || 'Rocket launch mission.',
+                    details: [
+                        data.rocket?.configuration?.name || 'Rocket TBD',
+                        data.pad?.location?.name || 'Location TBD',
+                        data.status?.name || 'Scheduled'
+                    ],
+                    mission: data.mission,
+                    rocket: data.rocket,
+                    pad: data.pad,
+                    agency: data.launch_service_provider,
+                    image: data.image,
+                    video: data.video_url,
+                    webcast: data.webcast_live,
+                    status: data.status
+                }
+                loading.value = false
+            })
+            .catch(() => {
+                error.value = 'Event not found'
+                loading.value = false
+            })
+        return
+    }
+    
+    // Otherwise, find event by ID in static events
     const foundEvent = enhancedEvents[eventId] || enhancedEvents[parseInt(eventId)]
     
     if (foundEvent) {

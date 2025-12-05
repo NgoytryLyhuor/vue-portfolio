@@ -15,7 +15,6 @@ const CurrencyConverter = () => import('@/views/projects/CurrencyConverter.vue')
 const CryptoPassword = () => import('@/views/projects/CryptoPassword.vue')
 const CryptoPriceTracker = () => import('@/views/projects/CryptoPriceTracker.vue')
 const PlanetExplorer = () => import('@/views/space/PlanetExplorer.vue')
-const MoonPhase = () => import('@/views/space/MoonPhase.vue')
 const ISSTracker = () => import('@/views/space/ISSTracker.vue')
 const SpaceEvents = () => import('@/views/space/SpaceEvents.vue')
 const SpaceEventDetail = () => import('@/views/space/SpaceEventDetail.vue')
@@ -151,17 +150,6 @@ const routes = [
             showNavBar: true,
             title: 'Planet Explorer - Explore Our Solar System',
             description: 'Explore planets in our solar system with detailed information, real-time positions, and interactive visualizations.',
-            robots: 'index, follow'
-        }
-    },
-    {
-        path: '/moon-phase',
-        name: 'moon-phase',
-        component: MoonPhase,
-        meta: {
-            showNavBar: true,
-            title: 'Moon Phase Tracker - Lunar Calendar & Phases',
-            description: 'Track moon phases, view lunar calendar, moonrise and moonset times, and upcoming full moon dates.',
             robots: 'index, follow'
         }
     },
