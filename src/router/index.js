@@ -11,6 +11,7 @@ const BlogDetail = () => import('@/views/BlogDetail.vue')
 const WeatherApp = () => import('@/views/projects/WeatherApp.vue')
 const AirQuality = () => import('@/views/projects/AirQuality.vue')
 const KhmerCalendar = () => import('@/views/projects/KhmerCalendar.vue')
+const CurrencyConverter = () => import('@/views/projects/CurrencyConverter.vue')
 const Login = () => import('@/views/auth/LoginView.vue')
 const Dashboard = () => import('@/views/auth/DashboardView.vue')
 
@@ -98,6 +99,17 @@ const routes = [
             showNavBar: true,
             title: 'Khmer Calendar - Traditional Cambodian Calendar',
             description: 'Traditional Khmer calendar converter and calendar tool for Cambodian dates and holidays.',
+            robots: 'index, follow'
+        }
+    },
+    {
+        path: '/currency-converter',
+        name: 'currency-converter',
+        component: CurrencyConverter,
+        meta: {
+            showNavBar: true,
+            title: 'Currency Converter - Real-time Exchange Rates',
+            description: 'Convert between currencies with real-time exchange rates. Support for USD, KHR, EUR, GBP, and 20+ currencies.',
             robots: 'index, follow'
         }
     },
