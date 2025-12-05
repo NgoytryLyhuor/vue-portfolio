@@ -2,11 +2,11 @@
     <div class="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-teal-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-6 sm:py-8 lg:py-12 px-3 sm:px-4 lg:px-6 xl:px-8">
         <div class="max-w-6xl mx-auto mt-4 sm:mt-6 lg:mt-10">
             <!-- Header -->
-            <div class="text-center mb-8 sm:mb-10">
-                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-3">
+            <div class="text-center mb-6 sm:mb-8">
+                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-2">
                     Phnom Penh Air Quality
                 </h1>
-                <p class="text-base sm:text-lg text-gray-600 dark:text-gray-300 mb-2">
+                <p class="text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-2">
                     Real-time air pollution monitoring and alerts
                 </p>
                 <div class="flex items-center justify-center gap-2 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
@@ -41,25 +41,25 @@
             <!-- Main Content -->
             <div v-else class="space-y-6">
                 <!-- Main AQI Card with Color-Coded Background -->
-                <div class="rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-8 lg:p-10 border-2 relative overflow-hidden transition-all duration-500" :class="aqiCardClass">
+                <div class="rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-6 lg:p-8 border-2 relative overflow-hidden transition-all duration-500" :class="aqiCardClass">
                     <!-- Decorative Elements -->
                     <div class="absolute top-0 right-0 w-64 h-64 rounded-full blur-3xl opacity-30" :class="aqiDecorativeBg"></div>
                     <div class="absolute bottom-0 left-0 w-48 h-48 rounded-full blur-2xl opacity-20" :class="aqiDecorativeBg"></div>
                     
                     <div class="relative z-10">
                         <!-- AQI Level Badge - Top -->
-                        <div class="text-center mb-6">
-                            <div class="inline-flex items-center gap-2 px-6 py-3 rounded-full text-lg font-bold shadow-lg mb-4" :class="aqiLevelClass">
-                                <span class="text-2xl">{{ aqiEmoji }}</span>
+                        <div class="text-center mb-4">
+                            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold shadow-lg mb-3" :class="aqiLevelClass">
+                                <span class="text-lg">{{ aqiEmoji }}</span>
                                 <span>{{ getAqiLevel(pollutionData.aqius) }}</span>
                             </div>
-                            <h2 class="text-xl sm:text-2xl font-semibold mb-2" :class="aqiTitleColor">Air Quality Index</h2>
-                            <p class="text-sm" :class="aqiSubtitleColor">US EPA Standard</p>
+                            <h2 class="text-lg sm:text-xl font-semibold mb-1" :class="aqiTitleColor">Air Quality Index</h2>
+                            <p class="text-xs" :class="aqiSubtitleColor">US EPA Standard</p>
                         </div>
 
                         <div v-if="pollutionData" class="flex flex-col items-center">
                             <!-- Circular Progress -->
-                            <div class="relative w-48 h-48 sm:w-56 sm:h-56 lg:w-64 lg:h-64 mb-8">
+                            <div class="relative w-40 h-40 sm:w-44 sm:h-44 lg:w-48 lg:h-48 mb-6">
                                 <svg viewBox="0 0 180 180" class="transform -rotate-90 w-full h-full">
                                     <circle cx="90" cy="90" r="80" stroke="rgba(255,255,255,0.3)" stroke-width="12" fill="none" />
                                     <circle cx="90" cy="90" r="80" :stroke="aqiGradientColor" stroke-width="12" stroke-linecap="round" fill="none" 
@@ -67,49 +67,49 @@
                                         class="transition-all duration-1000 ease-out drop-shadow-lg" />
                                 </svg>
                                 <div class="absolute inset-0 flex flex-col items-center justify-center">
-                                    <span class="text-5xl sm:text-6xl lg:text-7xl font-bold drop-shadow-lg" :class="aqiTextColor">{{ pollutionData.aqius }}</span>
-                                    <span class="text-sm sm:text-base mt-2 drop-shadow" :class="aqiSubtitleColor">AQI</span>
+                                    <span class="text-4xl sm:text-5xl lg:text-6xl font-bold drop-shadow-lg" :class="aqiTextColor">{{ pollutionData.aqius }}</span>
+                                    <span class="text-xs sm:text-sm mt-1 drop-shadow" :class="aqiSubtitleColor">AQI</span>
                                 </div>
                             </div>
 
                             <!-- Detailed Explanation Card -->
-                            <div class="w-full max-w-2xl bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-xl p-6 border-2 shadow-xl" :class="aqiBorderColor">
-                                <div class="text-center mb-4">
-                                    <h3 class="text-lg font-bold mb-2" :class="aqiTitleColor">What This Means</h3>
+                            <div class="w-full max-w-2xl bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-xl p-4 border-2 shadow-xl" :class="aqiBorderColor">
+                                <div class="text-center mb-3">
+                                    <h3 class="text-sm font-bold mb-1" :class="aqiTitleColor">What This Means</h3>
                                 </div>
-                                <div class="space-y-3">
-                                    <div class="flex items-start gap-3">
-                                        <div class="flex-shrink-0 mt-1">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" :class="aqiIconColor" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <div class="space-y-2">
+                                    <div class="flex items-start gap-2">
+                                        <div class="flex-shrink-0 mt-0.5">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" :class="aqiIconColor" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                             </svg>
                                         </div>
                                         <div>
-                                            <p class="font-semibold mb-1" :class="aqiTitleColor">{{ getAqiDescription(pollutionData.aqius).title }}</p>
-                                            <p class="text-sm leading-relaxed" :class="aqiSubtitleColor">{{ getAqiDescription(pollutionData.aqius).description }}</p>
+                                            <p class="font-semibold mb-0.5 text-xs" :class="aqiTitleColor">{{ getAqiDescription(pollutionData.aqius).title }}</p>
+                                            <p class="text-xs leading-relaxed" :class="aqiSubtitleColor">{{ getAqiDescription(pollutionData.aqius).description }}</p>
                                         </div>
                                     </div>
-                                    <div class="flex items-start gap-3">
-                                        <div class="flex-shrink-0 mt-1">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" :class="aqiIconColor" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <div class="flex items-start gap-2">
+                                        <div class="flex-shrink-0 mt-0.5">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" :class="aqiIconColor" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                                             </svg>
                                         </div>
                                         <div>
-                                            <p class="font-semibold mb-1" :class="aqiTitleColor">Health Recommendations</p>
-                                            <p class="text-sm leading-relaxed" :class="aqiSubtitleColor">{{ getAqiDescription(pollutionData.aqius).recommendations }}</p>
+                                            <p class="font-semibold mb-0.5 text-xs" :class="aqiTitleColor">Health Recommendations</p>
+                                            <p class="text-xs leading-relaxed" :class="aqiSubtitleColor">{{ getAqiDescription(pollutionData.aqius).recommendations }}</p>
                                         </div>
                                     </div>
-                                    <div class="flex items-start gap-3">
-                                        <div class="flex-shrink-0 mt-1">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" :class="aqiIconColor" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <div class="flex items-start gap-2">
+                                        <div class="flex-shrink-0 mt-0.5">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" :class="aqiIconColor" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                             </svg>
                                         </div>
                                         <div>
-                                            <p class="font-semibold mb-1" :class="aqiTitleColor">Who Should Be Careful</p>
-                                            <p class="text-sm leading-relaxed" :class="aqiSubtitleColor">{{ getAqiDescription(pollutionData.aqius).sensitiveGroups }}</p>
+                                            <p class="font-semibold mb-0.5 text-xs" :class="aqiTitleColor">Who Should Be Careful</p>
+                                            <p class="text-xs leading-relaxed" :class="aqiSubtitleColor">{{ getAqiDescription(pollutionData.aqius).sensitiveGroups }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -126,32 +126,32 @@
                 </div>
 
                 <!-- AQI Scale Reference -->
-                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 sm:p-8 border border-gray-200 dark:border-gray-700">
-                    <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-6 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700">
+                    <h2 class="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-4 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                         </svg>
                         AQI Scale Reference
                     </h2>
-                    <div class="space-y-3">
+                    <div class="space-y-2">
                         <div v-for="level in aqiLevels" :key="level.range" 
-                            class="flex items-center gap-4 p-4 rounded-xl border-2 transition-all hover:shadow-md"
+                            class="flex items-center gap-3 p-3 rounded-xl border-2 transition-all hover:shadow-md"
                             :class="pollutionData && pollutionData.aqius >= level.min && pollutionData.aqius <= level.max 
                                 ? level.activeClass 
                                 : level.inactiveClass">
-                            <div class="flex-shrink-0 w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold shadow-lg" :class="level.badgeClass">
+                            <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold shadow-lg" :class="level.badgeClass">
                                 {{ level.emoji }}
                             </div>
                             <div class="flex-1">
-                                <div class="flex items-center justify-between mb-1">
-                                    <h3 class="font-bold text-lg" :class="level.textClass">{{ level.name }}</h3>
-                                    <span class="text-sm font-semibold" :class="level.textClass">AQI {{ level.range }}</span>
+                                <div class="flex items-center justify-between mb-0.5">
+                                    <h3 class="font-bold text-sm" :class="level.textClass">{{ level.name }}</h3>
+                                    <span class="text-xs font-semibold" :class="level.textClass">AQI {{ level.range }}</span>
                                 </div>
-                                <p class="text-sm" :class="level.subTextClass">{{ level.description }}</p>
+                                <p class="text-xs" :class="level.subTextClass">{{ level.description }}</p>
                             </div>
                             <div v-if="pollutionData && pollutionData.aqius >= level.min && pollutionData.aqius <= level.max" 
                                 class="flex-shrink-0">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" :class="level.textClass" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" :class="level.textClass" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
                             </div>
@@ -162,35 +162,35 @@
                 <!-- Secondary Cards Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Primary Pollutant Card -->
-                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 sm:p-8 border border-gray-200 dark:border-gray-700 hover:shadow-2xl transition-all">
-                        <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-6 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700 hover:shadow-2xl transition-all">
+                        <h2 class="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-4 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                             Primary Pollutant
                         </h2>
 
                         <div v-if="pollutionData" class="text-center">
-                            <div class="mb-6">
-                                <div class="w-32 h-32 mx-auto mb-4 flex items-center justify-center rounded-full shadow-lg" :class="pollutantBgClass">
-                                    <span class="text-4xl font-bold" :class="pollutantTextClass">
+                            <div class="mb-4">
+                                <div class="w-24 h-24 mx-auto mb-3 flex items-center justify-center rounded-full shadow-lg" :class="pollutantBgClass">
+                                    <span class="text-3xl font-bold" :class="pollutantTextClass">
                                         {{ formatPollutantShort(pollutionData.mainus) }}
                                     </span>
                                 </div>
-                                <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
+                                <h3 class="text-base font-semibold mb-1 text-gray-900 dark:text-white">
                                     {{ formatPollutantName(pollutionData.mainus) }}
                                 </h3>
-                                <p class="text-sm text-gray-500 dark:text-gray-400">Main contributor to current AQI</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">Main contributor to current AQI</p>
                             </div>
 
-                            <div class="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-xl p-4 border border-blue-200 dark:border-blue-800">
-                                <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <div class="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-xl p-3 border border-blue-200 dark:border-blue-800">
+                                <h4 class="text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5 flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                                     </svg>
                                     Health Advice
                                 </h4>
-                                <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                                <p class="text-xs text-gray-700 dark:text-gray-300 leading-relaxed">
                                     {{ getHealthAdvice(pollutionData.mainus, pollutionData.aqius) }}
                                 </p>
                             </div>
@@ -198,74 +198,74 @@
                     </div>
 
                     <!-- Weather Conditions Card -->
-                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 sm:p-8 border border-gray-200 dark:border-gray-700 hover:shadow-2xl transition-all">
-                        <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-6 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700 hover:shadow-2xl transition-all">
+                        <h2 class="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-4 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
                             </svg>
                             Weather Conditions
                         </h2>
 
-                        <div v-if="weatherData" class="space-y-4">
-                            <div class="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-xl">
-                                <div class="flex items-center gap-3">
-                                    <div class="p-3 rounded-xl bg-blue-100 dark:bg-blue-900">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500 dark:text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <div v-if="weatherData" class="space-y-3">
+                            <div class="flex items-center justify-between p-3 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-xl">
+                                <div class="flex items-center gap-2">
+                                    <div class="p-2 rounded-xl bg-blue-100 dark:bg-blue-900">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500 dark:text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
                                         </svg>
                                     </div>
                                     <div>
-                                        <p class="text-sm text-gray-500 dark:text-gray-400">Humidity</p>
-                                        <p class="text-xl font-bold text-gray-900 dark:text-white">{{ weatherData.hu }}%</p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400">Humidity</p>
+                                        <p class="text-lg font-bold text-gray-900 dark:text-white">{{ weatherData.hu }}%</p>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="flex items-center justify-between p-4 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-xl">
-                                <div class="flex items-center gap-3">
-                                    <div class="p-3 rounded-xl bg-yellow-100 dark:bg-yellow-900">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500 dark:text-yellow-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <div class="flex items-center justify-between p-3 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-xl">
+                                <div class="flex items-center gap-2">
+                                    <div class="p-2 rounded-xl bg-yellow-100 dark:bg-yellow-900">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500 dark:text-yellow-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                                         </svg>
                                     </div>
                                     <div>
-                                        <p class="text-sm text-gray-500 dark:text-gray-400">Temperature</p>
-                                        <p class="text-xl font-bold text-gray-900 dark:text-white">{{ weatherData.tp }}°C</p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400">Temperature</p>
+                                        <p class="text-lg font-bold text-gray-900 dark:text-white">{{ weatherData.tp }}°C</p>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="flex items-center justify-between p-4 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl">
-                                <div class="flex items-center gap-3">
-                                    <div class="p-3 rounded-xl bg-purple-100 dark:bg-purple-900">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-500 dark:text-purple-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <div class="flex items-center justify-between p-3 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl">
+                                <div class="flex items-center gap-2">
+                                    <div class="p-2 rounded-xl bg-purple-100 dark:bg-purple-900">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-500 dark:text-purple-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                                         </svg>
                                     </div>
                                     <div>
-                                        <p class="text-sm text-gray-500 dark:text-gray-400">Wind Speed</p>
-                                        <p class="text-xl font-bold text-gray-900 dark:text-white">{{ weatherData.ws }} m/s</p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400">Wind Speed</p>
+                                        <p class="text-lg font-bold text-gray-900 dark:text-white">{{ weatherData.ws }} m/s</p>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="flex items-center justify-between p-4 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl">
-                                <div class="flex items-center gap-3">
-                                    <div class="p-3 rounded-xl bg-green-100 dark:bg-green-900">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500 dark:text-green-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <div class="flex items-center justify-between p-3 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl">
+                                <div class="flex items-center gap-2">
+                                    <div class="p-2 rounded-xl bg-green-100 dark:bg-green-900">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 dark:text-green-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                                         </svg>
                                     </div>
                                     <div>
-                                        <p class="text-sm text-gray-500 dark:text-gray-400">Pressure</p>
-                                        <p class="text-xl font-bold text-gray-900 dark:text-white">{{ weatherData.pr }} hPa</p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400">Pressure</p>
+                                        <p class="text-lg font-bold text-gray-900 dark:text-white">{{ weatherData.pr }} hPa</p>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="bg-gray-100 dark:bg-gray-700 rounded-xl p-4 mt-4">
-                                <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <div class="bg-gray-100 dark:bg-gray-700 rounded-xl p-3 mt-3">
+                                <div class="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                                         <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
                                     </svg>
                                     <span>Wind direction: {{ getWindDirection(weatherData.wd) }} ({{ weatherData.wd }}°)</span>
@@ -276,17 +276,17 @@
                 </div>
 
                 <!-- Telegram Notification Panel -->
-                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 sm:p-8 border border-gray-200 dark:border-gray-700">
-                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-                        <div class="flex items-center gap-3">
-                            <div class="p-2 bg-blue-100 dark:bg-blue-900 rounded-xl">
-                                <svg class="h-6 w-6 text-blue-500" viewBox="0 0 24 24" fill="currentColor">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+                        <div class="flex items-center gap-2">
+                            <div class="p-1.5 bg-blue-100 dark:bg-blue-900 rounded-xl">
+                                <svg class="h-5 w-5 text-blue-500" viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.053 5.56-5.023c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
                                 </svg>
                             </div>
                             <div>
-                                <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200">Telegram Alerts</h2>
-                                <p class="text-sm text-gray-500 dark:text-gray-400">Get notified when air quality is dangerous</p>
+                                <h2 class="text-lg font-semibold text-gray-700 dark:text-gray-200">Telegram Alerts</h2>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">Get notified when air quality is dangerous</p>
                             </div>
                         </div>
                         <label class="relative inline-flex items-center cursor-pointer">
@@ -384,11 +384,11 @@
                         </div>
                     </div>
 
-                    <div v-else class="text-center py-8 text-gray-500 dark:text-gray-400">
-                        <svg class="h-12 w-12 mx-auto mb-3 opacity-50" viewBox="0 0 24 24" fill="currentColor">
+                    <div v-else class="text-center py-6 text-gray-500 dark:text-gray-400">
+                        <svg class="h-10 w-10 mx-auto mb-2 opacity-50" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.053 5.56-5.023c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
                         </svg>
-                        <p class="text-sm">Enable alerts to receive notifications on Telegram</p>
+                        <p class="text-xs">Enable alerts to receive notifications on Telegram</p>
                     </div>
                 </div>
             </div>
