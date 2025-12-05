@@ -12,7 +12,7 @@ const WeatherApp = () => import('@/views/projects/WeatherApp.vue')
 const AirQuality = () => import('@/views/projects/AirQuality.vue')
 const KhmerCalendar = () => import('@/views/projects/KhmerCalendar.vue')
 const CurrencyConverter = () => import('@/views/projects/CurrencyConverter.vue')
-const BuddhistQuotes = () => import('@/views/projects/BuddhistQuotes.vue')
+const BuddhistEraConverter = () => import('@/views/projects/BuddhistEraConverter.vue')
 const Login = () => import('@/views/auth/LoginView.vue')
 const Dashboard = () => import('@/views/auth/DashboardView.vue')
 
@@ -115,13 +115,13 @@ const routes = [
         }
     },
     {
-        path: '/buddhist-quotes',
-        name: 'buddhist-quotes',
-        component: BuddhistQuotes,
+        path: '/buddhist-era-converter',
+        name: 'buddhist-era-converter',
+        component: BuddhistEraConverter,
         meta: {
             showNavBar: true,
-            title: 'Buddhist Quotes & Dharma - Daily Wisdom',
-            description: 'Daily Buddhist quotes, Dharma teachings, and glossary of Buddhist terms. Find peace, wisdom, and mindfulness through Buddhist teachings.',
+            title: 'បម្លែងកាលបរិច្ឆេទពុទ្ធសករាជ - Buddhist Era Date Converter',
+            description: 'Convert dates between Gregorian calendar (AD) and Buddhist Era (BE). Show current Buddhist Era year and important Buddhist dates.',
             robots: 'index, follow'
         }
     },
