@@ -57,6 +57,48 @@
                 </div>
             </div>
 
+            <!-- Moon Phase Explanation -->
+            <div class="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-700 rounded-xl p-4 sm:p-6 mb-6 border border-gray-200 dark:border-gray-600">
+                <h3 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                    <span>📖</span>
+                    Understanding Moon Phases
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                    <div>
+                        <div class="font-semibold text-gray-900 dark:text-white mb-2">🌑 New Moon</div>
+                        <p class="text-gray-600 dark:text-gray-400">Moon is not visible (dark)</p>
+                    </div>
+                    <div>
+                        <div class="font-semibold text-gray-900 dark:text-white mb-2">🌒 Waxing Crescent</div>
+                        <p class="text-gray-600 dark:text-gray-400">Growing from right side (Waxing = Growing)</p>
+                    </div>
+                    <div>
+                        <div class="font-semibold text-gray-900 dark:text-white mb-2">🌓 First Quarter</div>
+                        <p class="text-gray-600 dark:text-gray-400">Half moon, right side lit (50% visible)</p>
+                    </div>
+                    <div>
+                        <div class="font-semibold text-gray-900 dark:text-white mb-2">🌔 Waxing Gibbous</div>
+                        <p class="text-gray-600 dark:text-gray-400">More than half, getting bigger</p>
+                    </div>
+                    <div>
+                        <div class="font-semibold text-gray-900 dark:text-white mb-2">🌕 Full Moon</div>
+                        <p class="text-gray-600 dark:text-gray-400">Completely visible (100% lit)</p>
+                    </div>
+                    <div>
+                        <div class="font-semibold text-gray-900 dark:text-white mb-2">🌖 Waning Gibbous</div>
+                        <p class="text-gray-600 dark:text-gray-400">More than half, getting smaller (Waning = Shrinking)</p>
+                    </div>
+                    <div>
+                        <div class="font-semibold text-gray-900 dark:text-white mb-2">🌗 Last Quarter</div>
+                        <p class="text-gray-600 dark:text-gray-400">Half moon, left side lit (50% visible)</p>
+                    </div>
+                    <div>
+                        <div class="font-semibold text-gray-900 dark:text-white mb-2">🌘 Waning Crescent</div>
+                        <p class="text-gray-600 dark:text-gray-400">Shrinking on left side, back to New Moon</p>
+                    </div>
+                </div>
+            </div>
+
             <!-- Moon Phase Calendar - Mobile Optimized -->
             <div class="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-lg mb-6 border border-gray-200 dark:border-gray-700">
                 <h3 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-4">Lunar Calendar (Cambodia Time)</h3>
@@ -291,25 +333,25 @@ const lunarCalendar = computed(() => {
             phaseName = 'New'
         } else if (phase < 0.22) {
             emoji = '🌒'
-            phaseName = 'Wax'
+            phaseName = 'Crescent'
         } else if (phase < 0.28) {
             emoji = '🌓'
-            phaseName = '1Q'
+            phaseName = 'Half'
         } else if (phase < 0.47) {
             emoji = '🌔'
-            phaseName = 'Wax'
+            phaseName = 'Gibbous'
         } else if (phase < 0.53) {
             emoji = '🌕'
             phaseName = 'Full'
         } else if (phase < 0.72) {
             emoji = '🌖'
-            phaseName = 'Wan'
+            phaseName = 'Gibbous'
         } else if (phase < 0.78) {
             emoji = '🌗'
-            phaseName = 'LQ'
+            phaseName = 'Half'
         } else {
             emoji = '🌘'
-            phaseName = 'Wan'
+            phaseName = 'Crescent'
         }
         
         days.push({
