@@ -66,6 +66,41 @@
                             </div>
                         </transition>
                     </div>
+
+                    <!-- Space Features Dropdown -->
+                    <div class="relative" ref="spaceDropdown">
+                        <button @click="toggleSpaceMenu"
+                            class="flex items-center hover:text-green-500 dark:hover:text-green-400 text-[14px] transition-colors duration-200 px-2 py-1 rounded-md"
+                            :class="{ 'text-green-500 dark:text-green-400': isSpaceActive }"
+                            aria-label="Space" aria-haspopup="true" :aria-expanded="isSpaceMenuOpen">
+                            Space
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20"
+                                fill="currentColor" :class="{ 'transform rotate-180': isSpaceMenuOpen }">
+                                <path fill-rule="evenodd"
+                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+
+                        <!-- Space dropdown menu -->
+                        <transition enter-active-class="transition ease-out duration-100"
+                            enter-from-class="transform opacity-0 scale-95"
+                            enter-to-class="transform opacity-100 scale-100"
+                            leave-active-class="transition ease-in duration-75"
+                            leave-from-class="transform opacity-100 scale-100"
+                            leave-to-class="transform opacity-0 scale-95">
+                            <div v-if="isSpaceMenuOpen"
+                                class="absolute left-0 w-56 rounded-xl dark:bg-gray-800 mt-2 shadow-lg z-50 border dark:border-gray-700 bg-white overflow-hidden">
+                                <router-link v-for="space in spaceLinks" :key="space.path" :to="space.path"
+                                    class="flex items-center px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 w-full text-left transition-colors duration-150"
+                                    :class="{ 'bg-gray-100 dark:bg-gray-700': $route.path === space.path }"
+                                    @click="isSpaceMenuOpen = false">
+                                    <component :is="space.icon" class="h-5 w-5 mr-3" />
+                                    {{ space.label }}
+                                </router-link>
+                            </div>
+                        </transition>
+                    </div>
                 </div>
             </div>
 
@@ -211,6 +246,44 @@
                             </div>
                         </transition>
                     </div>
+
+                    <!-- Space section in mobile menu -->
+                    <div class="py-1">
+                        <button @click="toggleMobileSpace"
+                            class="flex items-center justify-between w-full py-3 px-4 hover:text-green-500 dark:hover:text-green-400 transition-colors duration-200 rounded-lg"
+                            :class="{
+                                'text-green-500 dark:text-green-400 bg-gray-100 dark:bg-gray-800 font-medium': isSpaceActive,
+                                'text-gray-700 dark:text-gray-300': !isSpaceActive
+                            }">
+                            <span>Space</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20"
+                                fill="currentColor" :class="{ 'transform rotate-180': isMobileSpaceOpen }">
+                                <path fill-rule="evenodd"
+                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+
+                        <transition enter-active-class="transition ease-out duration-200"
+                            enter-from-class="transform opacity-0 -translate-y-2"
+                            enter-to-class="transform opacity-100 translate-y-0"
+                            leave-active-class="transition ease-in duration-150"
+                            leave-from-class="transform opacity-100 translate-y-0"
+                            leave-to-class="transform opacity-0 -translate-y-2">
+                            <div v-if="isMobileSpaceOpen"
+                                class="pl-4 space-y-1 mt-1 border-l-2 border-gray-200 dark:border-gray-700 ml-4">
+                                <router-link v-for="space in spaceLinks" :key="space.path" :to="space.path"
+                                    class="flex items-center py-3 px-4 hover:text-green-500 dark:hover:text-green-400 transition-colors duration-200 rounded-lg"
+                                    :class="{
+                                        'text-green-500 dark:text-green-400 bg-gray-100 dark:bg-gray-800 font-medium': $route.path === space.path,
+                                        'text-gray-600 dark:text-gray-400': $route.path !== space.path
+                                    }" @click="isMobileMenuOpen = false">
+                                    <component :is="space.icon" class="h-5 w-5 mr-3" />
+                                    {{ space.label }}
+                                </router-link>
+                            </div>
+                        </transition>
+                    </div>
                 </div>
             </div>
         </transition>
@@ -230,10 +303,13 @@ const isThemeMenuOpen = ref(false);
 const isMobileMenuOpen = ref(false);
 const isFeaturesMenuOpen = ref(false);
 const isMobileFeaturesOpen = ref(false);
+const isSpaceMenuOpen = ref(false);
+const isMobileSpaceOpen = ref(false);
 const systemThemeIsDark = ref(false);
 const mediaQuery = ref(null);
 const themeDropdown = ref(null);
 const featuresDropdown = ref(null);
+const spaceDropdown = ref(null);
 
 // Feature links
 const featureLinks = [
@@ -286,6 +362,46 @@ const featureLinks = [
     }
 ];
 
+// Space links
+const spaceLinks = [
+    {
+        path: '/planet-explorer',
+        label: 'Planet Explorer',
+        icon: {
+            template: `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16a5.973 5.973 0 01-4.33-1.803A3.001 3.001 0 013 13h1.5a.5.5 0 00.5-.5v-1A1.5 1.5 0 014.332 8.027z" clip-rule="evenodd" />
+            </svg>`
+        }
+    },
+    {
+        path: '/moon-phase',
+        label: 'Moon Phase',
+        icon: {
+            template: `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+            </svg>`
+        }
+    },
+    {
+        path: '/iss-tracker',
+        label: 'ISS Tracker',
+        icon: {
+            template: `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+            </svg>`
+        }
+    },
+    {
+        path: '/space-events',
+        label: 'Space Events',
+        icon: {
+            template: `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+            </svg>`
+        }
+    }
+];
+
 // Computed properties
 const standardNavLinks = computed(() => {
     return [
@@ -297,6 +413,10 @@ const standardNavLinks = computed(() => {
 
 const isFeatureActive = computed(() => {
     return featureLinks.some(link => route.path === link.path || route.path === '/crypto-tracker');
+});
+
+const isSpaceActive = computed(() => {
+    return spaceLinks.some(link => route.path === link.path);
 });
 
 // Methods
@@ -311,6 +431,15 @@ const toggleFeaturesMenu = () => {
     isFeaturesMenuOpen.value = !isFeaturesMenuOpen.value;
     if (isFeaturesMenuOpen.value) {
         isThemeMenuOpen.value = false;
+        isSpaceMenuOpen.value = false;
+    }
+};
+
+const toggleSpaceMenu = () => {
+    isSpaceMenuOpen.value = !isSpaceMenuOpen.value;
+    if (isSpaceMenuOpen.value) {
+        isThemeMenuOpen.value = false;
+        isFeaturesMenuOpen.value = false;
     }
 };
 
@@ -319,11 +448,16 @@ const toggleMobileMenu = () => {
     if (isMobileMenuOpen.value) {
         isThemeMenuOpen.value = false;
         isFeaturesMenuOpen.value = false;
+        isSpaceMenuOpen.value = false;
     }
 };
 
 const toggleMobileFeatures = () => {
     isMobileFeaturesOpen.value = !isMobileFeaturesOpen.value;
+};
+
+const toggleMobileSpace = () => {
+    isMobileSpaceOpen.value = !isMobileSpaceOpen.value;
 };
 
 const setTheme = (theme) => {
@@ -380,6 +514,11 @@ const closeMenusOnClickOutside = (event) => {
         isFeaturesMenuOpen.value = false;
     }
 
+    // Close space dropdown if clicked outside
+    if (isSpaceMenuOpen.value && spaceDropdown.value && !spaceDropdown.value.contains(event.target)) {
+        isSpaceMenuOpen.value = false;
+    }
+
     // Close mobile menu if clicked outside
     if (isMobileMenuOpen.value && !event.target.closest('.md\\:hidden')) {
         isMobileMenuOpen.value = false;
@@ -395,11 +534,17 @@ const handleKeyDown = (event) => {
         if (isFeaturesMenuOpen.value) {
             isFeaturesMenuOpen.value = false;
         }
+        if (isSpaceMenuOpen.value) {
+            isSpaceMenuOpen.value = false;
+        }
         if (isMobileMenuOpen.value) {
             isMobileMenuOpen.value = false;
         }
         if (isMobileFeaturesOpen.value) {
             isMobileFeaturesOpen.value = false;
+        }
+        if (isMobileSpaceOpen.value) {
+            isMobileSpaceOpen.value = false;
         }
     }
 };
