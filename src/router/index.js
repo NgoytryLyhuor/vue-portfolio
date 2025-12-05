@@ -12,6 +12,8 @@ const WeatherApp = () => import('@/views/projects/WeatherApp.vue')
 const AirQuality = () => import('@/views/projects/AirQuality.vue')
 const KhmerCalendar = () => import('@/views/projects/KhmerCalendar.vue')
 const CurrencyConverter = () => import('@/views/projects/CurrencyConverter.vue')
+const CryptoPassword = () => import('@/views/projects/CryptoPassword.vue')
+const CryptoPriceTracker = () => import('@/views/projects/CryptoPriceTracker.vue')
 const Login = () => import('@/views/auth/LoginView.vue')
 const Dashboard = () => import('@/views/auth/DashboardView.vue')
 
@@ -114,6 +116,29 @@ const routes = [
         }
     },
     {
+        path: '/crypto-tracker-password',
+        name: 'crypto-tracker-password',
+        component: CryptoPassword,
+        meta: {
+            showNavBar: false,
+            title: 'Crypto Tracker - Password Protected',
+            description: 'Password protected access to cryptocurrency price tracker',
+            robots: 'noindex, nofollow'
+        }
+    },
+    {
+        path: '/crypto-tracker',
+        name: 'crypto-tracker',
+        component: CryptoPriceTracker,
+        meta: {
+            showNavBar: true,
+            title: 'Crypto Price Tracker - Real-time Cryptocurrency Prices',
+            description: 'Real-time cryptocurrency prices, market data, and tracking for Bitcoin, Ethereum, and 250+ cryptocurrencies.',
+            robots: 'noindex, nofollow',
+            requiresCryptoAuth: true
+        }
+    },
+    {
         path: '/login',
         name: 'Login',
         component: Login,
@@ -156,10 +181,25 @@ const validateToken = async () => {
     }
 }
 
+// Function to check crypto tracker authentication
+const checkCryptoAuth = () => {
+    return sessionStorage.getItem('crypto_tracker_auth') === 'true'
+}
+
 // Navigation guard for authentication and title updates
 router.beforeEach(async (to, from, next) => {
     // Update page title
     document.title = to.meta.title || 'Ngoytry Lyhuor'
+    
+    // Check crypto tracker authentication
+    if (to.meta.requiresCryptoAuth) {
+        const isCryptoAuthenticated = checkCryptoAuth()
+        if (!isCryptoAuthenticated) {
+            // Not authenticated, redirect to password page
+            next({ name: 'crypto-tracker-password' })
+            return
+        }
+    }
     
     // Check authentication
     const token = localStorage.getItem('token')
