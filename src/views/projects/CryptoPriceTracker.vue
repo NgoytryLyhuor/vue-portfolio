@@ -736,13 +736,12 @@ const calculatePredictions = (prices) => {
     const priceValues = prices.map(p => p[1])
     const currentPrice = priceValues[priceValues.length - 1]
     
-    // Calculate moving averages
+    // Calculate moving averages for trend analysis
     const ma7 = calculateMA(priceValues, 7)
     const ma30 = calculateMA(priceValues, Math.min(30, priceValues.length))
     
     // Calculate trend
     const recentTrend = (priceValues[priceValues.length - 1] - priceValues[Math.max(0, priceValues.length - 7)]) / priceValues[Math.max(0, priceValues.length - 7)]
-    const avgTrend = (priceValues[priceValues.length - 1] - priceValues[0]) / priceValues[0]
     
     // Simple linear regression for prediction
     const n = priceValues.length
@@ -752,19 +751,19 @@ const calculatePredictions = (prices) => {
     const sumXX = (n * (n + 1) * (2 * n + 1)) / 6
     
     const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX)
-    const intercept = (sumY - slope * sumX) / n
     
-    // Predictions
-    const forecast7d = currentPrice + (slope * 7)
-    const forecast30d = currentPrice + (slope * 30)
+    // Enhanced predictions using moving averages
+    const maWeight = ma7 && ma30 ? (ma7 > ma30 ? 1.1 : 0.9) : 1.0
+    const forecast7d = currentPrice + (slope * 7 * maWeight)
+    const forecast30d = currentPrice + (slope * 30 * maWeight)
     
     const change7d = ((forecast7d - currentPrice) / currentPrice) * 100
     const change30d = ((forecast30d - currentPrice) / currentPrice) * 100
     
-    // Determine trend
+    // Determine trend using moving averages and slope
     let trend = 'Neutral'
-    if (slope > 0 && recentTrend > 0.05) trend = 'Bullish'
-    else if (slope < 0 && recentTrend < -0.05) trend = 'Bearish'
+    if (slope > 0 && recentTrend > 0.05 && ma7 && ma30 && ma7 > ma30) trend = 'Bullish'
+    else if (slope < 0 && recentTrend < -0.05 && ma7 && ma30 && ma7 < ma30) trend = 'Bearish'
     
     // Calculate confidence based on volatility
     const volatility = calculateVolatility(priceValues)
