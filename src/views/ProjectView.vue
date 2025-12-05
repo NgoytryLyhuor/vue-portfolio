@@ -168,6 +168,7 @@ import api from '@/service/api'
 import { ref, computed, onMounted } from 'vue'
 import logger from '@/utils/logger'
 import LoadingSkeleton from '@/components/LoadingSkeleton.vue'
+import { useStructuredData } from '@/composables/useStructuredData'
 
 // Reactive state
 const activeCategory = ref('all')
@@ -278,5 +279,21 @@ const filteredProjects = computed(() => {
 // Lifecycle hook
 onMounted(async () => {
     await fetchProjects()
+    
+    // Add structured data for projects
+    if (projects.value && projects.value.length > 0) {
+        const { addStructuredData, getProjectData, getBreadcrumbData } = useStructuredData()
+        const structuredData = getProjectData(projects.value)
+        if (structuredData) {
+            addStructuredData(structuredData)
+        }
+        
+        // Add breadcrumb structured data
+        const breadcrumbData = getBreadcrumbData([
+            { name: 'Home', url: 'https://ngoytrylyhuor.vercel.app/' },
+            { name: 'Projects', url: 'https://ngoytrylyhuor.vercel.app/projects' }
+        ])
+        addStructuredData(breadcrumbData)
+    }
 })
 </script>

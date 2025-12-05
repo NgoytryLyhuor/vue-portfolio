@@ -106,6 +106,8 @@ import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import LoadingSkeleton from '@/components/LoadingSkeleton.vue'
 import logger from '@/utils/logger'
+import { useMetaTags } from '@/composables/useMetaTags'
+import { useStructuredData } from '@/composables/useStructuredData'
 
 const route = useRoute()
 const article = ref(null)
@@ -133,6 +135,33 @@ onMounted(async () => {
             throw new Error('Article not found')
         }
         article.value = await response.json()
+        
+        // Update meta tags for SEO
+        if (article.value) {
+            const { updateMetaTags } = useMetaTags()
+            updateMetaTags({
+                title: `${article.value.title} - Ngoytry Lyhuor`,
+                description: article.value.description || article.value.title,
+                image: article.value.cover_image || article.value.social_image || 'https://i.pinimg.com/736x/c4/c6/96/c4c696d43555c08f806375759e1b7528.jpg',
+                type: 'article',
+                robots: 'index, follow'
+            })
+            
+            // Add structured data for article
+            const { addStructuredData, getArticleData, getBreadcrumbData } = useStructuredData()
+            const articleData = getArticleData(article.value)
+            if (articleData) {
+                addStructuredData(articleData)
+            }
+            
+            // Add breadcrumb structured data
+            const breadcrumbData = getBreadcrumbData([
+                { name: 'Home', url: 'https://ngoytrylyhuor.vercel.app/' },
+                { name: 'Blog', url: 'https://ngoytrylyhuor.vercel.app/' },
+                { name: article.value.title, url: article.value.url || `https://ngoytrylyhuor.vercel.app/blog/${articleId}` }
+            ])
+            addStructuredData(breadcrumbData)
+        }
     } catch (err) {
         logger.error('Error fetching article:', err)
         error.value = err.message || 'Failed to load article'

@@ -30,8 +30,9 @@ const routes = [
         component: Home,
         meta: {
             showNavBar: true,
-            title: 'Ngoytry Lyhuor',
-            description: 'Blog articles about data science, technology, and web development'
+            title: 'Ngoytry Lyhuor - Web Developer Portfolio',
+            description: 'Blog articles about data science, technology, and web development. Explore tutorials, insights, and discoveries from a professional web developer based in Cambodia.',
+            robots: 'index, follow'
         }
     },
     {
@@ -40,8 +41,9 @@ const routes = [
         component: BlogDetail,
         meta: {
             showNavBar: true,
-            title: 'Article',
-            description: 'Read the full article'
+            title: 'Article - Ngoytry Lyhuor',
+            description: 'Read the full article',
+            robots: 'index, follow'
         }
     },
     {
@@ -50,7 +52,9 @@ const routes = [
         component: Projects,
         meta: {
             showNavBar: true,
-            title: 'Projects'
+            title: 'Projects - Ngoytry Lyhuor',
+            description: 'Explore my portfolio of web development projects including Vue.js applications, weather apps, and interactive tools built with modern technologies.',
+            robots: 'index, follow'
         }
     },
     {
@@ -59,7 +63,9 @@ const routes = [
         component: About,
         meta: {
             showNavBar: true,
-            title: 'About Me'
+            title: 'About Me - Ngoytry Lyhuor',
+            description: 'Professional web developer based in Cambodia. Specialized in frontend development, JavaScript, Vue.js, PHP, Laravel, Java, and Spring Boot.',
+            robots: 'index, follow'
         }
     },
     {
@@ -68,7 +74,9 @@ const routes = [
         component: WeatherApp,
         meta: {
             showNavBar: true,
-            title: 'Weather App'
+            title: 'Weather App - Phnom Penh Weather Forecast',
+            description: 'Real-time weather forecast for Phnom Penh, Cambodia. Get current conditions, hourly and daily forecasts with detailed weather information.',
+            robots: 'index, follow'
         }
     },
     {
@@ -77,7 +85,9 @@ const routes = [
         component: AirQuality,
         meta: {
             showNavBar: true,
-            title: 'Air Quality'
+            title: 'Air Quality Monitor - Phnom Penh AQI',
+            description: 'Real-time air quality monitoring for Phnom Penh, Cambodia. Check current AQI, pollution levels, and health recommendations.',
+            robots: 'index, follow'
         }
     },
     {
@@ -86,7 +96,9 @@ const routes = [
         component: KhmerCalendar,
         meta: {
             showNavBar: true,
-            title: 'Khmer Calendar'
+            title: 'Khmer Calendar - Traditional Cambodian Calendar',
+            description: 'Traditional Khmer calendar converter and calendar tool for Cambodian dates and holidays.',
+            robots: 'index, follow'
         }
     },
     {
@@ -95,7 +107,9 @@ const routes = [
         component: Login,
         meta: {
             showNavBar: true,
-            title: 'Login'
+            title: 'Login',
+            description: 'Login to access the admin dashboard',
+            robots: 'noindex, nofollow'
         }
     },
     {
@@ -105,6 +119,8 @@ const routes = [
         meta: {
             showNavBar: false,
             title: 'Dashboard',
+            description: 'Admin dashboard',
+            robots: 'noindex, nofollow',
             requiresAuth: true
         }
     }

@@ -31,6 +31,13 @@ export function useMetaTags() {
         // Basic meta tags
         updateMetaTag('description', description)
         updateMetaTag('author', 'Ngoytry Lyhuor')
+        
+        // Robots meta tag
+        if (meta.robots) {
+            updateMetaTag('robots', meta.robots)
+        } else {
+            updateMetaTag('robots', 'index, follow')
+        }
 
         // Open Graph tags
         updateMetaTag('og:title', title, 'property')
@@ -64,7 +71,8 @@ export function useMetaTags() {
                 updateMetaTags({
                     title: meta.title || 'Ngoytry Lyhuor',
                     description: meta.description || 'Professional web developer based in Cambodia.',
-                    image: meta.image
+                    image: meta.image,
+                    robots: meta.robots
                 })
             }
         },

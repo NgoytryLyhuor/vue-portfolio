@@ -4,11 +4,12 @@ const { defineConfig } = require('@vue/cli-service');
 // Define the static paths for your sitemap here
 const staticPaths = [
   { path: '/', changefreq: 'weekly', priority: 1.0 },
-  { path: '/about', changefreq: 'monthly', priority: 0.7 }, // Add other static paths
-  { path: '/portfolio', changefreq: 'monthly', priority: 0.7 },
-  { path: '/blog', changefreq: 'monthly', priority: 0.7 },
-  // Add paths for all your static routes that should be in the sitemap
-  // Exclude dynamic routes (like /blog/:id) and the 404 route
+  { path: '/about', changefreq: 'monthly', priority: 0.8 },
+  { path: '/projects', changefreq: 'weekly', priority: 0.9 },
+  { path: '/weather-app', changefreq: 'monthly', priority: 0.6 },
+  { path: '/air-quality', changefreq: 'daily', priority: 0.7 },
+  { path: '/khmer-calendar', changefreq: 'monthly', priority: 0.6 },
+  // Exclude dynamic routes (like /blog/:id) and protected routes (login, dashboard)
 ];
 
 module.exports = defineConfig({
