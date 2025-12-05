@@ -1,9 +1,9 @@
 <!-- App.vue - Vue Portfolio Main Component -->
 <template>
   <ErrorBoundary>
-    <div class="min-h-screen bg-gray-50 dark:bg-dark-bg text-gray-900 dark:text-white transition-colors duration-300">
+    <div class="min-h-screen bg-gray-50 dark:bg-dark-bg text-gray-900 dark:text-white transition-all duration-500 ease-in-out">
       <NavBar v-if="route.meta.showNavBar" />
-      <main class="container mx-auto px-4 py-8">
+      <main class="container mx-auto px-4 py-8 transition-all duration-500 ease-in-out">
         <router-view />
       </main>
     </div>

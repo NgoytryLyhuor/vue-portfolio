@@ -320,11 +320,22 @@ const applyTheme = () => {
     const shouldBeDark = currentTheme.value === 'dark' ||
         (currentTheme.value === 'system' && systemThemeIsDark.value);
 
-    if (shouldBeDark) {
-        document.documentElement.classList.add('dark');
-    } else {
-        document.documentElement.classList.remove('dark');
-    }
+    // Add transition class for smooth theme switching
+    document.documentElement.classList.add('theme-transition');
+    
+    // Use requestAnimationFrame for smoother transition
+    requestAnimationFrame(() => {
+        if (shouldBeDark) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+        
+        // Remove transition class after animation completes
+        setTimeout(() => {
+            document.documentElement.classList.remove('theme-transition');
+        }, 500);
+    });
 };
 
 const detectSystemTheme = () => {
@@ -409,14 +420,33 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-/* Smooth transitions for dark mode switch */
-html {
-    @apply transition-colors duration-300;
-}
-
 /* Improve focus styles for accessibility */
 button:focus,
 a:focus {
     @apply outline-none ring-2 ring-green-400 ring-opacity-50;
+}
+</style>
+
+<style>
+/* Global smooth theme transition */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+    transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                fill 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                stroke 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition-delay: 0s !important;
+}
+
+/* Ensure smooth transitions for common elements */
+html {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body {
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 </style>
