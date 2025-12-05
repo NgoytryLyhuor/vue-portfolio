@@ -161,19 +161,114 @@
 
                 <!-- Popular Currencies - Enhanced -->
                 <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-5 border border-gray-200 dark:border-gray-700">
-                    <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-3 sm:mb-4 text-center font-semibold">Popular currencies</p>
-                    <div class="flex gap-2 sm:gap-3 overflow-x-auto pb-2 scrollbar-hide">
+                    <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-3 sm:mb-4 text-center font-semibold">Select currency</p>
+                    <div class="flex gap-3 sm:gap-4 justify-center">
                         <button
                             v-for="popular in popularCurrencies"
                             :key="popular.code"
                             @click="setPopularCurrency(popular.code)"
-                            class="px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl border-2 transition-all flex-shrink-0 text-sm sm:text-base font-bold shadow-sm hover:shadow-md transform hover:scale-105 active:scale-95"
+                            class="px-5 sm:px-6 py-3 sm:py-3.5 rounded-xl border-2 transition-all text-sm sm:text-base font-bold shadow-sm hover:shadow-md transform hover:scale-105 active:scale-95"
                             :class="toCurrency === popular.code 
                                 ? 'border-blue-500 bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-md' 
                                 : 'border-gray-200 dark:border-gray-700 hover:border-blue-400 dark:hover:border-blue-600 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 dark:hover:from-blue-900/20 dark:hover:to-purple-900/20 text-gray-900 dark:text-white'"
                         >
                             {{ popular.code }}
                         </button>
+                    </div>
+                </div>
+
+                <!-- Exchange Rate Comparison Chart -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-5 sm:p-6 border border-gray-200 dark:border-gray-700">
+                    <h3 class="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-4 sm:mb-5 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                        Exchange Rate Comparison
+                    </h3>
+                    <div class="space-y-4">
+                        <div v-for="currency in currencies" :key="currency.code" class="relative">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-3 h-3 rounded-full" :class="getCurrencyColor(currency.code)"></div>
+                                    <span class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">{{ currency.code }}</span>
+                                    <span class="text-xs text-gray-500 dark:text-gray-400">{{ currency.name }}</span>
+                                </div>
+                                <span class="text-sm sm:text-base font-bold text-gray-900 dark:text-white">
+                                    {{ getRateDisplay(currency.code) }}
+                                </span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 sm:h-4 overflow-hidden">
+                                <div 
+                                    class="h-full rounded-full transition-all duration-500" 
+                                    :class="getCurrencyColor(currency.code)"
+                                    :style="{ width: getBarWidth(currency.code) + '%' }"
+                                ></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Currency Strength Widget -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
+                    <div 
+                        v-for="currency in currencies" 
+                        :key="currency.code"
+                        class="bg-gradient-to-br rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-5 border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all"
+                        :class="getCurrencyGradient(currency.code)"
+                    >
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-white/20 dark:bg-black/20 flex items-center justify-center">
+                                <span class="text-lg sm:text-xl font-bold text-white">{{ currency.code }}</span>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-xs text-white/80">Rate vs USD</p>
+                                <p class="text-lg sm:text-xl font-bold text-white">{{ getRateDisplay(currency.code) }}</p>
+                            </div>
+                        </div>
+                        <div class="pt-3 border-t border-white/20">
+                            <p class="text-xs text-white/90 mb-1">{{ currency.name }}</p>
+                            <div class="flex items-center gap-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                                </svg>
+                                <span class="text-xs text-white/80">Base: USD</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Conversion Matrix Widget -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-5 sm:p-6 border border-gray-200 dark:border-gray-700">
+                    <h3 class="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-4 sm:mb-5 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3zM14 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1h-4a1 1 0 01-1-1v-3z" />
+                        </svg>
+                        Conversion Matrix
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm sm:text-base">
+                            <thead>
+                                <tr class="border-b-2 border-gray-200 dark:border-gray-700">
+                                    <th class="text-left py-2 sm:py-3 px-2 sm:px-3 text-gray-600 dark:text-gray-400 font-semibold"></th>
+                                    <th v-for="currency in currencies" :key="currency.code" class="text-center py-2 sm:py-3 px-2 sm:px-3 text-gray-900 dark:text-white font-bold">
+                                        {{ currency.code }}
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="from in currencies" :key="from.code" class="border-b border-gray-100 dark:border-gray-700/50 hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors">
+                                    <td class="py-2 sm:py-3 px-2 sm:px-3 font-semibold text-gray-900 dark:text-white">
+                                        {{ from.code }}
+                                    </td>
+                                    <td v-for="to in currencies" :key="to.code" class="text-center py-2 sm:py-3 px-2 sm:px-3">
+                                        <span v-if="from.code === to.code" class="text-gray-400 dark:text-gray-500 font-bold">1.0000</span>
+                                        <span v-else class="text-gray-900 dark:text-white font-semibold">
+                                            {{ getConversionRate(from.code, to.code).toFixed(4) }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
@@ -223,44 +318,18 @@ const lastUpdated = ref(null)
 // Quick convert amounts
 const quickAmounts = [1, 10, 100, 1000]
 
-// Popular currencies (Cambodia-focused)
+// Popular currencies (only 3: Khmer, USA, China)
 const popularCurrencies = [
     { code: 'USD', name: 'US Dollar' },
     { code: 'KHR', name: 'Cambodian Riel' },
-    { code: 'EUR', name: 'Euro' },
-    { code: 'GBP', name: 'British Pound' },
-    { code: 'JPY', name: 'Japanese Yen' },
-    { code: 'CNY', name: 'Chinese Yuan' },
-    { code: 'THB', name: 'Thai Baht' },
-    { code: 'VND', name: 'Vietnamese Dong' },
-    { code: 'SGD', name: 'Singapore Dollar' },
-    { code: 'AUD', name: 'Australian Dollar' },
-    { code: 'CAD', name: 'Canadian Dollar' },
-    { code: 'INR', name: 'Indian Rupee' }
+    { code: 'CNY', name: 'Chinese Yuan' }
 ]
 
-// All available currencies
+// All available currencies (only 3)
 const currencies = ref([
     { code: 'USD', name: 'US Dollar' },
     { code: 'KHR', name: 'Cambodian Riel' },
-    { code: 'EUR', name: 'Euro' },
-    { code: 'GBP', name: 'British Pound' },
-    { code: 'JPY', name: 'Japanese Yen' },
-    { code: 'CNY', name: 'Chinese Yuan' },
-    { code: 'THB', name: 'Thai Baht' },
-    { code: 'VND', name: 'Vietnamese Dong' },
-    { code: 'SGD', name: 'Singapore Dollar' },
-    { code: 'AUD', name: 'Australian Dollar' },
-    { code: 'CAD', name: 'Canadian Dollar' },
-    { code: 'INR', name: 'Indian Rupee' },
-    { code: 'KRW', name: 'South Korean Won' },
-    { code: 'MYR', name: 'Malaysian Ringgit' },
-    { code: 'PHP', name: 'Philippine Peso' },
-    { code: 'IDR', name: 'Indonesian Rupiah' },
-    { code: 'HKD', name: 'Hong Kong Dollar' },
-    { code: 'NZD', name: 'New Zealand Dollar' },
-    { code: 'CHF', name: 'Swiss Franc' },
-    { code: 'RUB', name: 'Russian Ruble' }
+    { code: 'CNY', name: 'Chinese Yuan' }
 ])
 
 // Computed
@@ -298,6 +367,54 @@ const formatCurrency = (value) => {
 const formatNumber = (num) => {
     if (num >= 1000) return (num / 1000).toFixed(0) + 'K'
     return num.toString()
+}
+
+const getRateDisplay = (code) => {
+    if (!rates.value[code] || !rates.value['USD']) return '0.0000'
+    const rate = rates.value[code] / rates.value['USD']
+    return rate.toFixed(4)
+}
+
+const getBarWidth = (code) => {
+    if (!rates.value[code] || !rates.value['USD']) return 0
+    const currentRate = rates.value[code] / rates.value['USD']
+    
+    // Normalize to show relative strength
+    if (code === 'USD') return 100
+    
+    // Calculate max rate for normalization
+    const allRates = currencies.value.map(c => {
+        if (!rates.value[c.code] || !rates.value['USD']) return 0
+        return rates.value[c.code] / rates.value['USD']
+    })
+    const maxRate = Math.max(...allRates)
+    
+    if (maxRate === 0) return 0
+    return (currentRate / maxRate) * 100
+}
+
+const getCurrencyColor = (code) => {
+    const colors = {
+        'USD': 'bg-gradient-to-r from-blue-500 to-blue-600',
+        'KHR': 'bg-gradient-to-r from-red-500 to-red-600',
+        'CNY': 'bg-gradient-to-r from-yellow-500 to-yellow-600'
+    }
+    return colors[code] || 'bg-gradient-to-r from-gray-500 to-gray-600'
+}
+
+const getCurrencyGradient = (code) => {
+    const gradients = {
+        'USD': 'from-blue-500 to-blue-600',
+        'KHR': 'from-red-500 to-red-600',
+        'CNY': 'from-yellow-500 to-yellow-600'
+    }
+    return gradients[code] || 'from-gray-500 to-gray-600'
+}
+
+const getConversionRate = (from, to) => {
+    if (!rates.value[from] || !rates.value[to]) return 0
+    if (from === to) return 1
+    return rates.value[to] / rates.value[from]
 }
 
 const fetchExchangeRates = async () => {
