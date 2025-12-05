@@ -6,11 +6,14 @@ export function useMetaTags() {
     const route = useRoute()
 
     const updateMetaTags = (meta) => {
+        const siteUrl = process.env.VUE_APP_SITE_URL || 'https://ngoytrylyhuor.vercel.app'
+        const defaultImage = `${siteUrl}/seo-img.jpg`
+        
         const {
             title = 'Ngoytry Lyhuor',
             description = 'Professional web developer based in Cambodia. Portfolio showcasing projects in frontend development, JavaScript, and modern frameworks.',
-            image = 'https://i.pinimg.com/736x/c4/c6/96/c4c696d43555c08f806375759e1b7528.jpg',
-            url = process.env.VUE_APP_SITE_URL || 'https://ngoytrylyhuor.vercel.app',
+            image = defaultImage,
+            url = siteUrl,
             type = 'website'
         } = meta
 

@@ -142,7 +142,7 @@ onMounted(async () => {
             updateMetaTags({
                 title: `${article.value.title} - Ngoytry Lyhuor`,
                 description: article.value.description || article.value.title,
-                image: article.value.cover_image || article.value.social_image || 'https://i.pinimg.com/736x/c4/c6/96/c4c696d43555c08f806375759e1b7528.jpg',
+                image: article.value.cover_image || article.value.social_image || `${process.env.VUE_APP_SITE_URL || 'https://ngoytrylyhuor.vercel.app'}/seo-img.jpg`,
                 type: 'article',
                 robots: 'index, follow'
             })
