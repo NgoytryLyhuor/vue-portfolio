@@ -23,7 +23,7 @@
                 </div>
             </div>
 
-            <!-- Loading State - Improved -->
+            <!-- Loading State -->
             <div v-if="loading" class="flex flex-col items-center justify-center py-20">
                 <div class="relative">
                     <div class="w-20 h-20 border-4 border-blue-200 dark:border-blue-900 rounded-full"></div>
@@ -40,42 +40,80 @@
 
             <!-- Main Content -->
             <div v-else class="space-y-6">
-                <!-- Main AQI Card - Large and Prominent -->
-                <div class="bg-white dark:bg-gray-800 rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-8 lg:p-10 border-2 border-gray-200 dark:border-gray-700 relative overflow-hidden">
-                    <!-- Decorative Background -->
-                    <div class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-100 to-cyan-100 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-full blur-3xl opacity-50"></div>
-                    <div class="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-br from-teal-100 to-green-100 dark:from-teal-900/20 dark:to-green-900/20 rounded-full blur-2xl opacity-50"></div>
+                <!-- Main AQI Card with Color-Coded Background -->
+                <div class="rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-8 lg:p-10 border-2 relative overflow-hidden transition-all duration-500" :class="aqiCardClass">
+                    <!-- Decorative Elements -->
+                    <div class="absolute top-0 right-0 w-64 h-64 rounded-full blur-3xl opacity-30" :class="aqiDecorativeBg"></div>
+                    <div class="absolute bottom-0 left-0 w-48 h-48 rounded-full blur-2xl opacity-20" :class="aqiDecorativeBg"></div>
                     
                     <div class="relative z-10">
+                        <!-- AQI Level Badge - Top -->
                         <div class="text-center mb-6">
-                            <h2 class="text-xl sm:text-2xl font-semibold text-gray-700 dark:text-gray-200 mb-2">Air Quality Index</h2>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">US EPA Standard</p>
+                            <div class="inline-flex items-center gap-2 px-6 py-3 rounded-full text-lg font-bold shadow-lg mb-4" :class="aqiLevelClass">
+                                <span class="text-2xl">{{ aqiEmoji }}</span>
+                                <span>{{ getAqiLevel(pollutionData.aqius) }}</span>
+                            </div>
+                            <h2 class="text-xl sm:text-2xl font-semibold mb-2" :class="aqiTitleColor">Air Quality Index</h2>
+                            <p class="text-sm" :class="aqiSubtitleColor">US EPA Standard</p>
                         </div>
 
                         <div v-if="pollutionData" class="flex flex-col items-center">
                             <!-- Circular Progress -->
-                            <div class="relative w-48 h-48 sm:w-56 sm:h-56 lg:w-64 lg:h-64 mb-6">
+                            <div class="relative w-48 h-48 sm:w-56 sm:h-56 lg:w-64 lg:h-64 mb-8">
                                 <svg viewBox="0 0 180 180" class="transform -rotate-90 w-full h-full">
-                                    <circle cx="90" cy="90" r="80" stroke="#e5e7eb" stroke-width="12" fill="none" class="dark:stroke-gray-700" />
+                                    <circle cx="90" cy="90" r="80" stroke="rgba(255,255,255,0.3)" stroke-width="12" fill="none" />
                                     <circle cx="90" cy="90" r="80" :stroke="aqiGradientColor" stroke-width="12" stroke-linecap="round" fill="none" 
                                         :stroke-dasharray="circumference" :stroke-dashoffset="circumference - (aqiPercentage * circumference)" 
-                                        class="transition-all duration-1000 ease-out" />
+                                        class="transition-all duration-1000 ease-out drop-shadow-lg" />
                                 </svg>
                                 <div class="absolute inset-0 flex flex-col items-center justify-center">
-                                    <span class="text-5xl sm:text-6xl lg:text-7xl font-bold" :class="aqiTextColor">{{ pollutionData.aqius }}</span>
-                                    <span class="text-sm sm:text-base text-gray-500 dark:text-gray-400 mt-2">AQI</span>
+                                    <span class="text-5xl sm:text-6xl lg:text-7xl font-bold drop-shadow-lg" :class="aqiTextColor">{{ pollutionData.aqius }}</span>
+                                    <span class="text-sm sm:text-base mt-2 drop-shadow" :class="aqiSubtitleColor">AQI</span>
                                 </div>
                             </div>
 
-                            <!-- AQI Level Badge -->
-                            <div class="px-6 py-3 rounded-full text-base sm:text-lg font-semibold inline-block mb-4 shadow-lg" :class="aqiLevelClass">
-                                {{ getAqiLevel(pollutionData.aqius) }}
+                            <!-- Detailed Explanation Card -->
+                            <div class="w-full max-w-2xl bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-xl p-6 border-2 shadow-xl" :class="aqiBorderColor">
+                                <div class="text-center mb-4">
+                                    <h3 class="text-lg font-bold mb-2" :class="aqiTitleColor">What This Means</h3>
+                                </div>
+                                <div class="space-y-3">
+                                    <div class="flex items-start gap-3">
+                                        <div class="flex-shrink-0 mt-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" :class="aqiIconColor" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold mb-1" :class="aqiTitleColor">{{ getAqiDescription(pollutionData.aqius).title }}</p>
+                                            <p class="text-sm leading-relaxed" :class="aqiSubtitleColor">{{ getAqiDescription(pollutionData.aqius).description }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <div class="flex-shrink-0 mt-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" :class="aqiIconColor" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold mb-1" :class="aqiTitleColor">Health Recommendations</p>
+                                            <p class="text-sm leading-relaxed" :class="aqiSubtitleColor">{{ getAqiDescription(pollutionData.aqius).recommendations }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <div class="flex-shrink-0 mt-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" :class="aqiIconColor" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold mb-1" :class="aqiTitleColor">Who Should Be Careful</p>
+                                            <p class="text-sm leading-relaxed" :class="aqiSubtitleColor">{{ getAqiDescription(pollutionData.aqius).sensitiveGroups }}</p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            
-                            <!-- Description -->
-                            <p class="text-sm sm:text-base text-gray-600 dark:text-gray-300 px-4 text-center max-w-2xl">
-                                {{ getAqiDescription(pollutionData.aqius) }}
-                            </p>
                         </div>
 
                         <div v-else class="text-center py-12 text-red-500">
@@ -83,6 +121,40 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                             <p class="font-semibold">Failed to load air quality data</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AQI Scale Reference -->
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 sm:p-8 border border-gray-200 dark:border-gray-700">
+                    <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-6 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                        AQI Scale Reference
+                    </h2>
+                    <div class="space-y-3">
+                        <div v-for="level in aqiLevels" :key="level.range" 
+                            class="flex items-center gap-4 p-4 rounded-xl border-2 transition-all hover:shadow-md"
+                            :class="pollutionData && pollutionData.aqius >= level.min && pollutionData.aqius <= level.max 
+                                ? level.activeClass 
+                                : level.inactiveClass">
+                            <div class="flex-shrink-0 w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold shadow-lg" :class="level.badgeClass">
+                                {{ level.emoji }}
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between mb-1">
+                                    <h3 class="font-bold text-lg" :class="level.textClass">{{ level.name }}</h3>
+                                    <span class="text-sm font-semibold" :class="level.textClass">AQI {{ level.range }}</span>
+                                </div>
+                                <p class="text-sm" :class="level.subTextClass">{{ level.description }}</p>
+                            </div>
+                            <div v-if="pollutionData && pollutionData.aqius >= level.min && pollutionData.aqius <= level.max" 
+                                class="flex-shrink-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" :class="level.textClass" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -223,9 +295,7 @@
                         </label>
                     </div>
 
-                    <!-- Telegram Settings Content -->
                     <div v-if="telegramSettings.enabled" class="space-y-4">
-                        <!-- Setup Instructions -->
                         <div class="p-4 bg-blue-50 dark:bg-blue-900/30 rounded-xl border border-blue-200 dark:border-blue-800">
                             <h3 class="text-sm font-semibold text-blue-800 dark:text-blue-200 mb-2 flex items-center gap-2">
                                 <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -241,7 +311,6 @@
                             </ol>
                         </div>
 
-                        <!-- Input Fields -->
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Bot Token</label>
@@ -257,7 +326,6 @@
                             </div>
                         </div>
 
-                        <!-- Alert Settings -->
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Alert Threshold</label>
@@ -281,7 +349,6 @@
                             </div>
                         </div>
 
-                        <!-- Status & Actions -->
                         <div v-if="telegramSettings.checkInterval > 0" class="p-4 bg-green-50 dark:bg-green-900/30 rounded-xl border border-green-200 dark:border-green-800">
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center gap-2">
@@ -310,7 +377,6 @@
                             </button>
                         </div>
 
-                        <!-- Alert Status -->
                         <div v-if="alertStatus.show" class="p-4 rounded-xl" :class="alertStatus.success ? 'bg-green-50 dark:bg-green-900/30' : 'bg-red-50 dark:bg-red-900/30'">
                             <p class="text-sm" :class="alertStatus.success ? 'text-green-700 dark:text-green-300' : 'text-red-700 dark:text-red-300'">
                                 {{ alertStatus.message }}
@@ -331,7 +397,6 @@
 </template>
 
 <script>
-// Air Quality - Real-time AQI Monitor
 import logger from '@/utils/logger'
 import { ArrowPathIcon } from '@heroicons/vue/24/outline';
 
@@ -364,7 +429,87 @@ export default {
             autoCheckTimer: null,
             nextCheckTimestamp: null,
             countdownTimer: null,
-            currentTime: Date.now()
+            currentTime: Date.now(),
+            aqiLevels: [
+                {
+                    name: 'Good',
+                    range: '0-50',
+                    min: 0,
+                    max: 50,
+                    emoji: '😊',
+                    description: 'Air quality is satisfactory with little risk to health.',
+                    badgeClass: 'bg-green-500 text-white',
+                    textClass: 'text-green-700 dark:text-green-300',
+                    subTextClass: 'text-green-600 dark:text-green-400',
+                    activeClass: 'border-green-500 bg-green-50 dark:bg-green-900/30',
+                    inactiveClass: 'border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50'
+                },
+                {
+                    name: 'Moderate',
+                    range: '51-100',
+                    min: 51,
+                    max: 100,
+                    emoji: '🙂',
+                    description: 'Acceptable quality, but some pollutants may affect sensitive individuals.',
+                    badgeClass: 'bg-yellow-500 text-white',
+                    textClass: 'text-yellow-700 dark:text-yellow-300',
+                    subTextClass: 'text-yellow-600 dark:text-yellow-400',
+                    activeClass: 'border-yellow-500 bg-yellow-50 dark:bg-yellow-900/30',
+                    inactiveClass: 'border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50'
+                },
+                {
+                    name: 'Unhealthy for Sensitive Groups',
+                    range: '101-150',
+                    min: 101,
+                    max: 150,
+                    emoji: '😐',
+                    description: 'Sensitive groups may experience health effects.',
+                    badgeClass: 'bg-orange-500 text-white',
+                    textClass: 'text-orange-700 dark:text-orange-300',
+                    subTextClass: 'text-orange-600 dark:text-orange-400',
+                    activeClass: 'border-orange-500 bg-orange-50 dark:bg-orange-900/30',
+                    inactiveClass: 'border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50'
+                },
+                {
+                    name: 'Unhealthy',
+                    range: '151-200',
+                    min: 151,
+                    max: 200,
+                    emoji: '😷',
+                    description: 'Everyone may begin to experience health effects.',
+                    badgeClass: 'bg-red-500 text-white',
+                    textClass: 'text-red-700 dark:text-red-300',
+                    subTextClass: 'text-red-600 dark:text-red-400',
+                    activeClass: 'border-red-500 bg-red-50 dark:bg-red-900/30',
+                    inactiveClass: 'border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50'
+                },
+                {
+                    name: 'Very Unhealthy',
+                    range: '201-300',
+                    min: 201,
+                    max: 300,
+                    emoji: '🤢',
+                    description: 'Health alert: everyone may experience more serious effects.',
+                    badgeClass: 'bg-purple-500 text-white',
+                    textClass: 'text-purple-700 dark:text-purple-300',
+                    subTextClass: 'text-purple-600 dark:text-purple-400',
+                    activeClass: 'border-purple-500 bg-purple-50 dark:bg-purple-900/30',
+                    inactiveClass: 'border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50'
+                },
+                {
+                    name: 'Hazardous',
+                    range: '301+',
+                    min: 301,
+                    max: 500,
+                    emoji: '☠️',
+                    description: 'Emergency conditions with serious health effects for everyone.',
+                    badgeClass: 'bg-red-800 text-white',
+                    textClass: 'text-red-800 dark:text-red-200',
+                    subTextClass: 'text-red-700 dark:text-red-300',
+                    activeClass: 'border-red-800 bg-red-100 dark:bg-red-900/50',
+                    inactiveClass: 'border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50'
+                }
+            ]
         }
     },
     computed: {
@@ -374,6 +519,16 @@ export default {
         aqiPercentage() {
             if (!this.pollutionData) return 0
             return Math.min(this.pollutionData.aqius / 500, 1)
+        },
+        aqiEmoji() {
+            if (!this.pollutionData) return '⏳'
+            const aqi = this.pollutionData.aqius
+            if (aqi <= 50) return '😊'
+            if (aqi <= 100) return '🙂'
+            if (aqi <= 150) return '😐'
+            if (aqi <= 200) return '😷'
+            if (aqi <= 300) return '🤢'
+            return '☠️'
         },
         aqiGradientColor() {
             if (!this.pollutionData) return '#3b82f6'
@@ -385,15 +540,75 @@ export default {
             if (aqi <= 300) return '#8B5CF6'
             return '#7F1D1D'
         },
-        aqiTextColor() {
-            if (!this.pollutionData) return 'text-blue-500'
+        aqiCardClass() {
+            if (!this.pollutionData) return 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700'
             const aqi = this.pollutionData.aqius
-            if (aqi <= 50) return 'text-green-500'
-            if (aqi <= 100) return 'text-yellow-500'
-            if (aqi <= 150) return 'text-orange-500'
-            if (aqi <= 200) return 'text-red-500'
-            if (aqi <= 300) return 'text-purple-500'
-            return 'text-red-800 dark:text-red-600'
+            if (aqi <= 50) return 'bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/30 dark:to-emerald-900/30 border-green-300 dark:border-green-700'
+            if (aqi <= 100) return 'bg-gradient-to-br from-yellow-50 to-amber-50 dark:from-yellow-900/30 dark:to-amber-900/30 border-yellow-300 dark:border-yellow-700'
+            if (aqi <= 150) return 'bg-gradient-to-br from-orange-50 to-red-50 dark:from-orange-900/30 dark:to-red-900/30 border-orange-300 dark:border-orange-700'
+            if (aqi <= 200) return 'bg-gradient-to-br from-red-50 to-pink-50 dark:from-red-900/30 dark:to-pink-900/30 border-red-300 dark:border-red-700'
+            if (aqi <= 300) return 'bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-900/30 dark:to-violet-900/30 border-purple-300 dark:border-purple-700'
+            return 'bg-gradient-to-br from-red-100 to-red-200 dark:from-red-900/50 dark:to-red-800/50 border-red-500 dark:border-red-600'
+        },
+        aqiDecorativeBg() {
+            if (!this.pollutionData) return 'bg-blue-100 dark:bg-blue-900'
+            const aqi = this.pollutionData.aqius
+            if (aqi <= 50) return 'bg-green-200 dark:bg-green-900'
+            if (aqi <= 100) return 'bg-yellow-200 dark:bg-yellow-900'
+            if (aqi <= 150) return 'bg-orange-200 dark:bg-orange-900'
+            if (aqi <= 200) return 'bg-red-200 dark:bg-red-900'
+            if (aqi <= 300) return 'bg-purple-200 dark:bg-purple-900'
+            return 'bg-red-300 dark:bg-red-800'
+        },
+        aqiTextColor() {
+            if (!this.pollutionData) return 'text-blue-500 dark:text-blue-400'
+            const aqi = this.pollutionData.aqius
+            if (aqi <= 50) return 'text-green-600 dark:text-green-400'
+            if (aqi <= 100) return 'text-yellow-600 dark:text-yellow-400'
+            if (aqi <= 150) return 'text-orange-600 dark:text-orange-400'
+            if (aqi <= 200) return 'text-red-600 dark:text-red-400'
+            if (aqi <= 300) return 'text-purple-600 dark:text-purple-400'
+            return 'text-red-800 dark:text-red-300'
+        },
+        aqiTitleColor() {
+            if (!this.pollutionData) return 'text-gray-900 dark:text-white'
+            const aqi = this.pollutionData.aqius
+            if (aqi <= 50) return 'text-green-800 dark:text-green-200'
+            if (aqi <= 100) return 'text-yellow-800 dark:text-yellow-200'
+            if (aqi <= 150) return 'text-orange-800 dark:text-orange-200'
+            if (aqi <= 200) return 'text-red-800 dark:text-red-200'
+            if (aqi <= 300) return 'text-purple-800 dark:text-purple-200'
+            return 'text-red-900 dark:text-red-100'
+        },
+        aqiSubtitleColor() {
+            if (!this.pollutionData) return 'text-gray-600 dark:text-gray-400'
+            const aqi = this.pollutionData.aqius
+            if (aqi <= 50) return 'text-green-700 dark:text-green-300'
+            if (aqi <= 100) return 'text-yellow-700 dark:text-yellow-300'
+            if (aqi <= 150) return 'text-orange-700 dark:text-orange-300'
+            if (aqi <= 200) return 'text-red-700 dark:text-red-300'
+            if (aqi <= 300) return 'text-purple-700 dark:text-purple-300'
+            return 'text-red-800 dark:text-red-200'
+        },
+        aqiIconColor() {
+            if (!this.pollutionData) return 'text-blue-500 dark:text-blue-400'
+            const aqi = this.pollutionData.aqius
+            if (aqi <= 50) return 'text-green-500 dark:text-green-400'
+            if (aqi <= 100) return 'text-yellow-500 dark:text-yellow-400'
+            if (aqi <= 150) return 'text-orange-500 dark:text-orange-400'
+            if (aqi <= 200) return 'text-red-500 dark:text-red-400'
+            if (aqi <= 300) return 'text-purple-500 dark:text-purple-400'
+            return 'text-red-600 dark:text-red-400'
+        },
+        aqiBorderColor() {
+            if (!this.pollutionData) return 'border-gray-200 dark:border-gray-700'
+            const aqi = this.pollutionData.aqius
+            if (aqi <= 50) return 'border-green-300 dark:border-green-700'
+            if (aqi <= 100) return 'border-yellow-300 dark:border-yellow-700'
+            if (aqi <= 150) return 'border-orange-300 dark:border-orange-700'
+            if (aqi <= 200) return 'border-red-300 dark:border-red-700'
+            if (aqi <= 300) return 'border-purple-300 dark:border-purple-700'
+            return 'border-red-500 dark:border-red-600'
         },
         aqiLevelClass() {
             if (!this.pollutionData) return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
@@ -466,6 +681,54 @@ export default {
                 logger.error('Error fetching air quality data:', error)
             } finally {
                 this.loading = false
+            }
+        },
+        getAqiDescription(aqi) {
+            if (aqi <= 50) {
+                return {
+                    title: 'Excellent Air Quality',
+                    description: 'The air quality is in the safe range. Air pollution poses little or no risk to your health. You can safely enjoy outdoor activities without concern.',
+                    recommendations: 'Perfect conditions for outdoor activities! Feel free to exercise, play sports, or spend time outside. No special precautions needed.',
+                    sensitiveGroups: 'Everyone can safely enjoy outdoor activities. No restrictions for any age group or health condition.'
+                }
+            }
+            if (aqi <= 100) {
+                return {
+                    title: 'Acceptable Air Quality',
+                    description: 'Air quality is generally acceptable for most people. However, some pollutants may cause minor breathing discomfort for unusually sensitive individuals.',
+                    recommendations: 'Most people can continue normal outdoor activities. If you experience unusual coughing or throat irritation, consider reducing prolonged outdoor exertion.',
+                    sensitiveGroups: 'People with respiratory conditions, children, and elderly should monitor symptoms. Reduce outdoor activities if experiencing discomfort.'
+                }
+            }
+            if (aqi <= 150) {
+                return {
+                    title: 'Unhealthy for Sensitive Groups',
+                    description: 'Members of sensitive groups may experience health effects. The general public is less likely to be affected, but some may experience minor symptoms.',
+                    recommendations: 'Sensitive groups should reduce prolonged or heavy outdoor exertion. Everyone else can continue normal activities but should watch for symptoms.',
+                    sensitiveGroups: 'Children, elderly, and people with heart or lung disease should avoid prolonged outdoor activities. Asthmatics should carry medication.'
+                }
+            }
+            if (aqi <= 200) {
+                return {
+                    title: 'Unhealthy Air Quality',
+                    description: 'Everyone may begin to experience health effects. Members of sensitive groups may experience more serious health effects.',
+                    recommendations: 'Everyone should reduce prolonged or heavy outdoor exertion. Sensitive groups should avoid all outdoor activities. Stay indoors if possible.',
+                    sensitiveGroups: 'Sensitive groups should avoid all outdoor activities. Children, elderly, and people with respiratory or heart conditions are at higher risk.'
+                }
+            }
+            if (aqi <= 300) {
+                return {
+                    title: 'Very Unhealthy Air Quality',
+                    description: 'Health alert: everyone may experience more serious health effects. This is a dangerous level of air pollution.',
+                    recommendations: 'Everyone should avoid prolonged outdoor activities. Sensitive groups should remain indoors. Close windows and use air purifiers if available.',
+                    sensitiveGroups: 'All sensitive groups must stay indoors. This level is dangerous for children, elderly, pregnant women, and people with any respiratory or heart conditions.'
+                }
+            }
+            return {
+                title: 'Hazardous Air Quality',
+                description: 'Emergency conditions! The entire population is likely to be affected. This is a health emergency with serious effects for everyone.',
+                recommendations: 'Everyone should avoid all outdoor activities. Stay indoors with windows closed. Use air purifiers. Consider wearing N95 masks if you must go outside.',
+                sensitiveGroups: 'This is extremely dangerous for everyone, especially sensitive groups. Seek medical attention if experiencing severe symptoms. Consider evacuating if possible.'
             }
         },
         loadTelegramSettings() {
@@ -629,14 +892,6 @@ export default {
             if (aqi <= 200) return 'Unhealthy'
             if (aqi <= 300) return 'Very Unhealthy'
             return 'Hazardous'
-        },
-        getAqiDescription(aqi) {
-            if (aqi <= 50) return 'Air quality is satisfactory with little risk to health.'
-            if (aqi <= 100) return 'Acceptable quality, but some pollutants may affect sensitive individuals.'
-            if (aqi <= 150) return 'Sensitive groups may experience health effects.'
-            if (aqi <= 200) return 'Everyone may begin to experience health effects.'
-            if (aqi <= 300) return 'Health alert: everyone may experience more serious effects.'
-            return 'Emergency conditions with serious health effects for everyone.'
         },
         formatPollutantName(key) {
             const names = { p1: 'Particulate Matter (PM10)', p2: 'Fine Particulate Matter (PM2.5)', o3: 'Ozone (O₃)', n2: 'Nitrogen Dioxide (NO₂)', s2: 'Sulfur Dioxide (SO₂)', co: 'Carbon Monoxide (CO)' }
