@@ -535,7 +535,8 @@ export default {
         return {
             loading: true,
             error: null,
-            apiKey: process.env.VUE_APP_WEATHER_API_KEY || '',
+            // TODO: Move this to .env file for production (VUE_APP_WEATHER_API_KEY)
+            apiKey: process.env.VUE_APP_WEATHER_API_KEY || '3504abf6222f69d05c100fa0ef8165bb',
             location: { name: 'Phnom Penh', lat: 11.5564, lon: 104.9282 },
             currentWeather: {
                 temp: 0,
