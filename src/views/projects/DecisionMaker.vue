@@ -408,7 +408,7 @@
 
 <script setup>
 // Decision Maker - Multiple decision-making tools
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 
 // Tool definitions
 const tools = [
