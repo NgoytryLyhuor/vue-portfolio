@@ -61,6 +61,7 @@
 </template>
 
 <script setup>
+/* eslint-disable no-undef */
 defineProps({
     type: {
         type: String,

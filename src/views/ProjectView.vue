@@ -12,9 +12,8 @@
             </div>
 
             <!-- Loading State -->
-            <div v-if="isLoading" class="text-center py-12">
-                <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mx-auto"></div>
-                <p class="mt-4 text-gray-600 dark:text-gray-400">Loading projects...</p>
+            <div v-if="isLoading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <LoadingSkeleton v-for="i in 6" :key="i" type="project" />
             </div>
 
             <!-- Error State -->
