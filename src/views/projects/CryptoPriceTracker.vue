@@ -280,13 +280,7 @@
                     </div>
 
                     <!-- Chart Section -->
-                    <div v-if="chartLoading" class="mb-6 flex items-center justify-center py-12 bg-gray-50 dark:bg-gray-700 rounded-xl">
-                        <div class="text-center">
-                            <div class="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
-                            <p class="text-gray-600 dark:text-gray-400">Loading chart data...</p>
-                        </div>
-                    </div>
-                    <div v-else-if="chartData" class="mb-6 bg-gray-50 dark:bg-gray-700 rounded-xl p-4">
+                    <div class="mb-6 bg-gray-50 dark:bg-gray-700 rounded-xl p-4">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Price Chart</h3>
                             <div class="flex gap-2">
@@ -294,19 +288,50 @@
                                     v-for="period in chartPeriods"
                                     :key="period.value"
                                     @click="selectedChartPeriod = period.value; fetchChartData()"
+                                    :disabled="chartLoading"
                                     :class="[
                                         'px-3 py-1 rounded-lg text-sm font-medium transition-colors',
                                         selectedChartPeriod === period.value
                                             ? 'bg-blue-600 text-white'
-                                            : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600'
+                                            : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600',
+                                        chartLoading ? 'opacity-50 cursor-not-allowed' : ''
                                     ]"
                                 >
                                     {{ period.label }}
                                 </button>
                             </div>
                         </div>
-                        <div class="h-64 sm:h-80">
+                        
+                        <!-- Loading State -->
+                        <div v-if="chartLoading" class="flex items-center justify-center py-12">
+                            <div class="text-center">
+                                <div class="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
+                                <p class="text-gray-600 dark:text-gray-400">Loading chart data...</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Error State -->
+                        <div v-else-if="chartError" class="flex flex-col items-center justify-center py-12">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-red-500 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                            <p class="text-gray-600 dark:text-gray-400 mb-2">{{ chartError }}</p>
+                            <button 
+                                @click="fetchChartData()"
+                                class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors"
+                            >
+                                Retry
+                            </button>
+                        </div>
+                        
+                        <!-- Chart Canvas -->
+                        <div v-else-if="chartData" class="h-64 sm:h-80">
                             <canvas ref="chartCanvas"></canvas>
+                        </div>
+                        
+                        <!-- Initial State -->
+                        <div v-else class="flex items-center justify-center py-12">
+                            <p class="text-gray-600 dark:text-gray-400">Select a time period to view the chart</p>
                         </div>
                     </div>
 
@@ -496,6 +521,7 @@ const chartCanvas = ref(null)
 const chartInstance = ref(null)
 const chartData = ref(null)
 const chartLoading = ref(false)
+const chartError = ref(null)
 const selectedChartPeriod = ref('7')
 const chartPeriods = [
     { value: '1', label: '24H' },
@@ -601,6 +627,7 @@ const fetchChartData = async () => {
     if (!selectedCrypto.value) return
     
     chartLoading.value = true
+    chartError.value = null
     
     try {
         const days = selectedChartPeriod.value
@@ -611,6 +638,11 @@ const fetchChartData = async () => {
         }
         
         const data = await response.json()
+        
+        if (!data.prices || data.prices.length === 0) {
+            throw new Error('No price data available')
+        }
+        
         chartData.value = data
         
         // Calculate predictions and indicators
@@ -622,17 +654,28 @@ const fetchChartData = async () => {
         renderChart(data.prices)
     } catch (err) {
         logger.error('Error fetching chart data:', err)
+        chartError.value = err.message || 'Failed to load chart data'
+        chartData.value = null
     } finally {
         chartLoading.value = false
     }
 }
 
 const renderChart = (prices) => {
-    if (!chartCanvas.value) return
+    if (!chartCanvas.value) {
+        // Wait a bit for canvas to be ready
+        setTimeout(() => {
+            if (chartCanvas.value) {
+                renderChart(prices)
+            }
+        }, 100)
+        return
+    }
     
     // Destroy existing chart
     if (chartInstance.value) {
         chartInstance.value.destroy()
+        chartInstance.value = null
     }
     
     const labels = prices.map((_, index) => {
@@ -884,6 +927,7 @@ const selectCrypto = async (crypto) => {
     chartData.value = null
     pricePrediction.value = null
     technicalIndicators.value = null
+    chartError.value = null
     
     // Destroy existing chart
     if (chartInstance.value) {
@@ -891,7 +935,8 @@ const selectCrypto = async (crypto) => {
         chartInstance.value = null
     }
     
-    // Fetch chart data
+    // Wait for modal to render, then fetch chart data
+    await nextTick()
     await fetchChartData()
 }
 
