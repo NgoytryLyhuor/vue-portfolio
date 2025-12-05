@@ -235,7 +235,7 @@ const fetchRocketLaunches = async () => {
         if (response.ok) {
             const data = await response.json()
             if (data.results) {
-                rocketLaunches.value = data.results.map((launch, index) => ({
+                rocketLaunches.value = data.results.map((launch) => ({
                     id: `launch-${launch.id}`,
                     name: launch.name || 'Upcoming Launch',
                     emoji: '🚀',

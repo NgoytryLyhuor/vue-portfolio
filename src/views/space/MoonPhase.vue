@@ -103,9 +103,7 @@
 import { ref, computed, onMounted } from 'vue'
 import logger from '@/utils/logger'
 
-// Cambodia location (Phnom Penh)
-const CAMBODIA_LAT = 11.5564
-const CAMBODIA_LON = 104.9282
+// Cambodia timezone
 const CAMBODIA_TIMEZONE = 'Asia/Phnom_Penh' // UTC+7
 
 const loading = ref(true)
@@ -186,7 +184,6 @@ const calculateMoonPhase = () => {
 
 // Calculate moonrise/moonset times for Cambodia
 const calculateMoonTimes = () => {
-    const date = getCambodiaDate()
     const phase = currentMoonPhase.value.phase || 0
     
     // Moonrise/moonset calculation based on moon phase
@@ -221,11 +218,7 @@ const calculateMoonTimes = () => {
 // Fetch moonrise/moonset times for Cambodia
 const fetchMoonTimes = async () => {
     try {
-        const today = getCambodiaDate()
-        const dateStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`
-        
-        // Try to use an API that provides moon data
-        // Using a calculation-based approach for now
+        // Using a calculation-based approach
         calculateMoonTimes()
         
         // Alternative: Could use https://api.visibleplanets.info/v3?latitude=11.5564&longitude=104.9282

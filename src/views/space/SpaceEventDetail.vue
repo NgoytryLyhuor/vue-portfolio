@@ -194,11 +194,9 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import logger from '@/utils/logger'
+import { useRoute } from 'vue-router'
 
 const route = useRoute()
-const router = useRouter()
 const loading = ref(true)
 const error = ref(null)
 const event = ref(null)
