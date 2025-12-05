@@ -14,6 +14,7 @@ const KhmerCalendar = () => import('@/views/projects/KhmerCalendar.vue')
 const CurrencyConverter = () => import('@/views/projects/CurrencyConverter.vue')
 const CryptoPassword = () => import('@/views/projects/CryptoPassword.vue')
 const CryptoPriceTracker = () => import('@/views/projects/CryptoPriceTracker.vue')
+const CambodiaPlaces = () => import('@/views/projects/CambodiaPlaces.vue')
 const Login = () => import('@/views/auth/LoginView.vue')
 const Dashboard = () => import('@/views/auth/DashboardView.vue')
 
@@ -136,6 +137,17 @@ const routes = [
             description: 'Real-time cryptocurrency prices, market data, and tracking for Bitcoin, Ethereum, and 250+ cryptocurrencies.',
             robots: 'noindex, nofollow',
             requiresCryptoAuth: true
+        }
+    },
+    {
+        path: '/cambodia-places',
+        name: 'cambodia-places',
+        component: CambodiaPlaces,
+        meta: {
+            showNavBar: true,
+            title: 'Places to Visit in Cambodia - Tourist Destinations & Attractions',
+            description: 'Discover amazing destinations, temples, beaches, and cultural sites across Cambodia. Explore Angkor Wat, Phnom Penh, beaches, and more.',
+            robots: 'index, follow'
         }
     },
     {
