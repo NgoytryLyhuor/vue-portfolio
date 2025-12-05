@@ -3,9 +3,6 @@
         <div class="max-w-4xl mx-auto">
             <!-- Header -->
             <div class="text-center mb-6 mt-8 sm:mt-10">
-                <div class="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-orange-400 via-pink-500 to-purple-600 mb-3 sm:mb-4 shadow-xl">
-                    <SunIcon class="h-7 w-7 sm:h-8 sm:w-8 text-white" />
-                </div>
                 <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-1 sm:mb-2">
                     Weather Forecast
                 </h1>

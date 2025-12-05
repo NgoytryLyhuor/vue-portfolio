@@ -3,9 +3,6 @@
         <div class="max-w-5xl mx-auto">
             <!-- Header -->
             <div class="text-center mb-6 mt-8 sm:mt-10">
-                <div class="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-red-500 via-red-600 to-blue-600 mb-3 sm:mb-4 shadow-xl">
-                    <span class="text-2xl sm:text-3xl">🇰🇭</span>
-                </div>
                 <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-1 sm:mb-2">
                     ប្រតិទិនខ្មែរ
                 </h1>
