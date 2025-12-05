@@ -1,76 +1,71 @@
 <template>
-    <div class="min-h-screen py-6 px-3 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-900 transition-colors duration-300">
+    <div class="min-h-screen py-4 px-3 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
         <div class="max-w-7xl mx-auto">
             <!-- Header -->
-            <div class="text-center mb-8 mt-8 sm:mt-10">
-                <div class="flex items-center justify-center gap-3 mb-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 sm:h-12 sm:w-12 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white">
-                        Space Events Calendar
-                    </h1>
-                </div>
-                <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400">
-                    Upcoming astronomical events and space missions
+            <div class="text-center mb-6 mt-4 sm:mt-6">
+                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+                    📅 Space Events Calendar
+                </h1>
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                    Upcoming astronomical events
                 </p>
             </div>
 
-            <!-- Filter Tabs -->
+            <!-- Filter Tabs - Mobile Optimized -->
             <div class="flex flex-wrap gap-2 mb-6 justify-center">
                 <button
                     v-for="category in categories"
                     :key="category"
                     @click="selectedCategory = category"
                     :class="[
-                        'px-4 py-2 rounded-lg font-medium transition-colors',
+                        'px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors',
                         selectedCategory === category
                             ? 'bg-purple-600 text-white'
-                            : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                            : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'
                     ]"
                 >
                     {{ category }}
                 </button>
             </div>
 
-            <!-- Events List -->
-            <div class="space-y-4">
+            <!-- Events List - Mobile Optimized -->
+            <div class="space-y-3 sm:space-y-4">
                 <div 
                     v-for="event in filteredEvents" 
                     :key="event.id"
-                    class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300"
+                    class="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-md hover:shadow-lg transition-all border border-gray-200 dark:border-gray-700"
                 >
-                    <div class="flex flex-col sm:flex-row sm:items-start gap-4">
+                    <div class="flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-4">
                         <!-- Event Icon -->
                         <div class="flex-shrink-0">
-                            <div class="w-16 h-16 rounded-xl flex items-center justify-center text-3xl"
+                            <div class="w-12 h-12 sm:w-16 sm:h-16 rounded-lg flex items-center justify-center text-2xl sm:text-3xl"
                                 :style="{ backgroundColor: event.color + '20' }">
                                 {{ event.emoji }}
                             </div>
                         </div>
 
                         <!-- Event Info -->
-                        <div class="flex-1">
-                            <div class="flex items-start justify-between mb-2">
-                                <div>
-                                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-1">
+                        <div class="flex-1 min-w-0">
+                            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-2">
+                                <div class="flex-1 min-w-0">
+                                    <h3 class="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-1">
                                         {{ event.name }}
                                     </h3>
-                                    <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <div class="flex items-center gap-2 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                         </svg>
                                         {{ event.date }}
                                     </div>
                                 </div>
                                 <span 
-                                    class="px-3 py-1 rounded-full text-xs font-semibold"
+                                    class="px-2 py-1 rounded-full text-xs font-semibold flex-shrink-0 w-fit"
                                     :style="{ backgroundColor: event.color + '20', color: event.color }"
                                 >
                                     {{ event.category }}
                                 </span>
                             </div>
-                            <p class="text-gray-700 dark:text-gray-300 mb-3">{{ event.description }}</p>
+                            <p class="text-sm sm:text-base text-gray-700 dark:text-gray-300 mb-3">{{ event.description }}</p>
                             <div v-if="event.details" class="flex flex-wrap gap-2">
                                 <div 
                                     v-for="(detail, index) in event.details" 
@@ -86,9 +81,9 @@
             </div>
 
             <!-- Empty State -->
-            <div v-if="filteredEvents.length === 0" class="text-center py-12 bg-white dark:bg-gray-800 rounded-2xl">
-                <div class="text-6xl mb-4">🔭</div>
-                <p class="text-gray-600 dark:text-gray-400">No events found in this category</p>
+            <div v-if="filteredEvents.length === 0" class="text-center py-12 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
+                <div class="text-5xl sm:text-6xl mb-4">🔭</div>
+                <p class="text-gray-600 dark:text-gray-400 text-sm sm:text-base">No events found in this category</p>
             </div>
         </div>
     </div>
@@ -212,7 +207,6 @@ const filteredEvents = computed(() => {
 </script>
 
 <style scoped>
-/* Smooth animations */
 @keyframes fade-in {
     from {
         opacity: 0;
@@ -223,9 +217,4 @@ const filteredEvents = computed(() => {
         transform: translateY(0);
     }
 }
-
-.animate-fade-in {
-    animation: fade-in 0.3s ease-out;
-}
 </style>
-
