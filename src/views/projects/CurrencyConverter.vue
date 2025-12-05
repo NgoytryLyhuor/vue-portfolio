@@ -1,24 +1,20 @@
 <template>
-    <div class="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-6 sm:py-8 lg:py-12 px-3 sm:px-4 lg:px-6 xl:px-8">
-        <div class="max-w-5xl mx-auto mt-4 sm:mt-6 lg:mt-10">
-            <!-- Header -->
-            <div class="text-center mb-8 sm:mb-10">
-                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-3">
+    <div class="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-4 px-3 sm:px-4">
+        <div class="max-w-2xl mx-auto mt-2 sm:mt-4">
+            <!-- Compact Header -->
+            <div class="text-center mb-4 sm:mb-6">
+                <h1 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-1">
                     Currency Converter
                 </h1>
-                <p class="text-base sm:text-lg text-gray-600 dark:text-gray-300 mb-2">
-                    Convert currencies with real-time exchange rates
-                </p>
-                <div class="flex items-center justify-center gap-2 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div class="flex items-center justify-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    <span>Last updated: {{ formattedTime }}</span>
+                    <span>{{ formattedTime }}</span>
                     <button @click="fetchExchangeRates"
-                        class="ml-2 p-1.5 rounded-full bg-blue-100 dark:bg-gray-700 text-blue-600 dark:text-blue-400 hover:bg-blue-200 dark:hover:bg-gray-600 transition-all"
-                        aria-label="Refresh rates"
-                        title="Refresh exchange rates">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        class="p-1 rounded-full bg-blue-100 dark:bg-gray-700 text-blue-600 dark:text-blue-400 hover:bg-blue-200 dark:hover:bg-gray-600 transition-all"
+                        aria-label="Refresh rates">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                         </svg>
                     </button>
@@ -26,220 +22,132 @@
             </div>
 
             <!-- Loading State -->
-            <div v-if="loading" class="flex flex-col items-center justify-center py-20">
+            <div v-if="loading" class="flex flex-col items-center justify-center py-12">
                 <div class="relative">
-                    <div class="w-16 h-16 border-4 border-blue-200 dark:border-blue-900 rounded-full"></div>
-                    <div class="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin absolute top-0 left-0"></div>
+                    <div class="w-12 h-12 border-3 border-blue-200 dark:border-blue-900 rounded-full"></div>
+                    <div class="w-12 h-12 border-3 border-blue-500 border-t-transparent rounded-full animate-spin absolute top-0 left-0"></div>
                 </div>
-                <p class="mt-6 text-gray-600 dark:text-gray-400 font-medium">Loading exchange rates...</p>
+                <p class="mt-4 text-sm text-gray-600 dark:text-gray-400">Loading rates...</p>
             </div>
 
             <!-- Error State -->
-            <div v-else-if="error" class="bg-red-50 dark:bg-red-900/20 border-2 border-red-200 dark:border-red-800 rounded-2xl p-6 sm:p-8 mb-6 text-center shadow-lg">
-                <div class="text-red-500 mb-3 text-xl font-bold">⚠️ Error</div>
-                <p class="text-gray-700 dark:text-gray-300 mb-6">{{ error }}</p>
+            <div v-else-if="error" class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4 mb-4 text-center">
+                <div class="text-red-500 mb-2 text-sm font-bold">⚠️ Error</div>
+                <p class="text-xs text-gray-700 dark:text-gray-300 mb-3">{{ error }}</p>
                 <button @click="fetchExchangeRates"
-                    class="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors font-semibold shadow-md">
+                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-semibold">
                     🔄 Try Again
                 </button>
             </div>
 
             <!-- Main Converter -->
-            <div v-else class="space-y-6">
-                <!-- Converter Card - Large and Prominent -->
-                <div class="bg-white dark:bg-gray-800 rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-8 lg:p-10 border border-gray-200 dark:border-gray-700">
-                    <!-- Instructions -->
-                    <div class="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-200 dark:border-blue-800">
-                        <p class="text-sm text-blue-800 dark:text-blue-300 flex items-start gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            <span><strong>How to use:</strong> Enter an amount, select currencies, and see the conversion instantly. Click the swap button to reverse currencies.</span>
-                        </p>
-                    </div>
-
-                    <!-- From Currency Section -->
-                    <div class="mb-6">
-                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 uppercase tracking-wide">
-                            💵 Convert From
-                        </label>
-                        <div class="flex flex-col sm:flex-row gap-4">
-                            <!-- Currency Selector -->
-                            <div class="sm:w-48 flex-shrink-0">
-                                <select 
-                                    v-model="fromCurrency"
-                                    @change="convertCurrency"
-                                    class="w-full px-4 py-4 rounded-xl border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white font-semibold text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all cursor-pointer"
-                                >
-                                    <option v-for="currency in currencies" :key="currency.code" :value="currency.code">
-                                        {{ currency.code }}
-                                    </option>
-                                </select>
-                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1 text-center">
-                                    {{ getCurrencyName(fromCurrency) }}
-                                </p>
-                            </div>
-                            
-                            <!-- Amount Input -->
-                            <div class="flex-1">
-                                <input 
-                                    v-model.number="amount" 
-                                    type="number" 
-                                    step="0.01"
-                                    min="0"
-                                    placeholder="Enter amount"
-                                    class="w-full px-6 py-4 rounded-xl border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-2xl sm:text-3xl font-bold focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                                    @input="convertCurrency"
-                                />
-                                <div class="flex items-center justify-between mt-2">
-                                    <p class="text-xs text-gray-500 dark:text-gray-400">
-                                        Enter any amount
-                                    </p>
-                                    <div class="flex gap-2">
-                                        <button @click="amount = 100" class="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">100</button>
-                                        <button @click="amount = 1000" class="text-xs px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">1K</button>
-                                    </div>
-                                </div>
-                            </div>
+            <div v-else class="space-y-4">
+                <!-- Compact Converter Card -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 border border-gray-200 dark:border-gray-700">
+                    <!-- From Currency -->
+                    <div class="mb-3">
+                        <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1.5">From</label>
+                        <div class="flex gap-2">
+                            <select 
+                                v-model="fromCurrency"
+                                @change="convertCurrency"
+                                class="w-24 px-3 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                            >
+                                <option v-for="currency in currencies" :key="currency.code" :value="currency.code">
+                                    {{ currency.code }}
+                                </option>
+                            </select>
+                            <input 
+                                v-model.number="amount" 
+                                type="number" 
+                                step="0.01"
+                                min="0"
+                                placeholder="0.00"
+                                class="flex-1 px-3 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-lg font-bold focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                                @input="convertCurrency"
+                            />
                         </div>
                     </div>
 
                     <!-- Swap Button -->
-                    <div class="flex justify-center my-4">
+                    <div class="flex justify-center my-2">
                         <button 
                             @click="swapCurrencies"
-                            class="p-4 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
+                            class="p-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 transition-all shadow-md"
                             aria-label="Swap currencies"
-                            title="Swap currencies"
                         >
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
                             </svg>
                         </button>
                     </div>
 
-                    <!-- To Currency Section -->
-                    <div class="mb-6">
-                        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 uppercase tracking-wide">
-                            💰 Convert To
-                        </label>
-                        <div class="flex flex-col sm:flex-row gap-4">
-                            <!-- Currency Selector -->
-                            <div class="sm:w-48 flex-shrink-0">
-                                <select 
-                                    v-model="toCurrency"
-                                    @change="convertCurrency"
-                                    class="w-full px-4 py-4 rounded-xl border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white font-semibold text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all cursor-pointer"
-                                >
-                                    <option v-for="currency in currencies" :key="currency.code" :value="currency.code">
-                                        {{ currency.code }}
-                                    </option>
-                                </select>
-                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1 text-center">
-                                    {{ getCurrencyName(toCurrency) }}
-                                </p>
-                            </div>
-                            
-                            <!-- Converted Amount Display -->
-                            <div class="flex-1">
-                                <div class="w-full px-6 py-4 rounded-xl border-2 border-blue-300 dark:border-blue-600 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 text-gray-900 dark:text-white text-2xl sm:text-3xl font-bold">
-                                    {{ formatCurrency(convertedAmount) }}
-                                </div>
-                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">
-                                    Converted amount
-                                </p>
+                    <!-- To Currency -->
+                    <div class="mb-3">
+                        <label class="block text-xs font-semibold text-gray-600 dark:text-gray-400 mb-1.5">To</label>
+                        <div class="flex gap-2">
+                            <select 
+                                v-model="toCurrency"
+                                @change="convertCurrency"
+                                class="w-24 px-3 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                            >
+                                <option v-for="currency in currencies" :key="currency.code" :value="currency.code">
+                                    {{ currency.code }}
+                                </option>
+                            </select>
+                            <div class="flex-1 px-3 py-2.5 rounded-lg border-2 border-blue-300 dark:border-blue-600 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 text-gray-900 dark:text-white text-lg font-bold">
+                                {{ formatCurrency(convertedAmount) }}
                             </div>
                         </div>
                     </div>
 
-                    <!-- Exchange Rate Display - Prominent -->
-                    <div class="mt-8 pt-6 border-t-2 border-gray-200 dark:border-gray-700">
-                        <div class="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-6 text-center">
-                            <p class="text-xs text-gray-600 dark:text-gray-400 mb-2 uppercase tracking-wide font-semibold">
-                                Exchange Rate
-                            </p>
-                            <p class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
-                                1 {{ fromCurrency }} = {{ exchangeRate.toFixed(4) }} {{ toCurrency }}
-                            </p>
-                            <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                                Last updated: {{ formattedTime }}
-                            </p>
-                        </div>
+                    <!-- Exchange Rate - Compact -->
+                    <div class="pt-3 border-t border-gray-200 dark:border-gray-700">
+                        <p class="text-xs text-center text-gray-600 dark:text-gray-400">
+                            <span class="font-semibold">1 {{ fromCurrency }} = {{ exchangeRate.toFixed(4) }} {{ toCurrency }}</span>
+                        </p>
                     </div>
                 </div>
 
-                <!-- Quick Convert Buttons -->
-                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 sm:p-8 border border-gray-200 dark:border-gray-700">
-                    <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                        </svg>
-                        Quick Convert
-                    </h2>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Click to quickly convert common amounts</p>
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <!-- Quick Convert Buttons - Compact -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-3 border border-gray-200 dark:border-gray-700">
+                    <p class="text-xs text-gray-600 dark:text-gray-400 mb-2 text-center">Quick amounts</p>
+                    <div class="flex gap-2 justify-center">
                         <button
                             v-for="quick in quickAmounts"
                             :key="quick"
                             @click="amount = quick; convertCurrency()"
-                            class="p-4 rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all text-center"
+                            class="px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all text-xs font-semibold text-gray-900 dark:text-white"
                         >
-                            <div class="text-lg font-bold text-gray-900 dark:text-white">{{ formatNumber(quick) }}</div>
-                            <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ fromCurrency }}</div>
+                            {{ formatNumber(quick) }}
                         </button>
                     </div>
                 </div>
 
-                <!-- Popular Currencies -->
-                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 sm:p-8 border border-gray-200 dark:border-gray-700">
-                    <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-                        </svg>
-                        Popular Currencies
-                    </h2>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">Click to select as target currency</p>
-                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                <!-- Popular Currencies - Horizontal Scroll -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-3 border border-gray-200 dark:border-gray-700">
+                    <p class="text-xs text-gray-600 dark:text-gray-400 mb-2 text-center">Popular currencies</p>
+                    <div class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
                         <button
                             v-for="popular in popularCurrencies"
                             :key="popular.code"
                             @click="setPopularCurrency(popular.code)"
-                            class="p-4 rounded-xl border-2 transition-all text-left"
+                            class="px-3 py-2 rounded-lg border transition-all flex-shrink-0 text-xs font-semibold"
                             :class="toCurrency === popular.code 
-                                ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 shadow-md' 
-                                : 'border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-700 hover:bg-blue-50 dark:hover:bg-blue-900/20'"
+                                ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' 
+                                : 'border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-700 hover:bg-blue-50 dark:hover:bg-blue-900/20 text-gray-900 dark:text-white'"
                         >
-                            <div class="flex items-center justify-between mb-2">
-                                <div class="font-bold text-lg text-gray-900 dark:text-white">{{ popular.code }}</div>
-                                <svg v-if="toCurrency === popular.code" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                            <div class="text-xs text-gray-600 dark:text-gray-400 mb-2">{{ popular.name }}</div>
-                            <div v-if="rates && rates[popular.code]" class="text-sm font-semibold text-blue-600 dark:text-blue-400">
-                                1 {{ fromCurrency }} = {{ exchangeRateForPopular(popular.code) }} {{ popular.code }}
-                            </div>
+                            {{ popular.code }}
                         </button>
                     </div>
                 </div>
 
-                <!-- Info Card -->
-                <div class="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-2xl shadow-xl p-6 sm:p-8 border border-purple-200 dark:border-purple-800">
-                    <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        About Exchange Rates
-                    </h2>
-                    <div class="space-y-2 text-sm text-gray-700 dark:text-gray-300">
-                        <p>
-                            <strong>📊 Base Currency:</strong> {{ baseCurrency }} ({{ getCurrencyName(baseCurrency) }})
-                        </p>
-                        <p>
-                            <strong>🌍 Supported:</strong> {{ Object.keys(rates).length }} currencies available
-                        </p>
-                        <p class="text-xs text-gray-600 dark:text-gray-400 mt-4 pt-4 border-t border-purple-200 dark:border-purple-700">
-                            ⚠️ <strong>Disclaimer:</strong> Exchange rates are updated daily and are for informational purposes only. Actual transaction rates may vary. Rates are not guaranteed for financial transactions.
+                <!-- Info Card - Compact -->
+                <div class="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl shadow-lg p-3 border border-purple-200 dark:border-purple-800">
+                    <div class="text-xs text-gray-700 dark:text-gray-300 space-y-1">
+                        <p class="font-semibold">Base: {{ baseCurrency }} • {{ Object.keys(rates).length }} currencies</p>
+                        <p class="text-xs text-gray-600 dark:text-gray-400 pt-2 border-t border-purple-200 dark:border-purple-700">
+                            ⚠️ Rates are for reference only. Actual rates may vary.
                         </p>
                     </div>
                 </div>
@@ -328,16 +236,6 @@ const formattedTime = computed(() => {
 })
 
 // Methods
-const getCurrencyName = (code) => {
-    const currency = currencies.value.find(c => c.code === code)
-    return currency ? currency.name : code
-}
-
-const exchangeRateForPopular = (code) => {
-    if (!rates.value[code] || !rates.value[fromCurrency.value]) return '0.0000'
-    const rate = rates.value[code] / rates.value[fromCurrency.value]
-    return rate.toFixed(4)
-}
 
 const formatCurrency = (value) => {
     if (!value || value === 0) return '0.00'
@@ -477,5 +375,15 @@ input[type="number"]::-webkit-outer-spin-button {
 
 input[type="number"] {
     -moz-appearance: textfield;
+}
+
+/* Hide scrollbar for horizontal scroll */
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
 }
 </style>
