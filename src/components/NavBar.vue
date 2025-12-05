@@ -5,19 +5,30 @@
             <div class="flex">
                 <router-link to="/"
                     class="hover:text-green-500 dark:hover:text-green-400 transition-colors duration-200"
-                    aria-label="Home">
+                    aria-label="Home - Ngoytry Lyhuor Portfolio">
                     <div class="flex items-center">
-                        <img src="../assets/logo.png" alt="Logo"
-                            class="h-7 w-7 mr-3 transition-transform duration-200 hover:scale-105">
+                        <img 
+                            src="../assets/logo.png" 
+                            alt="Ngoytry Lyhuor Logo"
+                            class="h-7 w-7 mr-3 transition-transform duration-200 hover:scale-105"
+                            width="28"
+                            height="28"
+                            loading="eager"
+                        >
                         <h1 class="text-[16px] font-bold dark:text-white">Ngoytry Lyhuor</h1>
                     </div>
                 </router-link>
                 <!-- Desktop Navigation -->
                 <div class="hidden md:flex space-x-6 ml-10">
-                    <router-link v-for="link in standardNavLinks" :key="link.path" :to="link.path"
-                        class="hover:text-green-500 dark:hover:text-green-400 text-[14px] transition-colors duration-200 px-2 py-1 rounded-md"
+                    <router-link 
+                        v-for="link in standardNavLinks" 
+                        :key="link.path" 
+                        :to="link.path"
+                        class="hover:text-green-500 dark:hover:text-green-400 text-[14px] transition-colors duration-200 px-2 py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                         :class="{ 'text-green-500 dark:text-green-400': $route.path === link.path }"
-                        :aria-label="link.label">
+                        :aria-label="`Navigate to ${link.label}`"
+                        :aria-current="$route.path === link.path ? 'page' : undefined"
+                    >
                         {{ link.label }}
                     </router-link>
 

@@ -368,6 +368,7 @@
 
 <script>
 // Air Quality - Real-time AQI Monitor
+import logger from '@/utils/logger'
 import {
     ArrowPathIcon
 } from '@heroicons/vue/24/outline';
@@ -533,7 +534,7 @@ export default {
                     this.autoSendAlert()
                 }
             } catch (error) {
-                console.error('Error fetching air quality data:', error)
+                logger.error('Error fetching air quality data:', error)
             } finally {
                 this.loading = false
             }
@@ -546,7 +547,7 @@ export default {
                 try {
                     this.telegramSettings = JSON.parse(saved)
                 } catch (e) {
-                    console.error('Failed to load telegram settings:', e)
+                    logger.error('Failed to load telegram settings:', e)
                 }
             }
         },
@@ -574,7 +575,7 @@ export default {
                 this.nextCheckTimestamp = Date.now() + intervalMs
             }, intervalMs)
             
-            console.log(`Auto-check started: every ${interval} minutes`)
+            logger.log(`Auto-check started: every ${interval} minutes`)
         },
 
         // Start countdown timer for live updates
@@ -599,7 +600,7 @@ export default {
                 clearInterval(this.autoCheckTimer)
                 this.autoCheckTimer = null
                 this.nextCheckTimestamp = null
-                console.log('Auto-check stopped')
+                logger.log('Auto-check stopped')
             }
         },
 
@@ -618,7 +619,7 @@ export default {
 
         // Perform automatic check and alert
         async performAutoCheck() {
-            console.log('Performing auto-check...')
+            logger.log('Performing auto-check...')
             
             // First, fetch fresh data
             try {
@@ -636,7 +637,7 @@ export default {
                 const aqi = this.pollutionData.aqius
                 const threshold = parseInt(this.telegramSettings.threshold)
                 
-                console.log(`Auto-check: AQI=${aqi}, Threshold=${threshold}`)
+                logger.log(`Auto-check: AQI=${aqi}, Threshold=${threshold}`)
                 
                 if (aqi >= threshold) {
                     // Check cooldown (1 hour between alerts)
@@ -644,16 +645,16 @@ export default {
                     const oneHour = 60 * 60 * 1000
                     
                     if (!lastAlertTime || (Date.now() - parseInt(lastAlertTime)) >= oneHour) {
-                        console.log('Sending automatic alert...')
+                        logger.log('Sending automatic alert...')
                         await this.sendDangerAlert(true)
                         localStorage.setItem('lastAirQualityAlert', Date.now().toString())
                     } else {
                         const minutesLeft = Math.ceil((oneHour - (Date.now() - parseInt(lastAlertTime))) / 60000)
-                        console.log(`Alert cooldown: ${minutesLeft} minutes remaining`)
+                        logger.log(`Alert cooldown: ${minutesLeft} minutes remaining`)
                     }
                 }
             } catch (error) {
-                console.error('Auto-check error:', error)
+                logger.error('Auto-check error:', error)
             }
         },
 
@@ -705,7 +706,7 @@ _You will receive alerts when AQI exceeds your threshold._`
             const oneHour = 60 * 60 * 1000
             
             if (lastAlertTime && (Date.now() - parseInt(lastAlertTime)) < oneHour) {
-                console.log('Alert already sent within the last hour, skipping...')
+                logger.log('Alert already sent within the last hour, skipping...')
                 return
             }
 
@@ -769,7 +770,7 @@ ${isAuto ? '_This is an automatic alert._' : ''}`
                     throw new Error(data.description || 'Failed to send message')
                 }
             } catch (error) {
-                console.error('Telegram API error:', error)
+                logger.error('Telegram API error:', error)
                 this.showAlertStatus(false, `❌ Failed: ${error.message}`)
             } finally {
                 this.sendingAlert = false

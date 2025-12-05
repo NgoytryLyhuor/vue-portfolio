@@ -568,6 +568,7 @@ import {
   ArrowUpTrayIcon 
 } from '@heroicons/vue/24/outline'
 import api from '@/service/api'
+import logger from '@/utils/logger'
 
 
 // State
@@ -616,7 +617,7 @@ const projectsData = async () => {
             : [])
     }))
   } catch (error) {
-    console.error('Error fetching projects:', error)
+    logger.error('Error fetching projects:', error)
     alert('Failed to load projects')
   }
 }
@@ -731,7 +732,7 @@ const handleImageUpload = (event) => {
       modalProject.value.image_url = e.target.result // For preview
     }
     reader.onerror = (error) => {
-      console.error('Error reading file:', error)
+      logger.error('Error reading file:', error)
       alert('Error reading image file')
     }
     reader.readAsDataURL(file)
@@ -771,7 +772,7 @@ const saveProject = async () => {
       // Update existing project
       const response = await api.put(`/project/${modalProject.value.id}`, projectData)
       
-      console.log('Update response:', response.data) // Debug log
+      logger.debug('Update response:', response.data)
       
       if (response.data.status) {
         // Update local projects array
@@ -790,7 +791,7 @@ const saveProject = async () => {
         }
         closeModal()
       } else {
-        console.error('Update failed:', response.data.message)
+        logger.error('Update failed:', response.data.message)
         alert('Failed to update project: ' + (response.data.message || 'Unknown error'))
       }
     } else {
@@ -810,17 +811,17 @@ const saveProject = async () => {
         projects.value.unshift(newProject)
         closeModal()
       } else {
-        console.error('Creation failed:', response.data.message)
+        logger.error('Creation failed:', response.data.message)
         alert('Failed to create project: ' + (response.data.message || 'Unknown error'))
       }
     }
   } catch (error) {
-    console.error('Error saving project:', error)
+    logger.error('Error saving project:', error)
     
     // Better error handling
     if (error.response) {
       // Server responded with error status
-      console.error('Server error:', error.response.data)
+      logger.error('Server error:', error.response.data)
       if (error.response.data?.message) {
         alert('Error: ' + error.response.data.message)
       } else if (error.response.data?.errors) {
@@ -831,11 +832,11 @@ const saveProject = async () => {
       }
     } else if (error.request) {
       // Request was made but no response received
-      console.error('Network error:', error.request)
+      logger.error('Network error:', error.request)
       alert('Network error: Please check your connection')
     } else {
       // Something else happened
-      console.error('Error:', error.message)
+      logger.error('Error:', error.message)
       alert('An unexpected error occurred: ' + error.message)
     }
   }
@@ -861,7 +862,7 @@ const deleteProjectAction = async () => {
         projects.value.splice(index, 1)
       }
     } catch (error) {
-      console.error('Error deleting project:', error)
+      logger.error('Error deleting project:', error)
       // For demo purposes, still update the local state
       const index = projects.value.findIndex(p => p.id === deleteProject.value.id)
       if (index !== -1) {

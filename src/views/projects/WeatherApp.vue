@@ -503,6 +503,7 @@ import {
 } from '@heroicons/vue/24/outline';
 
 import { CloudIcon as CloudRainIcon } from '@heroicons/vue/24/solid';
+import logger from '@/utils/logger';
 
 export default {
     name: 'WeatherApp',
@@ -534,7 +535,7 @@ export default {
         return {
             loading: true,
             error: null,
-            apiKey: '3504abf6222f69d05c100fa0ef8165bb',
+            apiKey: process.env.VUE_APP_WEATHER_API_KEY || '',
             location: { name: 'Phnom Penh', lat: 11.5564, lon: 104.9282 },
             currentWeather: {
                 temp: 0,
@@ -735,7 +736,7 @@ export default {
                 this.lastUpdated = new Date().toLocaleString();
 
             } catch (err) {
-                console.error('Error fetching weather data:', err);
+                logger.error('Error fetching weather data:', err);
                 this.error = err.message || 'Failed to load weather data. Please try again.';
             } finally {
                 this.loading = false;

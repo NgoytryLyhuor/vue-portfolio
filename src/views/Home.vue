@@ -44,9 +44,8 @@
             </div>
 
             <!-- Loading state -->
-            <div v-if="loading" class="text-center py-10">
-                <div class="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
-                <p class="mt-2 text-gray-600 dark:text-gray-300">Loading articles...</p>
+            <div v-if="loading" class="columns-1 md:columns-2 lg:columns-3 gap-6">
+                <LoadingSkeleton v-for="i in 6" :key="i" type="article" />
             </div>
 
             <!-- Error state -->
@@ -69,13 +68,19 @@
                     </button>
                 </div>
 
-                <div v-else class="columns-1 md:columns-2 lg:columns-3 gap-6">
-                    <div v-for="article in filteredArticles" :key="article.id"
+                <div v-else>
+                    <div class="columns-1 md:columns-2 lg:columns-3 gap-6">
+                        <div v-for="article in paginatedArticles" :key="article.id"
                         class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 mb-6 break-inside-avoid">
                         <div class="p-6">
                             <div class="flex items-center mb-3">
-                                <img v-if="article.user.profile_image" :src="article.user.profile_image"
-                                    :alt="article.user.name" class="w-8 h-8 rounded-full mr-2">
+                                <img 
+                                    v-if="article.user.profile_image" 
+                                    :src="article.user.profile_image"
+                                    :alt="`${article.user.name}'s profile`" 
+                                    class="w-8 h-8 rounded-full mr-2"
+                                    loading="lazy"
+                                >
                                 <span class="text-sm text-gray-500 dark:text-gray-400">{{ article.user.name }}</span>
                             </div>
                             <h3 class="text-xl mb-2 dark:text-white">
@@ -111,6 +116,30 @@
                             </div>
                         </div>
                     </div>
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <div v-if="totalPages > 1" class="mt-8 flex justify-center items-center gap-2">
+                        <button 
+                            @click="currentPage = Math.max(1, currentPage - 1)"
+                            :disabled="currentPage === 1"
+                            class="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                            aria-label="Previous page"
+                        >
+                            Previous
+                        </button>
+                        <span class="px-4 py-2 text-gray-700 dark:text-gray-300">
+                            Page {{ currentPage }} of {{ totalPages }}
+                        </span>
+                        <button 
+                            @click="currentPage = Math.min(totalPages, currentPage + 1)"
+                            :disabled="currentPage === totalPages"
+                            class="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                            aria-label="Next page"
+                        >
+                            Next
+                        </button>
+                    </div>
                 </div>
             </div>
         </main>
@@ -119,7 +148,13 @@
 
 <script>
 // Home Page - Dev.to Blog Articles Feed
+import logger from '@/utils/logger'
+import LoadingSkeleton from '@/components/LoadingSkeleton.vue'
+
 export default {
+    components: {
+        LoadingSkeleton
+    },
     name: 'BlogView',
     data() {
         return {
@@ -127,7 +162,9 @@ export default {
             loading: true,
             error: null,
             selectedTags: [],
-            searchQuery: ''
+            searchQuery: '',
+            currentPage: 1,
+            itemsPerPage: 12
         }
     },
     computed: {
@@ -169,6 +206,14 @@ export default {
             return filtered.sort((a, b) => {
                 return new Date(b.published_at) - new Date(a.published_at);
             });
+        },
+        paginatedArticles() {
+            const start = (this.currentPage - 1) * this.itemsPerPage;
+            const end = start + this.itemsPerPage;
+            return this.filteredArticles.slice(start, end);
+        },
+        totalPages() {
+            return Math.ceil(this.filteredArticles.length / this.itemsPerPage);
         }
     },
     async mounted() {
@@ -193,7 +238,7 @@ export default {
                     return new Date(b.published_at) - new Date(a.published_at);
                 });
             } catch (err) {
-                console.error('Error fetching articles:', err);
+                logger.error('Error fetching articles:', err);
                 this.error = err.message || 'Failed to load articles';
             } finally {
                 this.loading = false;
@@ -205,10 +250,12 @@ export default {
             } else {
                 this.selectedTags = [...this.selectedTags, tag];
             }
+            this.currentPage = 1; // Reset to first page when filtering
         },
         resetFilters() {
             this.selectedTags = [];
             this.searchQuery = '';
+            this.currentPage = 1;
         },
         formatDate(dateString) {
             if (!dateString) return '';

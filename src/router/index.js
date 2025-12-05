@@ -1,15 +1,18 @@
 // Router Configuration - Portfolio Navigation
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
-import Projects from '../views/ProjectView.vue'
-import About from '../views/About.vue'
-import NotFound from '../views/NotFound.vue'
-import WeatherApp from '@/views/projects/WeatherApp.vue'
-import AirQuality from '@/views/projects/AirQuality.vue'
-import KhmerCalendar from '@/views/projects/KhmerCalendar.vue'
-import Login from '@/views/auth/LoginView.vue'
-import Dashboard from '@/views/auth/DashboardView.vue'
 import api from '@/service/api'
+
+// Lazy load components for better performance
+const Home = () => import('../views/Home.vue')
+const Projects = () => import('../views/ProjectView.vue')
+const About = () => import('../views/About.vue')
+const NotFound = () => import('../views/NotFound.vue')
+const BlogDetail = () => import('@/views/BlogDetail.vue')
+const WeatherApp = () => import('@/views/projects/WeatherApp.vue')
+const AirQuality = () => import('@/views/projects/AirQuality.vue')
+const KhmerCalendar = () => import('@/views/projects/KhmerCalendar.vue')
+const Login = () => import('@/views/auth/LoginView.vue')
+const Dashboard = () => import('@/views/auth/DashboardView.vue')
 
 const routes = [
     {
@@ -27,7 +30,18 @@ const routes = [
         component: Home,
         meta: {
             showNavBar: true,
-            title: 'Ngoytry Lyhuor'
+            title: 'Ngoytry Lyhuor',
+            description: 'Blog articles about data science, technology, and web development'
+        }
+    },
+    {
+        path: '/blog/:id',
+        name: 'BlogDetail',
+        component: BlogDetail,
+        meta: {
+            showNavBar: true,
+            title: 'Article',
+            description: 'Read the full article'
         }
     },
     {

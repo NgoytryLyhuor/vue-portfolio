@@ -2,6 +2,14 @@
 import axios from 'axios';
 
 const getBaseUrl = () => {
+    // Use environment variable if available, otherwise fallback to hostname detection
+    if (process.env.VUE_APP_API_BASE_URL) {
+        return process.env.VUE_APP_API_BASE_URL;
+    }
+    if (process.env.NODE_ENV === 'production' && process.env.VUE_APP_API_PRODUCTION_URL) {
+        return process.env.VUE_APP_API_PRODUCTION_URL;
+    }
+    // Fallback to hostname detection
     if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
         return 'http://localhost:8000/api';
     }
