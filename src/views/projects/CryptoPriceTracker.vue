@@ -97,24 +97,6 @@
                         <span class="hidden sm:inline">Refresh</span>
                     </button>
                 </div>
-
-                <!-- Price Range Filter -->
-                <div class="flex flex-wrap items-center gap-4 text-sm">
-                    <span class="text-gray-600 dark:text-gray-400 font-medium">Price Range:</span>
-                    <button 
-                        v-for="range in priceRanges" 
-                        :key="range.value"
-                        @click="selectedPriceRange = range.value"
-                        :class="[
-                            'px-4 py-2 rounded-lg transition-colors',
-                            selectedPriceRange === range.value
-                                ? 'bg-blue-600 text-white'
-                                : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700'
-                        ]"
-                    >
-                        {{ range.label }}
-                    </button>
-                </div>
             </div>
 
             <!-- Loading State -->
@@ -339,21 +321,10 @@ const loading = ref(true)
 const error = ref(null)
 const searchQuery = ref('')
 const sortBy = ref('market_cap_desc')
-const selectedPriceRange = ref('all')
 const selectedCrypto = ref(null)
 const currentPage = ref(1)
 const itemsPerPage = 20
 const refreshInterval = ref(null)
-
-// Price ranges
-const priceRanges = [
-    { value: 'all', label: 'All Prices' },
-    { value: 'under_1', label: 'Under $1' },
-    { value: '1_10', label: '$1 - $10' },
-    { value: '10_100', label: '$10 - $100' },
-    { value: '100_1000', label: '$100 - $1,000' },
-    { value: 'over_1000', label: 'Over $1,000' }
-]
 
 // Computed properties
 const filteredCryptos = computed(() => {
@@ -366,28 +337,6 @@ const filteredCryptos = computed(() => {
             crypto.name.toLowerCase().includes(query) ||
             crypto.symbol.toLowerCase().includes(query)
         )
-    }
-
-    // Filter by price range
-    if (selectedPriceRange.value !== 'all') {
-        const price = (crypto) => crypto.current_price || 0
-        switch (selectedPriceRange.value) {
-            case 'under_1':
-                filtered = filtered.filter(c => price(c) < 1)
-                break
-            case '1_10':
-                filtered = filtered.filter(c => price(c) >= 1 && price(c) < 10)
-                break
-            case '10_100':
-                filtered = filtered.filter(c => price(c) >= 10 && price(c) < 100)
-                break
-            case '100_1000':
-                filtered = filtered.filter(c => price(c) >= 100 && price(c) < 1000)
-                break
-            case 'over_1000':
-                filtered = filtered.filter(c => price(c) >= 1000)
-                break
-        }
     }
 
     // Sort
@@ -487,8 +436,8 @@ const selectCrypto = (crypto) => {
     selectedCrypto.value = crypto
 }
 
-// Watch for search/sort/filter changes to reset pagination
-watch([searchQuery, sortBy, selectedPriceRange], () => {
+// Watch for search/sort changes to reset pagination
+watch([searchQuery, sortBy], () => {
     currentPage.value = 1
 })
 

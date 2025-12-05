@@ -14,7 +14,6 @@ const KhmerCalendar = () => import('@/views/projects/KhmerCalendar.vue')
 const CurrencyConverter = () => import('@/views/projects/CurrencyConverter.vue')
 const CryptoPassword = () => import('@/views/projects/CryptoPassword.vue')
 const CryptoPriceTracker = () => import('@/views/projects/CryptoPriceTracker.vue')
-const DecisionMaker = () => import('@/views/projects/DecisionMaker.vue')
 const Login = () => import('@/views/auth/LoginView.vue')
 const Dashboard = () => import('@/views/auth/DashboardView.vue')
 
@@ -137,17 +136,6 @@ const routes = [
             description: 'Real-time cryptocurrency prices, market data, and tracking for Bitcoin, Ethereum, and 250+ cryptocurrencies.',
             robots: 'noindex, nofollow',
             requiresCryptoAuth: true
-        }
-    },
-    {
-        path: '/decision-maker',
-        name: 'decision-maker',
-        component: DecisionMaker,
-        meta: {
-            showNavBar: true,
-            title: 'Decision Maker - Coin Flip, Random Choice, Yes/No, Number Generator',
-            description: 'Make decisions easier with coin flip, random choice picker, yes/no decision maker, and random number generator tools.',
-            robots: 'index, follow'
         }
     },
     {
