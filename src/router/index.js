@@ -12,6 +12,7 @@ const WeatherApp = () => import('@/views/projects/WeatherApp.vue')
 const AirQuality = () => import('@/views/projects/AirQuality.vue')
 const KhmerCalendar = () => import('@/views/projects/KhmerCalendar.vue')
 const CurrencyConverter = () => import('@/views/projects/CurrencyConverter.vue')
+const BuddhistQuotes = () => import('@/views/projects/BuddhistQuotes.vue')
 const Login = () => import('@/views/auth/LoginView.vue')
 const Dashboard = () => import('@/views/auth/DashboardView.vue')
 
@@ -110,6 +111,17 @@ const routes = [
             showNavBar: true,
             title: 'Currency Converter - Real-time Exchange Rates',
             description: 'Convert between currencies with real-time exchange rates. Support for USD, KHR, EUR, GBP, and 20+ currencies.',
+            robots: 'index, follow'
+        }
+    },
+    {
+        path: '/buddhist-quotes',
+        name: 'buddhist-quotes',
+        component: BuddhistQuotes,
+        meta: {
+            showNavBar: true,
+            title: 'Buddhist Quotes & Dharma - Daily Wisdom',
+            description: 'Daily Buddhist quotes, Dharma teachings, and glossary of Buddhist terms. Find peace, wisdom, and mindfulness through Buddhist teachings.',
             robots: 'index, follow'
         }
     },
