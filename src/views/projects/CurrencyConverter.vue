@@ -141,8 +141,8 @@
                         >
                             <div class="font-semibold text-gray-900 dark:text-white">{{ popular.code }}</div>
                             <div class="text-xs text-gray-600 dark:text-gray-400">{{ popular.name }}</div>
-                            <div v-if="rates[popular.code]" class="text-xs text-blue-600 dark:text-blue-400 mt-1">
-                                1 {{ fromCurrency }} = {{ (rates[popular.code] / rates[fromCurrency]).toFixed(4) }}
+                            <div v-if="rates && rates[popular.code]" class="text-xs text-blue-600 dark:text-blue-400 mt-1">
+                                1 {{ fromCurrency }} = {{ exchangeRateForPopular(popular.code) }}
                             </div>
                         </button>
                     </div>
@@ -246,35 +246,60 @@ const getCurrencyName = (code) => {
     return currency ? currency.name : code
 }
 
+const exchangeRateForPopular = (code) => {
+    if (!rates.value[code] || !rates.value[fromCurrency.value]) return '0.0000'
+    const rate = rates.value[code] / rates.value[fromCurrency.value]
+    return rate.toFixed(4)
+}
+
 const fetchExchangeRates = async () => {
     loading.value = true
     error.value = null
 
     try {
-        // Using exchangerate-api.com (free tier: 1,500 requests/month)
-        // Alternative: You can use fixer.io, currencyapi.net, or exchangerate.host
+        // Use free API: exchangerate-api.com (no key needed, free tier)
+        // Fallback to exchangerate.host if needed
         const apiKey = process.env.VUE_APP_CURRENCY_API_KEY || ''
-        const apiUrl = apiKey 
-            ? `https://v6.exchangerate-api.com/v6/${apiKey}/latest/USD`
-            : 'https://api.exchangerate.host/latest?base=USD'
-
-        const response = await fetch(apiUrl)
         
-        if (!response.ok) {
-            throw new Error('Failed to fetch exchange rates')
+        let apiUrl = ''
+        
+        if (apiKey) {
+            // Use exchangerate-api.com v6 if API key is provided
+            apiUrl = `https://v6.exchangerate-api.com/v6/${apiKey}/latest/USD`
+        } else {
+            // Use free API: exchangerate-api.com v4 (no key needed)
+            apiUrl = 'https://api.exchangerate-api.com/v4/latest/USD'
         }
 
-        const data = await response.json()
+        let response = await fetch(apiUrl)
+        let data = null
+        
+        // If primary API fails, try fallback
+        if (!response.ok) {
+            logger.warn('Primary API failed, trying fallback...')
+            const fallbackUrl = 'https://api.exchangerate.host/latest?base=USD'
+            response = await fetch(fallbackUrl)
+            
+            if (!response.ok) {
+                throw new Error(`API request failed with status ${response.status}. Please try again later.`)
+            }
+        }
+        
+        data = await response.json()
         
         // Handle different API response formats
         if (data.rates) {
+            // exchangerate-api.com (v4/v6) or exchangerate.host format
             rates.value = { USD: 1, ...data.rates }
             baseCurrency.value = data.base || 'USD'
         } else if (data.result === 'success' && data.conversion_rates) {
+            // exchangerate-api.com v6 format with conversion_rates
             rates.value = data.conversion_rates
             baseCurrency.value = 'USD'
         } else {
-            throw new Error('Invalid API response format')
+            // Log the actual response for debugging
+            logger.error('Unexpected API response:', data)
+            throw new Error('Invalid API response format. Please try again later.')
         }
 
         lastUpdated.value = new Date().toISOString()
@@ -285,6 +310,8 @@ const fetchExchangeRates = async () => {
             baseCurrency: baseCurrency.value,
             lastUpdated: lastUpdated.value
         }))
+        
+        error.value = null // Clear any previous errors
 
     } catch (err) {
         logger.error('Error fetching exchange rates:', err)
@@ -294,15 +321,22 @@ const fetchExchangeRates = async () => {
         if (cached) {
             try {
                 const cachedData = JSON.parse(cached)
-                rates.value = cachedData.rates || {}
-                baseCurrency.value = cachedData.baseCurrency || 'USD'
-                lastUpdated.value = cachedData.lastUpdated
-                error.value = 'Using cached rates. ' + err.message
+                const cacheAge = new Date() - new Date(cachedData.lastUpdated)
+                
+                // Use cache if less than 24 hours old
+                if (cacheAge < 86400000) {
+                    rates.value = cachedData.rates || {}
+                    baseCurrency.value = cachedData.baseCurrency || 'USD'
+                    lastUpdated.value = cachedData.lastUpdated
+                    error.value = 'Using cached rates (last updated: ' + new Date(cachedData.lastUpdated).toLocaleString() + '). ' + err.message
+                } else {
+                    error.value = 'Failed to fetch fresh rates. Cache expired. ' + err.message
+                }
             } catch (e) {
                 error.value = err.message || 'Failed to load exchange rates. Please check your internet connection.'
             }
         } else {
-            error.value = err.message || 'Failed to load exchange rates. Please check your internet connection.'
+            error.value = err.message || 'Failed to load exchange rates. Please check your internet connection and try again.'
         }
     } finally {
         loading.value = false
