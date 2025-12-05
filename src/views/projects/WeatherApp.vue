@@ -626,13 +626,25 @@ export default {
             this.loading = true;
             this.error = null;
 
+            // Check if API key is available
+            if (!this.apiKey || this.apiKey.trim() === '') {
+                this.loading = false;
+                this.error = 'Weather API key is not configured. Please add VUE_APP_WEATHER_API_KEY to your .env file.';
+                logger.error('Weather API key is missing');
+                return;
+            }
+
             try {
                 const currentWeatherResponse = await fetch(
                     `https://api.openweathermap.org/data/2.5/weather?lat=${this.location.lat}&lon=${this.location.lon}&units=metric&appid=${this.apiKey}`
                 );
 
                 if (!currentWeatherResponse.ok) {
-                    throw new Error('Failed to fetch current weather data');
+                    const errorData = await currentWeatherResponse.json().catch(() => ({}));
+                    if (currentWeatherResponse.status === 401) {
+                        throw new Error('Invalid API key. Please check your VUE_APP_WEATHER_API_KEY in .env file.');
+                    }
+                    throw new Error(errorData.message || 'Failed to fetch current weather data');
                 }
 
                 const currentData = await currentWeatherResponse.json();
@@ -737,7 +749,13 @@ export default {
 
             } catch (err) {
                 logger.error('Error fetching weather data:', err);
-                this.error = err.message || 'Failed to load weather data. Please try again.';
+                if (err.message && err.message.includes('API key')) {
+                    this.error = err.message;
+                } else if (err.message && err.message.includes('401')) {
+                    this.error = 'Invalid API key. Please check your VUE_APP_WEATHER_API_KEY in .env file.';
+                } else {
+                    this.error = err.message || 'Failed to load weather data. Please check your API key configuration and try again.';
+                }
             } finally {
                 this.loading = false;
             }

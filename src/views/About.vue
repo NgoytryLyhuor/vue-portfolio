@@ -133,85 +133,6 @@
                 </div>
             </div>
 
-            <!-- Contact Form -->
-            <div class="mb-12">
-                <h2 class="text-base font-bold mb-4 pb-2">Get In Touch</h2>
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border border-gray-200 dark:border-gray-700">
-                    <form @submit.prevent="handleContactSubmit" class="space-y-4">
-                        <div>
-                            <label for="contact-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                Name <span class="text-red-500">*</span>
-                            </label>
-                            <input 
-                                id="contact-name"
-                                v-model="contactForm.name"
-                                type="text" 
-                                required
-                                class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                placeholder="Your name"
-                                aria-label="Your name"
-                            />
-                        </div>
-                        <div>
-                            <label for="contact-email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                Email <span class="text-red-500">*</span>
-                            </label>
-                            <input 
-                                id="contact-email"
-                                v-model="contactForm.email"
-                                type="email" 
-                                required
-                                class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                placeholder="your.email@example.com"
-                                aria-label="Your email"
-                            />
-                        </div>
-                        <div>
-                            <label for="contact-subject" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                Subject
-                            </label>
-                            <input 
-                                id="contact-subject"
-                                v-model="contactForm.subject"
-                                type="text" 
-                                class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                placeholder="What's this about?"
-                                aria-label="Message subject"
-                            />
-                        </div>
-                        <div>
-                            <label for="contact-message" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                Message <span class="text-red-500">*</span>
-                            </label>
-                            <textarea 
-                                id="contact-message"
-                                v-model="contactForm.message"
-                                required
-                                rows="5"
-                                class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-                                placeholder="Your message..."
-                                aria-label="Your message"
-                            ></textarea>
-                        </div>
-                        <div v-if="contactFormStatus.message" 
-                            :class="[
-                                'p-3 rounded-lg text-sm',
-                                contactFormStatus.success ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300' : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300'
-                            ]">
-                            {{ contactFormStatus.message }}
-                        </div>
-                        <button 
-                            type="submit"
-                            :disabled="contactFormStatus.loading"
-                            class="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
-                        >
-                            <span v-if="contactFormStatus.loading">Sending...</span>
-                            <span v-else>Send Message</span>
-                        </button>
-                    </form>
-                </div>
-            </div>
-
         </div>
     </div>
 </template>
@@ -223,17 +144,6 @@ export default {
     data() {
         return {
             darkMode: true,
-            contactForm: {
-                name: '',
-                email: '',
-                subject: '',
-                message: ''
-            },
-            contactFormStatus: {
-                loading: false,
-                success: false,
-                message: ''
-            },
             skills: [
                 { name: 'HTML', icon: 'devicon-html5-plain colored' },
                 { name: 'CSS', icon: 'devicon-css3-plain colored' },
@@ -249,41 +159,6 @@ export default {
                 { name: 'Github', icon: 'devicon-github-plain colored' }
             ],
             languages: ['Khmer', 'English']
-        }
-    },
-    methods: {
-        async handleContactSubmit() {
-            this.contactFormStatus.loading = true
-            this.contactFormStatus.message = ''
-            this.contactFormStatus.success = false
-
-            try {
-                // In a real app, you would send this to your backend API
-                // For now, we'll simulate an API call
-                await new Promise(resolve => setTimeout(resolve, 1000))
-                
-                // Simulate success
-                this.contactFormStatus.success = true
-                this.contactFormStatus.message = 'Thank you for your message! I\'ll get back to you soon.'
-                
-                // Reset form
-                this.contactForm = {
-                    name: '',
-                    email: '',
-                    subject: '',
-                    message: ''
-                }
-
-                // Clear message after 5 seconds
-                setTimeout(() => {
-                    this.contactFormStatus.message = ''
-                }, 5000)
-            } catch (error) {
-                this.contactFormStatus.success = false
-                this.contactFormStatus.message = 'Failed to send message. Please try again or contact me via LinkedIn.'
-            } finally {
-                this.contactFormStatus.loading = false
-            }
         }
     }
 }
