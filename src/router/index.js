@@ -12,7 +12,6 @@ const WeatherApp = () => import('@/views/projects/WeatherApp.vue')
 const AirQuality = () => import('@/views/projects/AirQuality.vue')
 const KhmerCalendar = () => import('@/views/projects/KhmerCalendar.vue')
 const CurrencyConverter = () => import('@/views/projects/CurrencyConverter.vue')
-const BuddhistEraConverter = () => import('@/views/projects/BuddhistEraConverter.vue')
 const Login = () => import('@/views/auth/LoginView.vue')
 const Dashboard = () => import('@/views/auth/DashboardView.vue')
 
@@ -111,17 +110,6 @@ const routes = [
             showNavBar: true,
             title: 'Currency Converter - Real-time Exchange Rates',
             description: 'Convert between currencies with real-time exchange rates. Support for USD, KHR, EUR, GBP, and 20+ currencies.',
-            robots: 'index, follow'
-        }
-    },
-    {
-        path: '/buddhist-era-converter',
-        name: 'buddhist-era-converter',
-        component: BuddhistEraConverter,
-        meta: {
-            showNavBar: true,
-            title: 'បម្លែងកាលបរិច្ឆេទពុទ្ធសករាជ - Buddhist Era Date Converter',
-            description: 'Convert dates between Gregorian calendar (AD) and Buddhist Era (BE). Show current Buddhist Era year and important Buddhist dates.',
             robots: 'index, follow'
         }
     },
