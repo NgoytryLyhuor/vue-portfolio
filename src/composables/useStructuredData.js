@@ -1,6 +1,9 @@
 // Composable for managing structured data (Schema.org JSON-LD)
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 
 export function useStructuredData() {
+    const route = useRoute()
 
     const addStructuredData = (data) => {
         // Remove existing script with same id

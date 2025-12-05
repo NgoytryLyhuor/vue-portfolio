@@ -9,9 +9,6 @@ const staticPaths = [
   { path: '/weather-app', changefreq: 'monthly', priority: 0.6 },
   { path: '/air-quality', changefreq: 'daily', priority: 0.7 },
   { path: '/khmer-calendar', changefreq: 'monthly', priority: 0.6 },
-  { path: '/khmer-alphabet', changefreq: 'monthly', priority: 0.7 },
-  { path: '/khmer-games', changefreq: 'monthly', priority: 0.7 },
-  { path: '/khmer-stories', changefreq: 'weekly', priority: 0.8 },
   // Exclude dynamic routes (like /blog/:id) and protected routes (login, dashboard)
 ];
 

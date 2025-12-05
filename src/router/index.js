@@ -11,9 +11,6 @@ const BlogDetail = () => import('@/views/BlogDetail.vue')
 const WeatherApp = () => import('@/views/projects/WeatherApp.vue')
 const AirQuality = () => import('@/views/projects/AirQuality.vue')
 const KhmerCalendar = () => import('@/views/projects/KhmerCalendar.vue')
-const KhmerAlphabet = () => import('@/views/projects/KhmerAlphabet.vue')
-const KhmerGames = () => import('@/views/projects/KhmerGames.vue')
-const KhmerStories = () => import('@/views/projects/KhmerStories.vue')
 const Login = () => import('@/views/auth/LoginView.vue')
 const Dashboard = () => import('@/views/auth/DashboardView.vue')
 
@@ -101,39 +98,6 @@ const routes = [
             showNavBar: true,
             title: 'Khmer Calendar - Traditional Cambodian Calendar',
             description: 'Traditional Khmer calendar converter and calendar tool for Cambodian dates and holidays.',
-            robots: 'index, follow'
-        }
-    },
-    {
-        path: '/khmer-alphabet',
-        name: 'khmer-alphabet',
-        component: KhmerAlphabet,
-        meta: {
-            showNavBar: true,
-            title: 'Khmer Alphabet Learning - Learn Khmer Letters',
-            description: 'Interactive Khmer alphabet learning tool for children. Learn consonants, vowels, pronunciation, and practice writing.',
-            robots: 'index, follow'
-        }
-    },
-    {
-        path: '/khmer-games',
-        name: 'khmer-games',
-        component: KhmerGames,
-        meta: {
-            showNavBar: true,
-            title: 'Khmer Learning Games - Educational Games for Kids',
-            description: 'Fun and educational Khmer learning games including word matching, memory games, and vocabulary quizzes for children.',
-            robots: 'index, follow'
-        }
-    },
-    {
-        path: '/khmer-stories',
-        name: 'khmer-stories',
-        component: KhmerStories,
-        meta: {
-            showNavBar: true,
-            title: 'Khmer Stories Library - Traditional Tales for Children',
-            description: 'Collection of traditional Khmer stories, folktales, and moral stories for children. Read and learn about Khmer culture.',
             robots: 'index, follow'
         }
     },
