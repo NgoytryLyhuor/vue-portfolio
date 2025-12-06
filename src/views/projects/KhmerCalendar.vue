@@ -90,6 +90,12 @@
                             {{ toKhmerNumeral(day.date) }}
                         </div>
                         
+                        <!-- Lunar Day Number -->
+                        <div v-if="day.lunarDay && day.isCurrentMonth" 
+                            class="text-[9px] sm:text-[10px] text-blue-600 dark:text-blue-400 font-medium mt-0.5">
+                            ថ្ងៃ{{ day.lunarDay }}
+                        </div>
+                        
                         <!-- Holiday Name -->
                         <div v-if="day.holiday && day.isCurrentMonth" 
                             class="mt-1 text-[8px] sm:text-[10px] lg:text-xs text-red-600 dark:text-red-400 font-medium line-clamp-2">
@@ -235,6 +241,7 @@ import {
     CalendarIcon,
     SparklesIcon
 } from '@heroicons/vue/24/outline';
+import { lunar } from 'khmercal';
 
 export default {
     name: 'KhmerCalendar',
@@ -347,7 +354,7 @@ export default {
                                today.getFullYear() === year;
                 
                 const holiday = this.getHoliday(month + 1, i);
-                const lunarPhase = this.getLunarPhase(year, month, i);
+                const lunarData = this.getLunarDay(year, month, i);
                 
                 days.push({
                     date: i,
@@ -358,7 +365,8 @@ export default {
                                this.selectedDate.month === month,
                     holiday,
                     isHoliday: !!holiday,
-                    lunarPhase
+                    lunarPhase: lunarData.phase,
+                    lunarDay: lunarData.day
                 });
             }
             
@@ -410,21 +418,66 @@ export default {
         getHoliday(month, day) {
             return this.holidays.find(h => h.month === month && h.day === day) || null;
         },
-        getLunarPhase(year, month, day) {
-            // Simplified lunar phase calculation
+        // Calculate accurate lunar day number for Khmer calendar using khmercal library
+        getLunarDay(year, month, day) {
             const date = new Date(year, month, day);
-            const newMoon = new Date(2000, 0, 6); // Known new moon
-            const daysSince = Math.floor((date - newMoon) / (1000 * 60 * 60 * 24));
-            const phase = daysSince % 29.5;
+            date.setHours(12, 0, 0, 0); // Set to noon for consistency
             
-            if (phase < 1) return '🌑';
-            if (phase < 7.4) return null;
-            if (phase < 8.4) return '🌓';
-            if (phase < 14.8) return null;
-            if (phase < 15.8) return '🌕';
-            if (phase < 22.1) return null;
-            if (phase < 23.1) return '🌗';
-            return null;
+            try {
+                // Use khmercal library for accurate calculation
+                const lunarData = lunar(date);
+                
+                // lunarData.period is [dayNumber, 'K' or 'R']
+                // K = កើត (waxing), R = រោច (waning)
+                // lunarData.day is the actual day of the lunar month (1-29/30)
+                let lunarDayNumber = lunarData.period[0];
+                let isWaxing = lunarData.period[1] === 'K';
+                
+                // For waning phase: Khmer calendar uses 1-14 for waning
+                // If period[0] is 15 and it's waning, it's actually new moon (day 1 of next cycle)
+                if (!isWaxing && lunarDayNumber === 15) {
+                    // This is actually the new moon of the next cycle
+                    lunarDayNumber = 1;
+                    isWaxing = true; // New moon starts waxing phase
+                } else if (!isWaxing) {
+                    // For waning, keep the day number as is (1-14)
+                    // The library already calculates this correctly
+                }
+                
+                // Format lunar day with Khmer numerals
+                const lunarDayKhmer = this.toKhmerNumeral(lunarDayNumber);
+                
+                // Determine phase emoji
+                let phase = null;
+                if (lunarDayNumber === 1 && isWaxing) {
+                    phase = '🌑'; // New moon
+                } else if (lunarDayNumber === 8 && isWaxing) {
+                    phase = '🌓'; // First quarter
+                } else if (lunarDayNumber === 15 && isWaxing) {
+                    phase = '🌕'; // Full moon
+                } else if (lunarDayNumber === 8 && !isWaxing) {
+                    phase = '🌗'; // Last quarter
+                } else if (lunarDayNumber === 1 && !isWaxing) {
+                    // Day after full moon (first day of waning)
+                    phase = null;
+                }
+                
+                // Khmer calendar: កើត (waxing) and រោច (waning)
+                const dayLabel = isWaxing ? `កើត ${lunarDayKhmer}` : `រោច ${lunarDayKhmer}`;
+                
+                return {
+                    day: dayLabel,
+                    phase: phase,
+                    dayNumber: lunarDayNumber
+                };
+            } catch (error) {
+                console.error('Error calculating lunar day:', error);
+                return {
+                    day: '',
+                    phase: null,
+                    dayNumber: null
+                };
+            }
         },
         previousMonth() {
             this.currentDate = new Date(this.currentYear, this.currentMonth - 1, 1);

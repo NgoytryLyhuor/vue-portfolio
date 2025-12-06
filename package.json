@@ -12,6 +12,7 @@
     "axios": "^1.8.4",
     "chart.js": "^4.5.1",
     "core-js": "^3.8.3",
+    "khmercal": "^0.1.0",
     "portfolio-project": "file:",
     "vue": "^3.2.13",
     "vue-chartjs": "^5.3.3",
