@@ -14,8 +14,6 @@ const KhmerCalendar = () => import('@/views/projects/KhmerCalendar.vue')
 const CurrencyConverter = () => import('@/views/projects/CurrencyConverter.vue')
 const CryptoPassword = () => import('@/views/projects/CryptoPassword.vue')
 const CryptoPriceTracker = () => import('@/views/projects/CryptoPriceTracker.vue')
-const PlanetExplorer = () => import('@/views/space/PlanetExplorer.vue')
-const ISSTracker = () => import('@/views/space/ISSTracker.vue')
 const SpaceEvents = () => import('@/views/space/SpaceEvents.vue')
 const SpaceEventDetail = () => import('@/views/space/SpaceEventDetail.vue')
 const Login = () => import('@/views/auth/LoginView.vue')
@@ -140,28 +138,6 @@ const routes = [
             description: 'Real-time cryptocurrency prices, market data, and tracking for Bitcoin, Ethereum, and 250+ cryptocurrencies.',
             robots: 'noindex, nofollow',
             requiresCryptoAuth: true
-        }
-    },
-    {
-        path: '/planet-explorer',
-        name: 'planet-explorer',
-        component: PlanetExplorer,
-        meta: {
-            showNavBar: true,
-            title: 'Planet Explorer - Explore Our Solar System',
-            description: 'Explore planets in our solar system with detailed information, real-time positions, and interactive visualizations.',
-            robots: 'index, follow'
-        }
-    },
-    {
-        path: '/iss-tracker',
-        name: 'iss-tracker',
-        component: ISSTracker,
-        meta: {
-            showNavBar: true,
-            title: 'ISS Tracker - International Space Station Live Position',
-            description: 'Track the International Space Station in real-time. See current position, orbit path, and when ISS is visible from your location.',
-            robots: 'index, follow'
         }
     },
     {

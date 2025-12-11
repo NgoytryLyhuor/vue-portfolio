@@ -1,11 +1,12 @@
 <!-- App.vue - Vue Portfolio Main Component -->
 <template>
   <ErrorBoundary>
-    <div class="min-h-screen bg-gray-50 dark:bg-dark-bg text-gray-900 dark:text-white transition-all duration-500 ease-in-out">
+    <div class="min-h-screen bg-gray-50 dark:bg-dark-bg text-gray-900 dark:text-white transition-all duration-500 ease-in-out flex flex-col">
       <NavBar v-if="route.meta.showNavBar" />
-      <main class="container mx-auto px-4 py-8 transition-all duration-500 ease-in-out">
+      <main class="container mx-auto px-4 py-8 transition-all duration-500 ease-in-out flex-grow">
         <router-view />
       </main>
+      <Footer />
     </div>
   </ErrorBoundary>
 </template>
@@ -14,6 +15,7 @@
 import { useRoute } from 'vue-router';
 import NavBar from './components/NavBar.vue';
 import ErrorBoundary from './components/ErrorBoundary.vue';
+import Footer from './components/Footer.vue';
 import { useMetaTags } from './composables/useMetaTags';
 
 const route = useRoute();

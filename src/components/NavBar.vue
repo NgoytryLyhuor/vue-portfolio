@@ -221,6 +221,7 @@
 // NavBar Component - Site Navigation & Theme Toggle
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useRoute } from 'vue-router';
+import analytics from '@/utils/analytics';
 
 const route = useRoute();
 
@@ -329,8 +330,12 @@ const toggleMobileFeatures = () => {
 const setTheme = (theme) => {
     currentTheme.value = theme;
     localStorage.setItem('theme', theme);
+    localStorage.setItem('theme-timestamp', Date.now().toString());
     applyTheme();
     isThemeMenuOpen.value = false;
+
+    // Track theme change in analytics
+    analytics.trackThemeChange(theme);
 
     // Dispatch event for other components to react to theme changes
     window.dispatchEvent(new CustomEvent('theme-changed', { detail: theme }));
@@ -340,22 +345,38 @@ const applyTheme = () => {
     const shouldBeDark = currentTheme.value === 'dark' ||
         (currentTheme.value === 'system' && systemThemeIsDark.value);
 
-    // Add transition class for smooth theme switching
-    document.documentElement.classList.add('theme-transition');
+    // Prevent flash of wrong theme by applying immediately
+    if (shouldBeDark) {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark');
+    }
+
+    // Add transition class for smooth theme switching (only after initial load)
+    const themeTimestamp = localStorage.getItem('theme-timestamp');
+    const isInitialLoad = !themeTimestamp || (Date.now() - parseInt(themeTimestamp)) < 1000;
     
-    // Use requestAnimationFrame for smoother transition
-    requestAnimationFrame(() => {
-        if (shouldBeDark) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
+    if (!isInitialLoad) {
+        document.documentElement.classList.add('theme-transition');
         
-        // Remove transition class after animation completes
-        setTimeout(() => {
-            document.documentElement.classList.remove('theme-transition');
-        }, 500);
-    });
+        // Use requestAnimationFrame for smoother transition
+        requestAnimationFrame(() => {
+            // Remove transition class after animation completes
+            setTimeout(() => {
+                document.documentElement.classList.remove('theme-transition');
+            }, 600);
+        });
+    }
+
+    // Update meta theme-color for mobile browsers
+    const themeColor = shouldBeDark ? '#111827' : '#ffffff';
+    let metaThemeColor = document.querySelector('meta[name="theme-color"]');
+    if (!metaThemeColor) {
+        metaThemeColor = document.createElement('meta');
+        metaThemeColor.setAttribute('name', 'theme-color');
+        document.head.appendChild(metaThemeColor);
+    }
+    metaThemeColor.setAttribute('content', themeColor);
 };
 
 const detectSystemTheme = () => {
