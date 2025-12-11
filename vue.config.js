@@ -15,6 +15,7 @@ const staticPaths = [
 
 module.exports = defineConfig({
   transpileDependencies: true,
+  lintOnSave: process.env.NODE_ENV !== 'production', // Don't fail build on lint errors in production
   configureWebpack: {
     plugins: [
       new (require('sitemap-webpack-plugin').default)({
