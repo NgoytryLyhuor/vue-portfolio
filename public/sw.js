@@ -12,6 +12,14 @@ const STATIC_ASSETS = [
   '/favicon.ico'
 ];
 
+// Helper function to handle cache errors gracefully
+function safeCacheAdd(cache, url) {
+  return cache.add(url).catch(err => {
+    console.warn(`[SW] Failed to cache ${url}:`, err.message);
+    return null;
+  });
+}
+
 // Install event - Cache static assets
 self.addEventListener('install', (event) => {
   console.log('[Service Worker] Installing...');
@@ -21,18 +29,17 @@ self.addEventListener('install', (event) => {
         console.log('[Service Worker] Caching static assets');
         // Use Promise.allSettled to handle missing files gracefully
         return Promise.allSettled(
-          STATIC_ASSETS.map(asset => 
-            cache.add(asset).catch(err => {
-              console.log(`[Service Worker] Failed to cache ${asset}:`, err);
-            })
-          )
+          STATIC_ASSETS.map(asset => safeCacheAdd(cache, asset))
         );
       })
-      .then(() => self.skipWaiting())
+      .then(() => {
+        console.log('[Service Worker] Installation complete');
+        return self.skipWaiting();
+      })
       .catch((err) => {
-        console.log('[Service Worker] Install failed:', err);
-        // Continue even if caching fails
-        self.skipWaiting();
+        console.warn('[Service Worker] Install warning:', err.message);
+        // Continue even if caching fails - service worker will still work
+        return self.skipWaiting();
       })
   );
 });
@@ -68,6 +75,13 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // Skip analytics and external API calls
+  if (event.request.url.includes('googletagmanager.com') || 
+      event.request.url.includes('google-analytics.com') ||
+      event.request.url.includes('api.')) {
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request)
       .then((cachedResponse) => {
@@ -79,18 +93,23 @@ self.addEventListener('fetch', (event) => {
         // Otherwise fetch from network
         return fetch(event.request)
           .then((response) => {
-            // Don't cache non-successful responses
+            // Don't cache non-successful responses or non-basic responses
             if (!response || response.status !== 200 || response.type !== 'basic') {
               return response;
             }
 
-            // Clone the response
+            // Clone the response for caching
             const responseToCache = response.clone();
 
-            // Cache the response
+            // Cache the response (don't wait for it)
             caches.open(RUNTIME_CACHE)
               .then((cache) => {
-                cache.put(event.request, responseToCache);
+                cache.put(event.request, responseToCache).catch(err => {
+                  console.warn('[SW] Failed to cache response:', err.message);
+                });
+              })
+              .catch(err => {
+                console.warn('[SW] Cache open error:', err.message);
               });
 
             return response;
@@ -98,9 +117,20 @@ self.addEventListener('fetch', (event) => {
           .catch(() => {
             // Network failed, return offline page if available
             if (event.request.destination === 'document') {
-              return caches.match('/index.html');
+              return caches.match('/index.html').catch(() => {
+                // If index.html is not cached, return a basic response
+                return new Response('Offline', { status: 503 });
+              });
             }
+            // For other requests, return error
+            return new Response('Network error', { status: 503 });
           });
+      })
+      .catch(() => {
+        // If cache match fails, try network
+        return fetch(event.request).catch(() => {
+          return new Response('Offline', { status: 503 });
+        });
       })
   );
 });

@@ -16,22 +16,39 @@ class Analytics {
             return;
         }
 
-        // Check if Google Analytics is already loaded (from index.html)
-        if (window.gtag && window.dataLayer) {
-            console.log('[Analytics] Google Analytics already loaded');
-            this.isEnabled = true;
+        try {
+            // Check if Google Analytics is already loaded (from index.html)
+            if (typeof window !== 'undefined' && window.gtag && window.dataLayer) {
+                if (process.env.NODE_ENV === 'development') {
+                    console.log('[Analytics] Google Analytics already loaded');
+                }
+                this.isEnabled = true;
+                this.initialized = true;
+                // Wait a bit for GA to be fully ready
+                setTimeout(() => {
+                    this.trackPageView(window.location.pathname);
+                }, 100);
+                return;
+            }
+
+            // Load Google Analytics script if GA ID is provided
+            if (this.gaId && this.isEnabled && typeof window !== 'undefined') {
+                this.loadGoogleAnalytics();
+            }
+
             this.initialized = true;
-            this.trackPageView(window.location.pathname);
-            return;
+            
+            // Track initial page view after a short delay
+            if (typeof window !== 'undefined') {
+                setTimeout(() => {
+                    this.trackEvent('page_view', { page: window.location.pathname });
+                }, 200);
+            }
+        } catch (error) {
+            // Analytics is non-critical, fail silently
+            console.warn('[Analytics] Initialization error (non-critical):', error.message);
+            this.initialized = true; // Mark as initialized to prevent retries
         }
-
-        // Load Google Analytics script if GA ID is provided
-        if (this.gaId && this.isEnabled) {
-            this.loadGoogleAnalytics();
-        }
-
-        this.initialized = true;
-        this.trackEvent('page_view', { page: window.location.pathname });
     }
 
     // Load Google Analytics 4
@@ -63,35 +80,53 @@ class Analytics {
 
     // Track page view
     trackPageView(path) {
-        const pagePath = path || window.location.pathname;
+        try {
+            if (typeof window === 'undefined') return;
+            
+            const pagePath = path || window.location.pathname;
 
-        // Use existing gtag if available (from index.html)
-        if (window.gtag) {
-            const gaId = this.gaId || 'G-KZ6TPEPK8G'; // Use existing GA ID from index.html if available
-            window.gtag('config', gaId, {
-                page_path: pagePath,
-                anonymize_ip: true,
-            });
-        }
+            // Use existing gtag if available (from index.html)
+            if (window.gtag && typeof window.gtag === 'function') {
+                const gaId = this.gaId || 'G-KZ6TPEPK8G'; // Use existing GA ID from index.html if available
+                window.gtag('config', gaId, {
+                    page_path: pagePath,
+                    anonymize_ip: true,
+                });
+            }
 
-        // Also log to console in development
-        if (process.env.NODE_ENV === 'development') {
-            console.log('[Analytics] Page view:', pagePath);
+            // Also log to console in development
+            if (process.env.NODE_ENV === 'development') {
+                console.log('[Analytics] Page view:', pagePath);
+            }
+        } catch (error) {
+            // Fail silently
+            if (process.env.NODE_ENV === 'development') {
+                console.warn('[Analytics] Track page view error:', error.message);
+            }
         }
     }
 
     // Track custom event
     trackEvent(eventName, eventParams = {}) {
-        if (window.gtag) {
-            window.gtag('event', eventName, {
-                ...eventParams,
-                timestamp: new Date().toISOString(),
-            });
-        }
+        try {
+            if (typeof window === 'undefined') return;
+            
+            if (window.gtag && typeof window.gtag === 'function') {
+                window.gtag('event', eventName, {
+                    ...eventParams,
+                    timestamp: new Date().toISOString(),
+                });
+            }
 
-        // Also log to console in development
-        if (process.env.NODE_ENV === 'development') {
-            console.log('[Analytics] Event:', eventName, eventParams);
+            // Also log to console in development
+            if (process.env.NODE_ENV === 'development') {
+                console.log('[Analytics] Event:', eventName, eventParams);
+            }
+        } catch (error) {
+            // Fail silently
+            if (process.env.NODE_ENV === 'development') {
+                console.warn('[Analytics] Track event error:', error.message);
+            }
         }
     }
 

@@ -10,52 +10,71 @@ const app = createApp(App);
 app.config.globalProperties.$http = api; 
 app.use(router);
 
-// Initialize analytics
-analytics.init();
-
-// Track page views on route changes
-router.afterEach((to) => {
-  analytics.trackPageView(to.path);
-});
+// Initialize analytics (with error handling)
+try {
+  analytics.init();
+  
+  // Track page views on route changes
+  router.afterEach((to) => {
+    try {
+      analytics.trackPageView(to.path);
+    } catch (error) {
+      // Fail silently - analytics is non-critical
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('[Analytics] Route tracking error:', error);
+      }
+    }
+  });
+} catch (error) {
+  // Fail silently - analytics is non-critical
+  if (process.env.NODE_ENV === 'development') {
+    console.warn('[Analytics] Initialization error:', error);
+  }
+}
 
 app.mount('#app');
 
 // Register Service Worker for offline support
 if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
   window.addEventListener('load', () => {
-    // Use relative path for service worker
-    const swPath = `${process.env.BASE_URL || '/'}sw.js`;
-    
-    navigator.serviceWorker.register(swPath)
-      .then((registration) => {
-        console.log('[Service Worker] Registration successful:', registration.scope);
-        
-        // Check for updates
-        registration.addEventListener('updatefound', () => {
-          const newWorker = registration.installing;
-          if (newWorker) {
-            newWorker.addEventListener('statechange', () => {
-              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                // New service worker available, prompt user to refresh
-                console.log('[Service Worker] New version available. Refresh to update.');
-              }
-            });
-          }
+    try {
+      // Use absolute path for service worker (works better on Vercel)
+      const swPath = '/sw.js';
+      
+      navigator.serviceWorker.register(swPath)
+        .then((registration) => {
+          console.log('[Service Worker] Registration successful:', registration.scope);
+          
+          // Check for updates
+          registration.addEventListener('updatefound', () => {
+            const newWorker = registration.installing;
+            if (newWorker) {
+              newWorker.addEventListener('statechange', () => {
+                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                  // New service worker available, prompt user to refresh
+                  console.log('[Service Worker] New version available. Refresh to update.');
+                }
+              });
+            }
+          });
+        })
+        .catch((error) => {
+          // Silently fail - service worker is optional
+          console.warn('[Service Worker] Registration failed (non-critical):', error.message);
         });
-      })
-      .catch((error) => {
-        // Silently fail in production, log in development
-        if (process.env.NODE_ENV === 'development') {
-          console.log('[Service Worker] Registration failed:', error);
-        }
-      });
+    } catch (error) {
+      // Silently fail - service worker is optional
+      console.warn('[Service Worker] Error (non-critical):', error.message);
+    }
   });
 
   // Listen for service worker updates
-  navigator.serviceWorker.addEventListener('controllerchange', () => {
-    // Only reload if we're not already reloading
-    if (!window.location.reload) {
+  try {
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      // Reload page when new service worker takes control
       window.location.reload();
-    }
-  });
+    });
+  } catch (error) {
+    // Ignore errors
+  }
 }
