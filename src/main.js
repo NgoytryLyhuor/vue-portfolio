@@ -21,30 +21,41 @@ router.afterEach((to) => {
 app.mount('#app');
 
 // Register Service Worker for offline support
-if ('serviceWorker' in navigator) {
+if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
+    // Use relative path for service worker
+    const swPath = `${process.env.BASE_URL || '/'}sw.js`;
+    
+    navigator.serviceWorker.register(swPath)
       .then((registration) => {
         console.log('[Service Worker] Registration successful:', registration.scope);
         
         // Check for updates
         registration.addEventListener('updatefound', () => {
           const newWorker = registration.installing;
-          newWorker.addEventListener('statechange', () => {
-            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              // New service worker available, prompt user to refresh
-              console.log('[Service Worker] New version available. Refresh to update.');
-            }
-          });
+          if (newWorker) {
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                // New service worker available, prompt user to refresh
+                console.log('[Service Worker] New version available. Refresh to update.');
+              }
+            });
+          }
         });
       })
       .catch((error) => {
-        console.log('[Service Worker] Registration failed:', error);
+        // Silently fail in production, log in development
+        if (process.env.NODE_ENV === 'development') {
+          console.log('[Service Worker] Registration failed:', error);
+        }
       });
   });
 
   // Listen for service worker updates
   navigator.serviceWorker.addEventListener('controllerchange', () => {
-    window.location.reload();
+    // Only reload if we're not already reloading
+    if (!window.location.reload) {
+      window.location.reload();
+    }
   });
 }

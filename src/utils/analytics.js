@@ -3,8 +3,10 @@
 
 class Analytics {
     constructor() {
-        this.gaId = process.env.VUE_APP_GA_ID || null;
-        this.isEnabled = process.env.NODE_ENV === 'production' && this.gaId;
+        // Use existing GA ID from index.html or environment variable
+        this.gaId = process.env.VUE_APP_GA_ID || 'G-KZ6TPEPK8G';
+        // Enable analytics in production or if GA is already loaded
+        this.isEnabled = process.env.NODE_ENV === 'production' || typeof window !== 'undefined' && window.gtag;
         this.initialized = false;
     }
 

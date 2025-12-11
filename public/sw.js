@@ -3,14 +3,13 @@ const CACHE_NAME = 'portfolio-v1';
 const RUNTIME_CACHE = 'portfolio-runtime-v1';
 
 // Assets to cache immediately
+// Note: These paths will be relative to the base URL
+// Vue CLI generates hashed filenames, so we cache dynamically
 const STATIC_ASSETS = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/favicon.ico',
-  '/css/app.css',
-  '/js/app.js',
-  '/js/chunk-vendors.js'
+  '/favicon.ico'
 ];
 
 // Install event - Cache static assets
@@ -20,9 +19,21 @@ self.addEventListener('install', (event) => {
     caches.open(CACHE_NAME)
       .then((cache) => {
         console.log('[Service Worker] Caching static assets');
-        return cache.addAll(STATIC_ASSETS);
+        // Use Promise.allSettled to handle missing files gracefully
+        return Promise.allSettled(
+          STATIC_ASSETS.map(asset => 
+            cache.add(asset).catch(err => {
+              console.log(`[Service Worker] Failed to cache ${asset}:`, err);
+            })
+          )
+        );
       })
       .then(() => self.skipWaiting())
+      .catch((err) => {
+        console.log('[Service Worker] Install failed:', err);
+        // Continue even if caching fails
+        self.skipWaiting();
+      })
   );
 });
 

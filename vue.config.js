@@ -26,15 +26,7 @@ module.exports = defineConfig({
         }
       })
     ]
-  },
-  // Copy service worker to dist folder
-  chainWebpack: (config) => {
-    config.plugin('copy').tap((args) => {
-      args[0].patterns.push({
-        from: 'public/sw.js',
-        to: 'sw.js',
-      });
-      return args;
-    });
   }
+  // Note: Vue CLI automatically copies all files from public/ to dist/
+  // No need to manually configure service worker copying
 });
