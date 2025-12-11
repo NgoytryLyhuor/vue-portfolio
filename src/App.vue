@@ -6,7 +6,7 @@
       <main class="container mx-auto px-4 py-8 transition-all duration-500 ease-in-out flex-grow">
         <router-view />
       </main>
-      <Footer />
+      <AppFooter />
     </div>
   </ErrorBoundary>
 </template>
@@ -15,7 +15,7 @@
 import { useRoute } from 'vue-router';
 import NavBar from './components/NavBar.vue';
 import ErrorBoundary from './components/ErrorBoundary.vue';
-import Footer from './components/Footer.vue';
+import AppFooter from './components/Footer.vue';
 import { useMetaTags } from './composables/useMetaTags';
 
 const route = useRoute();

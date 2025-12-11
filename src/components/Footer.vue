@@ -1,3 +1,4 @@
+<!-- AppFooter Component - Site Footer -->
 <template>
     <footer class="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 mt-auto">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -133,11 +134,22 @@
     </footer>
 </template>
 
-<script setup>
+<script>
+// AppFooter Component - Site Footer with Links and Copyright
 import { computed } from 'vue';
 
-const currentYear = computed(() => new Date().getFullYear());
-const githubUrl = 'https://github.com/NgoytryLyhuor'; // You can make this dynamic if needed
+export default {
+  name: 'AppFooter',
+  setup() {
+    const currentYear = computed(() => new Date().getFullYear());
+    const githubUrl = 'https://github.com/NgoytryLyhuor'; // You can make this dynamic if needed
+    
+    return {
+      currentYear,
+      githubUrl
+    };
+  }
+};
 </script>
 
 <style scoped>
