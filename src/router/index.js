@@ -14,6 +14,9 @@ const KhmerCalendar = () => import('@/views/projects/KhmerCalendar.vue')
 const CurrencyConverter = () => import('@/views/projects/CurrencyConverter.vue')
 const CryptoPassword = () => import('@/views/projects/CryptoPassword.vue')
 const CryptoPriceTracker = () => import('@/views/projects/CryptoPriceTracker.vue')
+const GarageAccess = () => import('@/views/projects/GarageAccess.vue')
+const PrivateGarage = () => import('@/views/projects/PrivateGarage.vue')
+const PriusMaintenance = () => import('@/views/projects/PriusMaintenance.vue')
 const SpaceEvents = () => import('@/views/space/SpaceEvents.vue')
 const SpaceEventDetail = () => import('@/views/space/SpaceEventDetail.vue')
 const Login = () => import('@/views/auth/LoginView.vue')
@@ -141,6 +144,41 @@ const routes = [
         }
     },
     {
+        path: '/garage-access',
+        name: 'garage-access',
+        component: GarageAccess,
+        meta: {
+            showNavBar: true,
+            title: 'Lyhuor Garage - Private Access',
+            description: 'Password protected area for Lyhuor-only tools including crypto tracker and Prius maintenance.',
+            robots: 'noindex, nofollow'
+        }
+    },
+    {
+        path: '/garage',
+        name: 'garage',
+        component: PrivateGarage,
+        meta: {
+            showNavBar: true,
+            title: 'Lyhuor Garage',
+            description: 'Private toolbox for crypto tracking and Toyota Prius 2011 maintenance.',
+            robots: 'noindex, nofollow',
+            requiresGarageAuth: true
+        }
+    },
+    {
+        path: '/prius-maintenance',
+        name: 'prius-maintenance',
+        component: PriusMaintenance,
+        meta: {
+            showNavBar: true,
+            title: 'Prius 2011 Maintenance - Lyhuor Garage',
+            description: 'Personal maintenance planner for Toyota Prius 2011 Option 3 with reminders tuned for Cambodia conditions.',
+            robots: 'noindex, nofollow',
+            requiresGarageAuth: true
+        }
+    },
+    {
         path: '/space-events',
         name: 'space-events',
         component: SpaceEvents,
@@ -210,17 +248,31 @@ const checkCryptoAuth = () => {
     return sessionStorage.getItem('crypto_tracker_auth') === 'true'
 }
 
+// Function to check garage/private tools authentication
+const checkGarageAuth = () => {
+    return sessionStorage.getItem('garage_auth') === 'true'
+}
+
 // Navigation guard for authentication and title updates
 router.beforeEach(async (to, from, next) => {
     // Update page title
     document.title = to.meta.title || 'Ngoytry Lyhuor'
     
+    // Check garage/private access authentication
+    if (to.meta.requiresGarageAuth) {
+        const isGarageAuthenticated = checkGarageAuth()
+        if (!isGarageAuthenticated) {
+            next({ name: 'garage-access', query: { redirect: to.fullPath } })
+            return
+        }
+    }
+
     // Check crypto tracker authentication
     if (to.meta.requiresCryptoAuth) {
-        const isCryptoAuthenticated = checkCryptoAuth()
+        const isCryptoAuthenticated = checkCryptoAuth() || checkGarageAuth()
         if (!isCryptoAuthenticated) {
-            // Not authenticated, redirect to password page
-            next({ name: 'crypto-tracker-password' })
+            // Not authenticated, redirect to garage access page (unlocks crypto + garage)
+            next({ name: 'garage-access', query: { redirect: to.fullPath } })
             return
         }
     }
