@@ -13,10 +13,11 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
+                    
                     <span>Last updated: {{ formattedTime }}</span>
                     <button @click="fetchPollutionData"
                         class="ml-2 p-1.5 rounded-full bg-blue-100 dark:bg-gray-700 text-blue-600 dark:text-blue-400 hover:bg-blue-200 dark:hover:bg-gray-600 transition-all"
-                        aria-label="Refresh data"
+                        aria-label="Refresh data" 
                         title="Refresh air quality data">
                         <ArrowPathIcon class="h-4 w-4" :class="{ 'animate-spin': loading }" />
                     </button>
