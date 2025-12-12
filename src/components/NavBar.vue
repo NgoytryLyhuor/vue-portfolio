@@ -284,6 +284,15 @@ const featureLinks = [
                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd" />
             </svg>`
         }
+    },
+    {
+        path: '/prius-care-password',
+        label: 'Prius Care (Private)',
+        icon: {
+            template: `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1h3a2 2 0 012 2v2h1a1 1 0 011 1v7a1 1 0 01-1 1h-3.586l-1.707 1.707a1 1 0 01-1.414 0L8.586 18H5a1 1 0 01-1-1v-7a1 1 0 011-1h1V6a2 2 0 012-2h3V3a1 1 0 011-1zM7 8h6V6H7v2z" clip-rule="evenodd" />
+            </svg>`
+        }
     }
 ];
 
@@ -297,7 +306,7 @@ const standardNavLinks = computed(() => {
 });
 
 const isFeatureActive = computed(() => {
-    return featureLinks.some(link => route.path === link.path || route.path === '/crypto-tracker');
+    return featureLinks.some(link => route.path === link.path || ['/crypto-tracker', '/prius-care'].includes(route.path));
 });
 
 // Methods

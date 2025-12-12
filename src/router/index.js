@@ -14,6 +14,8 @@ const KhmerCalendar = () => import('@/views/projects/KhmerCalendar.vue')
 const CurrencyConverter = () => import('@/views/projects/CurrencyConverter.vue')
 const CryptoPassword = () => import('@/views/projects/CryptoPassword.vue')
 const CryptoPriceTracker = () => import('@/views/projects/CryptoPriceTracker.vue')
+const PriusPassword = () => import('@/views/projects/PriusPassword.vue')
+const PriusMaintenance = () => import('@/views/projects/PriusMaintenance.vue')
 const SpaceEvents = () => import('@/views/space/SpaceEvents.vue')
 const SpaceEventDetail = () => import('@/views/space/SpaceEventDetail.vue')
 const Login = () => import('@/views/auth/LoginView.vue')
@@ -129,6 +131,29 @@ const routes = [
         }
     },
     {
+        path: '/prius-care-password',
+        name: 'prius-care-password',
+        component: PriusPassword,
+        meta: {
+            showNavBar: false,
+            title: 'Prius Care - Private Access',
+            description: 'Password protected access to Prius maintenance tracker',
+            robots: 'noindex, nofollow'
+        }
+    },
+    {
+        path: '/prius-care',
+        name: 'prius-care',
+        component: PriusMaintenance,
+        meta: {
+            showNavBar: true,
+            title: 'Prius Care - Maintenance Tracker',
+            description: 'Private maintenance tracker for Toyota Prius 2011 Option 3',
+            robots: 'noindex, nofollow',
+            requiresPriusAuth: true
+        }
+    },
+    {
         path: '/crypto-tracker',
         name: 'crypto-tracker',
         component: CryptoPriceTracker,
@@ -210,6 +235,11 @@ const checkCryptoAuth = () => {
     return sessionStorage.getItem('crypto_tracker_auth') === 'true'
 }
 
+// Function to check Prius maintenance authentication
+const checkPriusAuth = () => {
+    return sessionStorage.getItem('prius_care_auth') === 'true'
+}
+
 // Navigation guard for authentication and title updates
 router.beforeEach(async (to, from, next) => {
     // Update page title
@@ -221,6 +251,15 @@ router.beforeEach(async (to, from, next) => {
         if (!isCryptoAuthenticated) {
             // Not authenticated, redirect to password page
             next({ name: 'crypto-tracker-password' })
+            return
+        }
+    }
+
+    // Check prius tracker authentication
+    if (to.meta.requiresPriusAuth) {
+        const isPriusAuthenticated = checkPriusAuth()
+        if (!isPriusAuthenticated) {
+            next({ name: 'prius-care-password' })
             return
         }
     }
