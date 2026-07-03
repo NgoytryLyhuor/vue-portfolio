@@ -39,6 +39,28 @@
                 <p class="mt-2 text-sm text-gray-500 dark:text-gray-500">Please wait while we fetch the latest readings</p>
             </div>
 
+            <!-- Error State -->
+            <div v-else-if="error" class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 sm:p-8 text-center max-w-lg mx-auto border border-red-200 dark:border-red-900/50">
+                <div class="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-600 dark:text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                </div>
+                <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Failed to Load Air Quality Data</h2>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
+                    {{ error }}
+                </p>
+                <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                    <button @click="fetchPollutionData" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow-lg transition-all flex items-center justify-center gap-2">
+                        <ArrowPathIcon class="h-4 w-4" :class="{ 'animate-spin': loading }" />
+                        Try Again
+                    </button>
+                    <router-link to="/" class="px-6 py-2.5 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 font-semibold rounded-xl transition-all">
+                        Back to Home
+                    </router-link>
+                </div>
+            </div>
+
             <!-- Main Content -->
             <div v-else class="space-y-6">
                 <!-- Main AQI Card with Color-Coded Background -->
@@ -409,10 +431,11 @@ export default {
     data() {
         return {
             loading: true,
+            error: null,
             pollutionData: null,
             weatherData: null,
             lastUpdated: null,
-            apiEndpoint: 'https://api.airvisual.com/v2/city?city=Phnom%20Penh&state=Phnom%20Penh&country=Cambodia&key=fd0705c4-9945-44b6-95a0-c4cc8052cea9',
+            defaultApiKey: 'fd0705c4-9945-44b6-95a0-c4cc8052cea9',
             circumference: 2 * Math.PI * 80,
             telegramSettings: {
                 enabled: false,
@@ -665,21 +688,36 @@ export default {
         this.stopCountdown()
     },
     methods: {
+        getApiUrl() {
+            const apiKey = process.env.VUE_APP_AIR_QUALITY_API_KEY || this.defaultApiKey
+            return `https://api.airvisual.com/v2/city?city=Phnom%20Penh&state=Phnom%20Penh&country=Cambodia&key=${apiKey}`
+        },
         async fetchPollutionData() {
             this.loading = true
+            this.error = null
             try {
-                const response = await fetch(this.apiEndpoint)
-                if (!response.ok) throw new Error(`API request failed with status ${response.status}`)
+                const response = await fetch(this.getApiUrl())
+                if (!response.ok) {
+                    if (response.status === 402) {
+                        throw new Error('API key payment required or rate limit exceeded. Please configure a valid VUE_APP_AIR_QUALITY_API_KEY in your environment variables.')
+                    }
+                    throw new Error(`API request failed with status ${response.status}`)
+                }
                 const data = await response.json()
-                if (data.status !== 'success') throw new Error('API returned unsuccessful status')
+                if (data.status !== 'success') {
+                    throw new Error(data.data?.message || 'API returned unsuccessful status')
+                }
                 this.pollutionData = data.data.current.pollution
                 this.weatherData = data.data.current.weather
                 this.lastUpdated = new Date(this.pollutionData.ts).toISOString()
-                if (this.telegramSettings.enabled && this.telegramSettings.botToken && this.telegramSettings.chatId && this.pollutionData.aqius >= parseInt(this.telegramSettings.threshold)) {
+                if (this.telegramSettings.enabled && this.telegramSettings.botToken && this.telegramSettings.chatId && this.pollutionData?.aqius >= parseInt(this.telegramSettings.threshold)) {
                     this.autoSendAlert()
                 }
             } catch (error) {
                 logger.error('Error fetching air quality data:', error)
+                this.error = error.message || 'Failed to load air quality data. Please check your API key configuration and try again.'
+                this.pollutionData = null
+                this.weatherData = null
             } finally {
                 this.loading = false
             }
@@ -794,7 +832,7 @@ export default {
         async performAutoCheck() {
             logger.log('Performing auto-check...')
             try {
-                const response = await fetch(this.apiEndpoint)
+                const response = await fetch(this.getApiUrl())
                 if (!response.ok) throw new Error('API request failed')
                 const data = await response.json()
                 if (data.status !== 'success') throw new Error('API returned unsuccessful')
