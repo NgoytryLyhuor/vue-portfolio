@@ -1,22 +1,30 @@
 <template>
-    <div class="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-teal-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-6 sm:py-8 lg:py-12 px-3 sm:px-4 lg:px-6 xl:px-8">
+    <div class="min-h-screen bg-gradient-to-br from-slate-50 via-sky-50 to-teal-50 dark:from-gray-950 dark:via-gray-900 dark:to-slate-900 py-6 sm:py-8 lg:py-12 px-3 sm:px-4 lg:px-6 xl:px-8">
         <div class="max-w-6xl mx-auto mt-4 sm:mt-6 lg:mt-10">
             <!-- Header -->
             <div class="text-center mb-6 sm:mb-8">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 text-xs sm:text-sm text-gray-600 dark:text-gray-300 mb-4 shadow-sm">
+                    <MapPinIcon class="h-3.5 w-3.5 text-sky-500" />
+                    <span>{{ cityInfo.city }}, {{ cityInfo.country }}</span>
+                    <span v-if="pollutionData" class="flex items-center gap-1.5 pl-2 border-l border-gray-200 dark:border-gray-600">
+                        <span class="relative flex h-2 w-2">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                        </span>
+                        Live
+                    </span>
+                </div>
                 <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-2">
-                    Phnom Penh Air Quality
+                    Air Quality Monitor
                 </h1>
-                <p class="text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-2">
-                    Real-time air pollution monitoring and alerts
+                <p class="text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-3">
+                    Real-time pollution readings and health advisories
                 </p>
                 <div class="flex items-center justify-center gap-2 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    
-                    <span>Last updated: {{ formattedTime }}</span>
+                    <ClockIcon class="h-4 w-4" />
+                    <span>{{ formattedDateTime }}</span>
                     <button @click="fetchPollutionData"
-                        class="ml-2 p-1.5 rounded-full bg-blue-100 dark:bg-gray-700 text-blue-600 dark:text-blue-400 hover:bg-blue-200 dark:hover:bg-gray-600 transition-all"
+                        class="ml-1 p-2 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-gray-700 transition-all shadow-sm"
                         aria-label="Refresh data"
                         title="Refresh air quality data">
                         <ArrowPathIcon class="h-4 w-4" :class="{ 'animate-spin': loading }" />
@@ -62,239 +70,214 @@
             </div>
 
             <!-- Main Content -->
-            <div v-else class="space-y-6">
-                <!-- Main AQI Card with Color-Coded Background -->
-                <div class="rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-6 lg:p-8 border-2 relative overflow-hidden transition-all duration-500" :class="aqiCardClass">
-                    <!-- Decorative Elements -->
-                    <div class="absolute top-0 right-0 w-64 h-64 rounded-full blur-3xl opacity-30" :class="aqiDecorativeBg"></div>
-                    <div class="absolute bottom-0 left-0 w-48 h-48 rounded-full blur-2xl opacity-20" :class="aqiDecorativeBg"></div>
-                    
-                    <div class="relative z-10">
-                        <!-- AQI Level Badge - Top -->
-                        <div class="text-center mb-4">
-                            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold shadow-lg mb-3" :class="aqiLevelClass">
-                                <span class="text-lg">{{ aqiEmoji }}</span>
-                                <span>{{ getAqiLevel(pollutionData.aqius) }}</span>
-                            </div>
-                            <h2 class="text-lg sm:text-xl font-semibold mb-1" :class="aqiTitleColor">Air Quality Index</h2>
-                            <p class="text-xs" :class="aqiSubtitleColor">US EPA Standard</p>
-                        </div>
+            <div v-else class="space-y-5 sm:space-y-6 animate-fade-in">
+                <!-- Dashboard -->
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 sm:gap-5">
+                    <!-- AQI Panel -->
+                    <div class="lg:col-span-3 rounded-2xl sm:rounded-3xl shadow-2xl p-5 sm:p-6 lg:p-8 border-2 relative overflow-hidden transition-all duration-500" :class="aqiCardClass">
+                        <div class="absolute top-0 right-0 w-56 h-56 rounded-full blur-3xl opacity-30" :class="aqiDecorativeBg"></div>
+                        <div class="absolute bottom-0 left-0 w-40 h-40 rounded-full blur-2xl opacity-20" :class="aqiDecorativeBg"></div>
 
-                        <div v-if="pollutionData" class="flex flex-col items-center">
-                            <!-- Circular Progress -->
-                            <div class="relative w-40 h-40 sm:w-44 sm:h-44 lg:w-48 lg:h-48 mb-6">
-                                <svg viewBox="0 0 180 180" class="transform -rotate-90 w-full h-full">
-                                    <circle cx="90" cy="90" r="80" stroke="rgba(255,255,255,0.3)" stroke-width="12" fill="none" />
-                                    <circle cx="90" cy="90" r="80" :stroke="aqiGradientColor" stroke-width="12" stroke-linecap="round" fill="none" 
-                                        :stroke-dasharray="circumference" :stroke-dashoffset="circumference - (aqiPercentage * circumference)" 
-                                        class="transition-all duration-1000 ease-out drop-shadow-lg" />
-                                </svg>
-                                <div class="absolute inset-0 flex flex-col items-center justify-center">
-                                    <span class="text-4xl sm:text-5xl lg:text-6xl font-bold drop-shadow-lg" :class="aqiTextColor">{{ pollutionData.aqius }}</span>
-                                    <span class="text-xs sm:text-sm mt-1 drop-shadow" :class="aqiSubtitleColor">AQI</span>
+                        <div class="relative z-10">
+                            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
+                                <div>
+                                    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-bold shadow-md mb-2" :class="aqiLevelClass">
+                                        <span>{{ aqiEmoji }}</span>
+                                        <span>{{ getAqiLevel(pollutionData.aqius) }}</span>
+                                    </div>
+                                    <h2 class="text-lg sm:text-xl font-semibold" :class="aqiTitleColor">US EPA Air Quality Index</h2>
+                                    <p class="text-xs mt-0.5" :class="aqiSubtitleColor">Primary standard for health advisories</p>
+                                </div>
+                                <div class="flex gap-3">
+                                    <div class="text-center px-4 py-2 rounded-xl bg-white/60 dark:bg-gray-900/60 backdrop-blur-sm border" :class="aqiBorderColor">
+                                        <p class="text-[10px] uppercase tracking-wide font-semibold" :class="aqiSubtitleColor">US AQI</p>
+                                        <p class="text-2xl font-bold" :class="aqiTextColor">{{ pollutionData.aqius }}</p>
+                                    </div>
+                                    <div class="text-center px-4 py-2 rounded-xl bg-white/60 dark:bg-gray-900/60 backdrop-blur-sm border border-gray-200 dark:border-gray-700">
+                                        <p class="text-[10px] uppercase tracking-wide font-semibold text-gray-500 dark:text-gray-400">CN AQI</p>
+                                        <p class="text-2xl font-bold text-gray-700 dark:text-gray-200">{{ pollutionData.aqicn }}</p>
+                                    </div>
                                 </div>
                             </div>
 
-                            <!-- Detailed Explanation Card -->
-                            <div class="w-full max-w-2xl bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-xl p-4 border-2 shadow-xl" :class="aqiBorderColor">
-                                <div class="text-center mb-3">
-                                    <h3 class="text-sm font-bold mb-1" :class="aqiTitleColor">What This Means</h3>
+                            <div class="flex flex-col sm:flex-row items-center gap-6">
+                                <div class="relative w-36 h-36 sm:w-40 sm:h-40 flex-shrink-0">
+                                    <svg viewBox="0 0 180 180" class="transform -rotate-90 w-full h-full">
+                                        <circle cx="90" cy="90" r="80" stroke="rgba(255,255,255,0.25)" stroke-width="12" fill="none" />
+                                        <circle cx="90" cy="90" r="80" :stroke="aqiGradientColor" stroke-width="12" stroke-linecap="round" fill="none"
+                                            :stroke-dasharray="circumference" :stroke-dashoffset="circumference - (aqiPercentage * circumference)"
+                                            class="transition-all duration-1000 ease-out drop-shadow-lg" />
+                                    </svg>
+                                    <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                        <span class="text-4xl sm:text-5xl font-bold drop-shadow-lg" :class="aqiTextColor">{{ pollutionData.aqius }}</span>
+                                        <span class="text-xs mt-0.5 drop-shadow" :class="aqiSubtitleColor">AQI</span>
+                                    </div>
                                 </div>
-                                <div class="space-y-2">
-                                    <div class="flex items-start gap-2">
-                                        <div class="flex-shrink-0 mt-0.5">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" :class="aqiIconColor" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <p class="font-semibold mb-0.5 text-xs" :class="aqiTitleColor">{{ getAqiDescription(pollutionData.aqius).title }}</p>
-                                            <p class="text-xs leading-relaxed" :class="aqiSubtitleColor">{{ getAqiDescription(pollutionData.aqius).description }}</p>
-                                        </div>
+
+                                <div v-if="aqiDescription" class="flex-1 w-full space-y-2.5">
+                                    <div class="rounded-xl p-3 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border" :class="aqiBorderColor">
+                                        <p class="text-sm font-semibold mb-1" :class="aqiTitleColor">{{ aqiDescription.title }}</p>
+                                        <p class="text-xs leading-relaxed" :class="aqiSubtitleColor">{{ aqiDescription.description }}</p>
                                     </div>
-                                    <div class="flex items-start gap-2">
-                                        <div class="flex-shrink-0 mt-0.5">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" :class="aqiIconColor" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                                            </svg>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                        <div class="rounded-xl p-3 bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm border border-white/50 dark:border-gray-700">
+                                            <p class="text-[10px] uppercase tracking-wide font-semibold mb-1 flex items-center gap-1" :class="aqiSubtitleColor">
+                                                <ShieldCheckIcon class="h-3.5 w-3.5" /> Advice
+                                            </p>
+                                            <p class="text-xs leading-relaxed" :class="aqiSubtitleColor">{{ aqiDescription.recommendations }}</p>
                                         </div>
-                                        <div>
-                                            <p class="font-semibold mb-0.5 text-xs" :class="aqiTitleColor">Health Recommendations</p>
-                                            <p class="text-xs leading-relaxed" :class="aqiSubtitleColor">{{ getAqiDescription(pollutionData.aqius).recommendations }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-start gap-2">
-                                        <div class="flex-shrink-0 mt-0.5">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" :class="aqiIconColor" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <p class="font-semibold mb-0.5 text-xs" :class="aqiTitleColor">Who Should Be Careful</p>
-                                            <p class="text-xs leading-relaxed" :class="aqiSubtitleColor">{{ getAqiDescription(pollutionData.aqius).sensitiveGroups }}</p>
+                                        <div class="rounded-xl p-3 bg-white/70 dark:bg-gray-900/70 backdrop-blur-sm border border-white/50 dark:border-gray-700">
+                                            <p class="text-[10px] uppercase tracking-wide font-semibold mb-1 flex items-center gap-1" :class="aqiSubtitleColor">
+                                                <UserGroupIcon class="h-3.5 w-3.5" /> Sensitive Groups
+                                            </p>
+                                            <p class="text-xs leading-relaxed" :class="aqiSubtitleColor">{{ aqiDescription.sensitiveGroups }}</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div v-else class="text-center py-12 text-red-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            <p class="font-semibold">Failed to load air quality data</p>
+                    <!-- Weather Panel -->
+                    <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-2xl sm:rounded-3xl shadow-xl p-5 sm:p-6 border border-gray-100 dark:border-gray-700 flex flex-col">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-base font-semibold text-gray-700 dark:text-gray-200 flex items-center gap-2">
+                                <CloudIcon class="h-5 w-5 text-sky-500" />
+                                Current Weather
+                            </h2>
+                            <span class="text-xs text-gray-400 dark:text-gray-500">{{ cityInfo.state }}</span>
+                        </div>
+
+                        <div v-if="weatherData" class="flex-1 flex flex-col">
+                            <div class="flex items-center gap-4 mb-5 pb-5 border-b border-gray-100 dark:border-gray-700">
+                                <img v-if="weatherIconUrl" :src="weatherIconUrl" alt="Weather" class="w-16 h-16 drop-shadow-md" />
+                                <div>
+                                    <p class="text-4xl font-bold text-gray-900 dark:text-white">{{ weatherData.tp }}°<span class="text-xl">C</span></p>
+                                    <p v-if="weatherData.heatIndex" class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                                        Feels like {{ weatherData.heatIndex }}°C
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-2.5 flex-1">
+                                <div class="rounded-xl p-3 bg-sky-50 dark:bg-sky-900/20 border border-sky-100 dark:border-sky-800/50">
+                                    <p class="text-[10px] uppercase tracking-wide text-sky-600 dark:text-sky-400 font-semibold mb-1">Humidity</p>
+                                    <p class="text-lg font-bold text-gray-900 dark:text-white">{{ weatherData.hu }}%</p>
+                                </div>
+                                <div class="rounded-xl p-3 bg-violet-50 dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/50">
+                                    <p class="text-[10px] uppercase tracking-wide text-violet-600 dark:text-violet-400 font-semibold mb-1">Wind</p>
+                                    <p class="text-lg font-bold text-gray-900 dark:text-white">{{ weatherData.ws }} <span class="text-xs font-normal">m/s</span></p>
+                                </div>
+                                <div class="rounded-xl p-3 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-800/50">
+                                    <p class="text-[10px] uppercase tracking-wide text-emerald-600 dark:text-emerald-400 font-semibold mb-1">Pressure</p>
+                                    <p class="text-lg font-bold text-gray-900 dark:text-white">{{ weatherData.pr }} <span class="text-xs font-normal">hPa</span></p>
+                                </div>
+                                <div class="rounded-xl p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-800/50">
+                                    <p class="text-[10px] uppercase tracking-wide text-amber-600 dark:text-amber-400 font-semibold mb-1">Direction</p>
+                                    <p class="text-sm font-bold text-gray-900 dark:text-white">{{ getWindDirection(weatherData.wd) }}</p>
+                                    <p class="text-[10px] text-gray-400">{{ weatherData.wd }}°</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- AQI Scale Reference -->
+                <!-- AQI Scale Bar -->
                 <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700">
-                    <h2 class="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-4 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                        </svg>
-                        AQI Scale Reference
-                    </h2>
-                    <div class="space-y-2">
-                        <div v-for="level in aqiLevels" :key="level.range" 
-                            class="flex items-center gap-3 p-3 rounded-xl border-2 transition-all hover:shadow-md"
-                            :class="pollutionData && pollutionData.aqius >= level.min && pollutionData.aqius <= level.max 
-                                ? level.activeClass 
-                                : level.inactiveClass">
-                            <div class="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-lg font-bold shadow-lg" :class="level.badgeClass">
-                                {{ level.emoji }}
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-base font-semibold text-gray-700 dark:text-gray-200">AQI Scale</h2>
+                        <span v-if="activeAqiLevel" class="text-xs font-semibold px-2.5 py-1 rounded-full" :class="activeAqiLevel.badgeClass">
+                            {{ activeAqiLevel.emoji }} {{ activeAqiLevel.name }}
+                        </span>
+                    </div>
+                    <div class="relative pt-2 pb-8">
+                        <div class="h-3 rounded-full overflow-hidden flex">
+                            <div class="flex-1 bg-green-500"></div>
+                            <div class="flex-1 bg-yellow-400"></div>
+                            <div class="flex-1 bg-orange-500"></div>
+                            <div class="flex-1 bg-red-500"></div>
+                            <div class="flex-1 bg-purple-500"></div>
+                            <div class="flex-[0.4] bg-red-900"></div>
+                        </div>
+                        <div class="absolute top-0 transform -translate-x-1/2 transition-all duration-700"
+                            :style="{ left: aqiMarkerPosition + '%' }">
+                            <div class="w-0 h-0 border-l-[6px] border-r-[6px] border-t-[8px] border-l-transparent border-r-transparent border-t-gray-800 dark:border-t-white mx-auto"></div>
+                            <div class="mt-1 px-2 py-0.5 rounded-md bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-xs font-bold whitespace-nowrap">
+                                {{ pollutionData.aqius }}
                             </div>
-                            <div class="flex-1">
-                                <div class="flex items-center justify-between mb-0.5">
-                                    <h3 class="font-bold text-sm" :class="level.textClass">{{ level.name }}</h3>
-                                    <span class="text-xs font-semibold" :class="level.textClass">AQI {{ level.range }}</span>
-                                </div>
-                                <p class="text-xs" :class="level.subTextClass">{{ level.description }}</p>
-                            </div>
-                            <div v-if="pollutionData && pollutionData.aqius >= level.min && pollutionData.aqius <= level.max" 
-                                class="flex-shrink-0">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" :class="level.textClass" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                            </div>
+                        </div>
+                        <div class="flex justify-between mt-2 text-[10px] text-gray-400 dark:text-gray-500">
+                            <span>0</span><span>50</span><span>100</span><span>150</span><span>200</span><span>300</span><span>500+</span>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+                        <div v-for="level in aqiLevels" :key="level.range"
+                            class="rounded-xl p-2.5 text-center border transition-all"
+                            :class="pollutionData && pollutionData.aqius >= level.min && pollutionData.aqius <= level.max
+                                ? level.activeClass + ' ring-2 ring-offset-1 dark:ring-offset-gray-800'
+                                : 'border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 opacity-60'">
+                            <span class="text-lg">{{ level.emoji }}</span>
+                            <p class="text-[10px] font-bold mt-0.5" :class="level.textClass">{{ level.name }}</p>
+                            <p class="text-[9px] text-gray-400">{{ level.range }}</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Secondary Cards Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Primary Pollutant Card -->
-                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700 hover:shadow-2xl transition-all">
-                        <h2 class="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-4 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
+                <!-- Pollutant & Details -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
+                    <!-- Primary Pollutant -->
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-5 sm:p-6 border border-gray-100 dark:border-gray-700">
+                        <h2 class="text-base font-semibold text-gray-700 dark:text-gray-200 mb-4 flex items-center gap-2">
+                            <BeakerIcon class="h-5 w-5 text-orange-500" />
                             Primary Pollutant
                         </h2>
-
-                        <div v-if="pollutionData" class="text-center">
-                            <div class="mb-4">
-                                <div class="w-24 h-24 mx-auto mb-3 flex items-center justify-center rounded-full shadow-lg" :class="pollutantBgClass">
-                                    <span class="text-3xl font-bold" :class="pollutantTextClass">
-                                        {{ formatPollutantShort(pollutionData.mainus) }}
-                                    </span>
-                                </div>
-                                <h3 class="text-base font-semibold mb-1 text-gray-900 dark:text-white">
+                        <div v-if="pollutionData" class="flex items-start gap-4">
+                            <div class="w-20 h-20 flex-shrink-0 flex items-center justify-center rounded-2xl shadow-md" :class="pollutantBgClass">
+                                <span class="text-xl font-bold" :class="pollutantTextClass">
+                                    {{ formatPollutantShort(pollutionData.mainus) }}
+                                </span>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-base font-semibold text-gray-900 dark:text-white mb-1">
                                     {{ formatPollutantName(pollutionData.mainus) }}
                                 </h3>
-                                <p class="text-xs text-gray-500 dark:text-gray-400">Main contributor to current AQI</p>
-                            </div>
-
-                            <div class="bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-xl p-3 border border-blue-200 dark:border-blue-800">
-                                <h4 class="text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1.5 flex items-center gap-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                                    </svg>
-                                    Health Advice
-                                </h4>
-                                <p class="text-xs text-gray-700 dark:text-gray-300 leading-relaxed">
-                                    {{ getHealthAdvice(pollutionData.mainus, pollutionData.aqius) }}
-                                </p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mb-3">Main contributor to the current AQI reading</p>
+                                <div class="rounded-xl p-3 bg-orange-50 dark:bg-orange-900/20 border border-orange-100 dark:border-orange-800/50">
+                                    <p class="text-xs text-gray-700 dark:text-gray-300 leading-relaxed">
+                                        {{ getHealthAdvice(pollutionData.mainus, pollutionData.aqius) }}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Weather Conditions Card -->
-                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700 hover:shadow-2xl transition-all">
-                        <h2 class="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-4 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
-                            </svg>
-                            Weather Conditions
+                    <!-- Data Info -->
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-5 sm:p-6 border border-gray-100 dark:border-gray-700">
+                        <h2 class="text-base font-semibold text-gray-700 dark:text-gray-200 mb-4 flex items-center gap-2">
+                            <SunIcon class="h-5 w-5 text-amber-500" />
+                            About This Data
                         </h2>
-
-                        <div v-if="weatherData" class="space-y-3">
-                            <div class="flex items-center justify-between p-3 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-xl">
-                                <div class="flex items-center gap-2">
-                                    <div class="p-2 rounded-xl bg-blue-100 dark:bg-blue-900">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500 dark:text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <p class="text-xs text-gray-500 dark:text-gray-400">Humidity</p>
-                                        <p class="text-lg font-bold text-gray-900 dark:text-white">{{ weatherData.hu }}%</p>
-                                    </div>
-                                </div>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between py-2 border-b border-gray-100 dark:border-gray-700">
+                                <span class="text-xs text-gray-500 dark:text-gray-400">Location</span>
+                                <span class="text-sm font-medium text-gray-900 dark:text-white">{{ cityInfo.city }}, {{ cityInfo.country }}</span>
                             </div>
-
-                            <div class="flex items-center justify-between p-3 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-xl">
-                                <div class="flex items-center gap-2">
-                                    <div class="p-2 rounded-xl bg-yellow-100 dark:bg-yellow-900">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500 dark:text-yellow-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <p class="text-xs text-gray-500 dark:text-gray-400">Temperature</p>
-                                        <p class="text-lg font-bold text-gray-900 dark:text-white">{{ weatherData.tp }}°C</p>
-                                    </div>
-                                </div>
+                            <div class="flex items-center justify-between py-2 border-b border-gray-100 dark:border-gray-700">
+                                <span class="text-xs text-gray-500 dark:text-gray-400">US AQI Standard</span>
+                                <span class="text-sm font-medium" :class="aqiTextColor">{{ pollutionData.aqius }} — {{ getAqiLevel(pollutionData.aqius) }}</span>
                             </div>
-
-                            <div class="flex items-center justify-between p-3 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl">
-                                <div class="flex items-center gap-2">
-                                    <div class="p-2 rounded-xl bg-purple-100 dark:bg-purple-900">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-500 dark:text-purple-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <p class="text-xs text-gray-500 dark:text-gray-400">Wind Speed</p>
-                                        <p class="text-lg font-bold text-gray-900 dark:text-white">{{ weatherData.ws }} m/s</p>
-                                    </div>
-                                </div>
+                            <div class="flex items-center justify-between py-2 border-b border-gray-100 dark:border-gray-700">
+                                <span class="text-xs text-gray-500 dark:text-gray-400">China AQI Standard</span>
+                                <span class="text-sm font-medium text-gray-900 dark:text-white">{{ pollutionData.aqicn }}</span>
                             </div>
-
-                            <div class="flex items-center justify-between p-3 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl">
-                                <div class="flex items-center gap-2">
-                                    <div class="p-2 rounded-xl bg-green-100 dark:bg-green-900">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 dark:text-green-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <p class="text-xs text-gray-500 dark:text-gray-400">Pressure</p>
-                                        <p class="text-lg font-bold text-gray-900 dark:text-white">{{ weatherData.pr }} hPa</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="bg-gray-100 dark:bg-gray-700 rounded-xl p-3 mt-3">
-                                <div class="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-                                    </svg>
-                                    <span>Wind direction: {{ getWindDirection(weatherData.wd) }} ({{ weatherData.wd }}°)</span>
-                                </div>
+                            <div class="flex items-center justify-between py-2">
+                                <span class="text-xs text-gray-500 dark:text-gray-400">Last Reading</span>
+                                <span class="text-sm font-medium text-gray-900 dark:text-white">{{ formattedDateTime }}</span>
                             </div>
                         </div>
+                        <p class="mt-4 text-[10px] text-gray-400 dark:text-gray-500 leading-relaxed">
+                            Data provided by IQAir AirVisual API. Readings are updated hourly and reflect ambient air quality in {{ cityInfo.city }}.
+                        </p>
                     </div>
                 </div>
 
@@ -421,12 +404,28 @@
 
 <script>
 import logger from '@/utils/logger'
-import { ArrowPathIcon } from '@heroicons/vue/24/outline';
+import {
+    ArrowPathIcon,
+    MapPinIcon,
+    ClockIcon,
+    CloudIcon,
+    SunIcon,
+    BeakerIcon,
+    ShieldCheckIcon,
+    UserGroupIcon
+} from '@heroicons/vue/24/outline';
 
 export default {
     name: 'AirQualityDashboard',
     components: {
-        ArrowPathIcon
+        ArrowPathIcon,
+        MapPinIcon,
+        ClockIcon,
+        CloudIcon,
+        SunIcon,
+        BeakerIcon,
+        ShieldCheckIcon,
+        UserGroupIcon
     },
     data() {
         return {
@@ -435,7 +434,8 @@ export default {
             pollutionData: null,
             weatherData: null,
             lastUpdated: null,
-            defaultApiKey: 'fd0705c4-9945-44b6-95a0-c4cc8052cea9',
+            defaultApiKey: 'cc7e6c14-24ec-4805-9b37-653b33c3d0a5',
+            cityInfo: { city: 'Phnom Penh', state: 'Phnom Penh', country: 'Cambodia' },
             circumference: 2 * Math.PI * 80,
             telegramSettings: {
                 enabled: false,
@@ -539,6 +539,34 @@ export default {
     computed: {
         formattedTime() {
             return this.lastUpdated ? new Date(this.lastUpdated).toLocaleTimeString() : '--:--'
+        },
+        formattedDateTime() {
+            if (!this.lastUpdated) return 'Waiting for data...'
+            return new Date(this.lastUpdated).toLocaleString(undefined, {
+                weekday: 'short',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            })
+        },
+        weatherIconUrl() {
+            if (!this.weatherData?.ic) return ''
+            return `https://openweathermap.org/img/wn/${this.weatherData.ic}@2x.png`
+        },
+        aqiDescription() {
+            if (!this.pollutionData) return null
+            return this.getAqiDescription(this.pollutionData.aqius)
+        },
+        activeAqiLevel() {
+            if (!this.pollutionData) return null
+            return this.aqiLevels.find(
+                level => this.pollutionData.aqius >= level.min && this.pollutionData.aqius <= level.max
+            )
+        },
+        aqiMarkerPosition() {
+            if (!this.pollutionData) return 0
+            return Math.min(Math.max((this.pollutionData.aqius / 500) * 100, 2), 98)
         },
         aqiPercentage() {
             if (!this.pollutionData) return 0
@@ -707,9 +735,14 @@ export default {
                 if (data.status !== 'success') {
                     throw new Error(data.data?.message || 'API returned unsuccessful status')
                 }
+                this.cityInfo = {
+                    city: data.data.city,
+                    state: data.data.state,
+                    country: data.data.country
+                }
                 this.pollutionData = data.data.current.pollution
                 this.weatherData = data.data.current.weather
-                this.lastUpdated = new Date(this.pollutionData.ts).toISOString()
+                this.lastUpdated = data.data.current.pollution.ts || new Date().toISOString()
                 if (this.telegramSettings.enabled && this.telegramSettings.botToken && this.telegramSettings.chatId && this.pollutionData?.aqius >= parseInt(this.telegramSettings.threshold)) {
                     this.autoSendAlert()
                 }
@@ -836,9 +869,14 @@ export default {
                 if (!response.ok) throw new Error('API request failed')
                 const data = await response.json()
                 if (data.status !== 'success') throw new Error('API returned unsuccessful')
+                this.cityInfo = {
+                    city: data.data.city,
+                    state: data.data.state,
+                    country: data.data.country
+                }
                 this.pollutionData = data.data.current.pollution
                 this.weatherData = data.data.current.weather
-                this.lastUpdated = new Date(this.pollutionData.ts).toISOString()
+                this.lastUpdated = data.data.current.pollution.ts || new Date().toISOString()
                 const aqi = this.pollutionData.aqius
                 const threshold = parseInt(this.telegramSettings.threshold)
                 logger.log(`Auto-check: AQI=${aqi}, Threshold=${threshold}`)
@@ -979,5 +1017,20 @@ export default {
 html {
     scroll-behavior: smooth;
     transition: background-color 0.3s ease;
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 </style>
