@@ -286,6 +286,170 @@ Best viewing:
 - Binoculars reveal the four largest moons
 - Small telescope shows cloud bands and the Great Red Spot`,
         details: ['Brightest of the year', 'Visible all night', 'Great for telescopes', 'Magnitude: -2.9', 'Distance: ~4 AU']
+    },
+    4: {
+        id: 4,
+        name: 'Perseids Meteor Shower',
+        emoji: '☄️',
+        category: 'Meteor Showers',
+        color: '#3B82F6',
+        date: 'August 12-13, 2026',
+        description: 'The most popular meteor shower, known for its fast and bright meteors. Up to 100 meteors per hour at peak.',
+        fullDescription: `The Perseids are one of the most popular meteor showers, occurring every August when Earth passes through the debris left by Comet Swift-Tuttle. Known for their fast and bright meteors, the Perseids can produce up to 100 meteors per hour at peak. The shower is active from mid-July to late August, with peak activity around August 12-13.
+
+The Perseids are particularly notable for:
+- Fast-moving meteors (up to 59 km/s)
+- Bright fireballs that can outshine Venus
+- Warm summer night viewing in the Northern Hemisphere
+- High activity rate at peak
+
+Best viewing tips:
+- Find a dark location away from city lights
+- Look towards the constellation Perseus (the radiant point)
+- Allow your eyes 20-30 minutes to adjust to darkness
+- Peak viewing is typically around 2:00 AM local time
+- The shower is active from July 17 to August 24`,
+        details: ['Peak: Aug 13, 2:00 AM', '100 meteors/hour', 'Warm summer nights', 'Active: Jul 17 - Aug 24', 'Radiant: Perseus']
+    },
+    5: {
+        id: 5,
+        name: 'Mars Opposition',
+        emoji: '♂️',
+        category: 'Planetary Events',
+        color: '#EF4444',
+        date: 'January 16, 2025',
+        description: 'Mars will be at its closest approach to Earth, appearing larger and brighter than usual. Perfect for observing the Red Planet.',
+        fullDescription: `Mars opposition occurs approximately every 26 months when Mars and Earth are on the same side of the Sun. During opposition, Mars is at its closest approach to Earth, making it appear larger and brighter in the night sky.
+
+During opposition, Mars can reach a magnitude of approximately -2.9, making it one of the brightest objects in the night sky. Through a telescope, observers can see surface features like polar ice caps and dark surface markings.
+
+What to observe:
+- Polar ice caps (visible with moderate telescopes)
+- Dark surface markings (Syrtis Major, etc.)
+- The red-orange color of the Martian surface
+- Phobos and Deimos (Mars' two moons) with large telescopes
+
+Best viewing:
+- Visible all night during opposition
+- Naked eye visible as a bright red-orange dot
+- Binoculars reveal the disc
+- Small telescopes show surface features
+- The opposition effect makes Mars appear brighter than at any other time`,
+        details: ['Closest approach', 'Visible all night', 'Red-orange color', 'Occurs every 26 months', 'Best for telescopes']
+    },
+    6: {
+        id: 6,
+        name: 'Lunar Eclipse',
+        emoji: '🌕',
+        category: 'Eclipses',
+        color: '#8B5CF6',
+        date: 'March 3, 2026',
+        description: 'A total lunar eclipse will be visible from parts of the Americas, Europe, and Africa.',
+        fullDescription: `A total lunar eclipse occurs when the Moon passes completely into Earth's umbral shadow, causing the Moon to take on a reddish color often called a "Blood Moon."
+
+During totality, the Moon doesn't go completely dark but instead takes on a coppery red color. This happens because Earth's atmosphere bends sunlight around the planet and onto the Moon. The exact color depends on the state of Earth's atmosphere — volcanic ash can make the eclipse darker red.
+
+Key facts:
+- The entire eclipse lasts about 5-6 hours
+- Totality (full shadow) lasts about 1-1.5 hours
+- Safe to view with naked eyes, binoculars, or telescopes
+- The Moon's color during totality varies from coppery orange to deep red
+
+Viewing tips:
+- Visible to the naked eye — no special equipment needed
+- Binoculars or a telescope will enhance the view
+- Check local visibility times for your location
+- The partial phases are visible even in light-polluted areas`,
+        details: ['Total phase visible', 'Safe to view', 'Duration: ~5-6 hours', 'Visible: Americas, Europe', 'Blood Moon color']
+    },
+    7: {
+        id: 7,
+        name: 'Artemis III Mission',
+        emoji: '🚀',
+        category: 'Space Missions',
+        color: '#10B981',
+        date: 'September 2026',
+        description: "NASA's Artemis III mission aims to land astronauts on the Moon for the first time since 1972, including the first woman and person of color.",
+        fullDescription: `Artemis III is NASA's planned mission to return humans to the Moon, scheduled for September 2026. This historic mission will land astronauts near the lunar South Pole, an area never before explored by humans.
+
+The mission will include the first woman and first person of color to walk on the Moon. The crew will conduct scientific research, test new technologies, and prepare for future Mars missions.
+
+Mission highlights:
+- First crewed lunar landing since Apollo 17 in 1972
+- First woman and person of color on the Moon
+- Landing near the lunar South Pole
+- Duration of approximately 30 days
+- Scientific experiments and sample collection
+- Testing of new technologies for future missions`,
+        details: ['First woman on Moon', 'Lunar South Pole', 'Historic mission', 'Duration: ~30 days', 'Crew: 4 astronauts']
+    },
+    8: {
+        id: 8,
+        name: 'Saturn Opposition',
+        emoji: '♄',
+        category: 'Planetary Events',
+        color: '#F59E0B',
+        date: 'September 21, 2026',
+        description: 'Saturn will be at opposition, making it the best time to observe the ringed planet and its beautiful rings.',
+        fullDescription: `Saturn opposition occurs when Saturn, Earth, and the Sun are aligned. During this time, Saturn is at its closest approach to Earth and fully illuminated, making it the best time to observe the ringed planet.
+
+Saturn's spectacular ring system is most visible during opposition, and even a small telescope can reveal the rings and some of Saturn's largest moons like Titan.
+
+What to observe:
+- Saturn's spectacular ring system
+- The Cassini Division (gap between the A and B rings)
+- Titan, Saturn's largest moon
+- Other moons: Rhea, Dione, Tethys, Enceladus
+- Cloud bands on Saturn's surface (with larger telescopes)
+
+Best viewing:
+- Visible all night during opposition
+- Magnitude: approximately 0.5
+- Rings are tilted favorably for viewing
+- Small telescope (60mm) shows rings clearly
+- Larger telescopes (100mm+) show moon details and cloud bands`,
+        details: ['Rings visible', 'Brightest of year', 'Great for telescopes', 'Magnitude: ~0.5', 'Rings tilt visible']
+    },
+    9: {
+        id: 9,
+        name: 'Quadrantids Meteor Shower',
+        emoji: '☄️',
+        category: 'Meteor Showers',
+        color: '#3B82F6',
+        date: 'January 3-4, 2026',
+        description: 'The first major meteor shower of the year, known for bright fireball meteors. Peak rates of up to 120 meteors per hour.',
+        fullDescription: `The Quadrantids are the first major meteor shower of the year, occurring in early January. Known for producing bright fireball meteors, the Quadrantids can reach peak rates of up to 120 meteors per hour. However, the peak is very narrow (only a few hours), so timing is crucial.
+
+The shower originates from an asteroid called 2003 EH1. Unlike most meteor showers that come from comets, the Quadrantids are unique because they originate from an asteroid.
+
+Best viewing tips:
+- The peak is very narrow — only about 6 hours
+- Best viewing is during the peak window
+- Look towards the constellation Boötes (the radiant point)
+- Find a dark location away from city lights
+- Allow your eyes 20-30 minutes to adjust to darkness
+- The shower is active from December 28 to January 12`,
+        details: ['Peak: Jan 4, 3:00 AM', '120 meteors/hour', 'Short peak window', 'Active: Dec 28 - Jan 12', 'Fireball meteors']
+    },
+    10: {
+        id: 10,
+        name: 'James Webb Space Telescope Observations',
+        emoji: '🔭',
+        category: 'Space Missions',
+        color: '#10B981',
+        date: 'Ongoing',
+        description: 'The JWST continues to make groundbreaking discoveries, observing distant galaxies, exoplanets, and the early universe.',
+        fullDescription: `The James Webb Space Telescope (JWST) is NASA's premier space observatory, launched in December 2021. It continues to make groundbreaking discoveries, observing the universe in infrared light.
+
+JWST studies distant galaxies, exoplanet atmospheres, star formation, and the early universe. Its observations have already revolutionized our understanding of the cosmos and continue to provide stunning images and scientific data.
+
+Key capabilities:
+- Infrared observations (can see through dust clouds)
+- Observing the earliest galaxies (within 300 million years after the Big Bang)
+- Studying exoplanet atmospheres for signs of habitability
+- Observing star and planet formation in molecular clouds
+- Deep field images revealing thousands of galaxies`,
+        details: ['Deep space images', 'Exoplanet studies', 'Revolutionary science', 'Infrared observations', 'Launched: Dec 2021']
     }
 }
 

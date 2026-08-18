@@ -94,9 +94,12 @@
             </div>
 
             <!-- Security Notice -->
-            <div class="mt-6 text-center">
+            <div class="mt-6 text-center space-y-2">
                 <p class="text-xs text-gray-500 dark:text-gray-400">
                     🔒 This page is password protected for authorized access only
+                </p>
+                <p class="text-xs text-amber-600 dark:text-amber-400">
+                    ⚠️ This is a client-side guard only — it does not provide real security. Use server-side auth for actual protection.
                 </p>
             </div>
         </div>
@@ -111,8 +114,9 @@ import logger from '@/utils/logger'
 
 const router = useRouter()
 
-// Password constant
-const CRYPTO_PASSWORD = 'lyhuor'
+// Password constant - NOTE: This is a client-side guard only.
+// Determined users can inspect the source. Use server-side auth for real protection.
+const CRYPTO_PASSWORD = process.env.VUE_APP_CRYPTO_PASSWORD || 'lyhuor'
 
 // Reactive state
 const password = ref('')

@@ -361,6 +361,7 @@ const loadForm = () => {
 }
 
 const resetAll = () => {
+    if (!window.confirm('Reset all maintenance data? This cannot be undone.')) return
     Object.assign(form, defaultForm())
     localStorage.removeItem(STORAGE_KEY)
 }

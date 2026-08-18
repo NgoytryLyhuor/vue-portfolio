@@ -72,6 +72,10 @@
                             </svg>
                             One password unlocks both Crypto Tracker + Prius maintenance (session only).
                         </div>
+
+                        <div class="text-xs text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg px-4 py-2">
+                            This is a client-side guard for convenience only. It does not provide real security — determined users can inspect the source.
+                        </div>
                     </div>
 
                     <div class="bg-gray-50 dark:bg-gray-900/40 border border-gray-200 dark:border-gray-700 rounded-xl p-4 space-y-3">
@@ -124,10 +128,17 @@ const showPassword = ref(false)
 const errorMessage = ref('')
 const loading = ref(false)
 
-const GARAGE_PASSWORD = 'lyhuor'
+const GARAGE_PASSWORD = process.env.VUE_APP_GARAGE_PASSWORD || 'lyhuor'
+
+const sanitizeRedirect = (path) => {
+    if (!path || typeof path !== 'string') return null
+    if (!path.startsWith('/') || path.startsWith('//')) return null
+    if (path.includes('://')) return null
+    return path
+}
 
 const redirectAfterUnlock = () => {
-    const redirect = typeof route.query.redirect === 'string' ? route.query.redirect : null
+    const redirect = sanitizeRedirect(route.query.redirect)
     router.replace(redirect || '/garage')
 }
 

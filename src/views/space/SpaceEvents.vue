@@ -113,6 +113,24 @@ const selectedCategory = ref('All')
 const categories = ['All', 'Meteor Showers', 'Eclipses', 'Planetary Events', 'Rocket Launches', 'Space Missions']
 const rocketLaunches = ref([])
 
+const MONTHS = {
+    january: 0, february: 1, march: 2, april: 3, may: 4, june: 5,
+    july: 6, august: 7, september: 8, october: 9, november: 10, december: 11
+}
+
+const parseEventDate = (dateStr) => {
+    if (!dateStr || dateStr === 'Ongoing' || dateStr === 'TBD') return new Date('2099-12-31')
+    const lower = dateStr.toLowerCase()
+    for (const [month, index] of Object.entries(MONTHS)) {
+        if (lower.includes(month)) {
+            const yearMatch = lower.match(/\d{4}/)
+            const year = yearMatch ? parseInt(yearMatch[0]) : new Date().getFullYear()
+            return new Date(year, index, 1)
+        }
+    }
+    return new Date(dateStr)
+}
+
 const events = [
     {
         id: 1,
@@ -120,7 +138,7 @@ const events = [
         emoji: '☄️',
         category: 'Meteor Showers',
         color: '#3B82F6',
-        date: 'December 13-14, 2024',
+        date: 'December 13-14, 2026',
         description: 'One of the best meteor showers of the year, producing up to 120 meteors per hour at peak. The Geminids are known for their bright, colorful meteors.',
         fullDescription: 'The Geminids meteor shower is one of the most spectacular annual meteor showers, known for producing bright, colorful meteors. Unlike most meteor showers that originate from comets, the Geminids come from an asteroid called 3200 Phaethon. The shower typically peaks around December 13-14 each year, with the best viewing times being after midnight when the constellation Gemini is highest in the sky.',
         details: ['Peak: Dec 14, 2:00 AM', '120 meteors/hour', 'Best viewing: After midnight', 'Active: Dec 4-17', 'Radiant: Gemini']
@@ -131,10 +149,10 @@ const events = [
         emoji: '🌑',
         category: 'Eclipses',
         color: '#8B5CF6',
-        date: 'April 8, 2024',
-        description: 'A total solar eclipse will be visible across North America. The path of totality will stretch from Mexico through the United States to Canada.',
-        fullDescription: 'A total solar eclipse occurs when the Moon passes directly between the Earth and the Sun, completely blocking the Sun\'s light. The April 8, 2024 eclipse will be visible across a path stretching from Mexico through the United States to Canada. The path of totality will be approximately 115 miles wide with a maximum duration of about 4 minutes 28 seconds.',
-        details: ['Duration: ~4 minutes', 'Path: Mexico → USA → Canada', 'Next: 2026', 'Width: 115 miles', 'Type: Total']
+        date: 'August 12, 2026',
+        description: 'A total solar eclipse will be visible across parts of Europe, Africa, and the Middle East.',
+        fullDescription: 'A total solar eclipse occurs when the Moon passes directly between the Earth and the Sun, completely blocking the Sun\'s light. The August 12, 2026 eclipse will be visible across a path stretching from the Arctic through parts of Europe, Africa, and the Middle East.',
+        details: ['Duration: ~2 minutes', 'Path: Arctic → Europe → Africa', 'Partial visible wider', 'Width: ~200 miles', 'Type: Total']
     },
     {
         id: 3,
@@ -142,7 +160,7 @@ const events = [
         emoji: '♃',
         category: 'Planetary Events',
         color: '#F59E0B',
-        date: 'December 7, 2024',
+        date: 'November 2, 2026',
         description: 'Jupiter will be at its closest approach to Earth and fully illuminated by the Sun, making it the best time to observe the gas giant.',
         fullDescription: 'Jupiter opposition occurs when Jupiter, Earth, and the Sun are aligned, with Earth in the middle. This is the best time to observe Jupiter because it is at its closest approach to Earth, fully illuminated by the Sun, and visible all night long. During opposition, Jupiter can reach a magnitude of -2.9, making it one of the brightest objects in the night sky.',
         details: ['Brightest of the year', 'Visible all night', 'Great for telescopes', 'Magnitude: -2.9', 'Distance: ~4 AU']
@@ -153,7 +171,7 @@ const events = [
         emoji: '☄️',
         category: 'Meteor Showers',
         color: '#3B82F6',
-        date: 'August 12-13, 2024',
+        date: 'August 12-13, 2026',
         description: 'The most popular meteor shower, known for its fast and bright meteors. Up to 100 meteors per hour at peak.',
         fullDescription: 'The Perseids are one of the most popular meteor showers, occurring every August when Earth passes through the debris left by Comet Swift-Tuttle. Known for their fast and bright meteors, the Perseids can produce up to 100 meteors per hour at peak. The shower is active from mid-July to late August, with peak activity around August 12-13.',
         details: ['Peak: Aug 13, 2:00 AM', '100 meteors/hour', 'Warm summer nights', 'Active: Jul 17 - Aug 24', 'Radiant: Perseus']
@@ -164,7 +182,7 @@ const events = [
         emoji: '♂️',
         category: 'Planetary Events',
         color: '#EF4444',
-        date: 'January 15, 2025',
+        date: 'January 16, 2027',
         description: 'Mars will be at its closest approach to Earth, appearing larger and brighter than usual. Perfect for observing the Red Planet.',
         fullDescription: 'Mars opposition occurs approximately every 26 months when Mars and Earth are on the same side of the Sun. During opposition, Mars is at its closest approach to Earth, making it appear larger and brighter in the night sky. This is the best time to observe the Red Planet, when surface features like polar ice caps and dark surface markings are more visible through telescopes.',
         details: ['Closest approach', 'Visible all night', 'Red-orange color', 'Occurs every 26 months', 'Best for telescopes']
@@ -175,10 +193,10 @@ const events = [
         emoji: '🌕',
         category: 'Eclipses',
         color: '#8B5CF6',
-        date: 'March 25, 2024',
-        description: 'A penumbral lunar eclipse will be visible from parts of North America, Europe, and Africa.',
-        fullDescription: 'A penumbral lunar eclipse occurs when the Moon passes through Earth\'s penumbral shadow (the outer, lighter part of Earth\'s shadow). Unlike a total lunar eclipse, the Moon doesn\'t turn red but appears slightly dimmed. This type of eclipse is more subtle and may be difficult to notice without careful observation.',
-        details: ['Penumbral type', 'Visible: Americas, Europe', 'Duration: ~4 hours', 'Subtle effect', 'Safe to view']
+        date: 'March 3, 2026',
+        description: 'A total lunar eclipse will be visible from parts of the Americas, Europe, and Africa.',
+        fullDescription: 'A total lunar eclipse occurs when the Moon passes completely into Earth\'s umbral shadow. Unlike a penumbral lunar eclipse, the Moon turns a distinctive coppery red color often called a "Blood Moon." This type of eclipse is safe to view with the naked eye and is visible over a much wider area than solar eclipses.',
+        details: ['Total phase visible', 'Safe to view', 'Duration: ~5 hours', 'Visible: Americas, Europe', 'Blood Moon color']
     },
     {
         id: 7,
@@ -197,7 +215,7 @@ const events = [
         emoji: '♄',
         category: 'Planetary Events',
         color: '#F59E0B',
-        date: 'September 8, 2024',
+        date: 'September 21, 2026',
         description: 'Saturn will be at opposition, making it the best time to observe the ringed planet and its beautiful rings.',
         fullDescription: 'Saturn opposition occurs when Saturn, Earth, and the Sun are aligned. During this time, Saturn is at its closest approach to Earth and fully illuminated, making it the best time to observe the ringed planet. Saturn\'s spectacular ring system is most visible during opposition, and even a small telescope can reveal the rings and some of Saturn\'s largest moons like Titan.',
         details: ['Rings visible', 'Brightest of year', 'Great for telescopes', 'Magnitude: ~0.5', 'Rings tilt visible']
@@ -208,7 +226,7 @@ const events = [
         emoji: '☄️',
         category: 'Meteor Showers',
         color: '#3B82F6',
-        date: 'January 3-4, 2025',
+        date: 'January 3-4, 2027',
         description: 'The first major meteor shower of the year, known for bright fireball meteors. Peak rates of up to 120 meteors per hour.',
         fullDescription: 'The Quadrantids are the first major meteor shower of the year, occurring in early January. Known for producing bright fireball meteors, the Quadrantids can reach peak rates of up to 120 meteors per hour. However, the peak is very narrow (only a few hours), so timing is crucial. The shower originates from an asteroid called 2003 EH1.',
         details: ['Peak: Jan 4, 3:00 AM', '120 meteors/hour', 'Short peak window', 'Active: Dec 28 - Jan 12', 'Fireball meteors']
@@ -282,18 +300,13 @@ const filteredEvents = computed(() => {
     const eventsToFilter = allEvents.value
     if (selectedCategory.value === 'All') {
         return eventsToFilter.sort((a, b) => {
-            // Sort by date (upcoming first)
-            const dateA = new Date(a.date)
-            const dateB = new Date(b.date)
-            return dateA - dateB
+            return parseEventDate(a.date) - parseEventDate(b.date)
         })
     }
     return eventsToFilter
         .filter(event => event.category === selectedCategory.value)
         .sort((a, b) => {
-            const dateA = new Date(a.date)
-            const dateB = new Date(b.date)
-            return dateA - dateB
+            return parseEventDate(a.date) - parseEventDate(b.date)
         })
 })
 
