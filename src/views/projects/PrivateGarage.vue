@@ -1,7 +1,7 @@
 <template>
     <div class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
         <div class="max-w-6xl mx-auto px-4 py-10 space-y-8">
-            <div class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div class="animate-fade-in-up bg-gradient-to-r from-gray-50 to-blue-50/30 dark:from-gray-800 dark:to-blue-900/10 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
                     <p class="text-xs uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400 mb-1">Private Area</p>
                     <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Lyhuor Garage</h1>
@@ -27,7 +27,7 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm p-6 space-y-6">
+                <div class="animate-fade-in-up lg:col-span-2 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm p-6 space-y-6">
                     <div class="flex items-start justify-between gap-4">
                         <div>
                             <p class="text-sm font-semibold text-gray-900 dark:text-white">Garage tools</p>
@@ -44,7 +44,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <router-link
                             to="/crypto-tracker"
-                            class="group rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/40 p-5 hover:border-blue-500 dark:hover:border-blue-400 transition-colors"
+                            class="group rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/40 p-5 hover:border-blue-500 dark:hover:border-blue-400 hover:-translate-y-0.5 hover:shadow-card-hover transition-all duration-300"
                         >
                             <div class="flex items-center justify-between">
                                 <div class="h-12 w-12 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
@@ -66,7 +66,7 @@
 
                         <router-link
                             to="/prius-maintenance"
-                            class="group rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/40 p-5 hover:border-green-500 dark:hover:border-green-400 transition-colors"
+                            class="group rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/40 p-5 hover:border-green-500 dark:hover:border-green-400 hover:-translate-y-0.5 hover:shadow-card-hover transition-all duration-300"
                         >
                             <div class="flex items-center justify-between">
                                 <div class="h-12 w-12 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center">

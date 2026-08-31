@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen py-6 px-3 sm:px-6 lg:px-8">
+    <div class="min-h-screen py-6 px-3 sm:px-6 lg:px-8 bg-gradient-to-b from-red-50/20 via-transparent to-blue-50/20 dark:from-gray-900 dark:via-gray-900 dark:to-gray-900">
         <div class="max-w-5xl mx-auto">
             <!-- Header -->
             <div class="text-center mb-6 mt-8 sm:mt-10">
@@ -12,12 +12,12 @@
             </div>
 
             <!-- Main Calendar Card -->
-            <div class="bg-white dark:bg-gray-800 rounded-2xl sm:rounded-3xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden mb-6">
+            <div class="animate-fade-in-up bg-white dark:bg-gray-800 rounded-2xl sm:rounded-3xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden mb-6" style="animation-delay: 0ms">
                 <!-- Calendar Header -->
-                <div class="bg-gradient-to-r from-red-600 via-red-500 to-blue-600 p-4 sm:p-6">
+                <div class="bg-gradient-to-r from-red-600 via-rose-500 to-blue-600 p-4 sm:p-6 shadow-lg shadow-red-500/20">
                     <div class="flex items-center justify-between">
                         <button @click="previousMonth" 
-                            class="p-2 sm:p-3 bg-white/20 backdrop-blur-sm rounded-xl hover:bg-white/30 transition-all">
+                            class="p-2 sm:p-3 bg-white/20 backdrop-blur-sm rounded-xl hover:bg-white/30 active:scale-95 transition-all duration-200">
                             <ChevronLeftIcon class="h-5 w-5 sm:h-6 sm:w-6 text-white" />
                         </button>
                         
@@ -31,7 +31,7 @@
                         </div>
                         
                         <button @click="nextMonth" 
-                            class="p-2 sm:p-3 bg-white/20 backdrop-blur-sm rounded-xl hover:bg-white/30 transition-all">
+                            class="p-2 sm:p-3 bg-white/20 backdrop-blur-sm rounded-xl hover:bg-white/30 active:scale-95 transition-all duration-200">
                             <ChevronRightIcon class="h-5 w-5 sm:h-6 sm:w-6 text-white" />
                         </button>
                     </div>
@@ -60,7 +60,7 @@
                 <!-- Calendar Grid -->
                 <div class="grid grid-cols-7">
                     <div v-for="(day, idx) in calendarDays" :key="idx"
-                        class="min-h-[60px] sm:min-h-[80px] lg:min-h-[100px] p-1 sm:p-2 border-t border-r border-gray-100 dark:border-gray-700 relative group cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-all"
+                        class="min-h-[60px] sm:min-h-[80px] lg:min-h-[100px] p-1 sm:p-2 border-t border-r border-gray-100 dark:border-gray-700 relative group cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700/30 hover:scale-[1.02] hover:shadow-md transition-all duration-200"
                         :class="[
                             idx % 7 === 6 ? 'border-r-0' : '',
                             day.isCurrentMonth ? '' : 'bg-gray-50/50 dark:bg-gray-800/50'
@@ -112,7 +112,7 @@
             </div>
 
             <!-- Selected Date Info -->
-            <div v-if="selectedDate" class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-4 sm:p-6 border border-gray-100 dark:border-gray-700 mb-6">
+            <div v-if="selectedDate" class="animate-scale-in bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-4 sm:p-6 border border-gray-100 dark:border-gray-700 mb-6">
                 <div class="flex items-start gap-4">
                     <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-red-500 to-blue-600 flex flex-col items-center justify-center text-white flex-shrink-0">
                         <span class="text-2xl sm:text-3xl font-bold">{{ selectedDate.date }}</span>
@@ -142,7 +142,7 @@
             </div>
 
             <!-- Upcoming Holidays -->
-            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden mb-6">
+            <div class="animate-fade-in-up bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden mb-6" style="animation-delay: 200ms">
                 <div class="p-4 sm:p-6 border-b border-gray-100 dark:border-gray-700">
                     <h2 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
                         <SparklesIcon class="h-5 w-5 sm:h-6 sm:w-6 text-yellow-500" />
@@ -152,7 +152,7 @@
                 </div>
                 <div class="divide-y divide-gray-100 dark:divide-gray-700">
                     <div v-for="(holiday, idx) in upcomingHolidays" :key="idx"
-                        class="p-4 sm:p-5 hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-all">
+                        class="p-4 sm:p-5 hover:bg-gradient-to-r hover:from-red-50/50 hover:to-blue-50/50 dark:hover:from-red-900/10 dark:hover:to-blue-900/10 transition-all">
                         <div class="flex items-center gap-4">
                             <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex flex-col items-center justify-center flex-shrink-0"
                                 :class="holiday.isPast ? 'bg-gray-100 dark:bg-gray-700' : 'bg-gradient-to-br from-red-100 to-blue-100 dark:from-red-900/30 dark:to-blue-900/30'">
@@ -188,7 +188,7 @@
             </div>
 
             <!-- Khmer Months Reference -->
-            <div class="bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 rounded-2xl p-4 sm:p-6 border border-amber-200 dark:border-amber-800 mb-6">
+            <div class="animate-fade-in-up bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 rounded-2xl p-4 sm:p-6 border border-amber-200 dark:border-amber-800 mb-6" style="animation-delay: 300ms">
                 <h2 class="text-lg sm:text-xl font-bold text-amber-900 dark:text-amber-200 mb-4 flex items-center gap-2">
                     <span class="text-2xl">📜</span>
                     ខែខ្មែរ ១២ ខែ
@@ -196,7 +196,8 @@
                 </h2>
                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3">
                     <div v-for="(month, idx) in khmerMonths" :key="idx"
-                        class="p-3 bg-white/70 dark:bg-gray-800/70 rounded-xl">
+                        class="p-3 bg-white/70 dark:bg-gray-800/70 rounded-xl animate-fade-in-up hover:bg-white dark:hover:bg-gray-700/80 hover:shadow-md transition-all duration-200"
+                        :style="{ animationDelay: (idx * 50) + 'ms' }">
                         <div class="font-semibold text-gray-900 dark:text-white text-sm sm:text-base">{{ month.khmer }}</div>
                         <div class="text-xs text-gray-500 dark:text-gray-400">{{ month.english }}</div>
                         <div class="text-[10px] text-amber-600 dark:text-amber-400 mt-1">{{ month.gregorian }}</div>
@@ -205,7 +206,7 @@
             </div>
 
             <!-- Cultural Info -->
-            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-4 sm:p-6 border border-gray-100 dark:border-gray-700">
+            <div class="animate-fade-in-up bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-4 sm:p-6 border border-gray-100 dark:border-gray-700" style="animation-delay: 400ms">
                 <h2 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
                     <span class="text-2xl">🏛️</span>
                     ព័ត៌មានប្រតិទិនខ្មែរ

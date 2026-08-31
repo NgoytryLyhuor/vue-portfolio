@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-6 sm:py-8 lg:py-12 px-4 sm:px-6 lg:px-8">
+    <div class="min-h-screen bg-gradient-to-br from-blue-50/80 via-purple-50/40 to-pink-50/80 dark:from-gray-900 dark:via-gray-800/50 dark:to-gray-900 py-6 sm:py-8 lg:py-12 px-4 sm:px-6 lg:px-8">
         <div class="max-w-3xl mx-auto">
             <!-- Enhanced Header -->
             <div class="text-center mb-6 sm:mb-8">
@@ -62,7 +62,7 @@
             <!-- Main Converter -->
             <div v-else class="space-y-5 sm:space-y-6">
                 <!-- Enhanced Converter Card -->
-                <div class="bg-white dark:bg-gray-800 rounded-2xl sm:rounded-3xl shadow-xl p-5 sm:p-6 lg:p-8 border border-gray-200 dark:border-gray-700 hover:shadow-2xl transition-all duration-300">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl sm:rounded-3xl shadow-xl p-5 sm:p-6 lg:p-8 border border-gray-200 dark:border-gray-700 hover:shadow-2xl transition-all duration-300 animate-fade-in-up" style="animation-delay: 0ms; border-top: 4px solid transparent; border-image: linear-gradient(to right, #3b82f6, #a855f7, #ec4899) 1;">
                     <!-- From Currency -->
                     <div class="mb-4 sm:mb-5">
                         <label class="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 sm:mb-3 flex items-center gap-2">
@@ -97,7 +97,7 @@
                     <div class="flex justify-center my-3 sm:my-4">
                         <button 
                             @click="swapCurrencies"
-                            class="p-3 sm:p-3.5 rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 transition-all shadow-lg hover:shadow-xl transform hover:scale-110 active:scale-95"
+                            class="p-3 sm:p-3.5 rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 transition-all shadow-lg hover:shadow-xl transform hover:scale-110 active:scale-90 hover:ring-4 hover:ring-purple-200 dark:hover:ring-purple-800"
                             aria-label="Swap currencies"
                             title="Swap currencies"
                         >
@@ -145,7 +145,7 @@
                 </div>
 
                 <!-- Quick Convert Buttons - Enhanced -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-5 border border-gray-200 dark:border-gray-700">
+                <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-5 border border-gray-200 dark:border-gray-700 animate-fade-in-up" style="animation-delay: 100ms">
                     <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-3 sm:mb-4 text-center font-semibold">Quick amounts</p>
                     <div class="flex flex-wrap gap-2 sm:gap-3 justify-center">
                         <button
@@ -160,7 +160,7 @@
                 </div>
 
                 <!-- Popular Currencies - Enhanced -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-5 border border-gray-200 dark:border-gray-700">
+                <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-5 border border-gray-200 dark:border-gray-700 animate-fade-in-up" style="animation-delay: 200ms">
                     <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-3 sm:mb-4 text-center font-semibold">Select currency</p>
                     <div class="flex gap-3 sm:gap-4 justify-center">
                         <button
@@ -178,7 +178,7 @@
                 </div>
 
                 <!-- Exchange Rate Comparison Chart -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-5 sm:p-6 border border-gray-200 dark:border-gray-700">
+                <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-5 sm:p-6 border border-gray-200 dark:border-gray-700 animate-fade-in-up" style="animation-delay: 300ms">
                     <h3 class="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-4 sm:mb-5 flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
@@ -199,7 +199,7 @@
                             </div>
                             <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 sm:h-4 overflow-hidden">
                                 <div 
-                                    class="h-full rounded-full transition-all duration-500" 
+                                    class="h-full rounded-full transition-all duration-700 ease-in-out"
                                     :class="getCurrencyColor(currency.code)"
                                     :style="{ width: getBarWidth(currency.code) + '%' }"
                                 ></div>
@@ -209,13 +209,14 @@
                 </div>
 
                 <!-- Currency Strength Widget -->
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 animate-fade-in-up" style="animation-delay: 400ms">
                     <div 
                         v-for="currency in currencies" 
                         :key="currency.code"
-                        class="bg-gradient-to-br rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-5 border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all"
+                        class="bg-gradient-to-br rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-5 border border-gray-200 dark:border-gray-700 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden"
                         :class="getCurrencyGradient(currency.code)"
                     >
+                        <div class="shimmer absolute inset-0 pointer-events-none"></div>
                         <div class="flex items-center justify-between mb-3">
                             <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-white/20 dark:bg-black/20 flex items-center justify-center">
                                 <span class="text-lg sm:text-xl font-bold text-white">{{ currency.code }}</span>
@@ -238,7 +239,7 @@
                 </div>
 
                 <!-- Conversion Matrix Widget -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-5 sm:p-6 border border-gray-200 dark:border-gray-700">
+                <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-5 sm:p-6 border border-gray-200 dark:border-gray-700 animate-fade-in-up" style="animation-delay: 500ms">
                     <h3 class="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-4 sm:mb-5 flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3zM14 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1h-4a1 1 0 01-1-1v-3z" />
@@ -273,7 +274,7 @@
                 </div>
 
                 <!-- Info Card - Enhanced -->
-                <div class="bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-purple-900/20 dark:via-pink-900/20 dark:to-blue-900/20 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-5 border border-purple-200 dark:border-purple-800">
+                <div class="bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-purple-900/20 dark:via-pink-900/20 dark:to-blue-900/20 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-5 border border-purple-200 dark:border-purple-800 animate-fade-in-up" style="animation-delay: 600ms">
                     <div class="flex items-start gap-3 mb-3">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6 text-purple-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -552,5 +553,42 @@ input[type="number"] {
 
 .scrollbar-hide::-webkit-scrollbar {
     display: none;
+}
+
+/* Staggered entrance animation */
+.animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out both;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Shimmer effect for gradient cards */
+.shimmer {
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.15) 50%,
+        transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2.5s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
 }
 </style>

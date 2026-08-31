@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen bg-gradient-to-br from-slate-50 via-sky-50 to-teal-50 dark:from-gray-950 dark:via-gray-900 dark:to-slate-900 py-6 sm:py-8 lg:py-12 px-3 sm:px-4 lg:px-6 xl:px-8">
+    <div class="min-h-screen bg-gradient-to-b from-sky-50/30 via-transparent to-slate-50 dark:from-gray-950 dark:via-gray-900 dark:to-slate-900 py-6 sm:py-8 lg:py-12 px-3 sm:px-4 lg:px-6 xl:px-8">
         <div class="max-w-6xl mx-auto mt-4 sm:mt-6 lg:mt-10">
             <!-- Header -->
             <div class="text-center mb-6 sm:mb-8">
@@ -32,19 +32,87 @@
                 </div>
             </div>
 
-            <!-- Loading State -->
-            <div v-if="loading" class="flex flex-col items-center justify-center py-20">
-                <div class="relative">
-                    <div class="w-20 h-20 border-4 border-blue-200 dark:border-blue-900 rounded-full"></div>
-                    <div class="w-20 h-20 border-4 border-blue-500 border-t-transparent rounded-full animate-spin absolute top-0 left-0"></div>
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
-                        </svg>
+            <!-- Loading State - Shimmer Skeleton -->
+            <div v-if="loading" class="space-y-5 sm:space-y-6 py-4">
+                <!-- Skeleton: Dashboard Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 sm:gap-5">
+                    <div class="lg:col-span-3 rounded-2xl sm:rounded-3xl p-5 sm:p-6 lg:p-8 border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+                        <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
+                            <div class="space-y-2">
+                                <div class="h-6 w-32 rounded-full bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer"></div>
+                                <div class="h-5 w-56 rounded bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer"></div>
+                                <div class="h-3 w-44 rounded bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer"></div>
+                            </div>
+                            <div class="flex gap-3">
+                                <div class="h-16 w-20 rounded-xl bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer"></div>
+                                <div class="h-16 w-20 rounded-xl bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer"></div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col sm:flex-row items-center gap-6">
+                            <div class="w-36 h-36 sm:w-40 sm:h-40 rounded-full bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer flex-shrink-0"></div>
+                            <div class="flex-1 w-full space-y-3">
+                                <div class="h-20 rounded-xl bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer"></div>
+                                <div class="grid grid-cols-2 gap-2.5">
+                                    <div class="h-20 rounded-xl bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer"></div>
+                                    <div class="h-20 rounded-xl bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-2xl sm:rounded-3xl p-5 sm:p-6 border border-gray-200 dark:border-gray-700 space-y-4">
+                        <div class="flex items-center gap-2">
+                            <div class="h-5 w-5 rounded bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer"></div>
+                            <div class="h-5 w-32 rounded bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer"></div>
+                        </div>
+                        <div class="h-24 rounded-xl bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer"></div>
+                        <div class="grid grid-cols-2 gap-2.5">
+                            <div class="h-16 rounded-xl bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer"></div>
+                            <div class="h-16 rounded-xl bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer"></div>
+                            <div class="h-16 rounded-xl bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer"></div>
+                            <div class="h-16 rounded-xl bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer"></div>
+                        </div>
                     </div>
                 </div>
-                <p class="mt-6 text-gray-600 dark:text-gray-400 font-medium text-base">Loading air quality data...</p>
-                <p class="mt-2 text-sm text-gray-500 dark:text-gray-500">Please wait while we fetch the latest readings</p>
+                <!-- Skeleton: AQI Scale Bar -->
+                <div class="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="h-5 w-24 rounded bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer"></div>
+                        <div class="h-6 w-28 rounded-full bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer"></div>
+                    </div>
+                    <div class="h-3 rounded-full bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer mb-6"></div>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+                        <div v-for="n in 6" :key="n" class="h-20 rounded-xl bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer"></div>
+                    </div>
+                </div>
+                <!-- Skeleton: Pollutant & Details -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl p-5 sm:p-6 border border-gray-200 dark:border-gray-700 space-y-4">
+                        <div class="flex items-center gap-2">
+                            <div class="h-5 w-5 rounded bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer"></div>
+                            <div class="h-5 w-36 rounded bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer"></div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-20 h-20 rounded-2xl bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer flex-shrink-0"></div>
+                            <div class="flex-1 space-y-2">
+                                <div class="h-5 w-40 rounded bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer"></div>
+                                <div class="h-3 w-56 rounded bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer"></div>
+                                <div class="h-16 rounded-xl bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl p-5 sm:p-6 border border-gray-200 dark:border-gray-700 space-y-4">
+                        <div class="flex items-center gap-2">
+                            <div class="h-5 w-5 rounded bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer"></div>
+                            <div class="h-5 w-36 rounded bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer"></div>
+                        </div>
+                        <div class="space-y-3">
+                            <div v-for="n in 4" :key="n" class="flex items-center justify-between py-2 border-b border-gray-100 dark:border-gray-700">
+                                <div class="h-3 w-20 rounded bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer"></div>
+                                <div class="h-4 w-32 rounded bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Error State -->
@@ -72,9 +140,9 @@
             <!-- Main Content -->
             <div v-else class="space-y-5 sm:space-y-6 animate-fade-in">
                 <!-- Dashboard -->
-                <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 sm:gap-5">
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 sm:gap-5 animate-fade-in-up" style="animation-delay: 0ms">
                     <!-- AQI Panel -->
-                    <div class="lg:col-span-3 rounded-2xl sm:rounded-3xl shadow-2xl p-5 sm:p-6 lg:p-8 border-2 relative overflow-hidden transition-all duration-500" :class="aqiCardClass">
+                    <div class="lg:col-span-3 rounded-2xl sm:rounded-3xl shadow-2xl p-5 sm:p-6 lg:p-8 border-2 relative overflow-hidden transition-all duration-500 hover:-translate-y-0.5 hover:shadow-2xl" :class="aqiCardClass">
                         <div class="absolute top-0 right-0 w-56 h-56 rounded-full blur-3xl opacity-30" :class="aqiDecorativeBg"></div>
                         <div class="absolute bottom-0 left-0 w-40 h-40 rounded-full blur-2xl opacity-20" :class="aqiDecorativeBg"></div>
 
@@ -139,7 +207,7 @@
                     </div>
 
                     <!-- Weather Panel -->
-                    <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-2xl sm:rounded-3xl shadow-xl p-5 sm:p-6 border border-gray-100 dark:border-gray-700 flex flex-col">
+                    <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-2xl sm:rounded-3xl shadow-xl p-5 sm:p-6 border border-gray-100 dark:border-gray-700 flex flex-col transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl">
                         <div class="flex items-center justify-between mb-4">
                             <h2 class="text-base font-semibold text-gray-700 dark:text-gray-200 flex items-center gap-2">
                                 <CloudIcon class="h-5 w-5 text-sky-500" />
@@ -183,9 +251,12 @@
                 </div>
 
                 <!-- AQI Scale Bar -->
-                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700 animate-fade-in-up" style="animation-delay: 100ms">
                     <div class="flex items-center justify-between mb-4">
-                        <h2 class="text-base font-semibold text-gray-700 dark:text-gray-200">AQI Scale</h2>
+                        <h2 class="text-base font-semibold text-gray-700 dark:text-gray-200 flex items-center gap-2">
+                            <span class="w-1 h-5 bg-sky-500 rounded-full inline-block"></span>
+                            AQI Scale
+                        </h2>
                         <span v-if="activeAqiLevel" class="text-xs font-semibold px-2.5 py-1 rounded-full" :class="activeAqiLevel.badgeClass">
                             {{ activeAqiLevel.emoji }} {{ activeAqiLevel.name }}
                         </span>
@@ -212,9 +283,9 @@
                     </div>
                     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
                         <div v-for="level in aqiLevels" :key="level.range"
-                            class="rounded-xl p-2.5 text-center border transition-all"
+                            class="rounded-xl p-2.5 text-center border transition-all duration-300 hover:scale-105"
                             :class="pollutionData && pollutionData.aqius >= level.min && pollutionData.aqius <= level.max
-                                ? level.activeClass + ' ring-2 ring-offset-1 dark:ring-offset-gray-800'
+                                ? level.activeClass + ' ring-2 ring-offset-1 dark:ring-offset-gray-800 shadow-lg'
                                 : 'border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 opacity-60'">
                             <span class="text-lg">{{ level.emoji }}</span>
                             <p class="text-[10px] font-bold mt-0.5" :class="level.textClass">{{ level.name }}</p>
@@ -224,10 +295,11 @@
                 </div>
 
                 <!-- Pollutant & Details -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 animate-fade-in-up" style="animation-delay: 200ms">
                     <!-- Primary Pollutant -->
-                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-5 sm:p-6 border border-gray-100 dark:border-gray-700">
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-5 sm:p-6 border border-gray-100 dark:border-gray-700 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl">
                         <h2 class="text-base font-semibold text-gray-700 dark:text-gray-200 mb-4 flex items-center gap-2">
+                            <span class="w-1 h-5 bg-orange-500 rounded-full inline-block"></span>
                             <BeakerIcon class="h-5 w-5 text-orange-500" />
                             Primary Pollutant
                         </h2>
@@ -252,8 +324,9 @@
                     </div>
 
                     <!-- Data Info -->
-                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-5 sm:p-6 border border-gray-100 dark:border-gray-700">
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-5 sm:p-6 border border-gray-100 dark:border-gray-700 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl">
                         <h2 class="text-base font-semibold text-gray-700 dark:text-gray-200 mb-4 flex items-center gap-2">
+                            <span class="w-1 h-5 bg-amber-500 rounded-full inline-block"></span>
                             <SunIcon class="h-5 w-5 text-amber-500" />
                             About This Data
                         </h2>
@@ -282,9 +355,10 @@
                 </div>
 
                 <!-- Telegram Notification Panel -->
-                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700">
+                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-4 sm:p-6 border border-gray-200 dark:border-gray-700 animate-fade-in-up" style="animation-delay: 300ms">
                     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
                         <div class="flex items-center gap-2">
+                            <span class="w-1 h-5 bg-blue-500 rounded-full inline-block"></span>
                             <div class="p-1.5 bg-blue-100 dark:bg-blue-900 rounded-xl">
                                 <svg class="h-5 w-5 text-blue-500" viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.053 5.56-5.023c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
@@ -295,9 +369,9 @@
                                 <p class="text-xs text-gray-500 dark:text-gray-400">Get notified when air quality is dangerous</p>
                             </div>
                         </div>
-                        <label class="relative inline-flex items-center cursor-pointer">
+                        <label class="relative inline-flex items-center cursor-pointer group">
                             <input type="checkbox" v-model="telegramSettings.enabled" class="sr-only peer" @change="saveSettings">
-                            <div class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                            <div class="w-14 h-7 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all after:shadow-md dark:border-gray-600 peer-checked:bg-gradient-to-r peer-checked:from-blue-500 peer-checked:to-blue-600 transition-colors duration-300"></div>
                         </label>
                     </div>
 
@@ -1023,6 +1097,14 @@ html {
     animation: fadeIn 0.5s ease-out;
 }
 
+.animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out both;
+}
+
+.animate-shimmer {
+    animation: shimmer 1.5s ease-in-out infinite;
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -1031,6 +1113,26 @@ html {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
     }
 }
 </style>

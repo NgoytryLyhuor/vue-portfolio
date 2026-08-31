@@ -3,10 +3,10 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-10">
             <!-- Header Section -->
             <div class="text-center mb-16">
-                <h1 class="text-4xl font-extrabold text-gray-900 dark:text-white mb-4">
+                <h1 class="text-4xl font-extrabold mb-4 bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 bg-clip-text text-transparent">
                     My Projects
                 </h1>
-                <p class="max-w-2xl mx-auto text-lg text-gray-600 dark:text-gray-300">
+                <p class="max-w-2xl mx-auto text-lg text-gray-500 dark:text-gray-400">
                     A collection of my work across different technologies and domains
                 </p>
             </div>
@@ -41,7 +41,7 @@
                             v-model="searchQuery" 
                             type="text" 
                             placeholder="Search projects by name, technology, or description..."
-                            class="w-full px-4 py-3 pl-10 pr-4 rounded-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                            class="w-full px-4 py-3 pl-10 pr-4 rounded-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 shadow-sm focus:shadow-lg focus:shadow-glow-blue focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
                             aria-label="Search projects"
                         />
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 absolute left-3 top-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -64,9 +64,9 @@
                 <div class="mb-16">
                     <div class="mb-8 flex flex-wrap justify-center gap-3">
                         <button @click="activeCategory = 'all'" :class="[
-                            'px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 transform',
+                            'px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 transform active:scale-95',
                             activeCategory.toLowerCase() === 'all'
-                                ? 'bg-blue-600 text-white shadow-md scale-105'
+                                ? 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-md shadow-blue-500/30 scale-105'
                                 : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 hover:scale-105 shadow-sm',
                             { 'animate-pulse-click': activeCategory.toLowerCase() === 'all' }
                         ]">
@@ -74,9 +74,9 @@
                         </button>
                         <button v-for="category in categories.filter(c => c !== 'All')" :key="category"
                             @click="activeCategory = category" :class="[
-                                'px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 transform',
+                                'px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 transform active:scale-95',
                                 activeCategory.toLowerCase() === category.toLowerCase()
-                                    ? 'bg-blue-600 text-white shadow-md scale-105'
+                                    ? 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-md shadow-blue-500/30 scale-105'
                                     : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 hover:scale-105 shadow-sm',
                                 { 'animate-pulse-click': activeCategory.toLowerCase() === category.toLowerCase() }
                             ]">
@@ -87,10 +87,12 @@
 
                 <!-- Projects Grid -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <article v-for="project in filteredProjects" :key="project.id" class="flex flex-col rounded-xl overflow-hidden bg-white dark:bg-gray-800 shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
+                    <article v-for="(project, index) in filteredProjects" :key="project.id"
+                        class="flex flex-col rounded-xl overflow-hidden bg-white dark:bg-gray-800 shadow-md hover:shadow-card-hover border border-gray-200 dark:border-gray-700 hover:-translate-y-1 hover:border-t-2 hover:border-t-blue-500 transition-all duration-300 animate-fade-in-up"
+                        :style="{ animationDelay: `${index * 50}ms` }">
 
                         <div class="h-48 bg-gray-100 dark:bg-gray-700 relative overflow-hidden">
-                            <div class="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 opacity-20">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent">
                             </div>
                             <span v-if="project.status" class="absolute font-bold top-4 left-4 inline-flex items-center px-3 py-1 rounded-full text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 z-10">
                                 {{ formatCategory(project.status) }}
@@ -121,7 +123,7 @@
 
                             <div class="flex flex-wrap gap-2 mb-5">
                                 <span v-for="tech in project.technologies" :key="tech"
-                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
+                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-800 dark:text-blue-200 hover:from-blue-100 hover:to-indigo-100 dark:hover:from-blue-800/40 dark:hover:to-indigo-800/40 transition-colors duration-300 cursor-default">
                                     {{ tech }}
                                 </span>
                             </div>
@@ -144,17 +146,20 @@
 
                 <!-- Empty State -->
                 <div v-if="!isLoading && filteredProjects.length === 0" class="text-center py-12">
-                    <div class="mx-auto max-w-md">
-                        <div class="w-24 h-24 mx-auto mb-6 text-gray-400 dark:text-gray-600">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                    d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                            </svg>
+                    <div class="mx-auto max-w-md animate-fade-in-up">
+                        <div class="relative w-28 h-28 mx-auto mb-6">
+                            <div class="absolute inset-0 bg-blue-100 dark:bg-blue-900/30 rounded-full opacity-50 blur-2xl"></div>
+                            <div class="relative w-28 h-28 mx-auto text-blue-400 dark:text-blue-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor" stroke-width="1.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM9 10h6m-3-3v6" />
+                                </svg>
+                            </div>
                         </div>
-                        <h3 class="text-xl font-medium text-gray-600 dark:text-gray-400 mb-2">No projects found</h3>
+                        <h3 class="text-2xl font-bold text-gray-700 dark:text-gray-300 mb-2">No projects found</h3>
                         <p class="text-gray-500 dark:text-gray-500">We couldn't find any projects matching this
-                            category.</p>
+                            category. Try adjusting your search or filters.</p>
                     </div>
                 </div>
             </div>

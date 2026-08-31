@@ -2,7 +2,7 @@
     <div class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
         <div class="max-w-6xl mx-auto px-4 py-10 space-y-8">
             <!-- Header -->
-            <div class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm p-6 sm:p-8 flex flex-col gap-4">
+            <div class="animate-fade-in-up bg-gradient-to-r from-green-50/50 to-gray-50 dark:from-green-900/10 dark:to-gray-800 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm p-6 sm:p-8 flex flex-col gap-4">
                 <div class="flex items-start justify-between gap-4">
                     <div>
                         <p class="text-xs uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400 mb-1">Private Garage</p>
@@ -35,9 +35,10 @@
             <!-- Summary -->
             <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
                 <div
-                    v-for="item in summaryCards"
+                    v-for="(item, index) in summaryCards"
                     :key="item.title"
-                    class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-4 shadow-sm"
+                    class="animate-fade-in-up bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-4 shadow-sm hover:-translate-y-0.5 hover:shadow-card-hover transition-all duration-300"
+                    :style="{ animationDelay: `${index * 50}ms` }"
                 >
                     <div class="flex items-center justify-between">
                         <p class="text-sm font-semibold text-gray-900 dark:text-white">{{ item.title }}</p>
@@ -64,7 +65,7 @@
                             type="number"
                             min="0"
                             inputmode="numeric"
-                            class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors"
+                            class="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500/30 focus:border-green-500 transition-colors"
                             placeholder="e.g., 165000"
                         />
                     </div>
@@ -94,11 +95,11 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date of last change</label>
-                            <input v-model="form.engineOil.lastDate" type="date" class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors" />
+                            <input v-model="form.engineOil.lastDate" type="date" class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500/30 focus:border-green-500 transition-colors" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Odometer at change (km)</label>
-                            <input v-model="form.engineOil.lastOdometer" type="number" min="0" class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors" placeholder="e.g., 160000" />
+                            <input v-model="form.engineOil.lastOdometer" type="number" min="0" class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500/30 focus:border-green-500 transition-colors" placeholder="e.g., 160000" />
                         </div>
                     </div>
                     <div class="rounded-lg bg-gray-50 dark:bg-gray-900/40 border border-gray-200 dark:border-gray-700 p-3 text-sm text-gray-700 dark:text-gray-300">
@@ -119,11 +120,11 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date of last cleaning</label>
-                            <input v-model="form.egr.lastDate" type="date" class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors" />
+                            <input v-model="form.egr.lastDate" type="date" class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500/30 focus:border-green-500 transition-colors" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Odometer at cleaning (km)</label>
-                            <input v-model="form.egr.lastOdometer" type="number" min="0" class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors" placeholder="e.g., 120000" />
+                            <input v-model="form.egr.lastOdometer" type="number" min="0" class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500/30 focus:border-green-500 transition-colors" placeholder="e.g., 120000" />
                         </div>
                     </div>
                     <div class="rounded-lg bg-gray-50 dark:bg-gray-900/40 border border-gray-200 dark:border-gray-700 p-3 text-sm text-gray-700 dark:text-gray-300">
@@ -144,11 +145,11 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date of last flush</label>
-                            <input v-model="form.coolant.lastDate" type="date" class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors" />
+                            <input v-model="form.coolant.lastDate" type="date" class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500/30 focus:border-green-500 transition-colors" />
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Odometer at flush (km)</label>
-                            <input v-model="form.coolant.lastOdometer" type="number" min="0" class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors" placeholder="e.g., 130000" />
+                            <input v-model="form.coolant.lastOdometer" type="number" min="0" class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500/30 focus:border-green-500 transition-colors" placeholder="e.g., 130000" />
                         </div>
                     </div>
                     <div class="rounded-lg bg-gray-50 dark:bg-gray-900/40 border border-gray-200 dark:border-gray-700 p-3 text-sm text-gray-700 dark:text-gray-300">
@@ -169,7 +170,7 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date of last replacement</label>
-                            <input v-model="form.cabinFilter.lastDate" type="date" class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500 focus:border-transparent transition-colors" />
+                            <input v-model="form.cabinFilter.lastDate" type="date" class="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-green-500/30 focus:border-green-500 transition-colors" />
                         </div>
                         <div class="rounded-lg bg-gray-50 dark:bg-gray-900/40 border border-gray-200 dark:border-gray-700 p-3 text-sm text-gray-700 dark:text-gray-300">
                             <p class="font-semibold text-gray-900 dark:text-white">Next change</p>

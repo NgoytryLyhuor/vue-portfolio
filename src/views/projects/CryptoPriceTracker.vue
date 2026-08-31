@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen py-6 px-3 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+    <div class="min-h-screen py-6 px-3 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-50 via-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-900 dark:to-gray-950 transition-colors duration-300">
         <div class="max-w-7xl mx-auto">
             <!-- Header -->
             <div class="text-center mb-6 mt-8 sm:mt-10">
@@ -18,19 +18,19 @@
 
             <!-- Stats Overview Cards -->
             <div v-if="!loading && !error" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-4 text-white shadow-lg hover:shadow-xl transition-shadow">
+                <div class="animate-fade-in-up bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-4 text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300" style="animation-delay: 0ms">
                     <div class="text-sm opacity-90 mb-1">Total Market Cap</div>
                     <div class="text-xl font-bold">{{ formatCurrency(totalMarketCap) }}</div>
                 </div>
-                <div class="bg-gradient-to-br from-green-500 to-green-600 rounded-xl p-4 text-white shadow-lg hover:shadow-xl transition-shadow">
+                <div class="animate-fade-in-up bg-gradient-to-br from-green-500 to-green-600 rounded-xl p-4 text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300" style="animation-delay: 50ms">
                     <div class="text-sm opacity-90 mb-1">24h Volume</div>
                     <div class="text-xl font-bold">{{ formatCurrency(totalVolume) }}</div>
                 </div>
-                <div class="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl p-4 text-white shadow-lg hover:shadow-xl transition-shadow">
+                <div class="animate-fade-in-up bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl p-4 text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300" style="animation-delay: 100ms">
                     <div class="text-sm opacity-90 mb-1">Active Cryptos</div>
                     <div class="text-xl font-bold">{{ filteredCryptos.length }}</div>
                 </div>
-                <div class="bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl p-4 text-white shadow-lg hover:shadow-xl transition-shadow">
+                <div class="animate-fade-in-up bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl p-4 text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300" style="animation-delay: 150ms">
                     <div class="text-sm opacity-90 mb-1">BTC Dominance</div>
                     <div class="text-xl font-bold">{{ btcDominance }}%</div>
                 </div>
@@ -45,7 +45,7 @@
                             v-model="searchQuery" 
                             type="text" 
                             placeholder="Search cryptocurrencies (e.g., Bitcoin, BTC, Ethereum)..."
-                            class="w-full px-4 py-3 pl-10 pr-4 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                            class="w-full px-4 py-3 pl-10 pr-4 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 shadow-sm focus:outline-none focus:shadow-glow-blue focus:ring-2 focus:ring-blue-500/30 transition-all"
                             aria-label="Search cryptocurrencies"
                         />
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 absolute left-3 top-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -67,7 +67,7 @@
                     <div class="relative">
                         <select 
                             v-model="sortBy" 
-                            class="px-4 py-3 pr-10 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none cursor-pointer"
+                            class="px-4 py-3 pr-10 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 shadow-sm focus:outline-none focus:shadow-glow-blue focus:ring-2 focus:ring-blue-500/30 appearance-none cursor-pointer transition-all"
                             aria-label="Sort cryptocurrencies"
                         >
                             <option value="market_cap_desc">Market Cap (High to Low)</option>
@@ -129,9 +129,10 @@
 
                 <div v-else class="grid grid-cols-1 gap-4">
                     <div 
-                        v-for="crypto in paginatedCryptos" 
+                        v-for="(crypto, index) in paginatedCryptos" 
                         :key="crypto.id"
-                        class="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-md hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-700 cursor-pointer transform hover:scale-[1.02]"
+                        class="animate-fade-in-up bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-md hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-700 border-l-4 border-l-transparent hover:border-blue-300 dark:hover:border-blue-600 hover:border-l-blue-500 hover:bg-gradient-to-r hover:from-gray-50 hover:to-blue-50/30 dark:hover:from-gray-800 dark:hover:to-blue-900/10 cursor-pointer transform hover:scale-[1.02]"
+                        :style="{ animationDelay: (index * 40) + 'ms' }"
                         @click="selectCrypto(crypto)"
                     >
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -170,8 +171,8 @@
                                         {{ formatCurrency(crypto.current_price) }}
                                     </div>
                                     <div 
-                                        class="text-sm font-medium flex items-center gap-1 justify-end"
-                                        :class="crypto.price_change_percentage_24h >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'"
+                                        class="text-sm font-medium flex items-center gap-1 justify-end rounded-lg px-2 py-0.5"
+                                        :class="crypto.price_change_percentage_24h >= 0 ? 'text-green-600 dark:text-green-400 bg-green-100/80 dark:bg-green-900/20' : 'text-red-600 dark:text-red-400 bg-red-100/80 dark:bg-red-900/20'"
                                     >
                                         <svg v-if="crypto.price_change_percentage_24h >= 0" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
@@ -218,11 +219,11 @@
         <!-- Advanced Crypto Detail Modal -->
         <div 
             v-if="selectedCrypto" 
-            class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+            class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center p-4 z-50"
             @click="selectedCrypto = null"
         >
             <div 
-                class="bg-white dark:bg-gray-800 rounded-2xl max-w-6xl w-full max-h-[95vh] overflow-y-auto shadow-2xl"
+                class="animate-scale-in bg-white dark:bg-gray-800 rounded-2xl max-w-6xl w-full max-h-[95vh] overflow-y-auto shadow-2xl"
                 @click.stop
             >
                 <div class="p-6">
@@ -262,8 +263,8 @@
                                 {{ formatCurrency(selectedCrypto.current_price) }}
                             </div>
                             <div 
-                                class="text-lg font-medium flex items-center gap-2"
-                                :class="selectedCrypto.price_change_percentage_24h >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'"
+                                class="text-lg font-medium flex items-center gap-2 rounded-lg px-2 py-0.5"
+                                :class="selectedCrypto.price_change_percentage_24h >= 0 ? 'text-green-600 dark:text-green-400 bg-green-100/80 dark:bg-green-900/20' : 'text-red-600 dark:text-red-400 bg-red-100/80 dark:bg-red-900/20'"
                             >
                                 <svg v-if="selectedCrypto.price_change_percentage_24h >= 0" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
@@ -280,7 +281,7 @@
                     </div>
 
                     <!-- Chart Section -->
-                    <div class="mb-6 bg-gray-50 dark:bg-gray-700 rounded-xl p-4">
+                    <div class="mb-6 bg-gray-50 dark:bg-gray-700 rounded-xl p-4 border border-gray-200/60 dark:border-gray-600/60">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Price Chart</h3>
                             <div class="flex gap-2">
@@ -456,8 +457,8 @@
                             <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
                                 <div class="text-sm text-gray-600 dark:text-gray-400 mb-1">24h</div>
                                 <div 
-                                    class="text-lg font-bold"
-                                    :class="selectedCrypto.price_change_percentage_24h >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'"
+                                    class="text-lg font-bold rounded-lg px-2 py-0.5"
+                                    :class="selectedCrypto.price_change_percentage_24h >= 0 ? 'text-green-600 dark:text-green-400 bg-green-100/80 dark:bg-green-900/20' : 'text-red-600 dark:text-red-400 bg-red-100/80 dark:bg-red-900/20'"
                                 >
                                     {{ selectedCrypto.price_change_percentage_24h >= 0 ? '+' : '' }}{{ selectedCrypto.price_change_percentage_24h.toFixed(2) }}%
                                 </div>
@@ -465,8 +466,8 @@
                             <div v-if="selectedCrypto.price_change_percentage_7d !== undefined" class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
                                 <div class="text-sm text-gray-600 dark:text-gray-400 mb-1">7d</div>
                                 <div 
-                                    class="text-lg font-bold"
-                                    :class="selectedCrypto.price_change_percentage_7d >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'"
+                                    class="text-lg font-bold rounded-lg px-2 py-0.5"
+                                    :class="selectedCrypto.price_change_percentage_7d >= 0 ? 'text-green-600 dark:text-green-400 bg-green-100/80 dark:bg-green-900/20' : 'text-red-600 dark:text-red-400 bg-red-100/80 dark:bg-red-900/20'"
                                 >
                                     {{ selectedCrypto.price_change_percentage_7d >= 0 ? '+' : '' }}{{ selectedCrypto.price_change_percentage_7d.toFixed(2) }}%
                                 </div>
@@ -474,8 +475,8 @@
                             <div v-if="selectedCrypto.price_change_percentage_30d !== undefined" class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
                                 <div class="text-sm text-gray-600 dark:text-gray-400 mb-1">30d</div>
                                 <div 
-                                    class="text-lg font-bold"
-                                    :class="selectedCrypto.price_change_percentage_30d >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'"
+                                    class="text-lg font-bold rounded-lg px-2 py-0.5"
+                                    :class="selectedCrypto.price_change_percentage_30d >= 0 ? 'text-green-600 dark:text-green-400 bg-green-100/80 dark:bg-green-900/20' : 'text-red-600 dark:text-red-400 bg-red-100/80 dark:bg-red-900/20'"
                                 >
                                     {{ selectedCrypto.price_change_percentage_30d >= 0 ? '+' : '' }}{{ selectedCrypto.price_change_percentage_30d.toFixed(2) }}%
                                 </div>
@@ -483,8 +484,8 @@
                             <div v-if="selectedCrypto.price_change_percentage_1y !== undefined" class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
                                 <div class="text-sm text-gray-600 dark:text-gray-400 mb-1">1y</div>
                                 <div 
-                                    class="text-lg font-bold"
-                                    :class="selectedCrypto.price_change_percentage_1y >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'"
+                                    class="text-lg font-bold rounded-lg px-2 py-0.5"
+                                    :class="selectedCrypto.price_change_percentage_1y >= 0 ? 'text-green-600 dark:text-green-400 bg-green-100/80 dark:bg-green-900/20' : 'text-red-600 dark:text-red-400 bg-red-100/80 dark:bg-red-900/20'"
                                 >
                                     {{ selectedCrypto.price_change_percentage_1y >= 0 ? '+' : '' }}{{ selectedCrypto.price_change_percentage_1y.toFixed(2) }}%
                                 </div>
@@ -978,8 +979,42 @@ onBeforeUnmount(() => {
     }
 }
 
+@keyframes fade-in-up {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scale-in {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
 .animate-fade-in {
     animation: fade-in 0.3s ease-out;
+}
+
+.animate-fade-in-up {
+    animation: fade-in-up 0.4s ease-out both;
+}
+
+.animate-scale-in {
+    animation: scale-in 0.25s ease-out;
+}
+
+:deep(.shadow-glow-blue) {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15), 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
 /* Custom scrollbar for modal */

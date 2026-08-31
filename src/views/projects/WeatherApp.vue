@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen py-6 px-3 sm:px-6 lg:px-8">
+    <div class="min-h-screen py-6 px-3 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-50/50 via-transparent to-gray-50 dark:from-gray-900/50 dark:via-transparent dark:to-gray-900">
         <div class="max-w-4xl mx-auto">
             <!-- Header -->
             <div class="text-center mb-6 mt-8 sm:mt-10">
@@ -12,18 +12,25 @@
                 </p>
             </div>
 
-            <!-- Loading State -->
-            <div v-if="loading" class="flex flex-col items-center justify-center py-16 sm:py-20">
-                <div class="relative">
-                    <div class="w-16 h-16 sm:w-20 sm:h-20 border-4 border-purple-200 dark:border-purple-900 rounded-full"></div>
-                    <div class="w-16 h-16 sm:w-20 sm:h-20 border-4 border-purple-500 border-t-transparent rounded-full animate-spin absolute top-0 left-0"></div>
-                    <SunIcon class="h-6 w-6 sm:h-8 sm:w-8 text-orange-500 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 animate-pulse" />
+            <!-- Loading State - Skeleton Shimmer -->
+            <div v-if="loading" class="space-y-4 sm:space-y-6 py-6 sm:py-8">
+                <!-- Main card skeleton -->
+                <div class="rounded-2xl sm:rounded-3xl h-72 sm:h-80 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer"></div>
+                <!-- Quick stats skeleton -->
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                    <div class="h-24 sm:h-28 rounded-xl sm:rounded-2xl bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer" style="animation-delay: 100ms"></div>
+                    <div class="h-24 sm:h-28 rounded-xl sm:rounded-2xl bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer" style="animation-delay: 200ms"></div>
+                    <div class="h-24 sm:h-28 rounded-xl sm:rounded-2xl bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer" style="animation-delay: 300ms"></div>
+                    <div class="h-24 sm:h-28 rounded-xl sm:rounded-2xl bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer" style="animation-delay: 400ms"></div>
                 </div>
-                <p class="mt-4 sm:mt-6 text-gray-600 dark:text-gray-400 font-medium text-sm sm:text-base">Fetching weather data...</p>
+                <!-- Hourly forecast skeleton -->
+                <div class="h-36 sm:h-44 rounded-xl sm:rounded-2xl bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer" style="animation-delay: 500ms"></div>
+                <!-- 7-day forecast skeleton -->
+                <div class="h-48 sm:h-56 rounded-xl sm:rounded-2xl bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer" style="animation-delay: 600ms"></div>
             </div>
 
             <!-- Error State -->
-            <div v-else-if="error" class="bg-gradient-to-r from-red-500 to-pink-500 rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-white text-center my-6 sm:my-8 shadow-xl mx-2">
+            <div v-else-if="error" class="bg-gradient-to-r from-red-500 to-pink-500 rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-white text-center my-6 sm:my-8 shadow-xl mx-2 animate-scale-in">
                 <ExclamationCircleIcon class="h-12 w-12 sm:h-16 sm:w-16 mx-auto mb-3 sm:mb-4 opacity-80" />
                 <h2 class="text-xl sm:text-2xl font-bold mb-2">Oops! Something went wrong</h2>
                 <p class="opacity-90 mb-4 sm:mb-6 text-sm sm:text-base">{{ error }}</p>
@@ -35,16 +42,16 @@
             </div>
 
             <!-- Weather Content -->
-            <div v-else class="space-y-4 sm:space-y-6 animate-fade-in">
+            <div v-else class="space-y-4 sm:space-y-6">
                 <!-- Main Weather Card -->
-                <div class="relative overflow-hidden rounded-2xl sm:rounded-3xl shadow-2xl">
+                <div class="relative overflow-hidden rounded-2xl sm:rounded-3xl shadow-2xl animate-fade-in-up">
                     <!-- Dynamic Background -->
                     <div class="absolute inset-0" :class="weatherGradient"></div>
                     <div class="absolute inset-0 bg-black/10"></div>
                     
                     <!-- Floating Elements - Hidden on mobile for performance -->
-                    <div class="hidden sm:block absolute top-10 right-10 w-32 h-32 bg-white/10 rounded-full blur-2xl animate-float"></div>
-                    <div class="hidden sm:block absolute bottom-10 left-10 w-24 h-24 bg-white/10 rounded-full blur-xl animate-float-delayed"></div>
+                    <div class="hidden sm:block absolute top-10 right-10 w-32 h-32 bg-white rounded-full blur-3xl opacity-10 animate-float"></div>
+                    <div class="hidden sm:block absolute bottom-10 left-10 w-24 h-24 bg-white rounded-full blur-3xl opacity-10 animate-float-delayed"></div>
                     
                     <div class="relative p-4 sm:p-6 lg:p-10 text-white">
                         <!-- Top Row - Location & Time -->
@@ -152,8 +159,8 @@
                 </div>
 
                 <!-- Quick Stats Grid - 2x2 on mobile, 4 columns on tablet+ -->
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                    <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-lg border border-gray-100 dark:border-gray-700 hover:scale-[1.02] transition-transform">
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 animate-fade-in-up" style="animation-delay: 100ms">
+                    <div class="bg-gradient-to-br from-purple-50 to-white dark:from-purple-900/20 dark:to-gray-800 rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-lg border border-gray-100 dark:border-gray-700 hover:-translate-y-1 transition-all duration-300">
                         <div class="flex items-center justify-between mb-1.5 sm:mb-2">
                             <span class="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">Pressure</span>
                             <div class="p-1.5 sm:p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
@@ -163,7 +170,7 @@
                         <div class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">{{ currentWeather.pressure }}</div>
                         <div class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">hPa</div>
                     </div>
-                    <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-lg border border-gray-100 dark:border-gray-700 hover:scale-[1.02] transition-transform">
+                    <div class="bg-gradient-to-br from-orange-50 to-white dark:from-orange-900/20 dark:to-gray-800 rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-lg border border-gray-100 dark:border-gray-700 hover:-translate-y-1 transition-all duration-300">
                         <div class="flex items-center justify-between mb-1.5 sm:mb-2">
                             <span class="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">UV Index</span>
                             <div class="p-1.5 sm:p-2 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
@@ -173,7 +180,7 @@
                         <div class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">{{ uvIndex }}</div>
                         <div class="text-[10px] sm:text-xs" :class="uvLevelColor">{{ uvLevel }}</div>
                     </div>
-                    <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-lg border border-gray-100 dark:border-gray-700 hover:scale-[1.02] transition-transform">
+                    <div class="bg-gradient-to-br from-cyan-50 to-white dark:from-cyan-900/20 dark:to-gray-800 rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-lg border border-gray-100 dark:border-gray-700 hover:-translate-y-1 transition-all duration-300">
                         <div class="flex items-center justify-between mb-1.5 sm:mb-2">
                             <span class="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">Dew Point</span>
                             <div class="p-1.5 sm:p-2 bg-cyan-100 dark:bg-cyan-900/30 rounded-lg">
@@ -183,7 +190,7 @@
                         <div class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">{{ currentWeather.dew_point }}°</div>
                         <div class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Celsius</div>
                     </div>
-                    <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-lg border border-gray-100 dark:border-gray-700 hover:scale-[1.02] transition-transform">
+                    <div class="bg-gradient-to-br from-gray-50 to-white dark:from-gray-700/50 dark:to-gray-800 rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-lg border border-gray-100 dark:border-gray-700 hover:-translate-y-1 transition-all duration-300">
                         <div class="flex items-center justify-between mb-1.5 sm:mb-2">
                             <span class="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">Clouds</span>
                             <div class="p-1.5 sm:p-2 bg-gray-100 dark:bg-gray-700 rounded-lg">
@@ -196,15 +203,15 @@
                 </div>
 
                 <!-- Hourly Forecast -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-xl p-4 sm:p-5 lg:p-6 border border-gray-100 dark:border-gray-700">
-                    <h2 class="text-base sm:text-lg lg:text-xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 lg:mb-5 flex items-center">
+                <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-xl p-4 sm:p-5 lg:p-6 border border-gray-100 dark:border-gray-700 animate-fade-in-up" style="animation-delay: 200ms">
+                    <h2 class="text-base sm:text-lg lg:text-xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 lg:mb-5 flex items-center border-l-4 border-blue-500 pl-3">
                         <ClockIcon class="h-5 w-5 sm:h-6 sm:w-6 mr-2 sm:mr-3 text-blue-500" />
                         24-Hour Forecast
                     </h2>
                     <div class="overflow-x-auto pb-2 -mx-2 px-2 scrollbar-thin">
                         <div class="flex gap-2 sm:gap-3" style="min-width: max-content;">
                             <div v-for="(hour, idx) in hourlyForecast" :key="idx"
-                                class="flex flex-col items-center p-2.5 sm:p-3 lg:p-4 rounded-xl sm:rounded-2xl min-w-[65px] sm:min-w-[75px] lg:min-w-[80px] transition-all"
+                                class="flex flex-col items-center p-2.5 sm:p-3 lg:p-4 rounded-xl sm:rounded-2xl min-w-[65px] sm:min-w-[75px] lg:min-w-[80px] transition-all duration-300 hover:-translate-y-1"
                                 :class="idx === 0 ? 'bg-gradient-to-b from-blue-500 to-purple-600 text-white shadow-lg' : 'bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700'">
                                 <span class="text-[10px] sm:text-xs lg:text-sm font-medium" :class="idx === 0 ? 'text-white/80' : 'text-gray-500 dark:text-gray-400'">
                                     {{ idx === 0 ? 'Now' : formatHour(hour.dt) }}
@@ -225,14 +232,14 @@
                 </div>
 
                 <!-- 7-Day Forecast -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-xl p-4 sm:p-5 lg:p-6 border border-gray-100 dark:border-gray-700">
-                    <h2 class="text-base sm:text-lg lg:text-xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 lg:mb-5 flex items-center">
+                <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-xl p-4 sm:p-5 lg:p-6 border border-gray-100 dark:border-gray-700 animate-fade-in-up" style="animation-delay: 300ms">
+                    <h2 class="text-base sm:text-lg lg:text-xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 lg:mb-5 flex items-center border-l-4 border-green-500 pl-3">
                         <CalendarDaysIcon class="h-5 w-5 sm:h-6 sm:w-6 mr-2 sm:mr-3 text-green-500" />
                         7-Day Forecast
                     </h2>
                     <div class="space-y-1.5 sm:space-y-2">
                         <div v-for="(day, idx) in forecast" :key="idx"
-                            class="flex items-center justify-between p-2.5 sm:p-3 lg:p-4 rounded-xl sm:rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-all group">
+                            class="flex items-center justify-between p-2.5 sm:p-3 lg:p-4 rounded-xl sm:rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-all duration-300 hover:-translate-y-1 group">
                             <div class="flex items-center gap-2 sm:gap-3 lg:gap-4 flex-1 min-w-0">
                                 <div class="w-14 sm:w-16 lg:w-20 font-semibold text-gray-900 dark:text-white text-xs sm:text-sm lg:text-base truncate">
                                     {{ idx === 0 ? 'Today' : formatDay(day.dt) }}
@@ -262,7 +269,7 @@
                 </div>
 
                 <!-- Season Info - Full Width Enhanced -->
-                    <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden">
+                    <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden animate-fade-in-up" style="animation-delay: 400ms">
                         <!-- Season Header with Gradient -->
                         <div class="p-4 sm:p-5 lg:p-6" :class="currentSeason.name === 'Rainy Season' ? 'bg-gradient-to-r from-blue-500 to-cyan-500' : 'bg-gradient-to-r from-orange-500 to-yellow-500'">
                             <div class="flex items-center justify-between">
@@ -442,7 +449,7 @@
                     </div>
 
                 <!-- Weather Alerts -->
-                <div v-if="alerts.length > 0" class="space-y-3 sm:space-y-4">
+                <div v-if="alerts.length > 0" class="space-y-3 sm:space-y-4 animate-fade-in-up" style="animation-delay: 500ms">
                     <h2 class="text-base sm:text-lg lg:text-xl font-bold text-gray-900 dark:text-white flex items-center">
                         <ExclamationTriangleIcon class="h-5 w-5 sm:h-6 sm:w-6 mr-2 sm:mr-3 text-red-500" />
                         Weather Alerts
@@ -939,11 +946,11 @@ export default {
 </script>
 
 <style scoped>
-.animate-fade-in {
-    animation: fadeIn 0.6s ease-out;
+.animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out both;
 }
 
-@keyframes fadeIn {
+@keyframes fadeInUp {
     from {
         opacity: 0;
         transform: translateY(20px);
@@ -951,6 +958,34 @@ export default {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+.animate-shimmer {
+    animation: shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.animate-scale-in {
+    animation: scaleIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
     }
 }
 
