@@ -1,552 +1,1114 @@
 <template>
-    <div class="min-h-screen py-6 px-3 sm:px-6 lg:px-8 bg-gradient-to-b from-gray-50/50 via-transparent to-gray-50 dark:from-gray-900/50 dark:via-transparent dark:to-gray-900">
-        <div class="max-w-4xl mx-auto">
-            <!-- Header -->
-            <div class="text-center mb-6 mt-8 sm:mt-10">
-                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-1 sm:mb-2">
-                    Weather Forecast
-                </h1>
-                <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 flex items-center justify-center gap-1 sm:gap-2">
-                    <MapPinIcon class="h-4 w-4" />
-                    {{ location.name }}, Cambodia
-                </p>
+    <div class="min-h-screen bg-slate-50/80 dark:bg-[#030816] text-slate-900 dark:text-slate-100 pb-20 pt-20 md:pt-24 relative overflow-hidden">
+        <!-- Ambient Decorative Background Glows -->
+        <div class="pointer-events-none fixed inset-0 overflow-hidden z-0">
+            <div class="absolute -top-32 -right-32 w-[28rem] h-[28rem] bg-sky-500/10 dark:bg-sky-500/10 rounded-full blur-3xl"></div>
+            <div class="absolute top-1/3 -left-32 w-[26rem] h-[26rem] bg-indigo-500/10 dark:bg-indigo-500/10 rounded-full blur-3xl"></div>
+            <div class="absolute -bottom-32 right-1/4 w-[28rem] h-[28rem] bg-amber-500/10 dark:bg-teal-500/10 rounded-full blur-3xl"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <!-- Top Header & Controls -->
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-6">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-500/10 dark:bg-sky-400/10 border border-sky-500/20 text-sky-700 dark:text-sky-300 text-xs font-semibold tracking-wide uppercase mb-3">
+                        <span class="w-2 h-2 rounded-full bg-sky-500 animate-pulse"></span>
+                        <span>Cambodia Weather &amp; Seasonal Intelligence</span>
+                        <span class="text-sky-400 dark:text-sky-500">•</span>
+                        <span class="font-khmer">ឧតុនិយម និងរដូវកាលកម្ពុជា</span>
+                    </div>
+                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white flex flex-wrap items-center gap-3">
+                        <span>Atmospheric Forecast</span>
+                        <span class="text-lg sm:text-xl font-normal text-slate-500 dark:text-slate-400 hidden sm:inline">|</span>
+                        <span class="text-lg sm:text-xl font-semibold bg-gradient-to-r from-sky-600 via-indigo-600 to-teal-500 dark:from-sky-400 dark:via-indigo-400 dark:to-teal-300 bg-clip-text text-transparent">
+                            {{ currentDate }}
+                        </span>
+                    </h1>
+                </div>
+
+                <!-- Search, GPS, Unit Toggle & Refresh -->
+                <div class="flex flex-wrap items-center gap-2.5">
+                    <form @submit.prevent="searchCity" class="relative flex-1 sm:flex-initial sm:w-64">
+                        <input
+                            v-model="searchQuery"
+                            type="text"
+                            placeholder="Search any city..."
+                            class="w-full pl-9 pr-16 py-2.5 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500/50 shadow-sm transition-all"
+                        />
+                        <svg class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                        <button
+                            v-if="searchQuery.trim()"
+                            type="submit"
+                            class="absolute right-1.5 top-1/2 -translate-y-1/2 px-2.5 py-1 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold transition-colors"
+                        >
+                            Go
+                        </button>
+                    </form>
+
+                    <!-- My Location GPS Button -->
+                    <button
+                        @click="useMyLocation"
+                        :disabled="locating || loading"
+                        title="Use my current location"
+                        class="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 hover:border-sky-500/50 text-slate-700 dark:text-slate-200 text-xs sm:text-sm font-semibold shadow-sm transition-all disabled:opacity-50"
+                    >
+                        <svg class="w-4 h-4 text-sky-500" :class="{ 'animate-spin': locating }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <span class="hidden sm:inline">{{ locating ? 'Locating...' : 'My Location' }}</span>
+                    </button>
+
+                    <!-- Temperature Unit Toggle (°C / °F) -->
+                    <div class="inline-flex items-center p-1 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+                        <button
+                            @click="unit = 'C'"
+                            :class="unit === 'C' ? 'bg-sky-600 text-white shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'"
+                            class="px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all"
+                        >
+                            °C
+                        </button>
+                        <button
+                            @click="unit = 'F'"
+                            :class="unit === 'F' ? 'bg-sky-600 text-white shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'"
+                            class="px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all"
+                        >
+                            °F
+                        </button>
+                    </div>
+
+                    <!-- Refresh Button -->
+                    <button
+                        @click="fetchWeatherData"
+                        :disabled="loading"
+                        title="Refresh weather data"
+                        class="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs sm:text-sm font-semibold shadow-sm shadow-sky-500/20 transition-all disabled:opacity-50"
+                    >
+                        <svg class="w-4 h-4" :class="{ 'animate-spin': loading }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                        <span class="hidden sm:inline">Refresh</span>
+                    </button>
+                </div>
             </div>
 
-            <!-- Loading State - Skeleton Shimmer -->
-            <div v-if="loading" class="space-y-4 sm:space-y-6 py-6 sm:py-8">
-                <!-- Main card skeleton -->
-                <div class="rounded-2xl sm:rounded-3xl h-72 sm:h-80 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer"></div>
-                <!-- Quick stats skeleton -->
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                    <div class="h-24 sm:h-28 rounded-xl sm:rounded-2xl bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer" style="animation-delay: 100ms"></div>
-                    <div class="h-24 sm:h-28 rounded-xl sm:rounded-2xl bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer" style="animation-delay: 200ms"></div>
-                    <div class="h-24 sm:h-28 rounded-xl sm:rounded-2xl bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer" style="animation-delay: 300ms"></div>
-                    <div class="h-24 sm:h-28 rounded-xl sm:rounded-2xl bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer" style="animation-delay: 400ms"></div>
+            <!-- Cambodia Quick-Select Cities Bar -->
+            <div class="mb-6 bg-white/80 dark:bg-slate-900/70 backdrop-blur-md rounded-2xl p-3 border border-slate-200/80 dark:border-slate-800/80 shadow-sm">
+                <div class="flex items-center gap-2 overflow-x-auto scrollbar-thin pb-1">
+                    <span class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-2 shrink-0 flex items-center gap-1.5">
+                        <span>🇰🇭</span>
+                        <span>Cambodia Hubs:</span>
+                    </span>
+                    <button
+                        v-for="city in cambodiaCities"
+                        :key="city.name"
+                        @click="selectPresetCity(city)"
+                        :class="[
+                            location.name.toLowerCase() === city.name.toLowerCase()
+                                ? 'bg-gradient-to-r from-sky-600 to-indigo-600 text-white shadow-md shadow-sky-500/20 border-transparent'
+                                : 'bg-slate-100/80 dark:bg-slate-800/70 text-slate-700 dark:text-slate-300 border-slate-200/60 dark:border-slate-700/60 hover:bg-sky-50 dark:hover:bg-slate-800 hover:border-sky-400/40'
+                        ]"
+                        class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all shrink-0"
+                    >
+                        <span>{{ city.emoji }}</span>
+                        <span>{{ city.name }}</span>
+                        <span class="font-khmer text-[11px] opacity-80">{{ city.khmer }}</span>
+                    </button>
                 </div>
-                <!-- Hourly forecast skeleton -->
-                <div class="h-36 sm:h-44 rounded-xl sm:rounded-2xl bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer" style="animation-delay: 500ms"></div>
-                <!-- 7-day forecast skeleton -->
-                <div class="h-48 sm:h-56 rounded-xl sm:rounded-2xl bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 bg-[length:200%_100%] animate-shimmer" style="animation-delay: 600ms"></div>
             </div>
 
-            <!-- Error State -->
-            <div v-else-if="error" class="bg-gradient-to-r from-red-500 to-pink-500 rounded-2xl sm:rounded-3xl p-6 sm:p-8 text-white text-center my-6 sm:my-8 shadow-xl mx-2 animate-scale-in">
-                <ExclamationCircleIcon class="h-12 w-12 sm:h-16 sm:w-16 mx-auto mb-3 sm:mb-4 opacity-80" />
-                <h2 class="text-xl sm:text-2xl font-bold mb-2">Oops! Something went wrong</h2>
-                <p class="opacity-90 mb-4 sm:mb-6 text-sm sm:text-base">{{ error }}</p>
-                <button @click="fetchWeatherData"
-                    class="px-5 py-2.5 sm:px-6 sm:py-3 bg-white text-red-500 font-semibold rounded-xl hover:bg-gray-100 transition-all shadow-lg text-sm sm:text-base">
-                    <ArrowPathIcon class="h-4 w-4 sm:h-5 sm:w-5 inline mr-2" />
-                    Try Again
-                </button>
+            <!-- Loading Skeleton State -->
+            <div v-if="loading && !currentWeather.icon" class="space-y-6">
+                <div class="h-80 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-8 animate-pulse flex flex-col justify-between">
+                    <div class="flex justify-between">
+                        <div class="space-y-3">
+                            <div class="h-8 w-48 bg-slate-200 dark:bg-slate-800 rounded-xl"></div>
+                            <div class="h-4 w-32 bg-slate-200 dark:bg-slate-800 rounded-lg"></div>
+                        </div>
+                        <div class="h-20 w-36 bg-slate-200 dark:bg-slate-800 rounded-2xl"></div>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        <div v-for="i in 4" :key="i" class="h-20 bg-slate-200 dark:bg-slate-800 rounded-2xl"></div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Weather Content -->
-            <div v-else class="space-y-4 sm:space-y-6">
-                <!-- Main Weather Card -->
-                <div class="relative overflow-hidden rounded-2xl sm:rounded-3xl shadow-2xl animate-fade-in-up">
-                    <!-- Dynamic Background -->
-                    <div class="absolute inset-0" :class="weatherGradient"></div>
-                    <div class="absolute inset-0 bg-black/10"></div>
-                    
-                    <!-- Floating Elements - Hidden on mobile for performance -->
-                    <div class="hidden sm:block absolute top-10 right-10 w-32 h-32 bg-white rounded-full blur-3xl opacity-10 animate-float"></div>
-                    <div class="hidden sm:block absolute bottom-10 left-10 w-24 h-24 bg-white rounded-full blur-3xl opacity-10 animate-float-delayed"></div>
-                    
-                    <div class="relative p-4 sm:p-6 lg:p-10 text-white">
-                        <!-- Top Row - Location & Time -->
-                        <div class="flex justify-between items-start mb-4 sm:mb-6 lg:mb-8">
-                            <div>
-                                <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold">{{ location.name }}</h2>
-                                <p class="text-white/80 text-xs sm:text-sm lg:text-base">{{ currentDate }}</p>
-                            </div>
-                            <button @click="fetchWeatherData" 
-                                class="p-2 sm:p-3 bg-white/20 backdrop-blur-sm rounded-lg sm:rounded-xl hover:bg-white/30 transition-all">
-                                <ArrowPathIcon class="h-4 w-4 sm:h-5 sm:w-5" :class="{ 'animate-spin': loading }" />
-                            </button>
+            <!-- Error Banner -->
+            <div v-else-if="error" class="rounded-3xl bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900/60 p-8 text-center my-8">
+                <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-red-100 dark:bg-red-900/40 flex items-center justify-center text-red-600 dark:text-red-400">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                </div>
+                <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Unable to Load Weather Data</h2>
+                <p class="text-sm text-slate-600 dark:text-slate-300 max-w-md mx-auto mb-6">{{ error }}</p>
+                <div class="flex justify-center gap-3">
+                    <button @click="selectPresetCity(cambodiaCities[0])" class="px-5 py-2.5 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-sm font-semibold hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors">
+                        Reset to Phnom Penh
+                    </button>
+                    <button @click="fetchWeatherData" class="px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-sm font-semibold transition-colors">
+                        Try Again
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Weather Dashboard -->
+            <div v-else class="space-y-6">
+                <!-- Active Weather Alerts Banner (if any) -->
+                <div v-if="alerts.length > 0" class="rounded-2xl bg-gradient-to-r from-amber-500/15 via-orange-500/15 to-red-500/15 border border-amber-500/30 p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                    <div class="flex items-start gap-3.5">
+                        <div class="p-2.5 rounded-xl bg-amber-500 text-white shrink-0 mt-0.5">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
                         </div>
-
-                        <!-- Main Weather Display - Stack on mobile -->
-                        <div class="flex flex-col items-center gap-4 sm:gap-6 lg:gap-8">
-                            <!-- Temperature & Icon - Centered on mobile -->
-                            <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-center sm:text-left">
-                                <div class="relative">
-                                    <img v-if="currentWeather.icon"
-                                        :src="`https://openweathermap.org/img/wn/${currentWeather.icon}@4x.png`"
-                                        alt="Weather icon" 
-                                        class="w-24 h-24 sm:w-32 sm:h-32 lg:w-40 lg:h-40 drop-shadow-2xl" />
+                        <div class="space-y-1">
+                            <div v-for="(alert, index) in alerts" :key="index">
+                                <div class="flex items-center gap-2">
+                                    <span class="font-bold text-amber-900 dark:text-amber-200 text-sm sm:text-base">{{ alert.title }}</span>
+                                    <span class="text-[11px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-800 dark:text-amber-300 font-semibold">{{ alert.time }}</span>
                                 </div>
-                                <div>
-                                    <div class="text-6xl sm:text-7xl lg:text-8xl font-bold tracking-tighter">
-                                        {{ Math.round(currentWeather.temp) }}°
-                                    </div>
-                                    <div class="text-lg sm:text-xl lg:text-2xl capitalize opacity-90">
-                                        {{ currentWeather.condition }}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Weather Stats Grid - Full width on mobile -->
-                            <div class="grid grid-cols-2 gap-2 sm:gap-3 lg:gap-4 w-full max-w-md">
-                                <div class="bg-white/20 backdrop-blur-sm rounded-xl sm:rounded-2xl p-3 sm:p-4 hover:bg-white/30 transition-all">
-                                    <div class="flex items-center gap-1.5 sm:gap-2 text-white/70 text-xs sm:text-sm mb-0.5 sm:mb-1">
-                                        <ArrowUpIcon class="h-3 w-3 sm:h-4 sm:w-4" />
-                                        Feels Like
-                                    </div>
-                                    <div class="text-xl sm:text-2xl font-bold">{{ Math.round(currentWeather.feels_like) }}°</div>
-                                </div>
-                                <div class="bg-white/20 backdrop-blur-sm rounded-xl sm:rounded-2xl p-3 sm:p-4 hover:bg-white/30 transition-all">
-                                    <div class="flex items-center gap-1.5 sm:gap-2 text-white/70 text-xs sm:text-sm mb-0.5 sm:mb-1">
-                                        <CloudIcon class="h-3 w-3 sm:h-4 sm:w-4" />
-                                        Humidity
-                                    </div>
-                                    <div class="text-xl sm:text-2xl font-bold">{{ currentWeather.humidity }}%</div>
-                                </div>
-                                <div class="bg-white/20 backdrop-blur-sm rounded-xl sm:rounded-2xl p-3 sm:p-4 hover:bg-white/30 transition-all">
-                                    <div class="flex items-center gap-1.5 sm:gap-2 text-white/70 text-xs sm:text-sm mb-0.5 sm:mb-1">
-                                        <WindIcon class="h-3 w-3 sm:h-4 sm:w-4" />
-                                        Wind
-                                    </div>
-                                    <div class="text-xl sm:text-2xl font-bold">{{ Math.round(currentWeather.wind_speed) }} <span class="text-xs sm:text-sm">km/h</span></div>
-                                </div>
-                                <div class="bg-white/20 backdrop-blur-sm rounded-xl sm:rounded-2xl p-3 sm:p-4 hover:bg-white/30 transition-all">
-                                    <div class="flex items-center gap-1.5 sm:gap-2 text-white/70 text-xs sm:text-sm mb-0.5 sm:mb-1">
-                                        <EyeIcon class="h-3 w-3 sm:h-4 sm:w-4" />
-                                        Visibility
-                                    </div>
-                                    <div class="text-xl sm:text-2xl font-bold">{{ currentWeather.visibility }} <span class="text-xs sm:text-sm">km</span></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Sun Times Bar -->
-                        <div class="mt-4 sm:mt-6 lg:mt-8 bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-3 sm:p-4">
-                            <div class="flex justify-between items-center gap-2 sm:gap-4">
-                                <div class="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
-                                    <div class="p-1.5 sm:p-2 bg-orange-400/30 rounded-lg">
-                                        <SunIcon class="h-4 w-4 sm:h-5 sm:w-5 text-orange-300" />
-                                    </div>
-                                    <div class="min-w-0">
-                                        <p class="text-[10px] sm:text-xs text-white/60">Sunrise</p>
-                                        <p class="font-semibold text-xs sm:text-sm lg:text-base">{{ formatTime(currentWeather.sunrise) }}</p>
-                                    </div>
-                                </div>
-                                
-                                <!-- Sun Progress Bar -->
-                                <div class="flex-1 mx-2 sm:mx-4 lg:mx-6 relative hidden xs:block">
-                                    <div class="h-1 bg-white/20 rounded-full">
-                                        <div class="h-1 bg-gradient-to-r from-orange-400 to-yellow-300 rounded-full transition-all duration-1000" 
-                                             :style="{ width: sunProgress + '%' }"></div>
-                                    </div>
-                                    <div class="absolute top-1/2 transform -translate-y-1/2 transition-all duration-1000"
-                                         :style="{ left: sunProgress + '%' }">
-                                        <div class="w-3 h-3 sm:w-4 sm:h-4 bg-yellow-400 rounded-full shadow-lg shadow-yellow-400/50 -ml-1.5 sm:-ml-2 -mt-1 sm:-mt-1.5"></div>
-                                    </div>
-                                </div>
-
-                                <div class="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
-                                    <div class="min-w-0 text-right">
-                                        <p class="text-[10px] sm:text-xs text-white/60">Sunset</p>
-                                        <p class="font-semibold text-xs sm:text-sm lg:text-base">{{ formatTime(currentWeather.sunset) }}</p>
-                                    </div>
-                                    <div class="p-1.5 sm:p-2 bg-indigo-400/30 rounded-lg">
-                                        <MoonIcon class="h-4 w-4 sm:h-5 sm:w-5 text-indigo-300" />
-                                    </div>
-                                </div>
+                                <p class="text-xs sm:text-sm text-amber-800/90 dark:text-amber-200/80">{{ alert.description }}</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Quick Stats Grid - 2x2 on mobile, 4 columns on tablet+ -->
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 animate-fade-in-up" style="animation-delay: 100ms">
-                    <div class="bg-gradient-to-br from-purple-50 to-white dark:from-purple-900/20 dark:to-gray-800 rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-lg border border-gray-100 dark:border-gray-700 hover:-translate-y-1 transition-all duration-300">
-                        <div class="flex items-center justify-between mb-1.5 sm:mb-2">
-                            <span class="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">Pressure</span>
-                            <div class="p-1.5 sm:p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
-                                <ChartBarIcon class="h-3 w-3 sm:h-4 sm:w-4 text-purple-500" />
-                            </div>
-                        </div>
-                        <div class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">{{ currentWeather.pressure }}</div>
-                        <div class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">hPa</div>
-                    </div>
-                    <div class="bg-gradient-to-br from-orange-50 to-white dark:from-orange-900/20 dark:to-gray-800 rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-lg border border-gray-100 dark:border-gray-700 hover:-translate-y-1 transition-all duration-300">
-                        <div class="flex items-center justify-between mb-1.5 sm:mb-2">
-                            <span class="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">UV Index</span>
-                            <div class="p-1.5 sm:p-2 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
-                                <SunIcon class="h-3 w-3 sm:h-4 sm:w-4 text-orange-500" />
-                            </div>
-                        </div>
-                        <div class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">{{ uvIndex }}</div>
-                        <div class="text-[10px] sm:text-xs" :class="uvLevelColor">{{ uvLevel }}</div>
-                    </div>
-                    <div class="bg-gradient-to-br from-cyan-50 to-white dark:from-cyan-900/20 dark:to-gray-800 rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-lg border border-gray-100 dark:border-gray-700 hover:-translate-y-1 transition-all duration-300">
-                        <div class="flex items-center justify-between mb-1.5 sm:mb-2">
-                            <span class="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">Dew Point</span>
-                            <div class="p-1.5 sm:p-2 bg-cyan-100 dark:bg-cyan-900/30 rounded-lg">
-                                <BeakerIcon class="h-3 w-3 sm:h-4 sm:w-4 text-cyan-500" />
-                            </div>
-                        </div>
-                        <div class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">{{ currentWeather.dew_point }}°</div>
-                        <div class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Celsius</div>
-                    </div>
-                    <div class="bg-gradient-to-br from-gray-50 to-white dark:from-gray-700/50 dark:to-gray-800 rounded-xl sm:rounded-2xl p-4 sm:p-5 shadow-lg border border-gray-100 dark:border-gray-700 hover:-translate-y-1 transition-all duration-300">
-                        <div class="flex items-center justify-between mb-1.5 sm:mb-2">
-                            <span class="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">Clouds</span>
-                            <div class="p-1.5 sm:p-2 bg-gray-100 dark:bg-gray-700 rounded-lg">
-                                <CloudIcon class="h-3 w-3 sm:h-4 sm:w-4 text-gray-500" />
-                            </div>
-                        </div>
-                        <div class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">{{ currentWeather.clouds }}%</div>
-                        <div class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Coverage</div>
-                    </div>
-                </div>
+                <!-- Hero Weather & Solar Arc Card -->
+                <div class="relative rounded-3xl overflow-hidden shadow-xl border border-white/15" :class="weatherGradient">
+                    <!-- Decorative Pattern Overlay -->
+                    <div class="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.6),transparent_60%)]"></div>
+                    <div class="absolute -bottom-24 -right-24 w-80 h-80 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
 
-                <!-- Hourly Forecast -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-xl p-4 sm:p-5 lg:p-6 border border-gray-100 dark:border-gray-700 animate-fade-in-up" style="animation-delay: 200ms">
-                    <h2 class="text-base sm:text-lg lg:text-xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 lg:mb-5 flex items-center border-l-4 border-blue-500 pl-3">
-                        <ClockIcon class="h-5 w-5 sm:h-6 sm:w-6 mr-2 sm:mr-3 text-blue-500" />
-                        24-Hour Forecast
-                    </h2>
-                    <div class="overflow-x-auto pb-2 -mx-2 px-2 scrollbar-thin">
-                        <div class="flex gap-2 sm:gap-3" style="min-width: max-content;">
-                            <div v-for="(hour, idx) in hourlyForecast" :key="idx"
-                                class="flex flex-col items-center p-2.5 sm:p-3 lg:p-4 rounded-xl sm:rounded-2xl min-w-[65px] sm:min-w-[75px] lg:min-w-[80px] transition-all duration-300 hover:-translate-y-1"
-                                :class="idx === 0 ? 'bg-gradient-to-b from-blue-500 to-purple-600 text-white shadow-lg' : 'bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700'">
-                                <span class="text-[10px] sm:text-xs lg:text-sm font-medium" :class="idx === 0 ? 'text-white/80' : 'text-gray-500 dark:text-gray-400'">
-                                    {{ idx === 0 ? 'Now' : formatHour(hour.dt) }}
-                                </span>
-                                <img :src="`https://openweathermap.org/img/wn/${hour.icon}@2x.png`" 
-                                     alt="Weather" class="w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12 my-0.5 sm:my-1" />
-                                <span class="text-base sm:text-lg lg:text-xl font-bold" :class="idx === 0 ? 'text-white' : 'text-gray-900 dark:text-white'">
-                                    {{ Math.round(hour.temp) }}°
-                                </span>
-                                <div v-if="hour.rain > 0" class="flex items-center gap-0.5 sm:gap-1 mt-0.5 sm:mt-1"
-                                     :class="idx === 0 ? 'text-blue-200' : 'text-blue-500'">
-                                    <CloudRainIcon class="h-2.5 w-2.5 sm:h-3 sm:w-3" />
-                                    <span class="text-[10px] sm:text-xs">{{ hour.rain }}%</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 7-Day Forecast -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-xl p-4 sm:p-5 lg:p-6 border border-gray-100 dark:border-gray-700 animate-fade-in-up" style="animation-delay: 300ms">
-                    <h2 class="text-base sm:text-lg lg:text-xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 lg:mb-5 flex items-center border-l-4 border-green-500 pl-3">
-                        <CalendarDaysIcon class="h-5 w-5 sm:h-6 sm:w-6 mr-2 sm:mr-3 text-green-500" />
-                        7-Day Forecast
-                    </h2>
-                    <div class="space-y-1.5 sm:space-y-2">
-                        <div v-for="(day, idx) in forecast" :key="idx"
-                            class="flex items-center justify-between p-2.5 sm:p-3 lg:p-4 rounded-xl sm:rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-all duration-300 hover:-translate-y-1 group">
-                            <div class="flex items-center gap-2 sm:gap-3 lg:gap-4 flex-1 min-w-0">
-                                <div class="w-14 sm:w-16 lg:w-20 font-semibold text-gray-900 dark:text-white text-xs sm:text-sm lg:text-base truncate">
-                                    {{ idx === 0 ? 'Today' : formatDay(day.dt) }}
-                                </div>
-                                <div class="flex items-center gap-1 sm:gap-2">
-                                    <img :src="`https://openweathermap.org/img/wn/${day.icon}@2x.png`" 
-                                         alt="Weather" class="w-9 h-9 sm:w-10 sm:h-10 lg:w-12 lg:h-12 group-hover:scale-110 transition-transform flex-shrink-0" />
-                                    <span class="text-[10px] sm:text-xs lg:text-sm text-gray-600 dark:text-gray-400 capitalize hidden md:block truncate max-w-[100px] lg:max-w-[150px]">
-                                        {{ day.condition }}
-                                    </span>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-center gap-2 sm:gap-3 lg:gap-4">
-                                <div v-if="day.rain > 0" class="flex items-center gap-0.5 sm:gap-1 text-blue-500">
-                                    <CloudRainIcon class="h-3 w-3 sm:h-4 sm:w-4" />
-                                    <span class="text-[10px] sm:text-xs lg:text-sm">{{ day.rain }}%</span>
-                                </div>
-                                <div class="flex items-center gap-1.5 sm:gap-2 lg:gap-3">
-                                    <span class="text-sm sm:text-base lg:text-lg font-bold text-gray-900 dark:text-white">{{ Math.round(day.max_temp) }}°</span>
-                                    <div class="w-8 sm:w-12 lg:w-16 h-1.5 sm:h-2 bg-gradient-to-r from-blue-400 via-green-400 to-orange-400 rounded-full hidden sm:block"></div>
-                                    <span class="text-sm sm:text-base lg:text-lg text-gray-400">{{ Math.round(day.min_temp) }}°</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Season Info - Full Width Enhanced -->
-                    <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden animate-fade-in-up" style="animation-delay: 400ms">
-                        <!-- Season Header with Gradient -->
-                        <div class="p-4 sm:p-5 lg:p-6" :class="currentSeason.name === 'Rainy Season' ? 'bg-gradient-to-r from-blue-500 to-cyan-500' : 'bg-gradient-to-r from-orange-500 to-yellow-500'">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-2 sm:gap-3">
-                                    <div class="p-2 sm:p-3 bg-white/20 backdrop-blur-sm rounded-xl">
-                                        <SparklesIcon class="h-5 w-5 sm:h-6 sm:w-6 text-white" />
-                                    </div>
+                    <div class="relative z-10 p-6 sm:p-8 lg:p-10 text-white">
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                            <!-- Left: Location & Primary Temperature -->
+                            <div class="lg:col-span-7 space-y-6">
+                                <div class="flex flex-wrap items-center justify-between gap-4">
                                     <div>
-                                        <h2 class="text-lg sm:text-xl lg:text-2xl font-bold text-white">{{ currentSeason.name }}</h2>
-                                        <p class="text-white/80 text-xs sm:text-sm">{{ currentSeason.dateRange }}</p>
+                                        <div class="flex items-center gap-2.5 flex-wrap">
+                                            <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight flex items-center gap-2">
+                                                <svg class="w-6 h-6 sm:w-7 sm:h-7 text-sky-200 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                                                </svg>
+                                                <span>{{ location.name }}</span>
+                                            </h2>
+                                            <span v-if="location.khmer" class="font-khmer text-lg sm:text-xl font-semibold px-3 py-0.5 rounded-full bg-white/15 backdrop-blur-md">
+                                                {{ location.khmer }}
+                                            </span>
+                                            <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-black/20 backdrop-blur-md">
+                                                {{ location.country || 'KH' }}
+                                            </span>
+                                        </div>
+                                        <p class="text-xs sm:text-sm text-white/80 mt-1.5 flex items-center gap-3 flex-wrap">
+                                            <span v-if="location.region">{{ location.region }}</span>
+                                            <span>•</span>
+                                            <span>Lat {{ Number(location.lat).toFixed(2) }}°N, Lon {{ Number(location.lon).toFixed(2) }}°E</span>
+                                            <span v-if="lastUpdated" class="hidden sm:inline">• Updated {{ lastUpdated }}</span>
+                                        </p>
                                     </div>
                                 </div>
-                                <div class="text-right">
-                                    <div class="text-2xl sm:text-3xl font-bold text-white">{{ seasonProgress }}%</div>
-                                    <div class="text-white/70 text-[10px] sm:text-xs">Complete</div>
+
+                                <!-- Big Temperature & Weather Icon Row -->
+                                <div class="flex flex-wrap items-center gap-6 sm:gap-8">
+                                    <div class="flex items-center gap-3">
+                                        <img
+                                            v-if="currentWeather.icon"
+                                            :src="`https://openweathermap.org/img/wn/${currentWeather.icon}@4x.png`"
+                                            :alt="currentWeather.condition"
+                                            class="w-24 h-24 sm:w-28 sm:h-28 -my-4 drop-shadow-lg"
+                                        />
+                                        <div>
+                                            <div class="text-6xl sm:text-7xl font-black tracking-tighter leading-none">
+                                                {{ formatTemp(currentWeather.temp) }}°<span class="text-3xl sm:text-4xl font-bold opacity-80">{{ unit }}</span>
+                                            </div>
+                                            <p class="text-lg sm:text-xl font-bold capitalize mt-1 text-white/95">
+                                                {{ currentWeather.condition }}
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <!-- High/Low & Comfort Pills -->
+                                    <div class="flex flex-col gap-2 pl-0 sm:pl-6 sm:border-l border-white/20">
+                                        <div class="flex items-center gap-3 text-sm font-semibold">
+                                            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white/15 backdrop-blur-sm">
+                                                <span class="text-amber-200">↑</span> H: {{ formatTemp(todayMaxTemp) }}°
+                                            </span>
+                                            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white/15 backdrop-blur-sm">
+                                                <span class="text-sky-200">↓</span> L: {{ formatTemp(todayMinTemp) }}°
+                                            </span>
+                                        </div>
+                                        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-black/20 backdrop-blur-sm text-xs sm:text-sm font-medium">
+                                            <span>Feels like <strong class="font-bold">{{ formatTemp(currentWeather.feels_like) }}°{{ unit }}</strong></span>
+                                            <span>•</span>
+                                            <span class="font-semibold text-amber-200">{{ thermalComfortLabel }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 4 Quick Hero Metrics -->
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+                                    <div class="rounded-2xl bg-white/15 backdrop-blur-md p-3.5 border border-white/15">
+                                        <div class="text-xs text-white/75 font-medium">Humidity</div>
+                                        <div class="text-xl font-extrabold mt-0.5">{{ currentWeather.humidity }}%</div>
+                                        <div class="text-[11px] text-white/80 mt-0.5">Dew point {{ formatTemp(currentWeather.dew_point) }}°</div>
+                                    </div>
+                                    <div class="rounded-2xl bg-white/15 backdrop-blur-md p-3.5 border border-white/15">
+                                        <div class="text-xs text-white/75 font-medium">Wind &amp; Dir</div>
+                                        <div class="text-xl font-extrabold mt-0.5">{{ Math.round(currentWeather.wind_speed) }} <span class="text-xs font-normal">km/h</span></div>
+                                        <div class="text-[11px] text-white/80 mt-0.5">From {{ windDirectionCardinal }} ({{ currentWeather.wind_deg }}°)</div>
+                                    </div>
+                                    <div class="rounded-2xl bg-white/15 backdrop-blur-md p-3.5 border border-white/15">
+                                        <div class="text-xs text-white/75 font-medium">UV Index</div>
+                                        <div class="text-xl font-extrabold mt-0.5">{{ uvIndex }} <span class="text-xs font-semibold px-1.5 py-0.5 rounded bg-black/20">{{ uvLevel }}</span></div>
+                                        <div class="text-[11px] text-white/80 mt-0.5">Clouds {{ currentWeather.clouds }}%</div>
+                                    </div>
+                                    <div class="rounded-2xl bg-white/15 backdrop-blur-md p-3.5 border border-white/15">
+                                        <div class="text-xs text-white/75 font-medium">Visibility</div>
+                                        <div class="text-xl font-extrabold mt-0.5">{{ currentWeather.visibility }} <span class="text-xs font-normal">km</span></div>
+                                        <div class="text-[11px] text-white/80 mt-0.5">{{ currentWeather.pressure }} hPa</div>
+                                    </div>
                                 </div>
                             </div>
-                            <!-- Progress Bar -->
-                            <div class="mt-3 sm:mt-4 h-2 bg-white/30 rounded-full overflow-hidden">
-                                <div class="h-full bg-white rounded-full transition-all duration-1000" :style="{ width: seasonProgress + '%' }"></div>
+
+                            <!-- Right: Daylight & Solar Arc Tracker + Season Quick Badge -->
+                            <div class="lg:col-span-5 flex flex-col justify-between gap-4 bg-black/20 backdrop-blur-md rounded-2xl p-5 sm:p-6 border border-white/15">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <span class="text-xs uppercase tracking-wider text-white/70 font-bold block">Solar Cycle &amp; Daylight</span>
+                                        <h3 class="text-base sm:text-lg font-bold text-white mt-0.5">{{ daylightDuration }} of Daylight</h3>
+                                    </div>
+                                    <span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-400/20 border border-amber-300/30 text-amber-200">
+                                        {{ sunStatusLabel }}
+                                    </span>
+                                </div>
+
+                                <!-- Visual Sun Arc / Progress -->
+                                <div class="my-2">
+                                    <div class="flex justify-between text-xs font-semibold text-white/90 mb-2">
+                                        <div class="flex items-center gap-1.5">
+                                            <span class="text-base">🌅</span>
+                                            <div>
+                                                <div class="text-[10px] uppercase text-white/60">Sunrise</div>
+                                                <div>{{ formatTime(currentWeather.sunrise) }}</div>
+                                            </div>
+                                        </div>
+                                        <div class="text-center">
+                                            <div class="text-[10px] uppercase text-white/60">Solar Noon</div>
+                                            <div>{{ solarNoonTime }}</div>
+                                        </div>
+                                        <div class="flex items-center gap-1.5 text-right">
+                                            <div>
+                                                <div class="text-[10px] uppercase text-white/60">Sunset</div>
+                                                <div>{{ formatTime(currentWeather.sunset) }}</div>
+                                            </div>
+                                            <span class="text-base">🌇</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Progress Bar with Glowing Sun -->
+                                    <div class="relative h-3 bg-white/15 rounded-full overflow-visible mt-3">
+                                        <div
+                                            class="h-full bg-gradient-to-r from-amber-300 via-yellow-300 to-orange-400 rounded-full transition-all duration-700"
+                                            :style="{ width: `${sunProgress}%` }"
+                                        ></div>
+                                        <div
+                                            class="w-5 h-5 rounded-full bg-amber-300 border-2 border-white shadow-lg shadow-amber-300/60 absolute top-1/2 -translate-y-1/2 -translate-x-1/2 transition-all duration-700"
+                                            :style="{ left: `${Math.min(98, Math.max(2, sunProgress))}%` }"
+                                        ></div>
+                                    </div>
+                                    <div class="flex justify-between text-[11px] text-white/75 mt-2">
+                                        <span>Daylight progress: {{ sunProgress }}%</span>
+                                        <span>Cambodia Season: <strong>{{ currentSeason.name }}</strong></span>
+                                    </div>
+                                </div>
+
+                                <!-- Quick Cambodian Season Summary Pill -->
+                                <div class="rounded-xl bg-white/10 p-3.5 border border-white/10 flex items-center justify-between gap-3">
+                                    <div class="flex items-center gap-3">
+                                        <div class="text-2xl">{{ isRainySeason ? '🌧️' : '☀️' }}</div>
+                                        <div>
+                                            <div class="text-xs font-bold text-white flex items-center gap-2">
+                                                <span>{{ currentSeason.name }}</span>
+                                                <span class="text-[11px] font-normal text-white/75">({{ currentSeason.dateRange }})</span>
+                                            </div>
+                                            <p class="text-xs text-white/80 line-clamp-1 mt-0.5">
+                                                {{ isRainySeason ? 'Monsoon rains, lush green landscapes & afternoon showers' : 'Golden harvest skies, cool mornings & festive evenings' }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <a href="#cambodia-season-guide" class="px-3 py-1.5 rounded-lg bg-white/20 hover:bg-white/30 text-xs font-bold shrink-0 transition-colors">
+                                        Guide ↓
+                                    </a>
+                                </div>
                             </div>
-                            <div class="flex justify-between mt-1.5 text-[10px] sm:text-xs text-white/70">
-                                <span>{{ currentSeason.startMonth }}</span>
-                                <span>{{ currentSeason.endMonth }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 12-Column Main Content Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                    <!-- LEFT 8 COLUMNS: Hourly Forecast, 7-Day Interactive Forecast & Cambodian Season Guide -->
+                    <div class="lg:col-span-8 space-y-6">
+                        <!-- 1. 24-Hour (3-Hour Step) Forecast Card -->
+                        <div class="bg-white dark:bg-slate-900/90 rounded-3xl p-6 border border-slate-200/80 dark:border-slate-800/80 shadow-sm">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
+                                <div>
+                                    <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                                        <span class="w-2 h-5 rounded-full bg-sky-500"></span>
+                                        <span>Upcoming 3-Hour Interval Forecast</span>
+                                    </h3>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                                        Track temperature shifts, rain probability, and wind speed over the next 36 hours
+                                    </p>
+                                </div>
+
+                                <!-- Metric Filter Pills -->
+                                <div class="inline-flex items-center p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 self-start sm:self-auto">
+                                    <button
+                                        v-for="mode in hourlyModes"
+                                        :key="mode.id"
+                                        @click="hourlyViewMode = mode.id"
+                                        :class="hourlyViewMode === mode.id ? 'bg-white dark:bg-slate-700 text-sky-600 dark:text-sky-400 shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'"
+                                        class="px-2.5 py-1 rounded-lg text-xs font-semibold transition-all"
+                                    >
+                                        {{ mode.label }}
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Horizontal Scrollable Hourly Cards -->
+                            <div class="flex gap-3 overflow-x-auto scrollbar-thin pb-2">
+                                <div
+                                    v-for="(hour, idx) in hourlyForecast"
+                                    :key="idx"
+                                    :class="idx === 0 ? 'bg-gradient-to-b from-sky-500/15 to-indigo-500/10 border-sky-500/40 dark:border-sky-400/40' : 'bg-slate-50/80 dark:bg-slate-800/50 border-slate-200/60 dark:border-slate-700/50'"
+                                    class="min-w-[104px] rounded-2xl p-3.5 border flex flex-col items-center text-center transition-all hover:-translate-y-0.5 shrink-0"
+                                >
+                                    <span class="text-xs font-bold" :class="idx === 0 ? 'text-sky-600 dark:text-sky-400' : 'text-slate-600 dark:text-slate-300'">
+                                        {{ idx === 0 ? 'Next' : formatHour(hour.dt) }}
+                                    </span>
+                                    <span class="text-[10px] text-slate-400 dark:text-slate-500">{{ formatShortDate(hour.dt) }}</span>
+
+                                    <img
+                                        :src="`https://openweathermap.org/img/wn/${hour.icon}@2x.png`"
+                                        :alt="hour.condition"
+                                        class="w-12 h-12 my-1"
+                                    />
+
+                                    <!-- Mode-specific Primary Display -->
+                                    <div v-if="hourlyViewMode === 'temp'" class="text-lg font-extrabold text-slate-900 dark:text-white">
+                                        {{ formatTemp(hour.temp) }}°
+                                    </div>
+                                    <div v-else-if="hourlyViewMode === 'rain'" class="text-base font-extrabold text-sky-600 dark:text-sky-400">
+                                        💧 {{ hour.rain }}%
+                                    </div>
+                                    <div v-else-if="hourlyViewMode === 'wind'" class="text-sm font-extrabold text-teal-600 dark:text-teal-400">
+                                        💨 {{ hour.wind }} km/h
+                                    </div>
+
+                                    <!-- Secondary Badge -->
+                                    <div class="mt-2 pt-2 border-t border-slate-200/60 dark:border-slate-700/60 w-full flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
+                                        <span class="flex items-center gap-0.5 text-sky-600 dark:text-sky-400 font-semibold">
+                                            💧 {{ hour.rain }}%
+                                        </span>
+                                        <span>{{ formatTemp(hour.temp) }}°</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="p-4 sm:p-5 lg:p-6 space-y-4 sm:space-y-5">
-                            <!-- Weather Characteristics -->
-                            <div>
-                                <h3 class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white mb-2 sm:mb-3 flex items-center gap-2">
-                                    <CloudIcon class="h-4 w-4 sm:h-5 sm:w-5 text-blue-500" />
-                                    Weather Characteristics
-                                </h3>
-                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
-                                    <div v-for="(item, idx) in currentSeason.characteristics" :key="idx"
-                                        class="flex items-start gap-2 sm:gap-3 p-2.5 sm:p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg sm:rounded-xl">
-                                        <CheckCircleIcon class="h-4 w-4 sm:h-5 sm:w-5 text-green-500 flex-shrink-0 mt-0.5" />
-                                        <span class="text-xs sm:text-sm text-gray-700 dark:text-gray-300">{{ item }}</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- What to Expect -->
-                            <div>
-                                <h3 class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white mb-2 sm:mb-3 flex items-center gap-2">
-                                    <CalendarDaysIcon class="h-4 w-4 sm:h-5 sm:w-5 text-purple-500" />
-                                    What to Expect
-                                </h3>
-                                <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{{ currentSeason.description }}</p>
-                            </div>
-
-                            <!-- Best Activities -->
-                            <div>
-                                <h3 class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white mb-2 sm:mb-3 flex items-center gap-2">
-                                    <StarIcon class="h-4 w-4 sm:h-5 sm:w-5 text-yellow-500" />
-                                    Best Activities
-                                </h3>
-                                <div class="flex flex-wrap gap-1.5 sm:gap-2">
-                                    <span v-for="(activity, idx) in currentSeason.activities" :key="idx"
-                                        class="px-2.5 py-1 sm:px-3 sm:py-1.5 text-[10px] sm:text-xs font-medium rounded-full"
-                                        :class="currentSeason.name === 'Rainy Season' ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' : 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300'">
-                                        {{ activity }}
-                                    </span>
-                                </div>
-                            </div>
-
-                            <!-- What to Wear -->
-                            <div>
-                                <h3 class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white mb-2 sm:mb-3 flex items-center gap-2">
-                                    <ShirtIcon class="h-4 w-4 sm:h-5 sm:w-5 text-pink-500" />
-                                    What to Wear
-                                </h3>
-                                <div class="grid grid-cols-2 gap-2 sm:gap-3">
-                                    <div v-for="(item, idx) in currentSeason.clothing" :key="idx"
-                                        class="flex items-center gap-2 p-2 sm:p-2.5 bg-gray-50 dark:bg-gray-700/50 rounded-lg text-xs sm:text-sm text-gray-700 dark:text-gray-300">
-                                        <span>{{ item.icon }}</span>
-                                        <span>{{ item.name }}</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Health Tips -->
-                            <div>
-                                <h3 class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white mb-2 sm:mb-3 flex items-center gap-2">
-                                    <HeartIcon class="h-4 w-4 sm:h-5 sm:w-5 text-red-500" />
-                                    Health Tips
-                                </h3>
-                                <div class="space-y-2">
-                                    <div v-for="(tip, idx) in currentSeason.healthTips" :key="idx"
-                                        class="flex items-start gap-2 sm:gap-3">
-                                        <div class="w-5 h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center text-[10px] sm:text-xs font-bold flex-shrink-0"
-                                             :class="currentSeason.name === 'Rainy Season' ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400' : 'bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400'">
-                                            {{ idx + 1 }}
-                                        </div>
-                                        <span class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">{{ tip }}</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Agriculture Advice -->
-                            <div class="p-3 sm:p-4 rounded-xl border-2 border-dashed"
-                                 :class="currentSeason.name === 'Rainy Season' ? 'border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/20' : 'border-orange-200 dark:border-orange-800 bg-orange-50 dark:bg-orange-900/20'">
-                                <div class="flex items-center gap-2 mb-2 sm:mb-3">
-                                    <div class="p-1.5 sm:p-2 rounded-lg" :class="currentSeason.name === 'Rainy Season' ? 'bg-blue-200 dark:bg-blue-800' : 'bg-orange-200 dark:bg-orange-800'">
-                                        <SeedlingIcon class="h-4 w-4 sm:h-5 sm:w-5" :class="currentSeason.name === 'Rainy Season' ? 'text-blue-700 dark:text-blue-300' : 'text-orange-700 dark:text-orange-300'" />
-                                    </div>
-                                    <span class="font-semibold text-gray-900 dark:text-white text-sm sm:text-base">Agriculture Guide</span>
-                                </div>
-                                <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-2 sm:mb-3">{{ currentSeason.agricultural_advice }}</p>
-                                <div class="flex flex-wrap gap-1.5 sm:gap-2">
-                                    <span v-for="(crop, idx) in currentSeason.crops" :key="idx"
-                                        class="px-2 py-1 sm:px-2.5 sm:py-1 text-[10px] sm:text-xs rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300">
-                                        🌱 {{ crop }}
-                                    </span>
-                                </div>
-                            </div>
-
-                            <!-- Travel Tips -->
-                            <div class="p-3 sm:p-4 rounded-xl bg-gradient-to-r" :class="currentSeason.name === 'Rainy Season' ? 'from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20' : 'from-orange-50 to-yellow-50 dark:from-orange-900/20 dark:to-yellow-900/20'">
-                                <div class="flex items-center gap-2 mb-2 sm:mb-3">
-                                    <MapPinIcon class="h-4 w-4 sm:h-5 sm:w-5" :class="currentSeason.name === 'Rainy Season' ? 'text-blue-600 dark:text-blue-400' : 'text-orange-600 dark:text-orange-400'" />
-                                    <span class="font-semibold text-gray-900 dark:text-white text-sm sm:text-base">Travel Tips</span>
-                                </div>
-                                <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">{{ currentSeason.travelTips }}</p>
-                            </div>
-
-                            <!-- Childhood Memories Section -->
-                            <div v-if="currentSeason.childhoodMemories" class="p-4 sm:p-5 rounded-xl bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 dark:from-amber-900/20 dark:via-orange-900/20 dark:to-yellow-900/20 border border-amber-200 dark:border-amber-800">
-                                <div class="flex items-center gap-2 mb-3 sm:mb-4">
-                                    <span class="text-2xl">🌅</span>
-                                    <span class="font-bold text-amber-900 dark:text-amber-200 text-base sm:text-lg">Memories of Cambodia</span>
-                                </div>
-                                <p class="text-sm sm:text-base text-amber-800 dark:text-amber-300 leading-relaxed mb-4 italic">{{ currentSeason.childhoodMemories.intro }}</p>
-                                
-                                <div class="space-y-3 sm:space-y-4">
-                                    <div v-for="(memory, idx) in currentSeason.childhoodMemories.moments" :key="idx"
-                                        class="flex items-start gap-3 p-3 bg-white/60 dark:bg-gray-800/60 rounded-lg">
-                                        <span class="text-xl sm:text-2xl flex-shrink-0">{{ memory.icon }}</span>
-                                        <div>
-                                            <span class="font-semibold text-gray-900 dark:text-white text-sm sm:text-base">{{ memory.title }}</span>
-                                            <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-0.5">{{ memory.description }}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Traditional Foods -->
-                            <div v-if="currentSeason.traditionalFoods" class="p-4 sm:p-5 rounded-xl bg-gradient-to-r from-red-50 to-pink-50 dark:from-red-900/20 dark:to-pink-900/20">
-                                <div class="flex items-center gap-2 mb-3 sm:mb-4">
-                                    <span class="text-2xl">🍜</span>
-                                    <span class="font-bold text-red-900 dark:text-red-200 text-base sm:text-lg">Seasonal Foods & Treats</span>
-                                </div>
-                                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
-                                    <div v-for="(food, idx) in currentSeason.traditionalFoods" :key="idx"
-                                        class="flex items-center gap-2 p-2.5 sm:p-3 bg-white/70 dark:bg-gray-800/70 rounded-lg">
-                                        <span class="text-lg sm:text-xl">{{ food.icon }}</span>
-                                        <div>
-                                            <span class="text-xs sm:text-sm font-medium text-gray-900 dark:text-white">{{ food.name }}</span>
-                                            <p class="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">{{ food.desc }}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Fun Fact -->
-                            <div class="flex items-start gap-3 p-3 sm:p-4 bg-purple-50 dark:bg-purple-900/20 rounded-xl">
-                                <div class="p-1.5 sm:p-2 bg-purple-200 dark:bg-purple-800 rounded-lg flex-shrink-0">
-                                    <LightBulbIcon class="h-4 w-4 sm:h-5 sm:w-5 text-purple-700 dark:text-purple-300" />
-                                </div>
+                        <!-- 2. Multi-Day Forecast with Interactive Day Inspector -->
+                        <div class="bg-white dark:bg-slate-900/90 rounded-3xl p-6 border border-slate-200/80 dark:border-slate-800/80 shadow-sm">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5">
                                 <div>
-                                    <span class="font-semibold text-purple-900 dark:text-purple-200 text-sm sm:text-base">Did You Know?</span>
-                                    <p class="text-xs sm:text-sm text-purple-700 dark:text-purple-300 mt-1">{{ currentSeason.funFact }}</p>
+                                    <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                                        <span class="w-2 h-5 rounded-full bg-indigo-500"></span>
+                                        <span>Multi-Day Outlook &amp; Day Inspector</span>
+                                    </h3>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                                        Click any day below to inspect its detailed temperature range and conditions
+                                    </p>
+                                </div>
+                                <span class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/50 px-3 py-1 rounded-full self-start sm:self-auto">
+                                    {{ forecast.length }}-Day Forecast
+                                </span>
+                            </div>
+
+                            <div class="space-y-2.5">
+                                <div
+                                    v-for="(day, index) in forecast"
+                                    :key="index"
+                                    @click="selectedDayIndex = selectedDayIndex === index ? null : index"
+                                    :class="[
+                                        selectedDayIndex === index
+                                            ? 'bg-sky-50/90 dark:bg-sky-950/30 border-sky-400/60 dark:border-sky-500/50 shadow-sm'
+                                            : 'bg-slate-50/70 dark:bg-slate-800/40 border-slate-200/60 dark:border-slate-800 hover:bg-slate-100/80 dark:hover:bg-slate-800/70'
+                                    ]"
+                                    class="rounded-2xl p-3.5 sm:p-4 border transition-all cursor-pointer"
+                                >
+                                    <div class="grid grid-cols-12 items-center gap-2 sm:gap-4">
+                                        <!-- Day Name & Date -->
+                                        <div class="col-span-4 sm:col-span-3 flex items-center gap-2.5">
+                                            <div class="w-9 h-9 rounded-xl flex items-center justify-center font-bold text-xs shrink-0"
+                                                :class="index === 0 ? 'bg-sky-600 text-white' : 'bg-slate-200/70 dark:bg-slate-700/70 text-slate-700 dark:text-slate-300'">
+                                                {{ index === 0 ? 'NOW' : formatWeekdayShort(day.dt) }}
+                                            </div>
+                                            <div class="min-w-0">
+                                                <div class="font-bold text-sm text-slate-900 dark:text-white truncate">
+                                                    {{ index === 0 ? 'Today' : formatDayFull(day.dt) }}
+                                                </div>
+                                                <div class="text-[11px] text-slate-500 dark:text-slate-400 capitalize truncate">
+                                                    {{ day.condition }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Icon & Rain Probability -->
+                                        <div class="col-span-3 sm:col-span-3 flex items-center justify-center gap-2">
+                                            <img
+                                                :src="`https://openweathermap.org/img/wn/${day.icon}@2x.png`"
+                                                :alt="day.condition"
+                                                class="w-10 h-10 -my-1"
+                                            />
+                                            <span
+                                                class="text-xs font-bold px-2 py-0.5 rounded-full"
+                                                :class="day.rain >= 50 ? 'bg-sky-100 dark:bg-sky-900/50 text-sky-700 dark:text-sky-300' : 'bg-slate-200/70 dark:bg-slate-700/60 text-slate-600 dark:text-slate-400'"
+                                            >
+                                                💧 {{ day.rain }}%
+                                            </span>
+                                        </div>
+
+                                        <!-- Visual Min-Max Temperature Range Bar -->
+                                        <div class="col-span-5 sm:col-span-6 flex items-center gap-2.5 sm:gap-3">
+                                            <span class="text-xs sm:text-sm font-semibold text-slate-500 dark:text-slate-400 w-9 text-right">
+                                                {{ formatTemp(day.min_temp) }}°
+                                            </span>
+                                            <div class="flex-1 h-2.5 rounded-full bg-slate-200 dark:bg-slate-700/80 relative overflow-hidden">
+                                                <div
+                                                    class="absolute top-0 bottom-0 rounded-full bg-gradient-to-r from-sky-400 via-amber-400 to-orange-500"
+                                                    :style="getTempBarStyle(day.min_temp, day.max_temp)"
+                                                ></div>
+                                            </div>
+                                            <span class="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white w-9">
+                                                {{ formatTemp(day.max_temp) }}°
+                                            </span>
+                                            <svg
+                                                class="w-4 h-4 text-slate-400 transition-transform duration-200 shrink-0 hidden sm:block"
+                                                :class="{ 'rotate-180 text-sky-500': selectedDayIndex === index }"
+                                                fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                            >
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                            </svg>
+                                        </div>
+                                    </div>
+
+                                    <!-- Expanded Day Details Drawer -->
+                                    <div v-if="selectedDayIndex === index" class="mt-4 pt-4 border-t border-slate-200/80 dark:border-slate-700/70 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+                                        <div class="p-2.5 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200/60 dark:border-slate-800">
+                                            <span class="text-slate-400 block">Temperature Range</span>
+                                            <strong class="text-sm text-slate-800 dark:text-slate-100 mt-0.5 block">
+                                                {{ formatTemp(day.min_temp) }}°{{ unit }} – {{ formatTemp(day.max_temp) }}°{{ unit }}
+                                            </strong>
+                                        </div>
+                                        <div class="p-2.5 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200/60 dark:border-slate-800">
+                                            <span class="text-slate-400 block">Rain Probability</span>
+                                            <strong class="text-sm text-sky-600 dark:text-sky-400 mt-0.5 block">
+                                                {{ day.rain }}% ({{ day.rain >= 60 ? 'Likely showers' : day.rain >= 30 ? 'Scattered chance' : 'Mostly dry' }})
+                                            </strong>
+                                        </div>
+                                        <div class="p-2.5 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200/60 dark:border-slate-800">
+                                            <span class="text-slate-400 block">Avg Humidity</span>
+                                            <strong class="text-sm text-slate-800 dark:text-slate-100 mt-0.5 block">
+                                                {{ day.humidity || currentWeather.humidity }}%
+                                            </strong>
+                                        </div>
+                                        <div class="p-2.5 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200/60 dark:border-slate-800">
+                                            <span class="text-slate-400 block">Max Wind Speed</span>
+                                            <strong class="text-sm text-slate-800 dark:text-slate-100 mt-0.5 block">
+                                                {{ day.wind || Math.round(currentWeather.wind_speed) }} km/h
+                                            </strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3. Cambodian Seasonal Living & Cultural Guide (Tabbed Interactive Experience) -->
+                        <div id="cambodia-season-guide" class="bg-white dark:bg-slate-900/90 rounded-3xl border border-slate-200/80 dark:border-slate-800/80 shadow-sm overflow-hidden">
+                            <!-- Banner Header -->
+                            <div class="p-6 sm:p-7 bg-gradient-to-r from-emerald-600 via-teal-600 to-sky-700 text-white relative overflow-hidden">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
+                                    <div>
+                                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-sm text-xs font-bold uppercase tracking-wider mb-2">
+                                            <span>🇰🇭 Cambodian Climate &amp; Heritage</span>
+                                            <span>•</span>
+                                            <span>{{ activeSeasonData.dateRange }}</span>
+                                        </div>
+                                        <h3 class="text-2xl sm:text-3xl font-extrabold flex items-center gap-2.5">
+                                            <span>{{ activeSeasonKey === 'rainy' ? '🌧️' : '☀️' }}</span>
+                                            <span>{{ activeSeasonData.name }}</span>
+                                            <span class="font-khmer text-lg sm:text-xl font-normal opacity-90">
+                                                ({{ activeSeasonKey === 'rainy' ? 'រដូវវស្សា' : 'រដូវប្រាំង' }})
+                                            </span>
+                                        </h3>
+                                    </div>
+
+                                    <!-- Switch Season Preview Buttons -->
+                                    <div class="inline-flex items-center p-1 rounded-xl bg-black/25 backdrop-blur-md self-start sm:self-auto">
+                                        <button
+                                            @click="selectedSeasonOverride = 'dry'"
+                                            :class="activeSeasonKey === 'dry' ? 'bg-amber-400 text-slate-950 shadow-sm' : 'text-white/80 hover:text-white'"
+                                            class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5"
+                                        >
+                                            <span>☀️</span>
+                                            <span>Dry Season</span>
+                                        </button>
+                                        <button
+                                            @click="selectedSeasonOverride = 'rainy'"
+                                            :class="activeSeasonKey === 'rainy' ? 'bg-sky-400 text-slate-950 shadow-sm' : 'text-white/80 hover:text-white'"
+                                            class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5"
+                                        >
+                                            <span>🌧️</span>
+                                            <span>Rainy Season</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Season Timeline Progress -->
+                                <div class="mt-5 pt-4 border-t border-white/15 relative z-10">
+                                    <div class="flex justify-between text-xs font-semibold text-white/90 mb-1.5">
+                                        <span>Starts: {{ activeSeasonData.startMonth }}</span>
+                                        <span>Current Season Progress: {{ seasonProgress }}%</span>
+                                        <span>Ends: {{ activeSeasonData.endMonth }}</span>
+                                    </div>
+                                    <div class="h-2 bg-black/25 rounded-full overflow-hidden">
+                                        <div
+                                            class="h-full bg-gradient-to-r from-amber-300 to-emerald-300 rounded-full transition-all duration-500"
+                                            :style="{ width: `${seasonProgress}%` }"
+                                        ></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Interactive Tabs Navigation -->
+                            <div class="border-b border-slate-200 dark:border-slate-800 px-4 sm:px-6 bg-slate-50/60 dark:bg-slate-900/50 flex gap-1 overflow-x-auto scrollbar-thin">
+                                <button
+                                    v-for="tab in seasonTabs"
+                                    :key="tab.id"
+                                    @click="activeSeasonTab = tab.id"
+                                    :class="[
+                                        activeSeasonTab === tab.id
+                                            ? 'border-teal-600 dark:border-teal-400 text-teal-700 dark:text-teal-300 font-bold'
+                                            : 'border-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium'
+                                    ]"
+                                    class="py-3.5 px-4 border-b-2 text-xs sm:text-sm flex items-center gap-2 shrink-0 transition-all"
+                                >
+                                    <span>{{ tab.icon }}</span>
+                                    <span>{{ tab.label }}</span>
+                                </button>
+                            </div>
+
+                            <!-- Tab Content Body -->
+                            <div class="p-6">
+                                <!-- TAB 1: Overview & Activities -->
+                                <div v-if="activeSeasonTab === 'overview'" class="space-y-6">
+                                    <p class="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
+                                        {{ activeSeasonData.description }}
+                                    </p>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                        <!-- Key Characteristics -->
+                                        <div class="rounded-2xl bg-slate-50 dark:bg-slate-800/50 p-4 border border-slate-200/70 dark:border-slate-700/60">
+                                            <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+                                                <span>✨</span>
+                                                <span>Season Characteristics</span>
+                                            </h4>
+                                            <ul class="space-y-2">
+                                                <li
+                                                    v-for="(item, i) in activeSeasonData.characteristics"
+                                                    :key="i"
+                                                    class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 flex items-start gap-2"
+                                                >
+                                                    <span class="text-teal-500 font-bold mt-0.5">•</span>
+                                                    <span>{{ item }}</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <!-- Recommended Activities -->
+                                        <div class="rounded-2xl bg-slate-50 dark:bg-slate-800/50 p-4 border border-slate-200/70 dark:border-slate-700/60">
+                                            <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+                                                <span>🎯</span>
+                                                <span>Best Seasonal Activities</span>
+                                            </h4>
+                                            <div class="flex flex-wrap gap-2">
+                                                <span
+                                                    v-for="(act, i) in activeSeasonData.activities"
+                                                    :key="i"
+                                                    class="px-3 py-1.5 rounded-xl bg-white dark:bg-slate-900 text-xs font-semibold text-slate-700 dark:text-slate-200 border border-slate-200/80 dark:border-slate-700 shadow-sm"
+                                                >
+                                                    {{ act }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Fun Fact Callout -->
+                                    <div class="rounded-2xl bg-gradient-to-r from-amber-500/10 via-teal-500/10 to-sky-500/10 border border-teal-500/25 p-4 flex items-start gap-3.5">
+                                        <span class="text-2xl shrink-0">💡</span>
+                                        <div>
+                                            <div class="text-xs font-bold uppercase tracking-wider text-teal-700 dark:text-teal-300">Did You Know?</div>
+                                            <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 mt-0.5">{{ activeSeasonData.funFact }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- TAB 2: Health & Wardrobe -->
+                                <div v-else-if="activeSeasonTab === 'health'" class="space-y-6">
+                                    <div>
+                                        <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+                                            <span>👕</span>
+                                            <span>Recommended Cambodian Wardrobe &amp; Essentials</span>
+                                        </h4>
+                                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                                            <div
+                                                v-for="(item, i) in activeSeasonData.clothing"
+                                                :key="i"
+                                                class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/70 dark:border-slate-700/60 flex items-center gap-3"
+                                            >
+                                                <span class="text-2xl">{{ item.icon }}</span>
+                                                <span class="text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200">{{ item.name }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="rounded-2xl bg-emerald-50/70 dark:bg-emerald-950/20 border border-emerald-200/70 dark:border-emerald-800/50 p-5">
+                                        <h4 class="text-sm font-bold text-emerald-900 dark:text-emerald-300 mb-3 flex items-center gap-2">
+                                            <span>🩺</span>
+                                            <span>Seasonal Wellness &amp; Safety Tips</span>
+                                        </h4>
+                                        <ul class="space-y-2.5">
+                                            <li
+                                                v-for="(tip, i) in activeSeasonData.healthTips"
+                                                :key="i"
+                                                class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 flex items-start gap-2.5"
+                                            >
+                                                <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
+                                                    {{ i + 1 }}
+                                                </span>
+                                                <span>{{ tip }}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <!-- TAB 3: Agriculture & Travel -->
+                                <div v-else-if="activeSeasonTab === 'agriculture'" class="space-y-5">
+                                    <div class="rounded-2xl bg-amber-50/70 dark:bg-amber-950/20 border border-amber-200/70 dark:border-amber-800/50 p-5">
+                                        <h4 class="text-sm font-bold text-amber-900 dark:text-amber-300 mb-2 flex items-center gap-2">
+                                            <span>🌾</span>
+                                            <span>Agricultural Cycle &amp; Farming Wisdom</span>
+                                        </h4>
+                                        <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
+                                            {{ activeSeasonData.agricultural_advice }}
+                                        </p>
+                                        <div class="flex flex-wrap items-center gap-2">
+                                            <span class="text-xs font-bold text-amber-800 dark:text-amber-300">Key Crops &amp; Harvest:</span>
+                                            <span
+                                                v-for="(crop, i) in activeSeasonData.crops"
+                                                :key="i"
+                                                class="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-900 text-xs font-semibold text-slate-700 dark:text-slate-200 border border-amber-200 dark:border-amber-800/60"
+                                            >
+                                                🌱 {{ crop }}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="rounded-2xl bg-sky-50/70 dark:bg-sky-950/20 border border-sky-200/70 dark:border-sky-800/50 p-5">
+                                        <h4 class="text-sm font-bold text-sky-900 dark:text-sky-300 mb-2 flex items-center gap-2">
+                                            <span>🧭</span>
+                                            <span>Traveler's Advisory across Cambodia</span>
+                                        </h4>
+                                        <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                                            {{ activeSeasonData.travelTips }}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- TAB 4: Cambodian Memories & Street Food -->
+                                <div v-else-if="activeSeasonTab === 'culture'" class="space-y-6">
+                                    <div>
+                                        <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-1 flex items-center gap-2">
+                                            <span>🍜</span>
+                                            <span>Beloved Cambodian Seasonal Street Foods &amp; Dishes</span>
+                                        </h4>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400 mb-3">
+                                            Iconic flavors enjoyed across Cambodian markets and family kitchens
+                                        </p>
+                                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                            <div
+                                                v-for="(food, i) in culturalFoods"
+                                                :key="i"
+                                                class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/70 dark:border-slate-700/60 flex items-center gap-3"
+                                            >
+                                                <span class="text-2xl">{{ food.icon }}</span>
+                                                <div>
+                                                    <div class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">{{ food.name }}</div>
+                                                    <div class="text-[11px] text-slate-500 dark:text-slate-400">{{ food.desc }}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <h4 class="text-sm font-bold text-slate-900 dark:text-white mb-1 flex items-center gap-2">
+                                            <span>🏮</span>
+                                            <span>Nostalgic Cambodian Countryside Memories</span>
+                                        </h4>
+                                        <p class="text-xs text-slate-500 dark:text-slate-400 mb-3">
+                                            {{ culturalMemories.intro }}
+                                        </p>
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                                            <div
+                                                v-for="(moment, i) in culturalMemories.moments"
+                                                :key="i"
+                                                class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/70 dark:border-slate-700/60"
+                                            >
+                                                <div class="flex items-center gap-2.5 mb-1.5">
+                                                    <span class="text-xl">{{ moment.icon }}</span>
+                                                    <h5 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">{{ moment.title }}</h5>
+                                                </div>
+                                                <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                                                    {{ moment.description }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                <!-- Weather Alerts -->
-                <div v-if="alerts.length > 0" class="space-y-3 sm:space-y-4 animate-fade-in-up" style="animation-delay: 500ms">
-                    <h2 class="text-base sm:text-lg lg:text-xl font-bold text-gray-900 dark:text-white flex items-center">
-                        <ExclamationTriangleIcon class="h-5 w-5 sm:h-6 sm:w-6 mr-2 sm:mr-3 text-red-500" />
-                        Weather Alerts
-                    </h2>
-                    <div v-for="(alert, idx) in alerts" :key="idx"
-                        class="bg-gradient-to-r from-red-500 to-orange-500 rounded-xl sm:rounded-2xl p-4 sm:p-5 text-white shadow-lg">
-                        <div class="flex items-start gap-3 sm:gap-4">
-                            <div class="p-1.5 sm:p-2 bg-white/20 rounded-lg sm:rounded-xl flex-shrink-0">
-                                <ExclamationCircleIcon class="h-5 w-5 sm:h-6 sm:w-6" />
+                    <!-- RIGHT 4 COLUMNS: Outdoor Activity Comfort Advisories & Detailed Telemetry -->
+                    <div class="lg:col-span-4 space-y-6">
+                        <!-- 1. Smart Daily Activity & Comfort Planner -->
+                        <div class="bg-white dark:bg-slate-900/90 rounded-3xl p-6 border border-slate-200/80 dark:border-slate-800/80 shadow-sm">
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-1">
+                                <span class="w-2 h-5 rounded-full bg-emerald-500"></span>
+                                <span>Smart Lifestyle Advisories</span>
+                            </h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">
+                                Real-time guidance based on {{ location.name }}'s current atmosphere
+                            </p>
+
+                            <div class="space-y-3">
+                                <div
+                                    v-for="(item, idx) in lifestyleAdvisories"
+                                    :key="idx"
+                                    class="p-3.5 rounded-2xl bg-slate-50/90 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 flex items-start gap-3"
+                                >
+                                    <div class="text-2xl shrink-0 mt-0.5">{{ item.icon }}</div>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-center justify-between gap-2">
+                                            <span class="text-xs font-bold text-slate-900 dark:text-white">{{ item.title }}</span>
+                                            <span :class="item.badgeClass" class="text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0">
+                                                {{ item.status }}
+                                            </span>
+                                        </div>
+                                        <p class="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-snug">
+                                            {{ item.advice }}
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="min-w-0">
-                                <h3 class="font-bold text-sm sm:text-base lg:text-lg">{{ alert.title }}</h3>
-                                <p class="text-white/90 mt-0.5 sm:mt-1 text-xs sm:text-sm lg:text-base">{{ alert.description }}</p>
-                                <p class="text-white/70 text-[10px] sm:text-xs lg:text-sm mt-1.5 sm:mt-2 flex items-center gap-1">
-                                    <ClockIcon class="h-3 w-3 sm:h-4 sm:w-4" />
-                                    {{ alert.time }}
+                        </div>
+
+                        <!-- 2. Detailed Atmospheric Telemetry Cards -->
+                        <div class="bg-white dark:bg-slate-900/90 rounded-3xl p-6 border border-slate-200/80 dark:border-slate-800/80 shadow-sm space-y-4">
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                                <span class="w-2 h-5 rounded-full bg-amber-500"></span>
+                                <span>Atmospheric Telemetry</span>
+                            </h3>
+
+                            <!-- UV Index Gauge Card -->
+                            <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">☀️ UV Radiation Index</span>
+                                    <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-slate-200 dark:bg-slate-700" :class="uvLevelColor">
+                                        {{ uvIndex }} • {{ uvLevel }}
+                                    </span>
+                                </div>
+                                <div class="h-2.5 rounded-full bg-gradient-to-r from-emerald-400 via-yellow-400 via-orange-500 to-purple-600 relative my-2.5">
+                                    <div
+                                        class="w-4 h-4 rounded-full bg-white border-2 border-slate-900 shadow absolute top-1/2 -translate-y-1/2 -translate-x-1/2"
+                                        :style="{ left: `${Math.min(96, Math.max(4, (uvIndex / 11) * 100))}%` }"
+                                    ></div>
+                                </div>
+                                <p class="text-xs text-slate-600 dark:text-slate-300 mt-1">
+                                    {{ uvIndex >= 6 ? 'High solar intensity — wear sunglasses, hat, and SPF 30+ sunscreen.' : uvIndex >= 3 ? 'Moderate UV — seek shade during midday hours.' : 'Low UV index — safe for outdoor activities without extra sun protection.' }}
                                 </p>
                             </div>
+
+                            <!-- Wind Speed & Compass Card -->
+                            <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between gap-4">
+                                <div>
+                                    <span class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">🧭 Wind &amp; Vector</span>
+                                    <div class="text-2xl font-extrabold text-slate-900 dark:text-white mt-1">
+                                        {{ Math.round(currentWeather.wind_speed) }} <span class="text-xs font-normal text-slate-500">km/h</span>
+                                    </div>
+                                    <div class="text-xs text-slate-600 dark:text-slate-300 mt-1">
+                                        Direction: <strong>{{ windDirectionCardinal }}</strong> ({{ currentWeather.wind_deg }}°)
+                                    </div>
+                                    <div v-if="currentWeather.wind_gust" class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+                                        Gusts up to {{ Math.round(currentWeather.wind_gust) }} km/h
+                                    </div>
+                                </div>
+
+                                <!-- Visual Compass Dial -->
+                                <div class="w-16 h-16 rounded-full border-2 border-slate-300 dark:border-slate-600 relative flex items-center justify-center bg-white dark:bg-slate-900 shrink-0">
+                                    <span class="absolute top-0.5 text-[9px] font-bold text-sky-500">N</span>
+                                    <span class="absolute bottom-0.5 text-[9px] font-bold text-slate-400">S</span>
+                                    <span class="absolute right-1 text-[9px] font-bold text-slate-400">E</span>
+                                    <span class="absolute left-1 text-[9px] font-bold text-slate-400">W</span>
+                                    <div
+                                        class="w-1 h-6 bg-gradient-to-t from-slate-400 to-sky-500 rounded-full origin-center transition-transform duration-500"
+                                        :style="{ transform: `rotate(${currentWeather.wind_deg || 0}deg)` }"
+                                    ></div>
+                                </div>
+                            </div>
+
+                            <!-- 2x2 Secondary Telemetry Grid -->
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60">
+                                    <span class="text-[11px] font-bold uppercase text-slate-400 block">💧 Dew Point</span>
+                                    <div class="text-xl font-extrabold text-slate-900 dark:text-white mt-1">
+                                        {{ formatTemp(currentWeather.dew_point) }}°{{ unit }}
+                                    </div>
+                                    <span class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 block">
+                                        {{ currentWeather.dew_point >= 24 ? 'Very Muggy' : currentWeather.dew_point >= 20 ? 'Humid & Sticky' : 'Comfortable' }}
+                                    </span>
+                                </div>
+
+                                <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60">
+                                    <span class="text-[11px] font-bold uppercase text-slate-400 block">⏲️ Pressure</span>
+                                    <div class="text-xl font-extrabold text-slate-900 dark:text-white mt-1">
+                                        {{ currentWeather.pressure }} <span class="text-xs font-normal">hPa</span>
+                                    </div>
+                                    <span class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 block">
+                                        {{ currentWeather.pressure < 1008 ? 'Low (Unsettled)' : currentWeather.pressure > 1015 ? 'High (Stable)' : 'Normal Tropical' }}
+                                    </span>
+                                </div>
+
+                                <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60">
+                                    <span class="text-[11px] font-bold uppercase text-slate-400 block">☁️ Cloud Cover</span>
+                                    <div class="text-xl font-extrabold text-slate-900 dark:text-white mt-1">
+                                        {{ currentWeather.clouds }}%
+                                    </div>
+                                    <span class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 block">
+                                        {{ currentWeather.clouds > 75 ? 'Overcast sky' : currentWeather.clouds > 35 ? 'Partly cloudy' : 'Mostly clear' }}
+                                    </span>
+                                </div>
+
+                                <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60">
+                                    <span class="text-[11px] font-bold uppercase text-slate-400 block">👁️ Visibility</span>
+                                    <div class="text-xl font-extrabold text-slate-900 dark:text-white mt-1">
+                                        {{ currentWeather.visibility }} <span class="text-xs font-normal">km</span>
+                                    </div>
+                                    <span class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 block">
+                                        {{ currentWeather.visibility >= 9 ? 'Crystal clear' : currentWeather.visibility >= 5 ? 'Moderate haze' : 'Low visibility' }}
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Footer -->
-            <footer class="text-center text-[10px] sm:text-xs lg:text-sm text-gray-500 dark:text-gray-400 mt-8 sm:mt-10 pt-4 sm:pt-6 border-t border-gray-200 dark:border-gray-700">
-                <p>Data provided by OpenWeatherMap • Last updated: {{ lastUpdated }}</p>
-            </footer>
         </div>
     </div>
 </template>
 
 <script>
-// Weather App - Real-time Forecast Dashboard
-import {
-    SunIcon,
-    MoonIcon,
-    CloudIcon,
-    MapPinIcon,
-    EyeIcon,
-    ArrowUpIcon,
-    BeakerIcon,
-    CalendarDaysIcon,
-    ChartBarIcon,
-    SparklesIcon,
-    CheckCircleIcon,
-    LightBulbIcon,
-    ExclamationTriangleIcon,
-    ExclamationCircleIcon,
-    ClockIcon,
-    ArrowPathIcon,
-    ArrowTrendingUpIcon,
-    StarIcon,
-    HeartIcon,
-    UserIcon
-} from '@heroicons/vue/24/outline';
-
-import { CloudIcon as CloudRainIcon } from '@heroicons/vue/24/solid';
 import logger from '@/utils/logger';
+
+const SEASON_CATALOG = {
+    rainy: {
+        name: 'Rainy Season',
+        dateRange: 'May - October',
+        startMonth: 'May',
+        endMonth: 'October',
+        description: 'The monsoon season brings life-giving rains to Cambodia. Expect warm, clear mornings followed by dramatic afternoon showers and lush emerald-green rice paddies. The Mekong River swells and reverses the flow of the Tonle Sap Lake, nourishing fisheries and forests across the Kingdom.',
+        characteristics: [
+            'High humidity levels (75–90%)',
+            'Refreshing afternoon monsoon showers',
+            'Average temperature: 25–32°C',
+            'Peak rainfall in September & October',
+            'Vibrant emerald-green countryside & temples',
+            'Dramatic cloudscapes ideal for photography'
+        ],
+        activities: [
+            'Morning Angkor temple visits',
+            'National Museum & indoor galleries',
+            'Khmer traditional spa & wellness',
+            'Cambodian cooking classes',
+            'Dramatic sky & reflection photography',
+            'Tonle Sap floating village cruises',
+            'Kulén & Mondulkiri waterfall trips'
+        ],
+        clothing: [
+            { icon: '☔', name: 'Compact umbrella / poncho' },
+            { icon: '👟', name: 'Water-resistant footwear' },
+            { icon: '🩴', name: 'Quick-dry sandals' },
+            { icon: '👕', name: 'Breathable cotton / linen' },
+            { icon: '🎒', name: 'Dry bag for electronics' },
+            { icon: '🧴', name: 'Natural mosquito repellent' }
+        ],
+        healthTips: [
+            'Stay hydrated despite the humidity — drink plenty of clean water and coconut water',
+            'Apply mosquito repellent, especially at dawn and dusk',
+            'Walk carefully on ancient sandstone temple steps after rain showers',
+            'Keep electronics and travel documents in a zip-pouch or waterproof bag',
+            'Plan outdoor excursions for the bright, clear morning hours (6 AM – 1 PM)'
+        ],
+        agricultural_advice: 'This is the primary rice-planting season across Cambodia. Farmers transplant vibrant green rice seedlings as paddies fill with rainwater. Abundant moisture supports rapid crop growth; farmers maintain dike channels to manage water levels cleanly.',
+        crops: ['Wet-season Rice (main crop)', 'Corn', 'Soybeans', 'Mung beans', 'Morning Glory (Water Spinach)', 'Sacred Lotus'],
+        travelTips: 'Plan temple explorations and outdoor sightseeing for the mornings. Carry a light rain jacket or umbrella for brief afternoon downpours. Fewer international crowds mean serene temples and great hospitality deals!',
+        funFact: 'During the rainy season, the Tonle Sap Lake expands more than fivefold — from 2,500 km² to over 16,000 km² — making it one of the most productive freshwater ecosystems on Earth!'
+    },
+    dry: {
+        name: 'Dry Season',
+        dateRange: 'November - April',
+        startMonth: 'November',
+        endMonth: 'April',
+        description: 'The dry season is Cambodia\'s golden time — when cool northeast breezes sweep across golden rice fields ready for harvest. From the joyous Water Festival (Bon Om Touk) in November to Khmer New Year celebrations in April, blue skies and starry evenings define village and city life alike.',
+        characteristics: [
+            'Cool, crisp morning breezes (especially Nov–Jan)',
+            'Golden sunsets painting the sky orange and magenta',
+            'Clear, starry nights ideal for outdoor dining',
+            'Warm tropical afternoons (Feb–April)',
+            'Golden rice harvest landscapes across the plains',
+            'Calm turquoise waters along the southern coast & islands'
+        ],
+        activities: [
+            'Sunrise at Angkor Wat',
+            'Cycling through countryside villages',
+            'Kite flying over harvested fields',
+            'Pagoda festivals & wedding celebrations',
+            'Riverside night markets & street food',
+            'Island hopping in Koh Rong & Kampot',
+            'Khmer New Year festivities (April)'
+        ],
+        clothing: [
+            { icon: '🧣', name: 'Krama (traditional checkered scarf)' },
+            { icon: '👕', name: 'Light breathable cotton clothes' },
+            { icon: '🩴', name: 'Comfortable walking sandals' },
+            { icon: '🕶️', name: 'UV-blocking sunglasses' },
+            { icon: '👒', name: 'Wide-brimmed sun hat' },
+            { icon: '🧴', name: 'Broad-spectrum SPF sunscreen' }
+        ],
+        healthTips: [
+            'Wake early to enjoy the cool morning air before midday warmth builds',
+            'Take a shaded rest or indoor break during peak sun hours (12 PM – 3 PM)',
+            'Refresh with fresh young coconut water and pressed sugarcane juice (Tuk Ampov)',
+            'Use a damp Krama scarf to stay cool while cycling or exploring temples',
+            'Enjoy vitamin-rich seasonal fruits: ripe mango, jackfruit, longan, and watermelon'
+        ],
+        agricultural_advice: 'This is the grand harvest season — the reward for a year of dedication. Families gather to harvest golden rice stalks, bundle them, and store fragrant new grain. Fruit orchards of mango, cashew, and sugar palm reach peak sweetness.',
+        crops: ['Fragrant Jasmine Rice (harvest)', 'Keo Romeat Mangoes', 'Palm Sugar', 'Cashew Nuts', 'Watermelon', 'Sweet Corn'],
+        travelTips: 'December through February offers the coolest, most comfortable weather for intensive temple trekking and cycling. Book coastal resorts and Siem Reap stays early, and don\'t miss Bon Om Touk in November or Choul Chnam Thmey in April!',
+        funFact: 'During Khmer New Year in April, Cambodians build ornate sand stupas at pagodas — each grain of sand symbolizing a wish for merit, peace, and prosperity for family and community.'
+    }
+};
+
+const CULTURAL_MEMORIES = {
+    intro: 'Across both seasons, Cambodian weather shapes cherished family traditions, village rhythms, and timeless childhood memories...',
+    moments: [
+        {
+            icon: '🌅',
+            title: 'Morning Mist Over Rice Paddies',
+            description: 'Waking up to cool mist hovering over emerald or golden fields while roosters crow and the aroma of steaming Bobor (rice porridge) fills the kitchen.'
+        },
+        {
+            icon: '🪁',
+            title: 'Kite Flying in the Harvest Breeze',
+            description: 'Running across open fields with handmade bamboo kites (Khlaeng Ek) humming in the wind as children compete to fly the highest before sunset.'
+        },
+        {
+            icon: '🥭',
+            title: 'Afternoon Mango Tree Shade',
+            description: 'Gathering under grandmother\'s big mango tree during warm afternoons, sharing crisp green mango slices dipped in chili-salt.'
+        },
+        {
+            icon: '💧',
+            title: 'Bon Om Touk & River Celebrations',
+            description: 'Watching brightly painted longboats race along the Tonle Sap and Mekong rivers while fireworks illuminate the evening sky.'
+        }
+    ]
+};
+
+const TRADITIONAL_FOODS = [
+    { icon: '🍚', name: 'Bai Sach Chrouk', desc: 'Charcoal-grilled pork & broken rice' },
+    { icon: '🍜', name: 'Nom Banh Chok', desc: 'Khmer rice noodles with green fish curry' },
+    { icon: '🥥', name: 'Nom Krok', desc: 'Crispy coconut & scallion rice cakes' },
+    { icon: '🥭', name: 'Svay Kralok', desc: 'Fresh green mango with chili salt' },
+    { icon: '🥤', name: 'Tuk Ampov', desc: 'Iced kumquat sugarcane juice' },
+    { icon: '🍲', name: 'Kuy Teav', desc: 'Aromatic morning pork-bone noodle soup' }
+];
 
 export default {
     name: 'WeatherApp',
-    components: {
-        SunIcon,
-        MoonIcon,
-        CloudIcon,
-        CloudRainIcon,
-        WindIcon: ArrowTrendingUpIcon,
-        MapPinIcon,
-        EyeIcon,
-        ArrowUpIcon,
-        BeakerIcon,
-        CalendarDaysIcon,
-        ChartBarIcon,
-        SparklesIcon,
-        CheckCircleIcon,
-        LightBulbIcon,
-        ExclamationTriangleIcon,
-        ExclamationCircleIcon,
-        ClockIcon,
-        ArrowPathIcon,
-        StarIcon,
-        HeartIcon,
-        ShirtIcon: UserIcon,
-        SeedlingIcon: SparklesIcon
-    },
     data() {
         return {
-            loading: true,
-            error: null,
-            // TODO: Move this to .env file for production (VUE_APP_WEATHER_API_KEY)
             apiKey: process.env.VUE_APP_WEATHER_API_KEY || '3504abf6222f69d05c100fa0ef8165bb',
-            location: { name: 'Phnom Penh', lat: 11.5564, lon: 104.9282 },
+            loading: true,
+            locating: false,
+            error: null,
+            unit: 'C',
+            searchQuery: '',
+            hourlyViewMode: 'temp',
+            selectedDayIndex: 0,
+            activeSeasonTab: 'overview',
+            selectedSeasonOverride: null,
+            hourlyModes: [
+                { id: 'temp', label: 'Temp' },
+                { id: 'rain', label: 'Rain %' },
+                { id: 'wind', label: 'Wind' }
+            ],
+            seasonTabs: [
+                { id: 'overview', label: 'Overview & Activities', icon: '🌿' },
+                { id: 'health', label: 'Wardrobe & Wellness', icon: '👕' },
+                { id: 'agriculture', label: 'Farming & Travel', icon: '🌾' },
+                { id: 'culture', label: 'Memories & Street Food', icon: '🍜' }
+            ],
+            cambodiaCities: [
+                { name: 'Phnom Penh', khmer: 'ភ្នំពេញ', lat: 11.5564, lon: 104.9282, emoji: '🏛️', region: 'Capital & Mekong Confluence' },
+                { name: 'Siem Reap', khmer: 'សៀមរាប', lat: 13.3633, lon: 103.8564, emoji: '🛕', region: 'Angkor Archaeological Park' },
+                { name: 'Sihanoukville', khmer: 'ព្រះសីហនុ', lat: 10.6275, lon: 103.5221, emoji: '🏖️', region: 'Gulf of Thailand Coast' },
+                { name: 'Battambang', khmer: 'បាត់ដំបង', lat: 13.0957, lon: 103.2022, emoji: '🌾', region: 'Northwest Rice Bowl' },
+                { name: 'Kampot', khmer: 'កំពត', lat: 10.5942, lon: 104.1640, emoji: '🌶️', region: 'Bokor Mountain & Pepper Coast' },
+                { name: 'Kep', khmer: 'កែប', lat: 10.4829, lon: 104.3167, emoji: '🦀', region: 'Coastal Sanctuary' },
+                { name: 'Mondulkiri', khmer: 'មណ្ឌលគិរី', lat: 12.4558, lon: 107.1881, emoji: '🌲', region: 'Eastern Highlands (Sen Monorom)' },
+                { name: 'Ratanakiri', khmer: 'រតនគិរី', lat: 13.7394, lon: 106.9872, emoji: '🌋', region: 'Yeak Laom Volcanic Lake' },
+                { name: 'Kampong Cham', khmer: 'កំពង់ចាម', lat: 11.9934, lon: 105.4635, emoji: '🌉', region: 'Central Mekong Heartland' },
+                { name: 'Poipet', khmer: 'ប៉ោយប៉ែត', lat: 13.6580, lon: 102.5636, emoji: '🚉', region: 'Banteay Meanchey Border Hub' }
+            ],
+            location: {
+                name: 'Phnom Penh',
+                khmer: 'ភ្នំពេញ',
+                country: 'KH',
+                region: 'Capital & Mekong Confluence',
+                lat: 11.5564,
+                lon: 104.9282
+            },
             currentWeather: {
                 temp: 0,
                 feels_like: 0,
                 condition: '',
                 wind_speed: 0,
+                wind_deg: 0,
+                wind_gust: 0,
                 humidity: 0,
                 sunrise: 0,
                 sunset: 0,
@@ -557,27 +1119,15 @@ export default {
                 clouds: 0
             },
             hourlyForecast: [],
-            currentSeason: {
-                name: 'Loading...',
-                dateRange: '',
-                startMonth: '',
-                endMonth: '',
-                description: '',
-                characteristics: [],
-                activities: [],
-                clothing: [],
-                healthTips: [],
-                agricultural_advice: '',
-                crops: [],
-                travelTips: '',
-                funFact: ''
-            },
+            currentSeason: SEASON_CATALOG.dry,
             seasonProgress: 0,
             forecast: [],
             alerts: [],
             uvIndex: 0,
-            lastUpdated: ''
-        }
+            lastUpdated: '',
+            culturalMemories: CULTURAL_MEMORIES,
+            culturalFoods: TRADITIONAL_FOODS
+        };
     },
     computed: {
         currentDate() {
@@ -588,16 +1138,31 @@ export default {
                 year: 'numeric'
             });
         },
+        isRainySeason() {
+            const month = new Date().getMonth();
+            return month >= 4 && month <= 9;
+        },
+        activeSeasonKey() {
+            if (this.selectedSeasonOverride) return this.selectedSeasonOverride;
+            return this.isRainySeason ? 'rainy' : 'dry';
+        },
+        activeSeasonData() {
+            return SEASON_CATALOG[this.activeSeasonKey] || this.currentSeason;
+        },
         weatherGradient() {
             const hour = new Date().getHours();
-            if (hour >= 6 && hour < 12) {
-                return 'bg-gradient-to-br from-orange-400 via-pink-400 to-purple-500';
-            } else if (hour >= 12 && hour < 17) {
-                return 'bg-gradient-to-br from-blue-400 via-cyan-400 to-teal-500';
-            } else if (hour >= 17 && hour < 20) {
-                return 'bg-gradient-to-br from-orange-500 via-pink-500 to-purple-600';
+            const cond = (this.currentWeather.condition || '').toLowerCase();
+            if (cond.includes('rain') || cond.includes('thunder') || cond.includes('drizzle')) {
+                return 'bg-gradient-to-br from-slate-700 via-sky-800 to-indigo-900';
+            }
+            if (hour >= 6 && hour < 11) {
+                return 'bg-gradient-to-br from-sky-500 via-teal-500 to-indigo-600';
+            } else if (hour >= 11 && hour < 17) {
+                return 'bg-gradient-to-br from-sky-600 via-blue-600 to-indigo-700';
+            } else if (hour >= 17 && hour < 19) {
+                return 'bg-gradient-to-br from-orange-500 via-rose-500 to-indigo-800';
             } else {
-                return 'bg-gradient-to-br from-indigo-600 via-purple-700 to-gray-900';
+                return 'bg-gradient-to-br from-slate-900 via-indigo-950 to-sky-950';
             }
         },
         sunProgress() {
@@ -605,11 +1170,64 @@ export default {
             const now = Date.now();
             const sunrise = this.currentWeather.sunrise;
             const sunset = this.currentWeather.sunset;
-            
             if (now < sunrise) return 0;
             if (now > sunset) return 100;
-            
             return Math.round(((now - sunrise) / (sunset - sunrise)) * 100);
+        },
+        daylightDuration() {
+            if (!this.currentWeather.sunrise || !this.currentWeather.sunset) return '12h 00m';
+            const diffMins = Math.round((this.currentWeather.sunset - this.currentWeather.sunrise) / 60000);
+            const hrs = Math.floor(diffMins / 60);
+            const mins = diffMins % 60;
+            return `${hrs}h ${mins}m`;
+        },
+        solarNoonTime() {
+            if (!this.currentWeather.sunrise || !this.currentWeather.sunset) return '12:00 PM';
+            const mid = (this.currentWeather.sunrise + this.currentWeather.sunset) / 2;
+            return this.formatTime(mid);
+        },
+        sunStatusLabel() {
+            const now = Date.now();
+            if (!this.currentWeather.sunrise || !this.currentWeather.sunset) return 'Daytime';
+            if (now < this.currentWeather.sunrise) return 'Pre-Dawn';
+            if (now > this.currentWeather.sunset) return 'Nighttime';
+            const remainingMins = Math.round((this.currentWeather.sunset - now) / 60000);
+            const hrs = Math.floor(remainingMins / 60);
+            const mins = remainingMins % 60;
+            return hrs > 0 ? `${hrs}h ${mins}m until sunset` : `${mins}m until sunset`;
+        },
+        windDirectionCardinal() {
+            const deg = this.currentWeather.wind_deg || 0;
+            const dirs = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+            return dirs[Math.round(deg / 45) % 8];
+        },
+        todayMaxTemp() {
+            if (this.forecast.length > 0) {
+                return Math.max(this.currentWeather.temp, this.forecast[0].max_temp);
+            }
+            return this.currentWeather.temp;
+        },
+        todayMinTemp() {
+            if (this.forecast.length > 0) {
+                return Math.min(this.currentWeather.temp, this.forecast[0].min_temp);
+            }
+            return this.currentWeather.temp;
+        },
+        weekMinTemp() {
+            if (!this.forecast.length) return 20;
+            return Math.min(...this.forecast.map(d => d.min_temp));
+        },
+        weekMaxTemp() {
+            if (!this.forecast.length) return 35;
+            return Math.max(...this.forecast.map(d => d.max_temp));
+        },
+        thermalComfortLabel() {
+            const fl = this.currentWeather.feels_like;
+            if (fl >= 38) return 'Very Hot & Humid';
+            if (fl >= 33) return 'Warm Tropical Heat';
+            if (fl >= 26) return 'Pleasant & Warm';
+            if (fl >= 20) return 'Cool & Refreshing';
+            return 'Crisp Highland Air';
         },
         uvLevel() {
             if (this.uvIndex <= 2) return 'Low';
@@ -619,19 +1237,162 @@ export default {
             return 'Extreme';
         },
         uvLevelColor() {
-            if (this.uvIndex <= 2) return 'text-green-500';
-            if (this.uvIndex <= 5) return 'text-yellow-500';
-            if (this.uvIndex <= 7) return 'text-orange-500';
-            if (this.uvIndex <= 10) return 'text-red-500';
-            return 'text-purple-500';
+            if (this.uvIndex <= 2) return 'text-emerald-600 dark:text-emerald-400';
+            if (this.uvIndex <= 5) return 'text-amber-600 dark:text-amber-400';
+            if (this.uvIndex <= 7) return 'text-orange-600 dark:text-orange-400';
+            if (this.uvIndex <= 10) return 'text-red-600 dark:text-red-400';
+            return 'text-purple-600 dark:text-purple-400';
+        },
+        lifestyleAdvisories() {
+            const nextRain = this.hourlyForecast.length ? Math.max(...this.hourlyForecast.slice(0, 3).map(h => h.rain)) : 0;
+            const temp = this.currentWeather.temp;
+            const wind = this.currentWeather.wind_speed;
+
+            return [
+                {
+                    icon: '☔',
+                    title: 'Umbrella & Rain Check',
+                    status: nextRain >= 50 ? 'Carry Umbrella' : nextRain >= 25 ? 'Light Chance' : 'Clear Skies',
+                    badgeClass: nextRain >= 50
+                        ? 'bg-sky-100 dark:bg-sky-900/50 text-sky-700 dark:text-sky-300'
+                        : 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300',
+                    advice: nextRain >= 50
+                        ? `Up to ${nextRain}% rain probability in the coming hours. Pack a rain poncho or umbrella.`
+                        : 'Low chance of rain over the next 6–9 hours — great for walking and temple visits.'
+                },
+                {
+                    icon: '🚴',
+                    title: 'Outdoor Exercise & Cycling',
+                    status: temp > 34 ? 'Early Morning Best' : nextRain >= 60 ? 'Wait for Clearing' : 'Great Conditions',
+                    badgeClass: temp > 34 || nextRain >= 60
+                        ? 'bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300'
+                        : 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300',
+                    advice: temp > 34
+                        ? 'High heat index right now. Schedule runs or cycling before 9 AM or after 5 PM.'
+                        : `Comfortable ${Math.round(wind)} km/h breeze for cycling, jogging, or riverside walks.`
+                },
+                {
+                    icon: '📸',
+                    title: 'Temple & Golden Hour Light',
+                    status: this.currentWeather.clouds <= 65 ? 'Crisp Light' : 'Soft Diffused',
+                    badgeClass: 'bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300',
+                    advice: `Sunset today at ${this.formatTime(this.currentWeather.sunset)} — ${this.currentWeather.clouds <= 65 ? 'expect warm golden hour reflections.' : 'dramatic clouds create moody silhouettes.'}`
+                },
+                {
+                    icon: '👕',
+                    title: 'Laundry & Drying Index',
+                    status: nextRain < 30 && this.currentWeather.humidity < 80 ? 'Fast Drying' : 'Indoor Recommended',
+                    badgeClass: nextRain < 30 && this.currentWeather.humidity < 80
+                        ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300'
+                        : 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300',
+                    advice: nextRain < 30 && this.currentWeather.humidity < 80
+                        ? 'Warm air and steady breeze will dry clothes quickly outdoors.'
+                        : 'Higher humidity or shower risk — dry laundry under a covered balcony.'
+                }
+            ];
         }
     },
     methods: {
-        async fetchWeatherData() {
+        formatTemp(celsius) {
+            if (celsius === undefined || celsius === null || Number.isNaN(celsius)) return 0;
+            if (this.unit === 'F') {
+                return Math.round((celsius * 9) / 5 + 32);
+            }
+            return Math.round(celsius);
+        },
+        getTempBarStyle(min, max) {
+            const range = Math.max(1, this.weekMaxTemp - this.weekMinTemp);
+            const left = Math.max(0, Math.min(90, ((min - this.weekMinTemp) / range) * 100));
+            const width = Math.max(12, Math.min(100 - left, ((max - min) / range) * 100));
+            return {
+                left: `${left}%`,
+                width: `${width}%`
+            };
+        },
+        selectPresetCity(city) {
+            this.location = {
+                name: city.name,
+                khmer: city.khmer,
+                country: 'KH',
+                region: city.region,
+                lat: city.lat,
+                lon: city.lon
+            };
+            this.searchQuery = '';
+            this.fetchWeatherData();
+        },
+        async searchCity() {
+            const q = this.searchQuery.trim();
+            if (!q) return;
+
+            const preset = this.cambodiaCities.find(
+                c => c.name.toLowerCase() === q.toLowerCase()
+            );
+            if (preset) {
+                this.selectPresetCity(preset);
+                return;
+            }
+
+            this.loading = true;
+            this.error = null;
+            try {
+                const geoRes = await fetch(
+                    `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(q)}&limit=1&appid=${this.apiKey}`
+                );
+                if (!geoRes.ok) throw new Error('City lookup failed');
+                const geoData = await geoRes.json();
+                if (!geoData || geoData.length === 0) {
+                    throw new Error(`Could not find weather station for "${q}". Try another city name.`);
+                }
+                const place = geoData[0];
+                const matchedKhmer = this.cambodiaCities.find(
+                    c => c.name.toLowerCase() === place.name.toLowerCase()
+                );
+                this.location = {
+                    name: place.name,
+                    khmer: matchedKhmer ? matchedKhmer.khmer : '',
+                    country: place.country || '',
+                    region: place.state || (place.country === 'KH' ? 'Cambodia' : place.country),
+                    lat: place.lat,
+                    lon: place.lon
+                };
+                this.searchQuery = '';
+                await this.fetchWeatherData();
+            } catch (err) {
+                this.loading = false;
+                this.error = err.message || 'Unable to find that city.';
+            }
+        },
+        useMyLocation() {
+            if (!navigator.geolocation) {
+                this.error = 'Geolocation is not supported by your browser.';
+                return;
+            }
+            this.locating = true;
+            navigator.geolocation.getCurrentPosition(
+                async pos => {
+                    this.locating = false;
+                    this.location = {
+                        name: 'My Location',
+                        khmer: '',
+                        country: '',
+                        region: 'GPS Coordinates',
+                        lat: pos.coords.latitude,
+                        lon: pos.coords.longitude
+                    };
+                    await this.fetchWeatherData(true);
+                },
+                () => {
+                    this.locating = false;
+                    this.error = 'Location permission denied. Please select a city above or search by name.';
+                },
+                { timeout: 10000 }
+            );
+        },
+        async fetchWeatherData(updateNameFromApi = false) {
             this.loading = true;
             this.error = null;
 
-            // Check if API key is available
             if (!this.apiKey || this.apiKey.trim() === '') {
                 this.loading = false;
                 this.error = 'Weather API key is not configured. Please add VUE_APP_WEATHER_API_KEY to your .env file.';
@@ -640,9 +1401,14 @@ export default {
             }
 
             try {
-                const currentWeatherResponse = await fetch(
-                    `https://api.openweathermap.org/data/2.5/weather?lat=${this.location.lat}&lon=${this.location.lon}&units=metric&appid=${this.apiKey}`
-                );
+                const [currentWeatherResponse, forecastResponse] = await Promise.all([
+                    fetch(
+                        `https://api.openweathermap.org/data/2.5/weather?lat=${this.location.lat}&lon=${this.location.lon}&units=metric&appid=${this.apiKey}`
+                    ),
+                    fetch(
+                        `https://api.openweathermap.org/data/2.5/forecast?lat=${this.location.lat}&lon=${this.location.lon}&units=metric&appid=${this.apiKey}`
+                    )
+                ]);
 
                 if (!currentWeatherResponse.ok) {
                     const errorData = await currentWeatherResponse.json().catch(() => ({}));
@@ -652,27 +1418,29 @@ export default {
                     throw new Error(errorData.message || 'Failed to fetch current weather data');
                 }
 
-                const currentData = await currentWeatherResponse.json();
-
-                const forecastResponse = await fetch(
-                    `https://api.openweathermap.org/data/2.5/forecast?lat=${this.location.lat}&lon=${this.location.lon}&units=metric&appid=${this.apiKey}`
-                );
-
                 if (!forecastResponse.ok) {
                     throw new Error('Failed to fetch forecast data');
                 }
 
+                const currentData = await currentWeatherResponse.json();
                 const forecastData = await forecastResponse.json();
+
+                if (updateNameFromApi && currentData.name) {
+                    this.location.name = currentData.name;
+                    this.location.country = currentData.sys?.country || '';
+                }
 
                 const temp = currentData.main.temp;
                 const humidity = currentData.main.humidity;
-                const dewPoint = temp - ((100 - humidity) / 5);
+                const dewPoint = temp - (100 - humidity) / 5;
 
                 this.currentWeather = {
                     temp: currentData.main.temp,
                     feels_like: currentData.main.feels_like,
                     condition: currentData.weather[0].description,
-                    wind_speed: currentData.wind.speed * 3.6,
+                    wind_speed: (currentData.wind.speed || 0) * 3.6,
+                    wind_deg: currentData.wind.deg || 0,
+                    wind_gust: currentData.wind.gust ? currentData.wind.gust * 3.6 : 0,
                     humidity: currentData.main.humidity,
                     sunrise: currentData.sys.sunrise * 1000,
                     sunset: currentData.sys.sunset * 1000,
@@ -685,9 +1453,9 @@ export default {
 
                 const hour = new Date().getHours();
                 const cloudFactor = 1 - (this.currentWeather.clouds / 100) * 0.5;
-                if (hour >= 10 && hour <= 16) {
-                    this.uvIndex = Math.round(8 * cloudFactor);
-                } else if (hour >= 7 && hour < 10 || hour > 16 && hour <= 19) {
+                if (hour >= 10 && hour <= 15) {
+                    this.uvIndex = Math.round(9 * cloudFactor);
+                } else if ((hour >= 7 && hour < 10) || (hour > 15 && hour <= 18)) {
                     this.uvIndex = Math.round(4 * cloudFactor);
                 } else {
                     this.uvIndex = 0;
@@ -697,319 +1465,133 @@ export default {
                     dt: item.dt * 1000,
                     temp: item.main.temp,
                     icon: item.weather[0].icon,
-                    rain: Math.round(item.pop * 100)
+                    condition: item.weather[0].description,
+                    rain: Math.round((item.pop || 0) * 100),
+                    wind: Math.round((item.wind?.speed || 0) * 3.6)
                 }));
 
-                this.forecast = [];
                 const dailyForecasts = {};
-
                 forecastData.list.forEach(item => {
                     const date = new Date(item.dt * 1000).toDateString();
-
                     if (!dailyForecasts[date]) {
                         dailyForecasts[date] = {
                             dt: item.dt,
                             temps: [],
+                            humidities: [],
+                            winds: [],
                             icon: item.weather[0].icon,
                             condition: item.weather[0].description,
-                            rain: item.pop * 100
+                            rain: (item.pop || 0) * 100
                         };
                     }
-
                     dailyForecasts[date].temps.push(item.main.temp);
+                    dailyForecasts[date].humidities.push(item.main.humidity);
+                    dailyForecasts[date].winds.push((item.wind?.speed || 0) * 3.6);
+                    if ((item.pop || 0) * 100 > dailyForecasts[date].rain) {
+                        dailyForecasts[date].rain = (item.pop || 0) * 100;
+                    }
+                    const itemHour = new Date(item.dt * 1000).getHours();
+                    if (itemHour >= 11 && itemHour <= 15) {
+                        dailyForecasts[date].icon = item.weather[0].icon;
+                        dailyForecasts[date].condition = item.weather[0].description;
+                    }
                 });
 
-                Object.values(dailyForecasts).slice(0, 7).forEach(day => {
-                    this.forecast.push({
+                this.forecast = Object.values(dailyForecasts)
+                    .slice(0, 6)
+                    .map(day => ({
                         dt: day.dt,
                         min_temp: Math.min(...day.temps),
                         max_temp: Math.max(...day.temps),
+                        humidity: Math.round(day.humidities.reduce((a, b) => a + b, 0) / day.humidities.length),
+                        wind: Math.round(Math.max(...day.winds)),
                         icon: day.icon,
                         condition: day.condition,
                         rain: Math.round(day.rain)
-                    });
-                });
+                    }));
 
                 this.updateSeason();
 
                 this.alerts = [];
-                if (currentData.weather[0].main === 'Thunderstorm' ||
-                    (currentData.weather[0].main === 'Rain' && currentData.rain && currentData.rain['1h'] > 10)) {
+                if (
+                    currentData.weather[0].main === 'Thunderstorm' ||
+                    (currentData.weather[0].main === 'Rain' && currentData.rain && currentData.rain['1h'] > 10)
+                ) {
                     this.alerts.push({
-                        title: 'Heavy Rain Warning',
-                        description: `Heavy rainfall expected in ${this.location.name}. Potential for localized flooding.`,
-                        time: `Issued: ${new Date().toLocaleString()}`
+                        title: 'Heavy Monsoon Rain Advisory',
+                        description: `Heavy rainfall detected around ${this.location.name}. Watch for localized street flooding and slippery roads.`,
+                        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
                     });
                 }
 
-                if (currentData.main.temp > 35) {
+                if (currentData.main.temp >= 35 || currentData.main.feels_like >= 39) {
                     this.alerts.push({
-                        title: 'Extreme Heat Advisory',
-                        description: `Very high temperatures expected. Stay hydrated and avoid prolonged sun exposure.`,
-                        time: `Issued: ${new Date().toLocaleString()}`
+                        title: 'High Tropical Heat Advisory',
+                        description: `Feels-like temperature reaches ${this.formatTemp(currentData.main.feels_like)}°${this.unit}. Stay hydrated and limit midday sun exposure.`,
+                        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
                     });
                 }
 
-                this.lastUpdated = new Date().toLocaleString();
-
+                this.lastUpdated = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             } catch (err) {
                 logger.error('Error fetching weather data:', err);
-                if (err.message && err.message.includes('API key')) {
-                    this.error = err.message;
-                } else if (err.message && err.message.includes('401')) {
-                    this.error = 'Invalid API key. Please check your VUE_APP_WEATHER_API_KEY in .env file.';
-                } else {
-                    this.error = err.message || 'Failed to load weather data. Please check your API key configuration and try again.';
-                }
+                this.error =
+                    err.message ||
+                    'Failed to load weather data. Please check your API key configuration and try again.';
             } finally {
                 this.loading = false;
             }
         },
-
         formatTime(timestamp) {
             if (!timestamp) return '';
             return new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         },
-
         formatHour(timestamp) {
             if (!timestamp) return '';
             return new Date(timestamp).toLocaleTimeString([], { hour: 'numeric', hour12: true });
         },
-
-        formatDay(timestamp) {
+        formatShortDate(timestamp) {
             if (!timestamp) return '';
-            const date = new Date(timestamp * 1000);
-            return date.toLocaleDateString([], { weekday: 'short', day: 'numeric' });
+            return new Date(timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
         },
-
+        formatWeekdayShort(timestamp) {
+            if (!timestamp) return '';
+            return new Date(timestamp * 1000).toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase();
+        },
+        formatDayFull(timestamp) {
+            if (!timestamp) return '';
+            return new Date(timestamp * 1000).toLocaleDateString('en-US', {
+                weekday: 'short',
+                month: 'short',
+                day: 'numeric'
+            });
+        },
         updateSeason() {
             const month = new Date().getMonth();
-
             if (month >= 4 && month <= 9) {
-                // Rainy Season (May - October)
-                this.currentSeason = {
-                    name: 'Rainy Season',
-                    dateRange: 'May - October',
-                    startMonth: 'May',
-                    endMonth: 'October',
-                    description: 'The monsoon season brings life-giving rains to Cambodia. Expect daily afternoon thunderstorms, lush green landscapes, and dramatic skies. The Mekong River swells, and Tonle Sap reverses its flow. Mornings are often clear and beautiful, perfect for outdoor activities before the afternoon rains.',
-                    characteristics: [
-                        'High humidity levels (75-90%)',
-                        'Daily afternoon thunderstorms',
-                        'Average temperature: 25-32°C',
-                        'Heavy rainfall in September',
-                        'Lush green vegetation',
-                        'Occasional flooding in lowlands'
-                    ],
-                    activities: [
-                        'Morning temple visits',
-                        'Indoor museums',
-                        'Spa & wellness',
-                        'Cooking classes',
-                        'Photography (dramatic skies)',
-                        'River cruises',
-                        'Waterfall visits'
-                    ],
-                    clothing: [
-                        { icon: '☔', name: 'Rain jacket' },
-                        { icon: '👟', name: 'Waterproof shoes' },
-                        { icon: '🩴', name: 'Quick-dry sandals' },
-                        { icon: '👕', name: 'Light breathable clothes' },
-                        { icon: '🎒', name: 'Waterproof bag' },
-                        { icon: '🧴', name: 'Insect repellent' }
-                    ],
-                    healthTips: [
-                        'Stay hydrated despite the humidity - drink plenty of water',
-                        'Use mosquito repellent, especially in the evenings',
-                        'Be cautious of slippery surfaces after rain',
-                        'Keep medications dry in waterproof containers',
-                        'Watch for flash floods in low-lying areas'
-                    ],
-                    agricultural_advice: 'This is the prime rice planting season in Cambodia. Farmers transplant rice seedlings as paddies fill with rainwater. The abundant moisture supports rapid crop growth. Prepare drainage systems to prevent waterlogging and monitor for fungal diseases that thrive in humid conditions.',
-                    crops: ['Rice (main crop)', 'Corn', 'Soybeans', 'Mung beans', 'Water spinach', 'Lotus'],
-                    travelTips: 'Book accommodations with covered areas. Plan outdoor activities for mornings. Carry a compact umbrella always. Roads may be muddy in rural areas. Fewer tourists mean better prices and less crowded attractions!',
-                    funFact: 'During rainy season, the Tonle Sap Lake expands from 2,500 km² to over 16,000 km² - making it one of the most productive freshwater fisheries in the world!'
-                };
-                this.seasonProgress = Math.round(((month - 4) / 6) * 100);
+                this.currentSeason = SEASON_CATALOG.rainy;
+                this.seasonProgress = Math.min(100, Math.max(8, Math.round(((month - 4 + 0.5) / 6) * 100)));
             } else {
-                // Dry Season (November - April)
-                this.currentSeason = {
-                    name: 'Dry Season',
-                    dateRange: 'November - April',
-                    startMonth: 'November',
-                    endMonth: 'April',
-                    description: 'The dry season is Cambodia\'s golden time - when the land rests after the monsoon\'s blessing. From November\'s cool breezes that sweep away the last rains, through the festive spirit of Khmer New Year in April, this season holds the heart of Cambodian life. The rice paddies turn golden, then bare after harvest. Village roads become dusty paths where children play barefoot until sunset. The air smells of burning rice straw, ripe mangoes, and grandmother\'s cooking. It\'s the season of weddings, festivals, and families gathering under the stars.',
-                    characteristics: [
-                        'Cool morning mist over rice paddies',
-                        'Golden sunsets painting the sky orange and pink',
-                        'Clear starry nights perfect for storytelling',
-                        'Gentle breezes carrying the scent of jasmine',
-                        'Warm afternoons under mango tree shade',
-                        'Dusty red earth roads in the countryside'
-                    ],
-                    activities: [
-                        'Watching sunrise at Angkor Wat',
-                        'Cycling through village roads',
-                        'Kite flying with children',
-                        'Temple festivals & ceremonies',
-                        'Traditional wedding celebrations',
-                        'Night markets & street food',
-                        'Fishing in Tonle Sap',
-                        'Khmer New Year festivities'
-                    ],
-                    clothing: [
-                        { icon: '🧢', name: 'Krama (traditional scarf)' },
-                        { icon: '👕', name: 'Light cotton sampot' },
-                        { icon: '🩴', name: 'Rubber sandals' },
-                        { icon: '🕶️', name: 'Sunglasses' },
-                        { icon: '👒', name: 'Straw hat' },
-                        { icon: '🧴', name: 'Coconut oil for skin' }
-                    ],
-                    healthTips: [
-                        'Wake early to enjoy the cool morning air before the heat rises',
-                        'Rest during the hottest hours (12pm-3pm) like our grandparents did',
-                        'Drink fresh coconut water and sugarcane juice to stay cool',
-                        'Take cool baths in the afternoon to refresh',
-                        'Eat seasonal fruits: mango, rambutan, longan, and durian'
-                    ],
-                    agricultural_advice: 'This is harvest time - the reward for a year\'s hard work. Families gather to cut rice by hand, bundle the stalks, and thresh the grains. The smell of freshly harvested rice fills the air. After harvest, farmers burn the stubble, preparing fields for the next cycle. It\'s also time to tend fruit orchards - mango, jackfruit, and coconut trees bear their sweetest fruits.',
-                    crops: ['Rice (harvest)', 'Mangoes', 'Palm sugar', 'Cashews', 'Watermelon', 'Corn'],
-                    travelTips: 'Visit during Khmer New Year (April 13-16) for the most vibrant cultural experience. The Water Festival in November features spectacular boat races on the Tonle Sap. December-February offers perfect weather for temple exploration. Wake before dawn to catch the magical sunrise at Angkor Wat - a moment that stays with you forever.',
-                    funFact: 'During Khmer New Year, Cambodians build sand mountains at pagodas, each grain representing a wish or merit. Families splash water on elders as a blessing, and the whole country becomes one big celebration of life, family, and gratitude.',
-                    childhoodMemories: {
-                        intro: 'The dry season brings back the warmest memories of growing up in Cambodia - when life moved slower, families gathered closer, and every sunset felt like a gift from the ancestors...',
-                        moments: [
-                            {
-                                icon: '🌅',
-                                title: 'Morning Rice Fields',
-                                description: 'Waking up to the mist hovering over golden rice paddies. Grandfather already in the field, checking the crops. The sound of roosters and the smell of mother\'s rice porridge cooking.'
-                            },
-                            {
-                                icon: '🪁',
-                                title: 'Kite Flying Season',
-                                description: 'Running through harvested fields with homemade kites made from bamboo and newspaper. The sky filled with colors as children competed to fly the highest. The string cutting your fingers but you didn\'t care.'
-                            },
-                            {
-                                icon: '🥭',
-                                title: 'Mango Tree Adventures',
-                                description: 'Climbing the old mango tree in grandmother\'s yard. Eating green mangoes with salt and chili. Getting scolded for eating too many but sneaking back for more.'
-                            },
-                            {
-                                icon: '🌙',
-                                title: 'Stories Under the Stars',
-                                description: 'Sleeping on bamboo beds outside because it was too hot inside. Grandmother telling stories of Apsara dancers and ancient kings. Counting stars until sleep came.'
-                            },
-                            {
-                                icon: '🎪',
-                                title: 'Pagoda Festivals',
-                                description: 'The excitement of Pchum Ben and temple fairs. Colorful lights, traditional music, and the smell of grilled meat. Saving coins all year for this moment.'
-                            },
-                            {
-                                icon: '💧',
-                                title: 'Water Festival Magic',
-                                description: 'Traveling to Phnom Penh for Bon Om Touk. The river alive with decorated boats racing. Fireworks painting the night sky. Feeling like the whole country was celebrating together.'
-                            },
-                            {
-                                icon: '🏠',
-                                title: 'Village Evenings',
-                                description: 'Playing hide and seek until mother called for dinner. The sound of monks chanting from the nearby pagoda. Fireflies dancing in the darkness like tiny spirits.'
-                            },
-                            {
-                                icon: '🎊',
-                                title: 'Khmer New Year Joy',
-                                description: 'New clothes, visiting relatives, building sand stupas at the temple. Water splashing everywhere. The whole village dancing to traditional music. A time when worries disappeared.'
-                            }
-                        ]
-                    },
-                    traditionalFoods: [
-                        { icon: '🍚', name: 'Bai Sach Chrouk', desc: 'Grilled pork & rice' },
-                        { icon: '🥥', name: 'Nom Krok', desc: 'Coconut rice cakes' },
-                        { icon: '🥭', name: 'Svay Chrouk', desc: 'Green mango salad' },
-                        { icon: '🍢', name: 'Sach Ko Ang', desc: 'Grilled beef skewers' },
-                        { icon: '🧁', name: 'Num Ansorm', desc: 'Sticky rice cake' },
-                        { icon: '🥤', name: 'Tuk Ampov', desc: 'Fresh sugarcane juice' },
-                        { icon: '🍌', name: 'Chek Chien', desc: 'Fried bananas' },
-                        { icon: '🍜', name: 'Kuy Teav', desc: 'Morning noodle soup' },
-                        { icon: '🥜', name: 'Sandek Neung', desc: 'Steamed peanuts' }
-                    ]
-                };
-                this.seasonProgress = month < 4 ?
-                    Math.round(((month + 2) / 6) * 100) :
-                    Math.round(((month - 10) / 6) * 100);
+                this.currentSeason = SEASON_CATALOG.dry;
+                const dryIndex = month >= 10 ? month - 10 : month + 2;
+                this.seasonProgress = Math.min(100, Math.max(8, Math.round(((dryIndex + 0.5) / 6) * 100)));
             }
         }
     },
     mounted() {
+        this.updateSeason();
         this.fetchWeatherData();
     }
-}
+};
 </script>
 
 <style scoped>
-.animate-fade-in-up {
-    animation: fadeInUp 0.6s ease-out both;
+.font-khmer {
+    font-family: 'Kantumruy Pro', 'Hanuman', sans-serif;
 }
 
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.animate-shimmer {
-    animation: shimmer 1.5s ease-in-out infinite;
-}
-
-@keyframes shimmer {
-    0% {
-        background-position: 200% 0;
-    }
-    100% {
-        background-position: -200% 0;
-    }
-}
-
-.animate-scale-in {
-    animation: scaleIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
-}
-
-@keyframes scaleIn {
-    from {
-        opacity: 0;
-        transform: scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-.animate-float {
-    animation: float 6s ease-in-out infinite;
-}
-
-.animate-float-delayed {
-    animation: float 6s ease-in-out infinite;
-    animation-delay: 3s;
-}
-
-@keyframes float {
-    0%, 100% {
-        transform: translateY(0) scale(1);
-    }
-    50% {
-        transform: translateY(-20px) scale(1.1);
-    }
-}
-
-/* Custom scrollbar */
 .scrollbar-thin::-webkit-scrollbar {
-    height: 4px;
+    height: 5px;
 }
 
 .scrollbar-thin::-webkit-scrollbar-track {
@@ -1017,19 +1599,11 @@ export default {
 }
 
 .scrollbar-thin::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
+    background: rgba(148, 163, 184, 0.35);
+    border-radius: 9999px;
 }
 
 .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-    background: rgba(0, 0, 0, 0.2);
-}
-
-.dark .scrollbar-thin::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.dark .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(148, 163, 184, 0.55);
 }
 </style>
