@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen bg-slate-50/80 dark:bg-[#030816] text-slate-900 dark:text-slate-100 pb-20 pt-20 md:pt-24 relative overflow-hidden">
+    <div class="min-h-screen bg-slate-50/80 dark:bg-[#030816] text-slate-900 dark:text-slate-100 pb-12 pt-12 sm:pt-16 md:pt-20 relative overflow-x-hidden">
         <!-- Ambient Decorative Background Glows -->
         <div class="pointer-events-none fixed inset-0 overflow-hidden z-0">
             <div class="absolute -top-32 -right-32 w-[28rem] h-[28rem] bg-emerald-500/10 dark:bg-emerald-500/10 rounded-full blur-3xl"></div>
@@ -7,69 +7,69 @@
             <div class="absolute -bottom-32 right-1/4 w-[28rem] h-[28rem] bg-teal-500/10 dark:bg-indigo-500/10 rounded-full blur-3xl"></div>
         </div>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="max-w-7xl mx-auto px-0 sm:px-4 lg:px-8 relative z-10">
             <!-- Top Header & Controls -->
-            <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-6">
-                <div>
-                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 dark:bg-emerald-400/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-xs font-semibold tracking-wide uppercase mb-3">
-                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                        <span>Cambodia Air Quality &amp; Environmental Monitor</span>
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 sm:gap-6 mb-5 sm:mb-6">
+                <div class="min-w-0">
+                    <div class="inline-flex flex-wrap items-center gap-1.5 sm:gap-2 px-3 py-1 rounded-full bg-emerald-500/10 dark:bg-emerald-400/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-[11px] sm:text-xs font-semibold tracking-wide uppercase mb-2.5">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
+                        <span>Cambodia Air Quality Monitor</span>
                         <span class="text-emerald-400 dark:text-emerald-500">•</span>
-                        <span class="font-khmer">គុណភាពខ្យល់ និងបរិស្ថានកម្ពុជា</span>
+                        <span class="font-khmer">គុណភាពខ្យល់កម្ពុជា</span>
                     </div>
-                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white flex flex-wrap items-center gap-3">
+                    <h1 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white flex flex-wrap items-baseline gap-x-3 gap-y-1">
                         <span>Air Quality Intelligence</span>
                         <span class="text-lg sm:text-xl font-normal text-slate-500 dark:text-slate-400 hidden sm:inline">|</span>
-                        <span class="text-base sm:text-lg font-semibold bg-gradient-to-r from-emerald-600 via-teal-600 to-sky-500 dark:from-emerald-400 dark:via-teal-300 dark:to-sky-400 bg-clip-text text-transparent">
+                        <span class="text-xs sm:text-lg font-semibold bg-gradient-to-r from-emerald-600 via-teal-600 to-sky-500 dark:from-emerald-400 dark:via-teal-300 dark:to-sky-400 bg-clip-text text-transparent">
                             {{ formattedDateTime }}
                         </span>
                     </h1>
                 </div>
 
                 <!-- Action Controls: GPS, AQI Standard Toggle, Temp Unit Toggle, Telegram & Refresh -->
-                <div class="flex flex-wrap items-center gap-2.5">
+                <div class="w-full lg:w-auto flex flex-wrap items-center gap-2">
                     <!-- My Location GPS Button -->
                     <button
                         @click="useMyLocation"
                         :disabled="locating || loading"
                         title="Find nearest air quality station to my location"
-                        class="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 hover:border-emerald-500/50 text-slate-700 dark:text-slate-200 text-xs sm:text-sm font-semibold shadow-sm transition-all disabled:opacity-50"
+                        class="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-3 py-2 sm:py-2.5 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 hover:border-emerald-500/50 text-slate-700 dark:text-slate-200 text-xs sm:text-sm font-semibold shadow-sm transition-all disabled:opacity-50"
                     >
-                        <MapPinIcon class="w-4 h-4 text-emerald-500" :class="{ 'animate-bounce': locating }" />
-                        <span>{{ locating ? 'Locating...' : 'Nearest Station' }}</span>
+                        <MapPinIcon class="w-4 h-4 text-emerald-500 shrink-0" :class="{ 'animate-bounce': locating }" />
+                        <span class="truncate">{{ locating ? 'Locating...' : 'Nearest Station' }}</span>
                     </button>
 
                     <!-- AQI Standard Toggle (US vs CN) -->
-                    <div class="inline-flex items-center p-1 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+                    <div class="inline-flex items-center p-1 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 shadow-sm shrink-0">
                         <button
                             @click="aqiStandard = 'US'"
                             :class="aqiStandard === 'US' ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'"
-                            class="px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all"
+                            class="px-2 sm:px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all"
                         >
                             US AQI
                         </button>
                         <button
                             @click="aqiStandard = 'CN'"
                             :class="aqiStandard === 'CN' ? 'bg-emerald-600 text-white shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'"
-                            class="px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all"
+                            class="px-2 sm:px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all"
                         >
                             CN AQI
                         </button>
                     </div>
 
                     <!-- Temperature Unit Toggle (°C / °F) -->
-                    <div class="inline-flex items-center p-1 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+                    <div class="inline-flex items-center p-1 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 shadow-sm shrink-0">
                         <button
                             @click="tempUnit = 'C'"
                             :class="tempUnit === 'C' ? 'bg-sky-600 text-white shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'"
-                            class="px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all"
+                            class="px-2 sm:px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all"
                         >
                             °C
                         </button>
                         <button
                             @click="tempUnit = 'F'"
                             :class="tempUnit === 'F' ? 'bg-sky-600 text-white shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'"
-                            class="px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all"
+                            class="px-2 sm:px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all"
                         >
                             °F
                         </button>
@@ -78,10 +78,10 @@
                     <!-- Telegram Alerts Quick Jump -->
                     <a
                         href="#telegram-alerts-panel"
-                        class="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 hover:border-sky-500/50 text-slate-700 dark:text-slate-200 text-xs sm:text-sm font-semibold shadow-sm transition-all"
+                        class="inline-flex items-center justify-center gap-1.5 px-3 py-2 sm:py-2.5 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 hover:border-sky-500/50 text-slate-700 dark:text-slate-200 text-xs sm:text-sm font-semibold shadow-sm transition-all shrink-0"
                     >
-                        <span class="w-2 h-2 rounded-full" :class="telegramSettings.enabled ? 'bg-emerald-500 animate-ping' : 'bg-slate-400'"></span>
-                        <span class="hidden sm:inline">Telegram Alerts</span>
+                        <span class="w-2 h-2 rounded-full shrink-0" :class="telegramSettings.enabled ? 'bg-emerald-500 animate-ping' : 'bg-slate-400'"></span>
+                        <span>Alerts</span>
                     </a>
 
                     <!-- Refresh Button -->
@@ -89,7 +89,7 @@
                         @click="fetchPollutionData"
                         :disabled="loading"
                         title="Refresh air quality data"
-                        class="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-semibold shadow-sm shadow-emerald-500/20 transition-all disabled:opacity-50"
+                        class="inline-flex items-center justify-center gap-1.5 px-3 py-2 sm:py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-semibold shadow-sm shadow-emerald-500/20 transition-all disabled:opacity-50 shrink-0"
                     >
                         <ArrowPathIcon class="w-4 h-4" :class="{ 'animate-spin': loading }" />
                         <span class="hidden sm:inline">Refresh</span>
@@ -98,11 +98,11 @@
             </div>
 
             <!-- Cambodia Monitoring Hubs Quick-Switcher -->
-            <div class="mb-6 bg-white/80 dark:bg-slate-900/70 backdrop-blur-md rounded-2xl p-3 border border-slate-200/80 dark:border-slate-800/80 shadow-sm">
+            <div class="mb-5 sm:mb-6 bg-white/80 dark:bg-slate-900/70 backdrop-blur-md rounded-2xl p-2.5 sm:p-3 border border-slate-200/80 dark:border-slate-800/80 shadow-sm overflow-hidden">
                 <div class="flex items-center gap-2 overflow-x-auto scrollbar-thin pb-1">
-                    <span class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-2 shrink-0 flex items-center gap-1.5">
+                    <span class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-1.5 shrink-0 flex items-center gap-1">
                         <span>🇰🇭</span>
-                        <span>Monitoring Hubs:</span>
+                        <span class="hidden sm:inline">Monitoring Hubs:</span>
                     </span>
                     <button
                         v-for="hub in cambodiaHubs"
@@ -113,7 +113,7 @@
                                 ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-500/20 border-transparent'
                                 : 'bg-slate-100/80 dark:bg-slate-800/70 text-slate-700 dark:text-slate-300 border-slate-200/60 dark:border-slate-700/60 hover:bg-emerald-50 dark:hover:bg-slate-800 hover:border-emerald-400/40'
                         ]"
-                        class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all shrink-0"
+                        class="inline-flex items-center gap-1.5 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs font-semibold border transition-all shrink-0"
                     >
                         <span>{{ hub.emoji }}</span>
                         <span>{{ hub.name }}</span>
@@ -124,22 +124,22 @@
 
             <!-- Loading Skeleton State -->
             <div v-if="loading && !pollutionData" class="space-y-6">
-                <div class="h-80 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-8 animate-pulse flex flex-col justify-between">
+                <div class="h-80 rounded-2xl sm:rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 sm:p-8 animate-pulse flex flex-col justify-between">
                     <div class="flex justify-between">
                         <div class="space-y-3">
-                            <div class="h-8 w-52 bg-slate-200 dark:bg-slate-800 rounded-xl"></div>
-                            <div class="h-4 w-36 bg-slate-200 dark:bg-slate-800 rounded-lg"></div>
+                            <div class="h-8 w-44 sm:w-52 bg-slate-200 dark:bg-slate-800 rounded-xl"></div>
+                            <div class="h-4 w-32 sm:w-36 bg-slate-200 dark:bg-slate-800 rounded-lg"></div>
                         </div>
-                        <div class="h-24 w-24 bg-slate-200 dark:bg-slate-800 rounded-full"></div>
+                        <div class="h-20 w-20 sm:h-24 sm:w-24 bg-slate-200 dark:bg-slate-800 rounded-full"></div>
                     </div>
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
                         <div v-for="i in 4" :key="i" class="h-20 bg-slate-200 dark:bg-slate-800 rounded-2xl"></div>
                     </div>
                 </div>
             </div>
 
             <!-- Error State -->
-            <div v-else-if="error && !pollutionData" class="rounded-3xl bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900/60 p-8 text-center my-8 max-w-xl mx-auto">
+            <div v-else-if="error && !pollutionData" class="rounded-2xl sm:rounded-3xl bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900/60 p-6 sm:p-8 text-center my-8 max-w-xl mx-auto">
                 <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-red-100 dark:bg-red-900/40 flex items-center justify-center text-red-600 dark:text-red-400">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
@@ -165,33 +165,33 @@
             </div>
 
             <!-- Main Air Quality Dashboard -->
-            <div v-else-if="pollutionData" class="space-y-6">
+            <div v-else-if="pollutionData" class="space-y-5 sm:space-y-6">
                 <!-- Hero AQI & Atmospheric Dispersion Banner -->
-                <div class="relative rounded-3xl overflow-hidden shadow-xl border border-white/15" :class="heroBannerGradient">
+                <div class="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl border border-white/15" :class="heroBannerGradient">
                     <div class="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.6),transparent_60%)]"></div>
                     <div class="absolute -bottom-24 -right-24 w-80 h-80 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
 
-                    <div class="relative z-10 p-6 sm:p-8 lg:p-10 text-white">
-                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="relative z-10 p-4 sm:p-8 lg:p-10 text-white">
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
                             <!-- Left 7 Columns: Station Header, Circular AQI Gauge & Core Metrics -->
-                            <div class="lg:col-span-7 space-y-6">
+                            <div class="lg:col-span-7 min-w-0 space-y-5 sm:space-y-6">
                                 <!-- Station Name & Badges -->
-                                <div class="flex flex-wrap items-center justify-between gap-4">
-                                    <div>
-                                        <div class="flex items-center gap-2.5 flex-wrap">
-                                            <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight flex items-center gap-2">
-                                                <MapPinIcon class="w-6 h-6 sm:w-7 sm:h-7 text-white/90 shrink-0" />
-                                                <span>{{ selectedHub.name || cityInfo.city }}</span>
+                                <div class="flex flex-wrap items-center justify-between gap-3">
+                                    <div class="min-w-0">
+                                        <div class="flex items-center gap-2 flex-wrap">
+                                            <h2 class="text-xl sm:text-4xl font-extrabold tracking-tight flex items-center gap-1.5 sm:gap-2">
+                                                <MapPinIcon class="w-5 h-5 sm:w-7 sm:h-7 text-white/90 shrink-0" />
+                                                <span class="truncate">{{ selectedHub.name || cityInfo.city }}</span>
                                             </h2>
-                                            <span v-if="selectedHub.khmer" class="font-khmer text-lg sm:text-xl font-semibold px-3 py-0.5 rounded-full bg-white/15 backdrop-blur-md">
+                                            <span v-if="selectedHub.khmer" class="font-khmer text-sm sm:text-xl font-semibold px-2.5 py-0.5 rounded-full bg-white/15 backdrop-blur-md">
                                                 {{ selectedHub.khmer }}
                                             </span>
-                                            <span class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-black/25 backdrop-blur-md">
+                                            <span class="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-black/25 backdrop-blur-md">
                                                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
                                                 <span>Live Sensor</span>
                                             </span>
                                         </div>
-                                        <p class="text-xs sm:text-sm text-white/85 mt-1.5 flex items-center gap-2 flex-wrap">
+                                        <p class="text-xs sm:text-sm text-white/85 mt-1.5 flex items-center gap-1.5 sm:gap-2 flex-wrap">
                                             <span>Station: {{ cityInfo.city }}, {{ cityInfo.country }}</span>
                                             <span>•</span>
                                             <span>{{ selectedHub.region }}</span>
@@ -202,9 +202,9 @@
                                 </div>
 
                                 <!-- Circular Gauge + Status Summary -->
-                                <div class="flex flex-col sm:flex-row items-center gap-6 sm:gap-8">
+                                <div class="flex flex-col sm:flex-row items-center gap-5 sm:gap-8">
                                     <!-- Animated Circular AQI Ring -->
-                                    <div class="relative w-40 h-40 sm:w-44 sm:h-44 shrink-0 bg-black/15 rounded-full p-2 backdrop-blur-sm border border-white/15">
+                                    <div class="relative w-36 h-36 sm:w-44 sm:h-44 shrink-0 bg-black/15 rounded-full p-2 backdrop-blur-sm border border-white/15">
                                         <svg viewBox="0 0 180 180" class="transform -rotate-90 w-full h-full">
                                             <circle
                                                 cx="90"
@@ -228,28 +228,28 @@
                                             />
                                         </svg>
                                         <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
-                                            <span class="text-xs font-bold uppercase tracking-widest text-white/75">{{ aqiStandard }} AQI</span>
-                                            <span class="text-5xl font-black tracking-tight leading-none my-0.5">{{ displayedAqiValue }}</span>
-                                            <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-white/20 backdrop-blur-md mt-1">
+                                            <span class="text-[11px] sm:text-xs font-bold uppercase tracking-widest text-white/75">{{ aqiStandard }} AQI</span>
+                                            <span class="text-4xl sm:text-5xl font-black tracking-tight leading-none my-0.5">{{ displayedAqiValue }}</span>
+                                            <span class="text-[11px] sm:text-xs font-bold px-2.5 py-0.5 rounded-full bg-white/20 backdrop-blur-md mt-1">
                                                 {{ aqiEmoji }} {{ getAqiLevel(pollutionData.aqius) }}
                                             </span>
                                         </div>
                                     </div>
 
                                     <!-- Health Narrative & Primary Pollutant Summary -->
-                                    <div class="flex-1 space-y-3 text-center sm:text-left">
+                                    <div class="flex-1 min-w-0 space-y-2.5 sm:space-y-3 text-center sm:text-left">
                                         <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold uppercase tracking-wider">
                                             <span>{{ aqiEmoji }}</span>
                                             <span>{{ aqiDescription?.title }}</span>
                                         </div>
-                                        <p class="text-sm sm:text-base text-white/95 leading-relaxed font-medium">
+                                        <p class="text-xs sm:text-base text-white/95 leading-relaxed font-medium">
                                             {{ aqiDescription?.description }}
                                         </p>
                                         <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2 pt-1">
-                                            <span class="px-3 py-1.5 rounded-xl bg-black/25 backdrop-blur-sm text-xs font-semibold">
+                                            <span class="px-2.5 py-1.5 rounded-xl bg-black/25 backdrop-blur-sm text-xs font-semibold">
                                                 Main Pollutant: <strong>{{ formatPollutantShort(pollutionData.mainus) }}</strong> ({{ formatPollutantName(pollutionData.mainus) }})
                                             </span>
-                                            <span class="px-3 py-1.5 rounded-xl bg-black/25 backdrop-blur-sm text-xs font-semibold">
+                                            <span class="px-2.5 py-1.5 rounded-xl bg-black/25 backdrop-blur-sm text-xs font-semibold">
                                                 Est. PM2.5: <strong>~{{ estimatedPm25 }} µg/m³</strong>
                                             </span>
                                         </div>
@@ -257,87 +257,87 @@
                                 </div>
 
                                 <!-- 4 Quick Hero Pills -->
-                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
-                                    <div class="rounded-2xl bg-white/15 backdrop-blur-md p-3.5 border border-white/15">
-                                        <div class="text-xs text-white/75 font-medium">US EPA AQI</div>
-                                        <div class="text-2xl font-extrabold mt-0.5">{{ pollutionData.aqius }}</div>
-                                        <div class="text-[11px] text-white/80 mt-0.5">{{ getAqiLevel(pollutionData.aqius) }}</div>
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 pt-1">
+                                    <div class="rounded-2xl bg-white/15 backdrop-blur-md p-3 sm:p-3.5 border border-white/15 min-w-0">
+                                        <div class="text-[11px] sm:text-xs text-white/75 font-medium truncate">US EPA AQI</div>
+                                        <div class="text-xl sm:text-2xl font-extrabold mt-0.5">{{ pollutionData.aqius }}</div>
+                                        <div class="text-[11px] text-white/80 mt-0.5 truncate">{{ getAqiLevel(pollutionData.aqius) }}</div>
                                     </div>
-                                    <div class="rounded-2xl bg-white/15 backdrop-blur-md p-3.5 border border-white/15">
-                                        <div class="text-xs text-white/75 font-medium">China MEP AQI</div>
-                                        <div class="text-2xl font-extrabold mt-0.5">{{ pollutionData.aqicn }}</div>
-                                        <div class="text-[11px] text-white/80 mt-0.5"> Poll. {{ formatPollutantShort(pollutionData.maincn || pollutionData.mainus) }}</div>
+                                    <div class="rounded-2xl bg-white/15 backdrop-blur-md p-3 sm:p-3.5 border border-white/15 min-w-0">
+                                        <div class="text-[11px] sm:text-xs text-white/75 font-medium truncate">China MEP AQI</div>
+                                        <div class="text-xl sm:text-2xl font-extrabold mt-0.5">{{ pollutionData.aqicn }}</div>
+                                        <div class="text-[11px] text-white/80 mt-0.5 truncate">Poll. {{ formatPollutantShort(pollutionData.maincn || pollutionData.mainus) }}</div>
                                     </div>
-                                    <div class="rounded-2xl bg-white/15 backdrop-blur-md p-3.5 border border-white/15">
-                                        <div class="text-xs text-white/75 font-medium">Est. PM2.5 Mass</div>
-                                        <div class="text-2xl font-extrabold mt-0.5">{{ estimatedPm25 }} <span class="text-xs font-normal">µg/m³</span></div>
-                                        <div class="text-[11px] text-white/80 mt-0.5">{{ pm25WhoComparison }}</div>
+                                    <div class="rounded-2xl bg-white/15 backdrop-blur-md p-3 sm:p-3.5 border border-white/15 min-w-0">
+                                        <div class="text-[11px] sm:text-xs text-white/75 font-medium truncate">Est. PM2.5 Mass</div>
+                                        <div class="text-xl sm:text-2xl font-extrabold mt-0.5 truncate">{{ estimatedPm25 }} <span class="text-xs font-normal">µg/m³</span></div>
+                                        <div class="text-[11px] text-white/80 mt-0.5 truncate">{{ pm25WhoComparison }}</div>
                                     </div>
-                                    <div class="rounded-2xl bg-white/15 backdrop-blur-md p-3.5 border border-white/15">
-                                        <div class="text-xs text-white/75 font-medium">Outdoor Safety</div>
-                                        <div class="text-lg font-extrabold mt-0.5 truncate">{{ outdoorSafetyBadge }}</div>
-                                        <div class="text-[11px] text-white/80 mt-0.5">{{ maskRecommendationShort }}</div>
+                                    <div class="rounded-2xl bg-white/15 backdrop-blur-md p-3 sm:p-3.5 border border-white/15 min-w-0">
+                                        <div class="text-[11px] sm:text-xs text-white/75 font-medium truncate">Outdoor Safety</div>
+                                        <div class="text-base sm:text-lg font-extrabold mt-0.5 truncate">{{ outdoorSafetyBadge }}</div>
+                                        <div class="text-[11px] text-white/80 mt-0.5 truncate">{{ maskRecommendationShort }}</div>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Right 5 Columns: Co-located Meteorology & Atmospheric Dispersion -->
-                            <div class="lg:col-span-5 flex flex-col justify-between gap-4 bg-black/20 backdrop-blur-md rounded-2xl p-5 sm:p-6 border border-white/15">
-                                <div class="flex items-center justify-between">
-                                    <div>
-                                        <span class="text-xs uppercase tracking-wider text-white/70 font-bold block">Co-Located Weather &amp; Airflow</span>
-                                        <h3 class="text-base sm:text-lg font-bold text-white mt-0.5">Pollutant Dispersion Conditions</h3>
+                            <div class="lg:col-span-5 min-w-0 flex flex-col justify-between gap-4 bg-black/20 backdrop-blur-md rounded-2xl p-4 sm:p-6 border border-white/15">
+                                <div class="flex items-center justify-between gap-2">
+                                    <div class="min-w-0">
+                                        <span class="text-[11px] sm:text-xs uppercase tracking-wider text-white/70 font-bold block">Co-Located Weather &amp; Airflow</span>
+                                        <h3 class="text-sm sm:text-lg font-bold text-white mt-0.5 truncate">Pollutant Dispersion Conditions</h3>
                                     </div>
-                                    <span class="px-3 py-1 rounded-full text-xs font-bold bg-white/20 text-white">
+                                    <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-white/20 text-white shrink-0">
                                         {{ dispersionRating.label }}
                                     </span>
                                 </div>
 
-                                <div v-if="weatherData" class="flex items-center justify-between gap-4 py-3 border-y border-white/15">
-                                    <div class="flex items-center gap-3">
+                                <div v-if="weatherData" class="flex items-center justify-between gap-3 py-3 border-y border-white/15">
+                                    <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
                                         <img
                                             v-if="weatherIconUrl"
                                             :src="weatherIconUrl"
                                             alt="Weather condition"
-                                            class="w-16 h-16 -my-2 drop-shadow-md"
+                                            class="w-12 h-12 sm:w-16 sm:h-16 -my-2 drop-shadow-md shrink-0"
                                         />
-                                        <div>
-                                            <div class="text-4xl font-black tracking-tight">
-                                                {{ formatTemp(weatherData.tp) }}°<span class="text-xl font-bold opacity-80">{{ tempUnit }}</span>
+                                        <div class="min-w-0">
+                                            <div class="text-3xl sm:text-4xl font-black tracking-tight">
+                                                {{ formatTemp(weatherData.tp) }}°<span class="text-lg sm:text-xl font-bold opacity-80">{{ tempUnit }}</span>
                                             </div>
-                                            <div class="text-xs text-white/80 mt-0.5">
-                                                Ambient Station Temperature
+                                            <div class="text-[11px] sm:text-xs text-white/80 mt-0.5 truncate">
+                                                Ambient Station Temp
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="text-right">
-                                        <div class="text-xs text-white/75">Wind Speed</div>
-                                        <div class="text-xl font-extrabold">{{ windSpeedKmh }} km/h</div>
+                                    <div class="text-right shrink-0">
+                                        <div class="text-[11px] sm:text-xs text-white/75">Wind Speed</div>
+                                        <div class="text-lg sm:text-xl font-extrabold">{{ windSpeedKmh }} km/h</div>
                                         <div class="text-[11px] text-white/80">{{ getWindDirection(weatherData.wd) }} ({{ weatherData.wd }}°)</div>
                                     </div>
                                 </div>
 
                                 <!-- 4 Weather Telemetry Boxes -->
                                 <div v-if="weatherData" class="grid grid-cols-2 gap-2.5 text-xs">
-                                    <div class="p-3 rounded-xl bg-white/10 border border-white/10">
-                                        <span class="text-white/70 block">💧 Relative Humidity</span>
-                                        <strong class="text-base font-extrabold text-white mt-0.5 block">{{ weatherData.hu }}%</strong>
-                                        <span class="text-[11px] text-white/75">{{ weatherData.hu > 75 ? 'High moisture traps haze' : 'Moderate humidity' }}</span>
+                                    <div class="p-2.5 sm:p-3 rounded-xl bg-white/10 border border-white/10 min-w-0">
+                                        <span class="text-white/70 block truncate">💧 Humidity</span>
+                                        <strong class="text-sm sm:text-base font-extrabold text-white mt-0.5 block">{{ weatherData.hu }}%</strong>
+                                        <span class="text-[11px] text-white/75 block truncate">{{ weatherData.hu > 75 ? 'High moisture' : 'Moderate humidity' }}</span>
                                     </div>
-                                    <div class="p-3 rounded-xl bg-white/10 border border-white/10">
-                                        <span class="text-white/70 block">💨 Wind Velocity</span>
-                                        <strong class="text-base font-extrabold text-white mt-0.5 block">{{ weatherData.ws }} m/s</strong>
-                                        <span class="text-[11px] text-white/75">{{ dispersionRating.note }}</span>
+                                    <div class="p-2.5 sm:p-3 rounded-xl bg-white/10 border border-white/10 min-w-0">
+                                        <span class="text-white/70 block truncate">💨 Wind Velocity</span>
+                                        <strong class="text-sm sm:text-base font-extrabold text-white mt-0.5 block">{{ weatherData.ws }} m/s</strong>
+                                        <span class="text-[11px] text-white/75 block truncate">{{ dispersionRating.note }}</span>
                                     </div>
-                                    <div class="p-3 rounded-xl bg-white/10 border border-white/10">
-                                        <span class="text-white/70 block">⏲️ Barometric Pressure</span>
-                                        <strong class="text-base font-extrabold text-white mt-0.5 block">{{ weatherData.pr }} hPa</strong>
-                                        <span class="text-[11px] text-white/75">{{ weatherData.pr >= 1012 ? 'Stable air mass' : 'Low pressure trough' }}</span>
+                                    <div class="p-2.5 sm:p-3 rounded-xl bg-white/10 border border-white/10 min-w-0">
+                                        <span class="text-white/70 block truncate">⏲️ Pressure</span>
+                                        <strong class="text-sm sm:text-base font-extrabold text-white mt-0.5 block">{{ weatherData.pr }} hPa</strong>
+                                        <span class="text-[11px] text-white/75 block truncate">{{ weatherData.pr >= 1012 ? 'Stable air mass' : 'Low pressure trough' }}</span>
                                     </div>
-                                    <div class="p-3 rounded-xl bg-white/10 border border-white/10">
-                                        <span class="text-white/70 block">🧭 Airflow Vector</span>
-                                        <strong class="text-base font-extrabold text-white mt-0.5 block">{{ getWindDirection(weatherData.wd) }}</strong>
-                                        <span class="text-[11px] text-white/75">Bearing {{ weatherData.wd }}°</span>
+                                    <div class="p-2.5 sm:p-3 rounded-xl bg-white/10 border border-white/10 min-w-0">
+                                        <span class="text-white/70 block truncate">🧭 Airflow Vector</span>
+                                        <strong class="text-sm sm:text-base font-extrabold text-white mt-0.5 block">{{ getWindDirection(weatherData.wd) }}</strong>
+                                        <span class="text-[11px] text-white/75 block truncate">Bearing {{ weatherData.wd }}°</span>
                                     </div>
                                 </div>
                             </div>
@@ -346,23 +346,23 @@
                 </div>
 
                 <!-- 12-Column Main Content Grid -->
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-start">
                     <!-- LEFT 8 COLUMNS: Interactive AQI Scale Explorer, Pollutant Guide & Telegram Automation -->
-                    <div class="lg:col-span-8 space-y-6">
+                    <div class="lg:col-span-8 min-w-0 space-y-5 sm:space-y-6">
                         <!-- 1. Interactive AQI Scale & Health Category Explorer -->
-                        <div class="bg-white dark:bg-slate-900/90 rounded-3xl p-6 border border-slate-200/80 dark:border-slate-800/80 shadow-sm">
+                        <div class="bg-white dark:bg-slate-900/90 rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-slate-200/80 dark:border-slate-800/80 shadow-sm">
                             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5">
-                                <div>
-                                    <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                                        <span class="w-2 h-5 rounded-full bg-emerald-500"></span>
+                                <div class="min-w-0">
+                                    <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                                        <span class="w-2 h-5 rounded-full bg-emerald-500 shrink-0"></span>
                                         <span>Interactive AQI Scale &amp; Health Explorer</span>
                                     </h3>
                                     <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                                        Click any AQI tier below to inspect its health impact and protective protocol
+                                        Tap any AQI tier below to inspect its health impact and protective protocol
                                     </p>
                                 </div>
-                                <span v-if="activeAqiLevel" class="text-xs font-bold px-3 py-1 rounded-full self-start sm:self-auto" :class="activeAqiLevel.badgeClass">
-                                    Current: {{ activeAqiLevel.emoji }} {{ activeAqiLevel.name }} ({{ pollutionData.aqius }})
+                                <span v-if="activeAqiLevel" class="text-xs font-bold px-3 py-1 rounded-full self-start sm:self-auto shrink-0" :class="activeAqiLevel.badgeClass">
+                                    Current: {{ activeAqiLevel.emoji }} {{ activeAqiLevel.shortName || activeAqiLevel.name }} ({{ pollutionData.aqius }})
                                 </span>
                             </div>
 
@@ -388,7 +388,7 @@
                                     <div class="w-0 h-0 border-l-[5px] border-r-[5px] border-t-[6px] border-l-transparent border-r-transparent border-t-slate-900 dark:border-t-white mx-auto"></div>
                                 </div>
 
-                                <div class="flex justify-between mt-2 text-[11px] font-semibold text-slate-400 dark:text-slate-500">
+                                <div class="flex justify-between mt-2 text-[10px] sm:text-[11px] font-semibold text-slate-400 dark:text-slate-500">
                                     <span>0</span>
                                     <span>50</span>
                                     <span>100</span>
@@ -400,7 +400,7 @@
                             </div>
 
                             <!-- 6 Interactive AQI Tier Cards -->
-                            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
+                            <div class="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-2.5">
                                 <button
                                     v-for="(level, idx) in aqiLevels"
                                     :key="level.range"
@@ -410,20 +410,20 @@
                                             ? level.activeClass + ' ring-2 ring-offset-2 dark:ring-offset-slate-900 shadow-md scale-[1.02]'
                                             : 'border-slate-200/70 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/40 hover:bg-slate-100 dark:hover:bg-slate-800/80 opacity-80 hover:opacity-100'
                                     ]"
-                                    class="rounded-2xl p-3 text-center border transition-all flex flex-col items-center justify-between"
+                                    class="rounded-2xl p-2.5 sm:p-3 text-center border transition-all flex flex-col items-center justify-between min-w-0"
                                 >
-                                    <span class="text-2xl">{{ level.emoji }}</span>
-                                    <p class="text-[11px] font-bold mt-1.5 leading-tight" :class="level.textClass">{{ level.shortName || level.name }}</p>
+                                    <span class="text-xl sm:text-2xl">{{ level.emoji }}</span>
+                                    <p class="text-[10px] sm:text-[11px] font-bold mt-1.5 leading-tight truncate w-full" :class="level.textClass">{{ level.shortName || level.name }}</p>
                                     <span class="text-[10px] font-semibold text-slate-400 dark:text-slate-500 mt-1">{{ level.range }}</span>
                                 </button>
                             </div>
 
                             <!-- Selected Level Inspector Drawer -->
-                            <div v-if="inspectedLevelDetails" class="mt-5 p-4 sm:p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-700/70">
+                            <div v-if="inspectedLevelDetails" class="mt-4 sm:mt-5 p-3.5 sm:p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-700/70">
                                 <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
-                                    <div class="flex items-center gap-2.5">
-                                        <span class="text-2xl">{{ inspectedLevelDetails.emoji }}</span>
-                                        <div>
+                                    <div class="flex items-center gap-2.5 min-w-0">
+                                        <span class="text-2xl shrink-0">{{ inspectedLevelDetails.emoji }}</span>
+                                        <div class="min-w-0">
                                             <h4 class="text-sm sm:text-base font-extrabold text-slate-900 dark:text-white">
                                                 {{ inspectedLevelDetails.name }} (AQI {{ inspectedLevelDetails.range }})
                                             </h4>
@@ -432,7 +432,7 @@
                                     </div>
                                     <span
                                         v-if="activeAqiLevel && activeAqiLevel.name === inspectedLevelDetails.name"
-                                        class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30"
+                                        class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 shrink-0"
                                     >
                                         Active Station Level
                                     </span>
@@ -441,16 +441,16 @@
                                     {{ inspectedLevelDetails.description }}
                                 </p>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                                    <div class="p-3.5 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200/60 dark:border-slate-800">
+                                    <div class="p-3 sm:p-3.5 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200/60 dark:border-slate-800">
                                         <div class="font-bold text-slate-900 dark:text-white flex items-center gap-1.5 mb-1">
-                                            <ShieldCheckIcon class="w-4 h-4 text-emerald-500" />
+                                            <ShieldCheckIcon class="w-4 h-4 text-emerald-500 shrink-0" />
                                             <span>General Public Guidance</span>
                                         </div>
                                         <p class="text-slate-600 dark:text-slate-300 leading-relaxed">{{ inspectedLevelDetails.recommendations }}</p>
                                     </div>
-                                    <div class="p-3.5 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200/60 dark:border-slate-800">
+                                    <div class="p-3 sm:p-3.5 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200/60 dark:border-slate-800">
                                         <div class="font-bold text-slate-900 dark:text-white flex items-center gap-1.5 mb-1">
-                                            <UserGroupIcon class="w-4 h-4 text-amber-500" />
+                                            <UserGroupIcon class="w-4 h-4 text-amber-500 shrink-0" />
                                             <span>Sensitive Groups Protocol</span>
                                         </div>
                                         <p class="text-slate-600 dark:text-slate-300 leading-relaxed">{{ inspectedLevelDetails.sensitiveGroups }}</p>
@@ -460,31 +460,31 @@
                         </div>
 
                         <!-- 2. Pollutant Breakdown & Reference Encyclopedia -->
-                        <div class="bg-white dark:bg-slate-900/90 rounded-3xl p-6 border border-slate-200/80 dark:border-slate-800/80 shadow-sm">
+                        <div class="bg-white dark:bg-slate-900/90 rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-slate-200/80 dark:border-slate-800/80 shadow-sm">
                             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5">
-                                <div>
-                                    <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                                        <span class="w-2 h-5 rounded-full bg-orange-500"></span>
+                                <div class="min-w-0">
+                                    <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                                        <span class="w-2 h-5 rounded-full bg-orange-500 shrink-0"></span>
                                         <span>Primary Pollutant &amp; Chemical Profile</span>
                                     </h3>
                                     <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                                         Dominant atmospheric pollutant and reference guide for major urban emissions
                                     </p>
                                 </div>
-                                <span class="text-xs font-bold px-3 py-1 rounded-full bg-orange-500/10 text-orange-600 dark:text-orange-400 self-start sm:self-auto">
+                                <span class="text-xs font-bold px-3 py-1 rounded-full bg-orange-500/10 text-orange-600 dark:text-orange-400 self-start sm:self-auto shrink-0">
                                     Dominant: {{ formatPollutantShort(pollutionData.mainus) }}
                                 </span>
                             </div>
 
                             <!-- Active Primary Pollutant Highlight -->
-                            <div class="rounded-2xl p-4 sm:p-5 bg-gradient-to-r from-orange-500/10 via-amber-500/5 to-transparent border border-orange-500/20 flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-6">
-                                <div class="w-16 h-16 rounded-2xl bg-orange-500 text-white flex flex-col items-center justify-center font-black shrink-0 shadow-md shadow-orange-500/20">
-                                    <span class="text-lg leading-none">{{ formatPollutantShort(pollutionData.mainus) }}</span>
+                            <div class="rounded-2xl p-4 sm:p-5 bg-gradient-to-r from-orange-500/10 via-amber-500/5 to-transparent border border-orange-500/20 flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-5 sm:mb-6">
+                                <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-orange-500 text-white flex flex-col items-center justify-center font-black shrink-0 shadow-md shadow-orange-500/20">
+                                    <span class="text-base sm:text-lg leading-none">{{ formatPollutantShort(pollutionData.mainus) }}</span>
                                     <span class="text-[10px] font-semibold opacity-85 mt-0.5">Primary</span>
                                 </div>
-                                <div class="flex-1">
+                                <div class="flex-1 min-w-0">
                                     <div class="flex flex-wrap items-center gap-2">
-                                        <h4 class="text-base font-extrabold text-slate-900 dark:text-white">
+                                        <h4 class="text-sm sm:text-base font-extrabold text-slate-900 dark:text-white">
                                             {{ formatPollutantName(pollutionData.mainus) }}
                                         </h4>
                                         <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
@@ -498,12 +498,12 @@
                             </div>
 
                             <!-- 6 Major Pollutants Reference Cards -->
-                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3">
                                 <div
                                     v-for="pol in pollutantCatalog"
                                     :key="pol.code"
                                     :class="pollutionData.mainus === pol.code ? 'border-orange-500/60 bg-orange-50/50 dark:bg-orange-950/20' : 'border-slate-200/70 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-800/40'"
-                                    class="p-3.5 rounded-2xl border transition-all"
+                                    class="p-3.5 rounded-2xl border transition-all min-w-0"
                                 >
                                     <div class="flex items-center justify-between mb-1.5">
                                         <span class="text-sm font-extrabold text-slate-900 dark:text-white">{{ pol.symbol }}</span>
@@ -518,17 +518,17 @@
                         </div>
 
                         <!-- 3. Telegram Real-Time Alert Automation Panel -->
-                        <div id="telegram-alerts-panel" class="bg-white dark:bg-slate-900/90 rounded-3xl p-6 border border-slate-200/80 dark:border-slate-800/80 shadow-sm">
+                        <div id="telegram-alerts-panel" class="bg-white dark:bg-slate-900/90 rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-slate-200/80 dark:border-slate-800/80 shadow-sm">
                             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-slate-200/80 dark:border-slate-800">
-                                <div class="flex items-center gap-3.5">
-                                    <div class="w-12 h-12 rounded-2xl bg-sky-500/15 text-sky-600 dark:text-sky-400 flex items-center justify-center shrink-0">
+                                <div class="flex items-start sm:items-center gap-3.5 min-w-0">
+                                    <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-sky-500/15 text-sky-600 dark:text-sky-400 flex items-center justify-center shrink-0">
                                         <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
                                             <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.053 5.56-5.023c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
                                         </svg>
                                     </div>
-                                    <div>
-                                        <div class="flex items-center gap-2">
-                                            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Telegram Automated AQI Alerts</h3>
+                                    <div class="min-w-0">
+                                        <div class="flex flex-wrap items-center gap-2">
+                                            <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Telegram Automated AQI Alerts</h3>
                                             <span
                                                 :class="telegramSettings.enabled ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300' : 'bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400'"
                                                 class="text-[11px] font-bold px-2.5 py-0.5 rounded-full"
@@ -543,7 +543,7 @@
                                 </div>
 
                                 <!-- Enable Switch -->
-                                <label class="relative inline-flex items-center cursor-pointer self-start sm:self-auto">
+                                <label class="relative inline-flex items-center cursor-pointer self-start sm:self-auto shrink-0">
                                     <input type="checkbox" v-model="telegramSettings.enabled" class="sr-only peer" @change="saveSettings" />
                                     <div class="w-14 h-7 bg-slate-200 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-sky-600"></div>
                                 </label>
@@ -552,16 +552,16 @@
                             <!-- Enabled Configuration Form -->
                             <div v-if="telegramSettings.enabled" class="pt-5 space-y-5">
                                 <!-- Collapsible Setup Guide -->
-                                <div class="rounded-2xl bg-sky-50/80 dark:bg-sky-950/30 border border-sky-200/70 dark:border-sky-800/60 p-4">
+                                <div class="rounded-2xl bg-sky-50/80 dark:bg-sky-950/30 border border-sky-200/70 dark:border-sky-800/60 p-3.5 sm:p-4">
                                     <button
                                         @click="showTelegramGuide = !showTelegramGuide"
-                                        class="w-full flex items-center justify-between text-left text-xs sm:text-sm font-bold text-sky-900 dark:text-sky-200"
+                                        class="w-full flex items-center justify-between gap-2 text-left text-xs sm:text-sm font-bold text-sky-900 dark:text-sky-200"
                                     >
-                                        <span class="flex items-center gap-2">
-                                            <span>🤖</span>
-                                            <span>How to connect your Telegram Bot (4 quick steps)</span>
+                                        <span class="flex items-center gap-2 min-w-0">
+                                            <span class="shrink-0">🤖</span>
+                                            <span class="truncate">How to connect your Telegram Bot (4 steps)</span>
                                         </span>
-                                        <span class="text-xs underline">{{ showTelegramGuide ? 'Hide guide' : 'Show guide' }}</span>
+                                        <span class="text-xs underline shrink-0">{{ showTelegramGuide ? 'Hide' : 'Guide' }}</span>
                                     </button>
                                     <ol v-if="showTelegramGuide" class="mt-3 text-xs text-sky-800 dark:text-sky-300 space-y-1.5 list-decimal list-inside leading-relaxed border-t border-sky-200/60 dark:border-sky-800/60 pt-3">
                                         <li>Open Telegram and message <strong>@BotFather</strong>, then send <code class="px-1.5 py-0.5 rounded bg-sky-100 dark:bg-sky-900 font-mono">/newbot</code>.</li>
@@ -626,9 +626,9 @@
                                 </div>
 
                                 <!-- Live Countdown Bar -->
-                                <div v-if="Number(telegramSettings.checkInterval) > 0" class="p-3.5 rounded-2xl bg-emerald-50/80 dark:bg-emerald-950/30 border border-emerald-200/70 dark:border-emerald-800/60 flex items-center justify-between">
+                                <div v-if="Number(telegramSettings.checkInterval) > 0" class="p-3.5 rounded-2xl bg-emerald-50/80 dark:bg-emerald-950/30 border border-emerald-200/70 dark:border-emerald-800/60 flex flex-wrap items-center justify-between gap-2">
                                     <div class="flex items-center gap-2.5">
-                                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+                                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping shrink-0"></span>
                                         <span class="text-xs sm:text-sm font-bold text-emerald-800 dark:text-emerald-200">Automated Background Monitoring Active</span>
                                     </div>
                                     <span class="text-xs font-mono font-bold text-emerald-700 dark:text-emerald-300 bg-white/80 dark:bg-slate-900/80 px-2.5 py-1 rounded-lg">
@@ -663,7 +663,7 @@
                                 </div>
                             </div>
 
-                            <div v-else class="pt-5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+                            <div v-else class="pt-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 text-xs sm:text-sm text-slate-500 dark:text-slate-400">
                                 <span>Toggle the switch above to configure instant Telegram notifications when air pollution spikes.</span>
                                 <button
                                     @click="telegramSettings.enabled = true; saveSettings()"
@@ -676,27 +676,27 @@
                     </div>
 
                     <!-- RIGHT 4 COLUMNS: Smart Protective Actions & Station Telemetry -->
-                    <div class="lg:col-span-4 space-y-6">
+                    <div class="lg:col-span-4 min-w-0 space-y-5 sm:space-y-6">
                         <!-- 1. Smart Health & Daily Protection Matrix -->
-                        <div class="bg-white dark:bg-slate-900/90 rounded-3xl p-6 border border-slate-200/80 dark:border-slate-800/80 shadow-sm">
-                            <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-1">
-                                <span class="w-2 h-5 rounded-full bg-teal-500"></span>
+                        <div class="bg-white dark:bg-slate-900/90 rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-slate-200/80 dark:border-slate-800/80 shadow-sm">
+                            <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-1">
+                                <span class="w-2 h-5 rounded-full bg-teal-500 shrink-0"></span>
                                 <span>Protective Action Matrix</span>
                             </h3>
                             <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">
                                 Real-time respiratory &amp; lifestyle recommendations for AQI {{ pollutionData.aqius }}
                             </p>
 
-                            <div class="space-y-3">
+                            <div class="space-y-2.5 sm:space-y-3">
                                 <div
                                     v-for="(item, idx) in protectiveActions"
                                     :key="idx"
-                                    class="p-3.5 rounded-2xl bg-slate-50/90 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 flex items-start gap-3"
+                                    class="p-3 sm:p-3.5 rounded-2xl bg-slate-50/90 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 flex items-start gap-3"
                                 >
                                     <div class="text-2xl shrink-0 mt-0.5">{{ item.icon }}</div>
                                     <div class="flex-1 min-w-0">
                                         <div class="flex items-center justify-between gap-2">
-                                            <span class="text-xs font-bold text-slate-900 dark:text-white">{{ item.title }}</span>
+                                            <span class="text-xs font-bold text-slate-900 dark:text-white truncate">{{ item.title }}</span>
                                             <span :class="item.badgeClass" class="text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0">
                                                 {{ item.status }}
                                             </span>
@@ -710,13 +710,13 @@
                         </div>
 
                         <!-- 2. WHO PM2.5 Benchmark Card -->
-                        <div class="bg-white dark:bg-slate-900/90 rounded-3xl p-6 border border-slate-200/80 dark:border-slate-800/80 shadow-sm">
-                            <div class="flex items-center justify-between mb-3">
-                                <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                                    <BeakerIcon class="w-5 h-5 text-emerald-500" />
-                                    <span>PM2.5 vs. WHO Guideline</span>
+                        <div class="bg-white dark:bg-slate-900/90 rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-slate-200/80 dark:border-slate-800/80 shadow-sm">
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2 min-w-0">
+                                    <BeakerIcon class="w-5 h-5 text-emerald-500 shrink-0" />
+                                    <span class="truncate">PM2.5 vs. WHO Guideline</span>
                                 </h3>
-                                <span class="text-xs font-bold text-slate-500 dark:text-slate-400">~{{ estimatedPm25 }} µg/m³</span>
+                                <span class="text-xs font-bold text-slate-500 dark:text-slate-400 shrink-0">~{{ estimatedPm25 }} µg/m³</span>
                             </div>
                             <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mb-4">
                                 The World Health Organization (WHO) 24-hour safe guideline for fine particulate matter (PM2.5) is <strong>15 µg/m³</strong>.
@@ -728,7 +728,7 @@
                                     :style="{ width: `${Math.min(100, Math.max(8, (estimatedPm25 / 75) * 100))}%` }"
                                 ></div>
                             </div>
-                            <div class="flex justify-between text-[11px] text-slate-400 font-semibold">
+                            <div class="flex justify-between text-[10px] sm:text-[11px] text-slate-400 font-semibold">
                                 <span>0 µg/m³</span>
                                 <span class="text-emerald-600 dark:text-emerald-400">WHO Target: 15 µg/m³</span>
                                 <span>75+ µg/m³</span>
@@ -736,31 +736,31 @@
                         </div>
 
                         <!-- 3. Station & Standard Telemetry Summary -->
-                        <div class="bg-white dark:bg-slate-900/90 rounded-3xl p-6 border border-slate-200/80 dark:border-slate-800/80 shadow-sm">
+                        <div class="bg-white dark:bg-slate-900/90 rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-slate-200/80 dark:border-slate-800/80 shadow-sm">
                             <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-4">
-                                <SunIcon class="w-5 h-5 text-amber-500" />
+                                <SunIcon class="w-5 h-5 text-amber-500 shrink-0" />
                                 <span>Station Telemetry &amp; Source</span>
                             </h3>
                             <div class="space-y-2.5 text-xs">
-                                <div class="flex items-center justify-between py-2 border-b border-slate-100 dark:border-slate-800">
-                                    <span class="text-slate-500 dark:text-slate-400">Selected Hub</span>
-                                    <span class="font-bold text-slate-900 dark:text-white">{{ selectedHub.name }} ({{ selectedHub.khmer || cityInfo.country }})</span>
+                                <div class="flex items-center justify-between gap-2 py-2 border-b border-slate-100 dark:border-slate-800">
+                                    <span class="text-slate-500 dark:text-slate-400 shrink-0">Selected Hub</span>
+                                    <span class="font-bold text-slate-900 dark:text-white text-right truncate">{{ selectedHub.name }} ({{ selectedHub.khmer || cityInfo.country }})</span>
                                 </div>
-                                <div class="flex items-center justify-between py-2 border-b border-slate-100 dark:border-slate-800">
-                                    <span class="text-slate-500 dark:text-slate-400">Reporting Station</span>
-                                    <span class="font-bold text-slate-900 dark:text-white">{{ cityInfo.city }}, {{ cityInfo.country }}</span>
+                                <div class="flex items-center justify-between gap-2 py-2 border-b border-slate-100 dark:border-slate-800">
+                                    <span class="text-slate-500 dark:text-slate-400 shrink-0">Reporting Station</span>
+                                    <span class="font-bold text-slate-900 dark:text-white text-right truncate">{{ cityInfo.city }}, {{ cityInfo.country }}</span>
                                 </div>
-                                <div class="flex items-center justify-between py-2 border-b border-slate-100 dark:border-slate-800">
-                                    <span class="text-slate-500 dark:text-slate-400">US EPA Standard</span>
-                                    <span class="font-bold" :class="aqiTextColor">{{ pollutionData.aqius }} AQI ({{ getAqiLevel(pollutionData.aqius) }})</span>
+                                <div class="flex items-center justify-between gap-2 py-2 border-b border-slate-100 dark:border-slate-800">
+                                    <span class="text-slate-500 dark:text-slate-400 shrink-0">US EPA Standard</span>
+                                    <span class="font-bold text-right" :class="aqiTextColor">{{ pollutionData.aqius }} AQI ({{ getAqiLevel(pollutionData.aqius) }})</span>
                                 </div>
-                                <div class="flex items-center justify-between py-2 border-b border-slate-100 dark:border-slate-800">
-                                    <span class="text-slate-500 dark:text-slate-400">China MEP Standard</span>
-                                    <span class="font-bold text-slate-900 dark:text-white">{{ pollutionData.aqicn }} AQI</span>
+                                <div class="flex items-center justify-between gap-2 py-2 border-b border-slate-100 dark:border-slate-800">
+                                    <span class="text-slate-500 dark:text-slate-400 shrink-0">China MEP Standard</span>
+                                    <span class="font-bold text-slate-900 dark:text-white text-right">{{ pollutionData.aqicn }} AQI</span>
                                 </div>
-                                <div class="flex items-center justify-between py-2">
-                                    <span class="text-slate-500 dark:text-slate-400">Sensor Timestamp</span>
-                                    <span class="font-semibold text-slate-900 dark:text-white">{{ formattedDateTime }}</span>
+                                <div class="flex items-center justify-between gap-2 py-2">
+                                    <span class="text-slate-500 dark:text-slate-400 shrink-0">Sensor Timestamp</span>
+                                    <span class="font-semibold text-slate-900 dark:text-white text-right truncate">{{ formattedDateTime }}</span>
                                 </div>
                             </div>
                             <p class="mt-4 text-[11px] text-slate-400 dark:text-slate-500 leading-relaxed">

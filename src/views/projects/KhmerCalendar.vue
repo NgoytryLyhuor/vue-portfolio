@@ -1,50 +1,51 @@
 <template>
-    <div class="min-h-screen py-6 sm:py-10 px-3 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-50 via-red-50/20 to-blue-50/30 dark:from-gray-900 dark:via-gray-900 dark:to-slate-900">
+    <div class="min-h-screen pt-12 sm:pt-16 pb-12 px-0 sm:px-4 lg:px-6 bg-gradient-to-br from-slate-50 via-red-50/20 to-blue-50/30 dark:from-gray-900 dark:via-gray-900 dark:to-slate-900 overflow-x-hidden">
         <div class="max-w-7xl mx-auto">
 
             <!-- Top Hero & Live Today Banner -->
-            <div class="relative rounded-3xl bg-gradient-to-r from-red-600 via-rose-600 to-blue-700 p-5 sm:p-7 lg:p-8 text-white shadow-2xl mb-6 sm:mb-8 overflow-hidden">
+            <div class="relative rounded-2xl sm:rounded-3xl bg-gradient-to-r from-red-600 via-rose-600 to-blue-700 p-4 sm:p-7 lg:p-8 text-white shadow-xl mb-4 sm:mb-8 overflow-hidden">
                 <!-- Decorative subtle background circles -->
                 <div class="absolute -top-20 -right-20 w-72 h-72 rounded-full bg-white/10 blur-2xl pointer-events-none"></div>
                 <div class="absolute -bottom-24 -left-20 w-72 h-72 rounded-full bg-blue-400/20 blur-2xl pointer-events-none"></div>
 
-                <div class="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
-                    <div>
-                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-xs sm:text-sm font-medium mb-3 border border-white/20">
+                <div class="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 sm:gap-5">
+                    <div class="min-w-0">
+                        <div class="inline-flex flex-wrap items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-[11px] sm:text-sm font-medium mb-2.5 border border-white/20">
                             <span>🇰🇭</span>
-                            <span>ប្រតិទិនច័ន្ទគតិ-សុរិយគតិខ្មែរ • Official Chhankitek Calendar</span>
+                            <span>ប្រតិទិនច័ន្ទគតិ-សុរិយគតិខ្មែរ</span>
+                            <span class="hidden xs:inline">• Official Chhankitek</span>
                         </div>
-                        <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight mb-2">
+                        <h1 class="text-xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight mb-1.5 leading-tight">
                             ប្រតិទិនខ្មែរ • Khmer Calendar
                         </h1>
-                        <p class="text-white/90 text-sm sm:text-base font-medium">
+                        <p class="text-white/90 text-xs sm:text-base font-medium leading-relaxed break-words">
                             ថ្ងៃនេះ៖ {{ todayBannerInfo.khmerLunarFullDate }} • {{ todayBannerInfo.khmerSolarFullDate }}
                         </p>
                     </div>
 
                     <!-- Today Quick Status & Next Holiday Pill -->
-                    <div class="flex flex-wrap sm:flex-nowrap items-stretch gap-3">
-                        <div class="flex-1 sm:flex-initial bg-white/15 backdrop-blur-md border border-white/20 rounded-2xl px-4 py-3 flex items-center gap-3">
-                            <div class="w-11 h-11 rounded-xl bg-white text-red-600 font-extrabold text-xl flex flex-col items-center justify-center shadow">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:flex items-stretch gap-2.5 sm:gap-3 w-full lg:w-auto">
+                        <div class="min-w-0 bg-white/15 backdrop-blur-md border border-white/20 rounded-2xl px-3.5 py-2.5 sm:px-4 sm:py-3 flex items-center gap-3">
+                            <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-white text-red-600 font-extrabold text-lg sm:text-xl flex flex-col items-center justify-center shadow shrink-0">
                                 <span>{{ todayBannerInfo.day }}</span>
                             </div>
-                            <div>
-                                <div class="text-xs text-white/80">ស្ថានភាពថ្ងៃនេះ (Today's Status)</div>
-                                <div class="text-sm font-bold flex items-center gap-1.5 mt-0.5">
-                                    <span v-if="todayBannerInfo.isPublicHoliday">🔴 ថ្ងៃឈប់សម្រាកផ្លូវការ (Holiday)</span>
-                                    <span v-else-if="todayBannerInfo.isWeekend">🟠 ថ្ងៃចុងសប្តាហ៍ (Weekend)</span>
-                                    <span v-else>🟢 ថ្ងៃធ្វើការធម្មតា (Working Day)</span>
+                            <div class="min-w-0">
+                                <div class="text-[11px] sm:text-xs text-white/80 truncate">ស្ថានភាពថ្ងៃនេះ (Today's Status)</div>
+                                <div class="text-xs sm:text-sm font-bold flex items-center gap-1.5 mt-0.5 truncate">
+                                    <span v-if="todayBannerInfo.isPublicHoliday" class="truncate">🔴 ថ្ងៃឈប់សម្រាកផ្លូវការ</span>
+                                    <span v-else-if="todayBannerInfo.isWeekend" class="truncate">🟠 ថ្ងៃចុងសប្តាហ៍ (Weekend)</span>
+                                    <span v-else class="truncate">🟢 ថ្ងៃធ្វើការធម្មតា (Working Day)</span>
                                 </div>
                             </div>
                         </div>
 
                         <div v-if="nextUpcomingHoliday" 
                             @click="jumpToHoliday(nextUpcomingHoliday)"
-                            class="flex-1 sm:flex-initial bg-black/20 hover:bg-black/30 cursor-pointer transition-all backdrop-blur-md border border-white/15 rounded-2xl px-4 py-3 flex items-center gap-3">
-                            <div class="text-2xl">🎉</div>
-                            <div class="min-w-0">
-                                <div class="text-xs text-white/75">ថ្ងៃឈប់សម្រាកបន្ទាប់ ({{ nextUpcomingHoliday.daysUntil === 0 ? 'ថ្ងៃនេះ' : nextUpcomingHoliday.daysUntil + ' ថ្ងៃទៀត' }})</div>
-                                <div class="text-sm font-bold truncate max-w-[180px] sm:max-w-[220px]">{{ nextUpcomingHoliday.khmer }}</div>
+                            class="min-w-0 bg-black/20 hover:bg-black/30 cursor-pointer transition-all backdrop-blur-md border border-white/15 rounded-2xl px-3.5 py-2.5 sm:px-4 sm:py-3 flex items-center gap-3">
+                            <div class="text-xl sm:text-2xl shrink-0">🎉</div>
+                            <div class="min-w-0 flex-1">
+                                <div class="text-[11px] sm:text-xs text-white/75 truncate">ថ្ងៃឈប់សម្រាកបន្ទាប់ ({{ nextUpcomingHoliday.daysUntil === 0 ? 'ថ្ងៃនេះ' : nextUpcomingHoliday.daysUntil + ' ថ្ងៃទៀត' }})</div>
+                                <div class="text-xs sm:text-sm font-bold truncate">{{ nextUpcomingHoliday.khmer }}</div>
                             </div>
                         </div>
                     </div>
@@ -52,113 +53,113 @@
             </div>
 
             <!-- Monthly Workday / Holiday / Holy Day Stats & Filter Bar -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-6">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4 mb-5 sm:mb-6">
                 <button @click="activeFilter = 'all'"
-                    class="p-3.5 sm:p-4 rounded-2xl border text-left transition-all flex items-center gap-3 shadow-sm hover:shadow-md"
+                    class="p-3 sm:p-4 rounded-2xl border text-left transition-all flex items-center gap-2.5 sm:gap-3 shadow-sm hover:shadow-md min-w-0"
                     :class="activeFilter === 'all' 
                         ? 'bg-blue-600 text-white border-blue-600 shadow-blue-500/20' 
                         : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white'">
-                    <div class="w-10 h-10 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
+                    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center text-base sm:text-lg flex-shrink-0"
                         :class="activeFilter === 'all' ? 'bg-white/20 text-white' : 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'">
                         📅
                     </div>
-                    <div>
-                        <div class="text-xs opacity-80">ថ្ងៃសរុបក្នុងខែ (Total Days)</div>
-                        <div class="text-lg sm:text-xl font-bold">{{ toKhmerNumeral(monthStats.totalDays) }} <span class="text-xs font-normal opacity-75">({{ monthStats.totalDays }}d)</span></div>
+                    <div class="min-w-0">
+                        <div class="text-[11px] sm:text-xs opacity-80 truncate">ថ្ងៃសរុបក្នុងខែ</div>
+                        <div class="text-base sm:text-xl font-bold leading-tight mt-0.5">{{ toKhmerNumeral(monthStats.totalDays) }} <span class="text-[11px] sm:text-xs font-normal opacity-75">({{ monthStats.totalDays }}d)</span></div>
                     </div>
                 </button>
 
                 <button @click="activeFilter = activeFilter === 'workday' ? 'all' : 'workday'"
-                    class="p-3.5 sm:p-4 rounded-2xl border text-left transition-all flex items-center gap-3 shadow-sm hover:shadow-md"
+                    class="p-3 sm:p-4 rounded-2xl border text-left transition-all flex items-center gap-2.5 sm:gap-3 shadow-sm hover:shadow-md min-w-0"
                     :class="activeFilter === 'workday' 
                         ? 'bg-emerald-600 text-white border-emerald-600 shadow-emerald-500/20' 
                         : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white'">
-                    <div class="w-10 h-10 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
+                    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center text-base sm:text-lg flex-shrink-0"
                         :class="activeFilter === 'workday' ? 'bg-white/20 text-white' : 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400'">
                         💼
                     </div>
-                    <div>
-                        <div class="text-xs opacity-80">ថ្ងៃធ្វើការ (Working Days)</div>
-                        <div class="text-lg sm:text-xl font-bold">{{ toKhmerNumeral(monthStats.workingDays) }} <span class="text-xs font-normal opacity-75">({{ monthStats.workingDays }}d)</span></div>
+                    <div class="min-w-0">
+                        <div class="text-[11px] sm:text-xs opacity-80 truncate">ថ្ងៃធ្វើការ</div>
+                        <div class="text-base sm:text-xl font-bold leading-tight mt-0.5">{{ toKhmerNumeral(monthStats.workingDays) }} <span class="text-[11px] sm:text-xs font-normal opacity-75">({{ monthStats.workingDays }}d)</span></div>
                     </div>
                 </button>
 
                 <button @click="activeFilter = activeFilter === 'holiday' ? 'all' : 'holiday'"
-                    class="p-3.5 sm:p-4 rounded-2xl border text-left transition-all flex items-center gap-3 shadow-sm hover:shadow-md"
+                    class="p-3 sm:p-4 rounded-2xl border text-left transition-all flex items-center gap-2.5 sm:gap-3 shadow-sm hover:shadow-md min-w-0"
                     :class="activeFilter === 'holiday' 
                         ? 'bg-red-600 text-white border-red-600 shadow-red-500/20' 
                         : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white'">
-                    <div class="w-10 h-10 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
+                    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center text-base sm:text-lg flex-shrink-0"
                         :class="activeFilter === 'holiday' ? 'bg-white/20 text-white' : 'bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400'">
                         🎉
                     </div>
-                    <div>
-                        <div class="text-xs opacity-80">ថ្ងៃបុណ្យជាតិ (Public Holidays)</div>
-                        <div class="text-lg sm:text-xl font-bold">{{ toKhmerNumeral(monthStats.publicHolidays) }} <span class="text-xs font-normal opacity-75">({{ monthStats.publicHolidays }}d)</span></div>
+                    <div class="min-w-0">
+                        <div class="text-[11px] sm:text-xs opacity-80 truncate">ថ្ងៃបុណ្យជាតិ</div>
+                        <div class="text-base sm:text-xl font-bold leading-tight mt-0.5">{{ toKhmerNumeral(monthStats.publicHolidays) }} <span class="text-[11px] sm:text-xs font-normal opacity-75">({{ monthStats.publicHolidays }}d)</span></div>
                     </div>
                 </button>
 
                 <button @click="activeFilter = activeFilter === 'holyday' ? 'all' : 'holyday'"
-                    class="p-3.5 sm:p-4 rounded-2xl border text-left transition-all flex items-center gap-3 shadow-sm hover:shadow-md"
+                    class="p-3 sm:p-4 rounded-2xl border text-left transition-all flex items-center gap-2.5 sm:gap-3 shadow-sm hover:shadow-md min-w-0"
                     :class="activeFilter === 'holyday' 
                         ? 'bg-amber-500 text-white border-amber-500 shadow-amber-500/20' 
                         : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white'">
-                    <div class="w-10 h-10 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
+                    <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center text-base sm:text-lg flex-shrink-0"
                         :class="activeFilter === 'holyday' ? 'bg-white/20 text-white' : 'bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400'">
                         ☸️
                     </div>
-                    <div>
-                        <div class="text-xs opacity-80">ថ្ងៃឧបោសថសីល (Holy Days)</div>
-                        <div class="text-lg sm:text-xl font-bold">{{ toKhmerNumeral(monthStats.holyDays) }} <span class="text-xs font-normal opacity-75">({{ monthStats.holyDays }}d)</span></div>
+                    <div class="min-w-0">
+                        <div class="text-[11px] sm:text-xs opacity-80 truncate">ថ្ងៃឧបោសថសីល</div>
+                        <div class="text-base sm:text-xl font-bold leading-tight mt-0.5">{{ toKhmerNumeral(monthStats.holyDays) }} <span class="text-[11px] sm:text-xs font-normal opacity-75">({{ monthStats.holyDays }}d)</span></div>
                     </div>
                 </button>
             </div>
 
             <!-- Main Two-Column Layout: Calendar Grid (Left 8 cols) + Selected Day & Holy Days Panel (Right 4 cols) -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 mb-6 sm:mb-8">
 
                 <!-- Left Column: Calendar Grid -->
-                <div class="lg:col-span-8">
-                    <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-xl border border-gray-200/80 dark:border-gray-700 overflow-hidden">
+                <div class="lg:col-span-8 min-w-0">
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl sm:rounded-3xl shadow-xl border border-gray-200/80 dark:border-gray-700 overflow-hidden">
                         
                         <!-- Calendar Control Bar -->
-                        <div class="p-4 sm:p-6 border-b border-gray-100 dark:border-gray-700 bg-gradient-to-r from-gray-50 via-white to-gray-50 dark:from-gray-800 dark:via-gray-800 dark:to-gray-800">
-                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                        <div class="p-3.5 sm:p-6 border-b border-gray-100 dark:border-gray-700 bg-gradient-to-r from-gray-50 via-white to-gray-50 dark:from-gray-800 dark:via-gray-800 dark:to-gray-800">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3.5 sm:gap-4">
                                 
                                 <!-- Month Title & Lunar Months -->
-                                <div class="flex items-center justify-between sm:justify-start gap-3">
+                                <div class="flex items-center justify-between sm:justify-start gap-2 sm:gap-3">
                                     <button @click="previousMonth" 
-                                        class="p-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 active:scale-95 transition-all"
+                                        class="p-2 sm:p-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 active:scale-95 transition-all shrink-0"
                                         title="Previous Month">
                                         <ChevronLeftIcon class="h-5 w-5" />
                                     </button>
 
-                                    <div class="text-center sm:text-left px-1">
-                                        <div class="flex items-center justify-center sm:justify-start gap-2">
-                                            <h2 class="text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-white">
+                                    <div class="text-center sm:text-left px-1 min-w-0">
+                                        <div class="flex flex-wrap items-center justify-center sm:justify-start gap-1.5 sm:gap-2">
+                                            <h2 class="text-lg sm:text-2xl font-extrabold text-gray-900 dark:text-white leading-tight">
                                                 ខែ{{ currentSolarKhmerMonth }} {{ toKhmerNumeral(currentYear) }}
                                             </h2>
-                                            <span class="text-sm sm:text-base font-semibold text-gray-500 dark:text-gray-400">
+                                            <span class="text-xs sm:text-base font-semibold text-gray-500 dark:text-gray-400">
                                                 ({{ currentMonthName }} {{ currentYear }})
                                             </span>
                                         </div>
-                                        <p class="text-xs sm:text-sm font-medium text-blue-600 dark:text-blue-400 mt-0.5">
-                                            🌙 {{ khmerMonthName }} • ឆ្នាំ{{ currentZodiacKhmer }} {{ currentSakKhmer }} ព.ស. {{ toKhmerNumeral(currentKhmerYear) }}
+                                        <p class="text-[11px] sm:text-sm font-medium text-blue-600 dark:text-blue-400 mt-0.5 truncate">
+                                            🌙 {{ khmerMonthName }} • ឆ្នាំ{{ currentZodiacKhmer }} ព.ស. {{ toKhmerNumeral(currentKhmerYear) }}
                                         </p>
                                     </div>
 
                                     <button @click="nextMonth" 
-                                        class="p-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 active:scale-95 transition-all"
+                                        class="p-2 sm:p-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 active:scale-95 transition-all shrink-0"
                                         title="Next Month">
                                         <ChevronRightIcon class="h-5 w-5" />
                                     </button>
                                 </div>
 
                                 <!-- Quick Selectors (Month, Year, Today) -->
-                                <div class="flex flex-wrap items-center justify-center sm:justify-end gap-2">
+                                <div class="grid grid-cols-3 sm:flex items-center gap-2 w-full sm:w-auto">
                                     <select :value="currentMonth" @change="onMonthSelect($event)"
                                         aria-label="Select Month"
-                                        class="px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border-0 focus:ring-2 focus:ring-blue-500 cursor-pointer">
+                                        class="w-full sm:w-auto px-2.5 sm:px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border-0 focus:ring-2 focus:ring-blue-500 cursor-pointer truncate">
                                         <option v-for="(mName, mIdx) in solarKhmerMonths" :key="mIdx" :value="mIdx">
                                             {{ mName }} ({{ englishMonthsShort[mIdx] }})
                                         </option>
@@ -166,46 +167,46 @@
 
                                     <select :value="currentYear" @change="onYearSelect($event)"
                                         aria-label="Select Year"
-                                        class="px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border-0 focus:ring-2 focus:ring-blue-500 cursor-pointer">
+                                        class="w-full sm:w-auto px-2.5 sm:px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border-0 focus:ring-2 focus:ring-blue-500 cursor-pointer truncate">
                                         <option v-for="yr in yearOptions" :key="yr" :value="yr">
                                             {{ yr }} (ព.ស. {{ toKhmerNumeral(yr + 544) }})
                                         </option>
                                     </select>
 
                                     <button @click="goToToday" 
-                                        class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-red-600 to-blue-600 hover:from-red-700 hover:to-blue-700 text-white text-xs sm:text-sm font-semibold shadow-sm hover:shadow transition-all flex items-center gap-1.5">
-                                        <CalendarIcon class="h-4 w-4" />
+                                        class="w-full sm:w-auto px-3 py-2 rounded-xl bg-gradient-to-r from-red-600 to-blue-600 hover:from-red-700 hover:to-blue-700 text-white text-xs sm:text-sm font-semibold shadow-sm hover:shadow transition-all flex items-center justify-center gap-1.5">
+                                        <CalendarIcon class="h-4 w-4 shrink-0" />
                                         <span>ថ្ងៃនេះ</span>
                                     </button>
                                 </div>
                             </div>
 
                             <!-- Legend Bar -->
-                            <div class="flex flex-wrap items-center justify-between gap-2 mt-4 pt-3 border-t border-gray-100 dark:border-gray-700/70 text-[11px] sm:text-xs text-gray-500 dark:text-gray-400">
-                                <div class="flex flex-wrap items-center gap-3 sm:gap-4">
-                                    <span class="inline-flex items-center gap-1.5">
-                                        <span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>
-                                        <span>ថ្ងៃឈប់សម្រាកផ្លូវការ (Public Holiday)</span>
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 mt-3.5 pt-3 border-t border-gray-100 dark:border-gray-700/70 text-[11px] sm:text-xs text-gray-500 dark:text-gray-400">
+                                <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+                                    <span class="inline-flex items-center gap-1">
+                                        <span class="w-2 h-2 rounded-full bg-red-500 shrink-0"></span>
+                                        <span>ថ្ងៃឈប់សម្រាក (Holiday)</span>
                                     </span>
-                                    <span class="inline-flex items-center gap-1.5">
+                                    <span class="inline-flex items-center gap-1">
                                         <span>☸️</span>
-                                        <span>ថ្ងៃឧបោសថសីល (Holy Day)</span>
+                                        <span>ថ្ងៃសីល (Holy Day)</span>
                                     </span>
-                                    <span class="inline-flex items-center gap-1.5">
-                                        <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
-                                        <span>ពិធីបុណ្យប្រពៃណី (Observance)</span>
+                                    <span class="inline-flex items-center gap-1">
+                                        <span class="w-2 h-2 rounded-full bg-amber-500 shrink-0"></span>
+                                        <span>ពិធីបុណ្យ (Observance)</span>
                                     </span>
-                                    <span class="inline-flex items-center gap-1.5">
-                                        <span class="w-2.5 h-2.5 rounded-full bg-orange-400"></span>
+                                    <span class="inline-flex items-center gap-1">
+                                        <span class="w-2 h-2 rounded-full bg-orange-400 shrink-0"></span>
                                         <span>ចុងសប្តាហ៍ (Weekend)</span>
                                     </span>
                                 </div>
 
                                 <!-- Quick Date Jump Input -->
-                                <div class="flex items-center gap-1.5">
-                                    <label for="quick-date-picker" class="text-xs font-medium text-gray-500 dark:text-gray-400">ទៅកាន់ថ្ងៃ៖</label>
+                                <div class="flex items-center justify-between sm:justify-end gap-2 bg-gray-100/80 dark:bg-gray-700/50 sm:bg-transparent px-2.5 py-1.5 sm:p-0 rounded-xl">
+                                    <label for="quick-date-picker" class="text-xs font-medium text-gray-600 dark:text-gray-400 shrink-0">ទៅកាន់ថ្ងៃ៖</label>
                                     <input id="quick-date-picker" type="date" :value="selectedDateIso" @change="onQuickDateJump($event)"
-                                        class="px-2 py-1 rounded-lg text-xs bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                        class="px-2 py-1 rounded-lg text-xs bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" />
                                 </div>
                             </div>
                         </div>
@@ -213,10 +214,10 @@
                         <!-- Day Names Header -->
                         <div class="grid grid-cols-7 bg-gray-50/90 dark:bg-gray-700/60 border-b border-gray-200/70 dark:border-gray-700">
                             <div v-for="(day, idx) in dayNames" :key="idx" 
-                                class="py-2.5 sm:py-3 text-center"
+                                class="py-2 sm:py-3 px-0.5 text-center min-w-0"
                                 :class="idx === 0 ? 'text-red-600 dark:text-red-400' : idx === 6 ? 'text-orange-600 dark:text-orange-400' : 'text-gray-700 dark:text-gray-200'">
-                                <div class="text-xs sm:text-sm font-bold">{{ day.khmer }}</div>
-                                <div class="text-[10px] sm:text-xs opacity-75 font-medium">{{ day.short }}</div>
+                                <div class="text-[11px] sm:text-sm font-bold truncate">{{ day.khmer }}</div>
+                                <div class="text-[9px] sm:text-xs opacity-75 font-medium">{{ day.short }}</div>
                             </div>
                         </div>
 
@@ -224,7 +225,7 @@
                         <div class="grid grid-cols-7">
                             <div v-for="(day, idx) in calendarDays" :key="idx"
                                 @click="selectDate(day)"
-                                class="min-h-[76px] sm:min-h-[96px] lg:min-h-[108px] p-1.5 sm:p-2 border-b border-r border-gray-100 dark:border-gray-700/70 relative group cursor-pointer transition-all duration-150 flex flex-col justify-between"
+                                class="min-h-[68px] sm:min-h-[96px] lg:min-h-[108px] p-1 sm:p-2 border-b border-r border-gray-100 dark:border-gray-700/70 relative group cursor-pointer transition-all duration-150 flex flex-col justify-between min-w-0 overflow-hidden"
                                 :class="[
                                     idx % 7 === 6 ? 'border-r-0' : '',
                                     !day.isCurrentMonth ? 'bg-gray-50/60 dark:bg-gray-800/40 opacity-45 hover:opacity-75' : 'hover:bg-blue-50/40 dark:hover:bg-gray-700/40',
@@ -234,11 +235,11 @@
                                 ]">
                                 
                                 <!-- Top Row: Gregorian Date + Khmer Numeral & Icons -->
-                                <div class="flex items-start justify-between gap-1">
-                                    <div class="flex items-baseline gap-1">
-                                        <span class="inline-flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 rounded-full text-xs sm:text-sm font-bold transition-all"
+                                <div class="flex items-center justify-between gap-0.5 min-w-0">
+                                    <div class="flex items-baseline gap-1 min-w-0">
+                                        <span class="inline-flex items-center justify-center w-5 h-5 sm:w-7 sm:h-7 rounded-full text-[11px] sm:text-sm font-bold transition-all shrink-0"
                                             :class="[
-                                                day.isToday ? 'bg-gradient-to-br from-red-500 to-rose-600 text-white shadow-md' : '',
+                                                day.isToday ? 'bg-gradient-to-br from-red-500 to-rose-600 text-white shadow-sm' : '',
                                                 !day.isToday && day.isPublicHoliday ? 'text-red-600 dark:text-red-400 font-extrabold' : '',
                                                 !day.isToday && !day.isPublicHoliday && idx % 7 === 0 ? 'text-red-500 dark:text-red-400' : '',
                                                 !day.isToday && !day.isPublicHoliday && idx % 7 === 6 ? 'text-orange-500 dark:text-orange-400' : '',
@@ -246,24 +247,24 @@
                                             ]">
                                             {{ day.date }}
                                         </span>
-                                        <span class="text-[10px] sm:text-xs font-semibold text-gray-400 dark:text-gray-500">
+                                        <span class="hidden sm:inline text-xs font-semibold text-gray-400 dark:text-gray-500">
                                             {{ toKhmerNumeral(day.date) }}
                                         </span>
                                     </div>
 
                                     <!-- Holy Day / Holiday Badges -->
-                                    <div class="flex items-center gap-0.5">
-                                        <span v-if="day.isHolyDay" class="text-[11px] sm:text-xs leading-none" title="ថ្ងៃឧបោសថសីល (Buddhist Holy Day)">☸️</span>
-                                        <span v-if="day.lunarPhase" class="text-[11px] sm:text-xs leading-none">{{ day.lunarPhase }}</span>
-                                        <span v-if="day.isPublicHoliday" class="w-2 h-2 rounded-full bg-red-500 animate-pulse ml-0.5" title="ថ្ងៃឈប់សម្រាកផ្លូវការ"></span>
-                                        <span v-else-if="day.holiday" class="w-2 h-2 rounded-full bg-amber-500 ml-0.5" title="ពិធីបុណ្យប្រពៃណី"></span>
+                                    <div class="flex items-center gap-0.5 shrink-0">
+                                        <span v-if="day.isHolyDay" class="text-[10px] sm:text-xs leading-none" title="ថ្ងៃឧបោសថសីល (Buddhist Holy Day)">☸️</span>
+                                        <span v-if="day.lunarPhase" class="hidden sm:inline text-xs leading-none">{{ day.lunarPhase }}</span>
+                                        <span v-if="day.isPublicHoliday" class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-red-500 animate-pulse" title="ថ្ងៃឈប់សម្រាកផ្លូវការ"></span>
+                                        <span v-else-if="day.holiday" class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-amber-500" title="ពិធីបុណ្យប្រពៃណី"></span>
                                     </div>
                                 </div>
 
                                 <!-- Middle/Bottom Row: Lunar Day & Holiday Title -->
-                                <div class="mt-1 space-y-1">
+                                <div class="mt-0.5 sm:mt-1 space-y-0.5 sm:space-y-1 min-w-0">
                                     <div v-if="day.lunarDay" 
-                                        class="inline-block px-1.5 py-0.5 rounded-md text-[9px] sm:text-[11px] font-semibold leading-tight max-w-full truncate"
+                                        class="block px-1 sm:px-1.5 py-0.5 rounded text-[8px] sm:text-[11px] font-semibold leading-tight max-w-full truncate text-center sm:text-left"
                                         :class="[
                                             day.lunarInfo && day.lunarInfo.dayNumber === 1 && day.lunarInfo.isWaxing
                                                 ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300'
@@ -275,7 +276,7 @@
                                     </div>
 
                                     <div v-if="day.holiday" 
-                                        class="text-[9px] sm:text-[10px] font-bold leading-tight line-clamp-2 px-1 py-0.5 rounded"
+                                        class="text-[8px] sm:text-[10px] font-bold leading-tight truncate sm:line-clamp-2 sm:whitespace-normal px-1 py-0.5 rounded"
                                         :class="day.isPublicHoliday 
                                             ? 'bg-red-100/80 text-red-700 dark:bg-red-900/40 dark:text-red-300' 
                                             : 'bg-amber-100/80 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300'">
@@ -288,34 +289,34 @@
                 </div>
 
                 <!-- Right Column: Selected Date Inspector & Monthly Holy Days -->
-                <div class="lg:col-span-4 space-y-6">
+                <div class="lg:col-span-4 space-y-5 sm:space-y-6 min-w-0">
                     
                     <!-- Selected Date Inspector Card -->
-                    <div v-if="selectedDate" class="bg-white dark:bg-gray-800 rounded-3xl shadow-xl border border-gray-200/80 dark:border-gray-700 overflow-hidden">
+                    <div v-if="selectedDate" class="bg-white dark:bg-gray-800 rounded-2xl sm:rounded-3xl shadow-xl border border-gray-200/80 dark:border-gray-700 overflow-hidden">
                         <!-- Top Banner of Selected Day -->
-                        <div class="p-5 sm:p-6 text-white relative overflow-hidden"
+                        <div class="p-4 sm:p-6 text-white relative overflow-hidden"
                             :class="selectedDate.isPublicHoliday 
                                 ? 'bg-gradient-to-br from-red-600 via-rose-600 to-orange-600' 
                                 : selectedDate.isWeekend 
                                     ? 'bg-gradient-to-br from-orange-500 via-amber-600 to-rose-600'
                                     : 'bg-gradient-to-br from-blue-600 via-indigo-600 to-slate-800'">
                             <div class="flex items-start justify-between gap-3">
-                                <div>
-                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-white/20 backdrop-blur-sm mb-2">
-                                        <span v-if="selectedDate.isPublicHoliday">🔴 ថ្ងៃឈប់សម្រាកផ្លូវការ (Public Holiday)</span>
-                                        <span v-else-if="selectedDate.isWeekend">🟠 ថ្ងៃឈប់សម្រាកចុងសប្តាហ៍ (Weekend)</span>
+                                <div class="min-w-0">
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] sm:text-xs font-bold bg-white/20 backdrop-blur-sm mb-2">
+                                        <span v-if="selectedDate.isPublicHoliday">🔴 ថ្ងៃឈប់សម្រាកផ្លូវការ</span>
+                                        <span v-else-if="selectedDate.isWeekend">🟠 ថ្ងៃឈប់សម្រាកចុងសប្តាហ៍</span>
                                         <span v-else>🟢 ថ្ងៃធ្វើការធម្មតា (Working Day)</span>
                                     </span>
-                                    <h3 class="text-xl sm:text-2xl font-extrabold">
+                                    <h3 class="text-lg sm:text-2xl font-extrabold truncate">
                                         ថ្ងៃ{{ selectedDate.weekdayKhmer }} ទី{{ toKhmerNumeral(selectedDate.date) }}
                                     </h3>
                                     <p class="text-white/85 text-xs sm:text-sm mt-0.5">
                                         {{ selectedDate.fullDate }}
                                     </p>
                                 </div>
-                                <div class="w-16 h-16 rounded-2xl bg-white/15 backdrop-blur-md border border-white/25 flex flex-col items-center justify-center flex-shrink-0 shadow-inner">
-                                    <span class="text-2xl font-black leading-none">{{ toKhmerNumeral(selectedDate.date) }}</span>
-                                    <span class="text-[11px] font-semibold opacity-90 mt-1">{{ selectedDate.date }} {{ selectedDate.monthShort }}</span>
+                                <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white/15 backdrop-blur-md border border-white/25 flex flex-col items-center justify-center flex-shrink-0 shadow-inner">
+                                    <span class="text-xl sm:text-2xl font-black leading-none">{{ toKhmerNumeral(selectedDate.date) }}</span>
+                                    <span class="text-[10px] sm:text-[11px] font-semibold opacity-90 mt-1">{{ selectedDate.date }} {{ selectedDate.monthShort }}</span>
                                 </div>
                             </div>
 
@@ -326,19 +327,19 @@
                         </div>
 
                         <!-- Traditional Khmer Date Box with Copy Button -->
-                        <div class="p-5 sm:p-6 space-y-4">
-                            <div class="p-3.5 rounded-2xl bg-gray-50 dark:bg-gray-700/50 border border-gray-200/70 dark:border-gray-600">
-                                <div class="flex items-center justify-between mb-1.5">
-                                    <span class="text-xs font-semibold text-gray-500 dark:text-gray-400">កាលបរិច្ឆេទខ្មែរផ្លូវការ (Traditional Format)</span>
+                        <div class="p-4 sm:p-6 space-y-4">
+                            <div class="p-3 sm:p-3.5 rounded-2xl bg-gray-50 dark:bg-gray-700/50 border border-gray-200/70 dark:border-gray-600">
+                                <div class="flex items-center justify-between gap-2 mb-1.5">
+                                    <span class="text-[11px] sm:text-xs font-semibold text-gray-500 dark:text-gray-400 truncate">កាលបរិច្ឆេទខ្មែរផ្លូវការ</span>
                                     <button @click="copyKhmerDate"
-                                        class="px-2.5 py-1 rounded-lg text-xs font-semibold transition-all flex items-center gap-1"
+                                        class="px-2.5 py-1 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 shrink-0"
                                         :class="copiedKhmerDate 
                                             ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300' 
                                             : 'bg-blue-100 text-blue-700 hover:bg-blue-200 dark:bg-blue-900/40 dark:text-blue-300'">
-                                        <span>{{ copiedKhmerDate ? '✓ បានចម្លង' : '📋 ចម្លង (Copy)' }}</span>
+                                        <span>{{ copiedKhmerDate ? '✓ បានចម្លង' : '📋 ចម្លង' }}</span>
                                     </button>
                                 </div>
-                                <p class="text-sm font-bold text-gray-900 dark:text-white leading-relaxed">
+                                <p class="text-xs sm:text-sm font-bold text-gray-900 dark:text-white leading-relaxed break-words">
                                     {{ selectedDate.khmerLunarFullDate }}
                                 </p>
                                 <p class="text-xs font-medium text-gray-600 dark:text-gray-300 mt-1">
@@ -348,28 +349,28 @@
 
                             <!-- 4-Card Lunar Attribute Breakdown -->
                             <div class="grid grid-cols-2 gap-2.5">
-                                <div class="p-3 rounded-xl bg-blue-50/60 dark:bg-gray-700/40 border border-blue-100 dark:border-gray-700">
-                                    <div class="text-[11px] text-gray-500 dark:text-gray-400">ថ្ងៃច័ន្ទគតិ (Lunar Day)</div>
-                                    <div class="text-sm font-bold text-gray-900 dark:text-white mt-0.5 flex items-center gap-1">
+                                <div class="p-2.5 sm:p-3 rounded-xl bg-blue-50/60 dark:bg-gray-700/40 border border-blue-100 dark:border-gray-700 min-w-0">
+                                    <div class="text-[10px] sm:text-[11px] text-gray-500 dark:text-gray-400 truncate">ថ្ងៃច័ន្ទគតិ (Lunar Day)</div>
+                                    <div class="text-xs sm:text-sm font-bold text-gray-900 dark:text-white mt-0.5 flex items-center gap-1 truncate">
                                         <span>{{ selectedDate.lunarInfo.baseDay }}</span>
                                         <span v-if="selectedDate.lunarInfo.phase">{{ selectedDate.lunarInfo.phase }}</span>
                                     </div>
                                 </div>
-                                <div class="p-3 rounded-xl bg-blue-50/60 dark:bg-gray-700/40 border border-blue-100 dark:border-gray-700">
-                                    <div class="text-[11px] text-gray-500 dark:text-gray-400">ខែច័ន្ទគតិ (Lunar Month)</div>
-                                    <div class="text-sm font-bold text-gray-900 dark:text-white mt-0.5">
-                                        ខែ{{ selectedDate.lunarInfo.monthKhmer }} ({{ toKhmerNumeral(selectedDate.lunarInfo.monthLength) }} ថ្ងៃ)
+                                <div class="p-2.5 sm:p-3 rounded-xl bg-blue-50/60 dark:bg-gray-700/40 border border-blue-100 dark:border-gray-700 min-w-0">
+                                    <div class="text-[10px] sm:text-[11px] text-gray-500 dark:text-gray-400 truncate">ខែច័ន្ទគតិ (Lunar Month)</div>
+                                    <div class="text-xs sm:text-sm font-bold text-gray-900 dark:text-white mt-0.5 truncate">
+                                        ខែ{{ selectedDate.lunarInfo.monthKhmer }} ({{ toKhmerNumeral(selectedDate.lunarInfo.monthLength) }}ថ្ងៃ)
                                     </div>
                                 </div>
-                                <div class="p-3 rounded-xl bg-blue-50/60 dark:bg-gray-700/40 border border-blue-100 dark:border-gray-700">
-                                    <div class="text-[11px] text-gray-500 dark:text-gray-400">ឆ្នាំសត្វ និងស័ក (Zodiac)</div>
-                                    <div class="text-sm font-bold text-gray-900 dark:text-white mt-0.5">
+                                <div class="p-2.5 sm:p-3 rounded-xl bg-blue-50/60 dark:bg-gray-700/40 border border-blue-100 dark:border-gray-700 min-w-0">
+                                    <div class="text-[10px] sm:text-[11px] text-gray-500 dark:text-gray-400 truncate">ឆ្នាំសត្វ និងស័ក (Zodiac)</div>
+                                    <div class="text-xs sm:text-sm font-bold text-gray-900 dark:text-white mt-0.5 truncate">
                                         ឆ្នាំ{{ selectedDate.lunarInfo.zodiacKhmer }} {{ selectedDate.lunarInfo.sakKhmer }}
                                     </div>
                                 </div>
-                                <div class="p-3 rounded-xl bg-blue-50/60 dark:bg-gray-700/40 border border-blue-100 dark:border-gray-700">
-                                    <div class="text-[11px] text-gray-500 dark:text-gray-400">ពុទ្ធសករាជ (Buddhist Era)</div>
-                                    <div class="text-sm font-bold text-gray-900 dark:text-white mt-0.5">
+                                <div class="p-2.5 sm:p-3 rounded-xl bg-blue-50/60 dark:bg-gray-700/40 border border-blue-100 dark:border-gray-700 min-w-0">
+                                    <div class="text-[10px] sm:text-[11px] text-gray-500 dark:text-gray-400 truncate">ពុទ្ធសករាជ (Buddhist Era)</div>
+                                    <div class="text-xs sm:text-sm font-bold text-gray-900 dark:text-white mt-0.5 truncate">
                                         ព.ស. {{ toKhmerNumeral(selectedDate.lunarInfo.beYear) }} ({{ selectedDate.lunarInfo.beYear }})
                                     </div>
                                 </div>
@@ -377,21 +378,21 @@
 
                             <!-- Holiday Detail Box if Present -->
                             <div v-if="selectedDate.holiday" 
-                                class="p-4 rounded-2xl border"
+                                class="p-3.5 sm:p-4 rounded-2xl border"
                                 :class="selectedDate.isPublicHoliday 
                                     ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800/50' 
                                     : 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800/50'">
                                 <div class="flex items-start gap-3">
-                                    <span class="text-2xl">{{ selectedDate.isPublicHoliday ? '🎉' : '🙏' }}</span>
-                                    <div>
-                                        <div class="text-xs font-bold uppercase tracking-wider mb-0.5"
+                                    <span class="text-xl sm:text-2xl shrink-0">{{ selectedDate.isPublicHoliday ? '🎉' : '🙏' }}</span>
+                                    <div class="min-w-0">
+                                        <div class="text-[11px] font-bold uppercase tracking-wider mb-0.5"
                                             :class="selectedDate.isPublicHoliday ? 'text-red-600 dark:text-red-400' : 'text-amber-600 dark:text-amber-400'">
-                                            {{ selectedDate.isPublicHoliday ? 'ថ្ងៃឈប់សម្រាកផ្លូវការ • Public Holiday' : 'ពិធីបុណ្យប្រពៃណី • Observance (Working Day)' }}
+                                            {{ selectedDate.isPublicHoliday ? 'ថ្ងៃឈប់សម្រាកផ្លូវការ • Public Holiday' : 'ពិធីបុណ្យប្រពៃណី • Observance' }}
                                         </div>
-                                        <p class="font-bold text-sm sm:text-base text-gray-900 dark:text-white">
+                                        <p class="font-bold text-sm sm:text-base text-gray-900 dark:text-white break-words">
                                             {{ selectedDate.holiday.khmer }}
                                         </p>
-                                        <p class="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300 mt-0.5">
+                                        <p class="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300 mt-0.5 break-words">
                                             {{ selectedDate.holiday.english }}
                                         </p>
                                         <p v-if="selectedDate.holiday.description" class="mt-2 text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
@@ -404,41 +405,41 @@
                     </div>
 
                     <!-- Buddhist Holy Days (ថ្ងៃឧបោសថសីល) in Current Month -->
-                    <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-xl border border-gray-200/80 dark:border-gray-700 overflow-hidden">
-                        <div class="p-4 sm:p-5 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
-                            <div class="flex items-center gap-2">
-                                <span class="text-xl">☸️</span>
-                                <div>
-                                    <h3 class="text-sm sm:text-base font-bold text-gray-900 dark:text-white">
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl sm:rounded-3xl shadow-xl border border-gray-200/80 dark:border-gray-700 overflow-hidden">
+                        <div class="p-4 sm:p-5 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between gap-2">
+                            <div class="flex items-center gap-2 min-w-0">
+                                <span class="text-xl shrink-0">☸️</span>
+                                <div class="min-w-0">
+                                    <h3 class="text-sm sm:text-base font-bold text-gray-900 dark:text-white truncate">
                                         ថ្ងៃឧបោសថសីល ខែ{{ currentSolarKhmerMonth }}
                                     </h3>
-                                    <p class="text-[11px] text-gray-500 dark:text-gray-400">Buddhist Holy Days in {{ currentMonthName }}</p>
+                                    <p class="text-[11px] text-gray-500 dark:text-gray-400 truncate">Buddhist Holy Days in {{ currentMonthName }}</p>
                                 </div>
                             </div>
-                            <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300">
+                            <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300 shrink-0">
                                 {{ toKhmerNumeral(currentMonthHolyDays.length) }} ថ្ងៃ
                             </span>
                         </div>
                         <div class="divide-y divide-gray-100 dark:divide-gray-700/60">
                             <button v-for="(hDay, idx) in currentMonthHolyDays" :key="idx"
                                 @click="selectDate(hDay)"
-                                class="w-full p-3.5 sm:px-5 flex items-center justify-between hover:bg-amber-50/50 dark:hover:bg-gray-700/50 transition-all text-left">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 rounded-xl bg-amber-100/80 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300 font-bold text-sm flex flex-col items-center justify-center">
+                                class="w-full p-3.5 sm:px-5 flex items-center justify-between hover:bg-amber-50/50 dark:hover:bg-gray-700/50 transition-all text-left gap-3">
+                                <div class="flex items-center gap-3 min-w-0">
+                                    <div class="w-10 h-10 rounded-xl bg-amber-100/80 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300 font-bold text-sm flex flex-col items-center justify-center shrink-0">
                                         <span>{{ toKhmerNumeral(hDay.date) }}</span>
                                         <span class="text-[9px] opacity-75">{{ hDay.date }}</span>
                                     </div>
-                                    <div>
-                                        <div class="text-xs sm:text-sm font-bold text-gray-900 dark:text-white flex items-center gap-1.5">
-                                            <span>ថ្ងៃ{{ hDay.weekdayKhmer }} • {{ hDay.lunarInfo.baseDay }}</span>
-                                            <span v-if="hDay.isToday" class="px-1.5 py-0.2 bg-red-500 text-white text-[10px] rounded-full">ថ្ងៃនេះ</span>
+                                    <div class="min-w-0">
+                                        <div class="text-xs sm:text-sm font-bold text-gray-900 dark:text-white flex items-center gap-1.5 truncate">
+                                            <span class="truncate">ថ្ងៃ{{ hDay.weekdayKhmer }} • {{ hDay.lunarInfo.baseDay }}</span>
+                                            <span v-if="hDay.isToday" class="px-1.5 py-0.5 bg-red-500 text-white text-[10px] rounded-full shrink-0">ថ្ងៃនេះ</span>
                                         </div>
-                                        <div class="text-[11px] text-gray-500 dark:text-gray-400">
+                                        <div class="text-[11px] text-gray-500 dark:text-gray-400 truncate">
                                             ខែ{{ hDay.lunarInfo.monthKhmer }} • {{ hDay.date }} {{ currentMonthName }}
                                         </div>
                                     </div>
                                 </div>
-                                <span class="text-lg">{{ hDay.lunarPhase }}</span>
+                                <span class="text-lg shrink-0">{{ hDay.lunarPhase }}</span>
                             </button>
                         </div>
                     </div>
@@ -447,53 +448,53 @@
             </div>
 
             <!-- Holidays & Observances Explorer (Tabs: Upcoming vs Full Year) -->
-            <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-xl border border-gray-200/80 dark:border-gray-700 overflow-hidden mb-8">
-                <div class="p-4 sm:p-6 border-b border-gray-100 dark:border-gray-700 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                    <div>
-                        <h2 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                            <SparklesIcon class="h-5 w-5 sm:h-6 sm:w-6 text-red-500" />
-                            <span>តារាងថ្ងៃបុណ្យជាតិ និងថ្ងៃឈប់សម្រាកផ្លូវការ</span>
+            <div class="bg-white dark:bg-gray-800 rounded-2xl sm:rounded-3xl shadow-xl border border-gray-200/80 dark:border-gray-700 overflow-hidden mb-6 sm:mb-8">
+                <div class="p-4 sm:p-6 border-b border-gray-100 dark:border-gray-700 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3.5 sm:gap-4">
+                    <div class="min-w-0">
+                        <h2 class="text-base sm:text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                            <SparklesIcon class="h-5 w-5 sm:h-6 sm:w-6 text-red-500 shrink-0" />
+                            <span class="truncate">តារាងថ្ងៃបុណ្យជាតិ និងថ្ងៃឈប់សម្រាកផ្លូវការ</span>
                         </h2>
                         <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">
-                            Official Public Holidays & Traditional Observances (ចុចលើថ្ងៃបុណ្យណាមួយដើម្បីមើលក្នុងប្រតិទិន)
+                            Official Public Holidays &amp; Observances (ចុចលើថ្ងៃបុណ្យណាមួយដើម្បីមើលក្នុងប្រតិទិន)
                         </p>
                     </div>
 
                     <!-- View Mode Toggle & Search -->
-                    <div class="flex flex-wrap items-center gap-2">
-                        <div class="inline-flex rounded-xl bg-gray-100 dark:bg-gray-700 p-1">
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
+                        <div class="grid grid-cols-2 sm:inline-flex rounded-xl bg-gray-100 dark:bg-gray-700 p-1">
                             <button @click="holidayTab = 'upcoming'"
-                                class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all"
+                                class="px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold transition-all text-center"
                                 :class="holidayTab === 'upcoming' 
                                     ? 'bg-white dark:bg-gray-800 text-red-600 dark:text-red-400 shadow-sm' 
                                     : 'text-gray-600 dark:text-gray-300'">
-                                ថ្ងៃបុណ្យខាងមុខ (Upcoming)
+                                ថ្ងៃបុណ្យខាងមុខ
                             </button>
                             <button @click="holidayTab = 'year'"
-                                class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all"
+                                class="px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold transition-all text-center"
                                 :class="holidayTab === 'year' 
                                     ? 'bg-white dark:bg-gray-800 text-red-600 dark:text-red-400 shadow-sm' 
                                     : 'text-gray-600 dark:text-gray-300'">
-                                ប្រចាំឆ្នាំ {{ toKhmerNumeral(currentYear) }} (All {{ currentYear }})
+                                ប្រចាំឆ្នាំ {{ toKhmerNumeral(currentYear) }}
                             </button>
                         </div>
 
                         <input v-model.trim="holidaySearch" type="text" placeholder="ស្វែងរកថ្ងៃបុណ្យ..."
-                            class="px-3 py-1.5 rounded-xl text-xs sm:text-sm bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-transparent focus:border-blue-500 focus:bg-white dark:focus:bg-gray-800 focus:outline-none" />
+                            class="w-full sm:w-48 px-3 py-2 sm:py-1.5 rounded-xl text-xs sm:text-sm bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-transparent focus:border-blue-500 focus:bg-white dark:focus:bg-gray-800 focus:outline-none" />
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:gap-px bg-gray-100 dark:bg-gray-700">
                     <div v-for="(holiday, idx) in displayedHolidays" :key="idx"
                         @click="jumpToHoliday(holiday)"
-                        class="p-4 sm:p-5 bg-white dark:bg-gray-800 hover:bg-blue-50/40 dark:hover:bg-gray-700/60 cursor-pointer transition-all flex items-center gap-4">
-                        <div class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl flex flex-col items-center justify-center flex-shrink-0 border"
+                        class="p-3.5 sm:p-5 bg-white dark:bg-gray-800 hover:bg-blue-50/40 dark:hover:bg-gray-700/60 cursor-pointer transition-all flex items-center gap-3 sm:gap-4 min-w-0">
+                        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex flex-col items-center justify-center flex-shrink-0 border"
                             :class="holiday.isPast 
                                 ? 'bg-gray-50 dark:bg-gray-700/50 border-gray-200 dark:border-gray-600 text-gray-400' 
                                 : holiday.isPublicHoliday 
                                     ? 'bg-red-50 dark:bg-red-900/25 border-red-200 dark:border-red-800/50 text-red-600 dark:text-red-400'
                                     : 'bg-amber-50 dark:bg-amber-900/25 border-amber-200 dark:border-amber-800/50 text-amber-600 dark:text-amber-400'">
-                            <span class="text-lg sm:text-xl font-extrabold leading-none">
+                            <span class="text-base sm:text-xl font-extrabold leading-none">
                                 {{ holiday.day }}
                             </span>
                             <span class="text-[10px] sm:text-xs font-semibold mt-0.5">
@@ -502,34 +503,34 @@
                         </div>
 
                         <div class="flex-1 min-w-0">
-                            <div class="flex items-center gap-1.5 mb-0.5">
+                            <div class="flex flex-wrap items-center gap-1.5 mb-0.5">
                                 <span class="px-2 py-0.5 rounded-md text-[10px] font-bold"
                                     :class="holiday.isPublicHoliday 
                                         ? 'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300' 
                                         : 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300'">
                                     {{ holiday.isPublicHoliday ? 'ឈប់សម្រាក' : 'ប្រពៃណី (ធ្វើការ)' }}
                                 </span>
-                                <span class="text-xs text-gray-400 dark:text-gray-500">• {{ holiday.weekdayName }} {{ holiday.year }}</span>
+                                <span class="text-[11px] sm:text-xs text-gray-400 dark:text-gray-500 truncate">• {{ holiday.weekdayName }} {{ holiday.year }}</span>
                             </div>
-                            <p class="font-bold text-gray-900 dark:text-white text-sm sm:text-base truncate">
+                            <p class="font-bold text-gray-900 dark:text-white text-xs sm:text-base truncate">
                                 {{ holiday.khmer }}
                             </p>
-                            <p class="text-xs text-gray-500 dark:text-gray-400 truncate">
+                            <p class="text-[11px] sm:text-xs text-gray-500 dark:text-gray-400 truncate">
                                 {{ holiday.english }}
                             </p>
                         </div>
 
                         <div class="text-right flex-shrink-0">
-                            <span v-if="holiday.daysUntil === 0" class="px-2.5 py-1 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 text-xs font-bold rounded-full">
+                            <span v-if="holiday.daysUntil === 0" class="px-2 sm:px-2.5 py-1 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 text-[11px] sm:text-xs font-bold rounded-full">
                                 ថ្ងៃនេះ!
                             </span>
-                            <span v-else-if="holiday.daysUntil === 1" class="px-2.5 py-1 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 text-xs font-bold rounded-full">
+                            <span v-else-if="holiday.daysUntil === 1" class="px-2 sm:px-2.5 py-1 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 text-[11px] sm:text-xs font-bold rounded-full">
                                 ថ្ងៃស្អែក
                             </span>
-                            <span v-else-if="holiday.daysUntil > 1" class="px-2.5 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs font-semibold rounded-full">
+                            <span v-else-if="holiday.daysUntil > 1" class="px-2 sm:px-2.5 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-[11px] sm:text-xs font-semibold rounded-full">
                                 {{ toKhmerNumeral(holiday.daysUntil) }} ថ្ងៃទៀត
                             </span>
-                            <span v-else class="text-xs text-gray-400">
+                            <span v-else class="text-[11px] text-gray-400">
                                 បានកន្លង
                             </span>
                         </div>
@@ -538,40 +539,40 @@
             </div>
 
             <!-- Khmer Months Reference & Cultural Info -->
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                <div class="lg:col-span-7 bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/15 dark:to-orange-900/15 rounded-3xl p-5 sm:p-6 border border-amber-200/80 dark:border-amber-800/60">
-                    <h2 class="text-lg sm:text-xl font-bold text-amber-900 dark:text-amber-200 mb-4 flex items-center gap-2">
-                        <span class="text-2xl">📜</span>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6">
+                <div class="lg:col-span-7 min-w-0 bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/15 dark:to-orange-900/15 rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-amber-200/80 dark:border-amber-800/60">
+                    <h2 class="text-base sm:text-xl font-bold text-amber-900 dark:text-amber-200 mb-3.5 sm:mb-4 flex items-center gap-2">
+                        <span class="text-xl sm:text-2xl shrink-0">📜</span>
                         <span>ខែច័ន្ទគតិខ្មែរទាំង ១២ ខែ (12 Khmer Lunar Months)</span>
                     </h2>
-                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5">
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-2.5">
                         <div v-for="(month, idx) in khmerMonths" :key="idx"
-                            class="p-3 bg-white/80 dark:bg-gray-800/80 rounded-2xl border border-amber-100 dark:border-gray-700 hover:shadow-md transition-all">
+                            class="p-2.5 sm:p-3 bg-white/80 dark:bg-gray-800/80 rounded-2xl border border-amber-100 dark:border-gray-700 hover:shadow-md transition-all min-w-0">
                             <div class="flex items-center justify-between">
-                                <span class="text-[11px] font-bold text-amber-600 dark:text-amber-400">ខែទី {{ toKhmerNumeral(idx + 1) }}</span>
+                                <span class="text-[10px] sm:text-[11px] font-bold text-amber-600 dark:text-amber-400">ខែទី {{ toKhmerNumeral(idx + 1) }}</span>
                                 <span class="text-[10px] text-gray-400">{{ month.days }}ថ្ងៃ</span>
                             </div>
-                            <div class="font-bold text-gray-900 dark:text-white text-sm sm:text-base mt-0.5">{{ month.khmer }}</div>
-                            <div class="text-xs text-gray-500 dark:text-gray-400">{{ month.english }} • {{ month.gregorian }}</div>
+                            <div class="font-bold text-gray-900 dark:text-white text-sm sm:text-base mt-0.5 truncate">{{ month.khmer }}</div>
+                            <div class="text-[11px] sm:text-xs text-gray-500 dark:text-gray-400 truncate">{{ month.english }} • {{ month.gregorian }}</div>
                         </div>
                     </div>
                 </div>
 
-                <div class="lg:col-span-5 bg-white dark:bg-gray-800 rounded-3xl shadow-xl p-5 sm:p-6 border border-gray-200/80 dark:border-gray-700 flex flex-col justify-between space-y-4">
+                <div class="lg:col-span-5 min-w-0 bg-white dark:bg-gray-800 rounded-2xl sm:rounded-3xl shadow-xl p-4 sm:p-6 border border-gray-200/80 dark:border-gray-700 flex flex-col justify-between space-y-4">
                     <div>
-                        <h2 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                            <span class="text-2xl">🏛️</span>
+                        <h2 class="text-base sm:text-xl font-bold text-gray-900 dark:text-white mb-3.5 sm:mb-4 flex items-center gap-2">
+                            <span class="text-xl sm:text-2xl shrink-0">🏛️</span>
                             <span>អំពីប្រតិទិនខ្មែរ (About Khmer Calendar)</span>
                         </h2>
                         <div class="space-y-3">
-                            <div class="p-3.5 bg-gray-50 dark:bg-gray-700/50 rounded-2xl">
-                                <h3 class="font-bold text-gray-900 dark:text-white text-sm mb-1">📅 ពុទ្ធសករាជ (ព.ស.) និងស័ក</h3>
+                            <div class="p-3 sm:p-3.5 bg-gray-50 dark:bg-gray-700/50 rounded-2xl">
+                                <h3 class="font-bold text-gray-900 dark:text-white text-xs sm:text-sm mb-1">📅 ពុទ្ធសករាជ (ព.ស.) និងស័ក</h3>
                                 <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
                                     ពុទ្ធសករាជផ្លាស់ប្តូរនៅថ្ងៃ ១រោច ខែពិសាខ (១ថ្ងៃក្រោយបុណ្យវិសាខបូជា) ចំណែកឯឆ្នាំសត្វទាំង ១២ និងស័កទាំង ១០ ផ្លាស់ប្តូរនៅថ្ងៃវារៈឡើងស័ក (ថ្ងៃទី៣ នៃបុណ្យចូលឆ្នាំថ្មីប្រពៃណីជាតិ)។
                                 </p>
                             </div>
-                            <div class="p-3.5 bg-gray-50 dark:bg-gray-700/50 rounded-2xl">
-                                <h3 class="font-bold text-gray-900 dark:text-white text-sm mb-1">☸️ ថ្ងៃឧបោសថសីល និងខ្នើត-រនោច</h3>
+                            <div class="p-3 sm:p-3.5 bg-gray-50 dark:bg-gray-700/50 rounded-2xl">
+                                <h3 class="font-bold text-gray-900 dark:text-white text-xs sm:text-sm mb-1">☸️ ថ្ងៃឧបោសថសីល និងខ្នើត-រនោច</h3>
                                 <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
                                     ក្នុងមួយខែច័ន្ទគតិមានថ្ងៃសីលចំនួន ៤ ថ្ងៃ គឺថ្ងៃ ៨កើត, ១៥កើត (ពេញបូណ៌មី), ៨រោច និងថ្ងៃ ១៤រោច (ខែខ្វះ ២៩ថ្ងៃ) ឬ ១៥រោច (ខែពេញ ៣០ថ្ងៃ)។
                                 </p>
@@ -579,7 +580,7 @@
                         </div>
                     </div>
 
-                    <div class="pt-3 border-t border-gray-100 dark:border-gray-700 text-center text-xs text-gray-500 dark:text-gray-400">
+                    <div class="pt-3 border-t border-gray-100 dark:border-gray-700 text-center text-[11px] sm:text-xs text-gray-500 dark:text-gray-400">
                         ប្រតិទិនខ្មែរ • គណនាតាមក្បួនឆន្ទគតិខ្មែរ និងអនុក្រឹត្យថ្ងៃឈប់សម្រាកផ្លូវការ • ព.ស. {{ toKhmerNumeral(currentKhmerYear) }}
                     </div>
                 </div>
