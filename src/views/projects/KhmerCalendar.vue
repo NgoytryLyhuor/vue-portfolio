@@ -1,280 +1,590 @@
 <template>
-    <div class="min-h-screen py-6 px-3 sm:px-6 lg:px-8 bg-gradient-to-b from-red-50/20 via-transparent to-blue-50/20 dark:from-gray-900 dark:via-gray-900 dark:to-gray-900">
-        <div class="max-w-5xl mx-auto">
-            <!-- Header -->
-            <div class="text-center mb-6 mt-8 sm:mt-10">
-                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-1 sm:mb-2">
-                    ប្រតិទិនខ្មែរ
-                </h1>
-                <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400">
-                    Khmer Calendar • ឆ្នាំ{{ currentZodiacKhmer }} {{ currentSakKhmer }} ព.ស. {{ toKhmerNumeral(currentKhmerYear) }} ({{ currentKhmerYear }} BE)
-                </p>
-            </div>
+    <div class="min-h-screen py-6 sm:py-10 px-3 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-50 via-red-50/20 to-blue-50/30 dark:from-gray-900 dark:via-gray-900 dark:to-slate-900">
+        <div class="max-w-7xl mx-auto">
 
-            <!-- Main Calendar Card -->
-            <div class="animate-fade-in-up bg-white dark:bg-gray-800 rounded-2xl sm:rounded-3xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden mb-6" style="animation-delay: 0ms">
-                <!-- Calendar Header -->
-                <div class="bg-gradient-to-r from-red-600 via-rose-500 to-blue-600 p-4 sm:p-6 shadow-lg shadow-red-500/20">
-                    <div class="flex items-center justify-between">
-                        <button @click="previousMonth" 
-                            class="p-2 sm:p-3 bg-white/20 backdrop-blur-sm rounded-xl hover:bg-white/30 active:scale-95 transition-all duration-200">
-                            <ChevronLeftIcon class="h-5 w-5 sm:h-6 sm:w-6 text-white" />
-                        </button>
-                        
-                        <div class="text-center">
-                            <h2 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white">
-                                {{ currentMonthName }} {{ currentYear }}
-                            </h2>
-                            <p class="text-white/90 text-sm sm:text-base mt-0.5">
-                                {{ khmerMonthName }} • ខែ{{ currentSolarKhmerMonth }} ឆ្នាំ{{ toKhmerNumeral(currentYear) }}
-                            </p>
+            <!-- Top Hero & Live Today Banner -->
+            <div class="relative rounded-3xl bg-gradient-to-r from-red-600 via-rose-600 to-blue-700 p-5 sm:p-7 lg:p-8 text-white shadow-2xl mb-6 sm:mb-8 overflow-hidden">
+                <!-- Decorative subtle background circles -->
+                <div class="absolute -top-20 -right-20 w-72 h-72 rounded-full bg-white/10 blur-2xl pointer-events-none"></div>
+                <div class="absolute -bottom-24 -left-20 w-72 h-72 rounded-full bg-blue-400/20 blur-2xl pointer-events-none"></div>
+
+                <div class="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-xs sm:text-sm font-medium mb-3 border border-white/20">
+                            <span>🇰🇭</span>
+                            <span>ប្រតិទិនច័ន្ទគតិ-សុរិយគតិខ្មែរ • Official Chhankitek Calendar</span>
                         </div>
-                        
-                        <button @click="nextMonth" 
-                            class="p-2 sm:p-3 bg-white/20 backdrop-blur-sm rounded-xl hover:bg-white/30 active:scale-95 transition-all duration-200">
-                            <ChevronRightIcon class="h-5 w-5 sm:h-6 sm:w-6 text-white" />
-                        </button>
+                        <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight mb-2">
+                            ប្រតិទិនខ្មែរ • Khmer Calendar
+                        </h1>
+                        <p class="text-white/90 text-sm sm:text-base font-medium">
+                            ថ្ងៃនេះ៖ {{ todayBannerInfo.khmerLunarFullDate }} • {{ todayBannerInfo.khmerSolarFullDate }}
+                        </p>
                     </div>
-                    
-                    <!-- Today Button -->
-                    <div class="flex justify-center mt-4">
-                        <button @click="goToToday" 
-                            class="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-white text-sm font-medium hover:bg-white/30 transition-all flex items-center gap-2">
-                            <CalendarIcon class="h-4 w-4" />
-                            ថ្ងៃនេះ (Today)
-                        </button>
-                    </div>
-                </div>
 
-                <!-- Day Names Header -->
-                <div class="grid grid-cols-7 bg-gray-50 dark:bg-gray-700/50">
-                    <div v-for="(day, idx) in dayNames" :key="idx" 
-                        class="py-2 sm:py-3 text-center text-xs sm:text-sm font-semibold"
-                        :class="idx === 0 ? 'text-red-500' : idx === 6 ? 'text-orange-500 dark:text-orange-400' : 'text-gray-600 dark:text-gray-300'">
-                        <span class="hidden sm:block">{{ day.full }}</span>
-                        <span class="sm:hidden">{{ day.short }}</span>
-                        <div class="text-[10px] sm:text-xs text-gray-400 dark:text-gray-500">{{ day.khmer }}</div>
-                    </div>
-                </div>
-
-                <!-- Calendar Grid -->
-                <div class="grid grid-cols-7">
-                    <div v-for="(day, idx) in calendarDays" :key="idx"
-                        class="min-h-[68px] sm:min-h-[85px] lg:min-h-[105px] p-1 sm:p-2 border-t border-r border-gray-100 dark:border-gray-700 relative group cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700/30 hover:scale-[1.02] hover:shadow-md transition-all duration-200"
-                        :class="[
-                            idx % 7 === 6 ? 'border-r-0' : '',
-                            day.isCurrentMonth ? '' : 'bg-gray-50/50 dark:bg-gray-800/50',
-                            day.isPublicHoliday && day.isCurrentMonth ? 'bg-red-50/30 dark:bg-red-900/10' : ''
-                        ]"
-                        @click="selectDate(day)">
-                        
-                        <!-- Date Number -->
-                        <div class="flex justify-between items-start">
-                            <span class="inline-flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 rounded-full text-xs sm:text-sm font-medium transition-all"
-                                :class="[
-                                    day.isToday ? 'bg-red-500 text-white shadow-lg font-bold' : '',
-                                    day.isSelected && !day.isToday ? 'ring-2 ring-blue-500' : '',
-                                    !day.isCurrentMonth ? 'text-gray-300 dark:text-gray-600' : 
-                                        day.isPublicHoliday ? 'text-red-600 dark:text-red-400 font-bold' :
-                                        idx % 7 === 0 ? 'text-red-500' :
-                                        idx % 7 === 6 ? 'text-orange-500 dark:text-orange-400' :
-                                        'text-gray-700 dark:text-gray-300'
-                                ]">
-                                {{ day.date }}
-                            </span>
-                            
-                            <!-- Holiday / Holy Day Indicator -->
-                            <div class="flex items-center gap-1">
-                                <span v-if="day.isHolyDay && day.isCurrentMonth" 
-                                    class="text-[10px] sm:text-xs" title="ថ្ងៃសីល (Buddhist Holy Day)">☸️</span>
-                                <span v-if="day.isPublicHoliday && day.isCurrentMonth" 
-                                    class="w-2 h-2 rounded-full bg-red-500 animate-pulse" title="ថ្ងៃឈប់សម្រាកផ្លូវការ (Public Holiday)"></span>
-                                <span v-else-if="day.holiday && day.isCurrentMonth" 
-                                    class="w-2 h-2 rounded-full bg-amber-500" title="ពិធីបុណ្យប្រពៃណី (Traditional Observance)"></span>
+                    <!-- Today Quick Status & Next Holiday Pill -->
+                    <div class="flex flex-wrap sm:flex-nowrap items-stretch gap-3">
+                        <div class="flex-1 sm:flex-initial bg-white/15 backdrop-blur-md border border-white/20 rounded-2xl px-4 py-3 flex items-center gap-3">
+                            <div class="w-11 h-11 rounded-xl bg-white text-red-600 font-extrabold text-xl flex flex-col items-center justify-center shadow">
+                                <span>{{ todayBannerInfo.day }}</span>
                             </div>
-                        </div>
-                        
-                        <!-- Khmer Date Numeral -->
-                        <div v-if="day.isCurrentMonth" class="text-[10px] sm:text-xs text-gray-400 dark:text-gray-500 mt-0.5">
-                            {{ toKhmerNumeral(day.date) }}
-                        </div>
-                        
-                        <!-- Lunar Day Number -->
-                        <div v-if="day.lunarDay && day.isCurrentMonth" 
-                            class="text-[9px] sm:text-[10px] font-medium mt-0.5 truncate"
-                            :class="day.isHolyDay ? 'text-amber-600 dark:text-amber-400 font-semibold' : 'text-blue-600 dark:text-blue-400'">
-                            {{ day.lunarDay }}
-                        </div>
-                        
-                        <!-- Holiday Name -->
-                        <div v-if="day.holiday && day.isCurrentMonth" 
-                            class="mt-1 text-[8px] sm:text-[10px] lg:text-xs font-medium line-clamp-2"
-                            :class="day.isPublicHoliday ? 'text-red-600 dark:text-red-400' : 'text-amber-600 dark:text-amber-400'">
-                            {{ day.holiday.khmer }}
-                        </div>
-                        
-                        <!-- Lunar Phase -->
-                        <div v-if="day.lunarPhase && day.isCurrentMonth" 
-                            class="absolute bottom-1 right-1 text-xs sm:text-sm opacity-75">
-                            {{ day.lunarPhase }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Selected Date Info -->
-            <div v-if="selectedDate" class="animate-scale-in bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-4 sm:p-6 border border-gray-100 dark:border-gray-700 mb-6">
-                <div class="flex flex-col sm:flex-row items-start gap-4">
-                    <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-red-500 to-blue-600 flex flex-col items-center justify-center text-white flex-shrink-0">
-                        <span class="text-2xl sm:text-3xl font-bold">{{ selectedDate.date }}</span>
-                        <span class="text-xs">{{ selectedDate.monthShort }}</span>
-                    </div>
-                    <div class="flex-1 min-w-0 w-full">
-                        <div class="flex flex-wrap items-center gap-2 mb-1">
-                            <h3 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">
-                                {{ selectedDate.fullDate }}
-                            </h3>
-                            <!-- Work Day / Holiday Status Badge -->
-                            <span v-if="selectedDate.isPublicHoliday"
-                                class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300">
-                                🔴 ថ្ងៃឈប់សម្រាកផ្លូវការ (Public Holiday)
-                            </span>
-                            <span v-else-if="selectedDate.isWeekend"
-                                class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-300">
-                                🟠 ថ្ងៃចុងសប្តាហ៍ (Weekend)
-                            </span>
-                            <span v-else
-                                class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
-                                🟢 ថ្ងៃធ្វើការធម្មតា (Working Day)
-                            </span>
-                            <span v-if="selectedDate.isHolyDay"
-                                class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300">
-                                ☸️ ថ្ងៃឧបោសថសីល (Holy Day)
-                            </span>
-                        </div>
-                        <p class="text-sm sm:text-base font-medium text-blue-600 dark:text-blue-400">
-                            {{ selectedDate.khmerLunarFullDate }}
-                        </p>
-                        <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">
-                            {{ selectedDate.khmerSolarFullDate }}
-                        </p>
-                        <div v-if="selectedDate.holiday" 
-                            class="mt-3 p-3 rounded-xl border"
-                            :class="selectedDate.isPublicHoliday 
-                                ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800/40' 
-                                : 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800/40'">
-                            <div class="flex items-center gap-2">
-                                <span class="text-xl">{{ selectedDate.isPublicHoliday ? '🎉' : '🙏' }}</span>
-                                <div>
-                                    <p class="font-semibold" :class="selectedDate.isPublicHoliday ? 'text-red-700 dark:text-red-300' : 'text-amber-700 dark:text-amber-300'">
-                                        {{ selectedDate.holiday.khmer }}
-                                    </p>
-                                    <p class="text-sm" :class="selectedDate.isPublicHoliday ? 'text-red-600 dark:text-red-400' : 'text-amber-600 dark:text-amber-400'">
-                                        {{ selectedDate.holiday.english }}
-                                    </p>
+                            <div>
+                                <div class="text-xs text-white/80">ស្ថានភាពថ្ងៃនេះ (Today's Status)</div>
+                                <div class="text-sm font-bold flex items-center gap-1.5 mt-0.5">
+                                    <span v-if="todayBannerInfo.isPublicHoliday">🔴 ថ្ងៃឈប់សម្រាកផ្លូវការ (Holiday)</span>
+                                    <span v-else-if="todayBannerInfo.isWeekend">🟠 ថ្ងៃចុងសប្តាហ៍ (Weekend)</span>
+                                    <span v-else>🟢 ថ្ងៃធ្វើការធម្មតា (Working Day)</span>
                                 </div>
                             </div>
-                            <p v-if="selectedDate.holiday.description" class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                                {{ selectedDate.holiday.description }}
+                        </div>
+
+                        <div v-if="nextUpcomingHoliday" 
+                            @click="jumpToHoliday(nextUpcomingHoliday)"
+                            class="flex-1 sm:flex-initial bg-black/20 hover:bg-black/30 cursor-pointer transition-all backdrop-blur-md border border-white/15 rounded-2xl px-4 py-3 flex items-center gap-3">
+                            <div class="text-2xl">🎉</div>
+                            <div class="min-w-0">
+                                <div class="text-xs text-white/75">ថ្ងៃឈប់សម្រាកបន្ទាប់ ({{ nextUpcomingHoliday.daysUntil === 0 ? 'ថ្ងៃនេះ' : nextUpcomingHoliday.daysUntil + ' ថ្ងៃទៀត' }})</div>
+                                <div class="text-sm font-bold truncate max-w-[180px] sm:max-w-[220px]">{{ nextUpcomingHoliday.khmer }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Monthly Workday / Holiday / Holy Day Stats & Filter Bar -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-6">
+                <button @click="activeFilter = 'all'"
+                    class="p-3.5 sm:p-4 rounded-2xl border text-left transition-all flex items-center gap-3 shadow-sm hover:shadow-md"
+                    :class="activeFilter === 'all' 
+                        ? 'bg-blue-600 text-white border-blue-600 shadow-blue-500/20' 
+                        : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white'">
+                    <div class="w-10 h-10 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
+                        :class="activeFilter === 'all' ? 'bg-white/20 text-white' : 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'">
+                        📅
+                    </div>
+                    <div>
+                        <div class="text-xs opacity-80">ថ្ងៃសរុបក្នុងខែ (Total Days)</div>
+                        <div class="text-lg sm:text-xl font-bold">{{ toKhmerNumeral(monthStats.totalDays) }} <span class="text-xs font-normal opacity-75">({{ monthStats.totalDays }}d)</span></div>
+                    </div>
+                </button>
+
+                <button @click="activeFilter = activeFilter === 'workday' ? 'all' : 'workday'"
+                    class="p-3.5 sm:p-4 rounded-2xl border text-left transition-all flex items-center gap-3 shadow-sm hover:shadow-md"
+                    :class="activeFilter === 'workday' 
+                        ? 'bg-emerald-600 text-white border-emerald-600 shadow-emerald-500/20' 
+                        : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white'">
+                    <div class="w-10 h-10 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
+                        :class="activeFilter === 'workday' ? 'bg-white/20 text-white' : 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400'">
+                        💼
+                    </div>
+                    <div>
+                        <div class="text-xs opacity-80">ថ្ងៃធ្វើការ (Working Days)</div>
+                        <div class="text-lg sm:text-xl font-bold">{{ toKhmerNumeral(monthStats.workingDays) }} <span class="text-xs font-normal opacity-75">({{ monthStats.workingDays }}d)</span></div>
+                    </div>
+                </button>
+
+                <button @click="activeFilter = activeFilter === 'holiday' ? 'all' : 'holiday'"
+                    class="p-3.5 sm:p-4 rounded-2xl border text-left transition-all flex items-center gap-3 shadow-sm hover:shadow-md"
+                    :class="activeFilter === 'holiday' 
+                        ? 'bg-red-600 text-white border-red-600 shadow-red-500/20' 
+                        : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white'">
+                    <div class="w-10 h-10 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
+                        :class="activeFilter === 'holiday' ? 'bg-white/20 text-white' : 'bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400'">
+                        🎉
+                    </div>
+                    <div>
+                        <div class="text-xs opacity-80">ថ្ងៃបុណ្យជាតិ (Public Holidays)</div>
+                        <div class="text-lg sm:text-xl font-bold">{{ toKhmerNumeral(monthStats.publicHolidays) }} <span class="text-xs font-normal opacity-75">({{ monthStats.publicHolidays }}d)</span></div>
+                    </div>
+                </button>
+
+                <button @click="activeFilter = activeFilter === 'holyday' ? 'all' : 'holyday'"
+                    class="p-3.5 sm:p-4 rounded-2xl border text-left transition-all flex items-center gap-3 shadow-sm hover:shadow-md"
+                    :class="activeFilter === 'holyday' 
+                        ? 'bg-amber-500 text-white border-amber-500 shadow-amber-500/20' 
+                        : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white'">
+                    <div class="w-10 h-10 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
+                        :class="activeFilter === 'holyday' ? 'bg-white/20 text-white' : 'bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400'">
+                        ☸️
+                    </div>
+                    <div>
+                        <div class="text-xs opacity-80">ថ្ងៃឧបោសថសីល (Holy Days)</div>
+                        <div class="text-lg sm:text-xl font-bold">{{ toKhmerNumeral(monthStats.holyDays) }} <span class="text-xs font-normal opacity-75">({{ monthStats.holyDays }}d)</span></div>
+                    </div>
+                </button>
+            </div>
+
+            <!-- Main Two-Column Layout: Calendar Grid (Left 8 cols) + Selected Day & Holy Days Panel (Right 4 cols) -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
+
+                <!-- Left Column: Calendar Grid -->
+                <div class="lg:col-span-8">
+                    <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-xl border border-gray-200/80 dark:border-gray-700 overflow-hidden">
+                        
+                        <!-- Calendar Control Bar -->
+                        <div class="p-4 sm:p-6 border-b border-gray-100 dark:border-gray-700 bg-gradient-to-r from-gray-50 via-white to-gray-50 dark:from-gray-800 dark:via-gray-800 dark:to-gray-800">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                                
+                                <!-- Month Title & Lunar Months -->
+                                <div class="flex items-center justify-between sm:justify-start gap-3">
+                                    <button @click="previousMonth" 
+                                        class="p-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 active:scale-95 transition-all"
+                                        title="Previous Month">
+                                        <ChevronLeftIcon class="h-5 w-5" />
+                                    </button>
+
+                                    <div class="text-center sm:text-left px-1">
+                                        <div class="flex items-center justify-center sm:justify-start gap-2">
+                                            <h2 class="text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-white">
+                                                ខែ{{ currentSolarKhmerMonth }} {{ toKhmerNumeral(currentYear) }}
+                                            </h2>
+                                            <span class="text-sm sm:text-base font-semibold text-gray-500 dark:text-gray-400">
+                                                ({{ currentMonthName }} {{ currentYear }})
+                                            </span>
+                                        </div>
+                                        <p class="text-xs sm:text-sm font-medium text-blue-600 dark:text-blue-400 mt-0.5">
+                                            🌙 {{ khmerMonthName }} • ឆ្នាំ{{ currentZodiacKhmer }} {{ currentSakKhmer }} ព.ស. {{ toKhmerNumeral(currentKhmerYear) }}
+                                        </p>
+                                    </div>
+
+                                    <button @click="nextMonth" 
+                                        class="p-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 active:scale-95 transition-all"
+                                        title="Next Month">
+                                        <ChevronRightIcon class="h-5 w-5" />
+                                    </button>
+                                </div>
+
+                                <!-- Quick Selectors (Month, Year, Today) -->
+                                <div class="flex flex-wrap items-center justify-center sm:justify-end gap-2">
+                                    <select :value="currentMonth" @change="onMonthSelect($event)"
+                                        aria-label="Select Month"
+                                        class="px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border-0 focus:ring-2 focus:ring-blue-500 cursor-pointer">
+                                        <option v-for="(mName, mIdx) in solarKhmerMonths" :key="mIdx" :value="mIdx">
+                                            {{ mName }} ({{ englishMonthsShort[mIdx] }})
+                                        </option>
+                                    </select>
+
+                                    <select :value="currentYear" @change="onYearSelect($event)"
+                                        aria-label="Select Year"
+                                        class="px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border-0 focus:ring-2 focus:ring-blue-500 cursor-pointer">
+                                        <option v-for="yr in yearOptions" :key="yr" :value="yr">
+                                            {{ yr }} (ព.ស. {{ toKhmerNumeral(yr + 544) }})
+                                        </option>
+                                    </select>
+
+                                    <button @click="goToToday" 
+                                        class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-red-600 to-blue-600 hover:from-red-700 hover:to-blue-700 text-white text-xs sm:text-sm font-semibold shadow-sm hover:shadow transition-all flex items-center gap-1.5">
+                                        <CalendarIcon class="h-4 w-4" />
+                                        <span>ថ្ងៃនេះ</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Legend Bar -->
+                            <div class="flex flex-wrap items-center justify-between gap-2 mt-4 pt-3 border-t border-gray-100 dark:border-gray-700/70 text-[11px] sm:text-xs text-gray-500 dark:text-gray-400">
+                                <div class="flex flex-wrap items-center gap-3 sm:gap-4">
+                                    <span class="inline-flex items-center gap-1.5">
+                                        <span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>
+                                        <span>ថ្ងៃឈប់សម្រាកផ្លូវការ (Public Holiday)</span>
+                                    </span>
+                                    <span class="inline-flex items-center gap-1.5">
+                                        <span>☸️</span>
+                                        <span>ថ្ងៃឧបោសថសីល (Holy Day)</span>
+                                    </span>
+                                    <span class="inline-flex items-center gap-1.5">
+                                        <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+                                        <span>ពិធីបុណ្យប្រពៃណី (Observance)</span>
+                                    </span>
+                                    <span class="inline-flex items-center gap-1.5">
+                                        <span class="w-2.5 h-2.5 rounded-full bg-orange-400"></span>
+                                        <span>ចុងសប្តាហ៍ (Weekend)</span>
+                                    </span>
+                                </div>
+
+                                <!-- Quick Date Jump Input -->
+                                <div class="flex items-center gap-1.5">
+                                    <label for="quick-date-picker" class="text-xs font-medium text-gray-500 dark:text-gray-400">ទៅកាន់ថ្ងៃ៖</label>
+                                    <input id="quick-date-picker" type="date" :value="selectedDateIso" @change="onQuickDateJump($event)"
+                                        class="px-2 py-1 rounded-lg text-xs bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Day Names Header -->
+                        <div class="grid grid-cols-7 bg-gray-50/90 dark:bg-gray-700/60 border-b border-gray-200/70 dark:border-gray-700">
+                            <div v-for="(day, idx) in dayNames" :key="idx" 
+                                class="py-2.5 sm:py-3 text-center"
+                                :class="idx === 0 ? 'text-red-600 dark:text-red-400' : idx === 6 ? 'text-orange-600 dark:text-orange-400' : 'text-gray-700 dark:text-gray-200'">
+                                <div class="text-xs sm:text-sm font-bold">{{ day.khmer }}</div>
+                                <div class="text-[10px] sm:text-xs opacity-75 font-medium">{{ day.short }}</div>
+                            </div>
+                        </div>
+
+                        <!-- Calendar Grid -->
+                        <div class="grid grid-cols-7">
+                            <div v-for="(day, idx) in calendarDays" :key="idx"
+                                @click="selectDate(day)"
+                                class="min-h-[76px] sm:min-h-[96px] lg:min-h-[108px] p-1.5 sm:p-2 border-b border-r border-gray-100 dark:border-gray-700/70 relative group cursor-pointer transition-all duration-150 flex flex-col justify-between"
+                                :class="[
+                                    idx % 7 === 6 ? 'border-r-0' : '',
+                                    !day.isCurrentMonth ? 'bg-gray-50/60 dark:bg-gray-800/40 opacity-45 hover:opacity-75' : 'hover:bg-blue-50/40 dark:hover:bg-gray-700/40',
+                                    day.isCurrentMonth && day.isPublicHoliday ? 'bg-red-50/40 dark:bg-red-900/15' : '',
+                                    day.isCurrentMonth && day.isSelected ? 'ring-2 ring-inset ring-blue-600 dark:ring-blue-400 bg-blue-50/50 dark:bg-blue-900/20 z-10' : '',
+                                    day.isCurrentMonth && !isDayMatchingFilter(day) ? 'opacity-25' : ''
+                                ]">
+                                
+                                <!-- Top Row: Gregorian Date + Khmer Numeral & Icons -->
+                                <div class="flex items-start justify-between gap-1">
+                                    <div class="flex items-baseline gap-1">
+                                        <span class="inline-flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 rounded-full text-xs sm:text-sm font-bold transition-all"
+                                            :class="[
+                                                day.isToday ? 'bg-gradient-to-br from-red-500 to-rose-600 text-white shadow-md' : '',
+                                                !day.isToday && day.isPublicHoliday ? 'text-red-600 dark:text-red-400 font-extrabold' : '',
+                                                !day.isToday && !day.isPublicHoliday && idx % 7 === 0 ? 'text-red-500 dark:text-red-400' : '',
+                                                !day.isToday && !day.isPublicHoliday && idx % 7 === 6 ? 'text-orange-500 dark:text-orange-400' : '',
+                                                !day.isToday && !day.isPublicHoliday && idx % 7 !== 0 && idx % 7 !== 6 ? 'text-gray-800 dark:text-gray-200' : ''
+                                            ]">
+                                            {{ day.date }}
+                                        </span>
+                                        <span class="text-[10px] sm:text-xs font-semibold text-gray-400 dark:text-gray-500">
+                                            {{ toKhmerNumeral(day.date) }}
+                                        </span>
+                                    </div>
+
+                                    <!-- Holy Day / Holiday Badges -->
+                                    <div class="flex items-center gap-0.5">
+                                        <span v-if="day.isHolyDay" class="text-[11px] sm:text-xs leading-none" title="ថ្ងៃឧបោសថសីល (Buddhist Holy Day)">☸️</span>
+                                        <span v-if="day.lunarPhase" class="text-[11px] sm:text-xs leading-none">{{ day.lunarPhase }}</span>
+                                        <span v-if="day.isPublicHoliday" class="w-2 h-2 rounded-full bg-red-500 animate-pulse ml-0.5" title="ថ្ងៃឈប់សម្រាកផ្លូវការ"></span>
+                                        <span v-else-if="day.holiday" class="w-2 h-2 rounded-full bg-amber-500 ml-0.5" title="ពិធីបុណ្យប្រពៃណី"></span>
+                                    </div>
+                                </div>
+
+                                <!-- Middle/Bottom Row: Lunar Day & Holiday Title -->
+                                <div class="mt-1 space-y-1">
+                                    <div v-if="day.lunarDay" 
+                                        class="inline-block px-1.5 py-0.5 rounded-md text-[9px] sm:text-[11px] font-semibold leading-tight max-w-full truncate"
+                                        :class="[
+                                            day.lunarInfo && day.lunarInfo.dayNumber === 1 && day.lunarInfo.isWaxing
+                                                ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300'
+                                                : day.isHolyDay
+                                                    ? 'bg-amber-100/80 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300'
+                                                    : 'bg-blue-50 text-blue-700 dark:bg-gray-700/80 dark:text-blue-300'
+                                        ]">
+                                        {{ day.lunarDay }}
+                                    </div>
+
+                                    <div v-if="day.holiday" 
+                                        class="text-[9px] sm:text-[10px] font-bold leading-tight line-clamp-2 px-1 py-0.5 rounded"
+                                        :class="day.isPublicHoliday 
+                                            ? 'bg-red-100/80 text-red-700 dark:bg-red-900/40 dark:text-red-300' 
+                                            : 'bg-amber-100/80 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300'">
+                                        {{ day.holiday.khmer }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Selected Date Inspector & Monthly Holy Days -->
+                <div class="lg:col-span-4 space-y-6">
+                    
+                    <!-- Selected Date Inspector Card -->
+                    <div v-if="selectedDate" class="bg-white dark:bg-gray-800 rounded-3xl shadow-xl border border-gray-200/80 dark:border-gray-700 overflow-hidden">
+                        <!-- Top Banner of Selected Day -->
+                        <div class="p-5 sm:p-6 text-white relative overflow-hidden"
+                            :class="selectedDate.isPublicHoliday 
+                                ? 'bg-gradient-to-br from-red-600 via-rose-600 to-orange-600' 
+                                : selectedDate.isWeekend 
+                                    ? 'bg-gradient-to-br from-orange-500 via-amber-600 to-rose-600'
+                                    : 'bg-gradient-to-br from-blue-600 via-indigo-600 to-slate-800'">
+                            <div class="flex items-start justify-between gap-3">
+                                <div>
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-white/20 backdrop-blur-sm mb-2">
+                                        <span v-if="selectedDate.isPublicHoliday">🔴 ថ្ងៃឈប់សម្រាកផ្លូវការ (Public Holiday)</span>
+                                        <span v-else-if="selectedDate.isWeekend">🟠 ថ្ងៃឈប់សម្រាកចុងសប្តាហ៍ (Weekend)</span>
+                                        <span v-else>🟢 ថ្ងៃធ្វើការធម្មតា (Working Day)</span>
+                                    </span>
+                                    <h3 class="text-xl sm:text-2xl font-extrabold">
+                                        ថ្ងៃ{{ selectedDate.weekdayKhmer }} ទី{{ toKhmerNumeral(selectedDate.date) }}
+                                    </h3>
+                                    <p class="text-white/85 text-xs sm:text-sm mt-0.5">
+                                        {{ selectedDate.fullDate }}
+                                    </p>
+                                </div>
+                                <div class="w-16 h-16 rounded-2xl bg-white/15 backdrop-blur-md border border-white/25 flex flex-col items-center justify-center flex-shrink-0 shadow-inner">
+                                    <span class="text-2xl font-black leading-none">{{ toKhmerNumeral(selectedDate.date) }}</span>
+                                    <span class="text-[11px] font-semibold opacity-90 mt-1">{{ selectedDate.date }} {{ selectedDate.monthShort }}</span>
+                                </div>
+                            </div>
+
+                            <div v-if="selectedDate.isHolyDay" class="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-amber-400/25 border border-amber-300/40 text-xs font-bold text-amber-100">
+                                <span>☸️</span>
+                                <span>ថ្ងៃឧបោសថសីល ({{ selectedDate.lunarInfo.baseDay }})</span>
+                            </div>
+                        </div>
+
+                        <!-- Traditional Khmer Date Box with Copy Button -->
+                        <div class="p-5 sm:p-6 space-y-4">
+                            <div class="p-3.5 rounded-2xl bg-gray-50 dark:bg-gray-700/50 border border-gray-200/70 dark:border-gray-600">
+                                <div class="flex items-center justify-between mb-1.5">
+                                    <span class="text-xs font-semibold text-gray-500 dark:text-gray-400">កាលបរិច្ឆេទខ្មែរផ្លូវការ (Traditional Format)</span>
+                                    <button @click="copyKhmerDate"
+                                        class="px-2.5 py-1 rounded-lg text-xs font-semibold transition-all flex items-center gap-1"
+                                        :class="copiedKhmerDate 
+                                            ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300' 
+                                            : 'bg-blue-100 text-blue-700 hover:bg-blue-200 dark:bg-blue-900/40 dark:text-blue-300'">
+                                        <span>{{ copiedKhmerDate ? '✓ បានចម្លង' : '📋 ចម្លង (Copy)' }}</span>
+                                    </button>
+                                </div>
+                                <p class="text-sm font-bold text-gray-900 dark:text-white leading-relaxed">
+                                    {{ selectedDate.khmerLunarFullDate }}
+                                </p>
+                                <p class="text-xs font-medium text-gray-600 dark:text-gray-300 mt-1">
+                                    {{ selectedDate.khmerSolarFullDate }}
+                                </p>
+                            </div>
+
+                            <!-- 4-Card Lunar Attribute Breakdown -->
+                            <div class="grid grid-cols-2 gap-2.5">
+                                <div class="p-3 rounded-xl bg-blue-50/60 dark:bg-gray-700/40 border border-blue-100 dark:border-gray-700">
+                                    <div class="text-[11px] text-gray-500 dark:text-gray-400">ថ្ងៃច័ន្ទគតិ (Lunar Day)</div>
+                                    <div class="text-sm font-bold text-gray-900 dark:text-white mt-0.5 flex items-center gap-1">
+                                        <span>{{ selectedDate.lunarInfo.baseDay }}</span>
+                                        <span v-if="selectedDate.lunarInfo.phase">{{ selectedDate.lunarInfo.phase }}</span>
+                                    </div>
+                                </div>
+                                <div class="p-3 rounded-xl bg-blue-50/60 dark:bg-gray-700/40 border border-blue-100 dark:border-gray-700">
+                                    <div class="text-[11px] text-gray-500 dark:text-gray-400">ខែច័ន្ទគតិ (Lunar Month)</div>
+                                    <div class="text-sm font-bold text-gray-900 dark:text-white mt-0.5">
+                                        ខែ{{ selectedDate.lunarInfo.monthKhmer }} ({{ toKhmerNumeral(selectedDate.lunarInfo.monthLength) }} ថ្ងៃ)
+                                    </div>
+                                </div>
+                                <div class="p-3 rounded-xl bg-blue-50/60 dark:bg-gray-700/40 border border-blue-100 dark:border-gray-700">
+                                    <div class="text-[11px] text-gray-500 dark:text-gray-400">ឆ្នាំសត្វ និងស័ក (Zodiac)</div>
+                                    <div class="text-sm font-bold text-gray-900 dark:text-white mt-0.5">
+                                        ឆ្នាំ{{ selectedDate.lunarInfo.zodiacKhmer }} {{ selectedDate.lunarInfo.sakKhmer }}
+                                    </div>
+                                </div>
+                                <div class="p-3 rounded-xl bg-blue-50/60 dark:bg-gray-700/40 border border-blue-100 dark:border-gray-700">
+                                    <div class="text-[11px] text-gray-500 dark:text-gray-400">ពុទ្ធសករាជ (Buddhist Era)</div>
+                                    <div class="text-sm font-bold text-gray-900 dark:text-white mt-0.5">
+                                        ព.ស. {{ toKhmerNumeral(selectedDate.lunarInfo.beYear) }} ({{ selectedDate.lunarInfo.beYear }})
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Holiday Detail Box if Present -->
+                            <div v-if="selectedDate.holiday" 
+                                class="p-4 rounded-2xl border"
+                                :class="selectedDate.isPublicHoliday 
+                                    ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800/50' 
+                                    : 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800/50'">
+                                <div class="flex items-start gap-3">
+                                    <span class="text-2xl">{{ selectedDate.isPublicHoliday ? '🎉' : '🙏' }}</span>
+                                    <div>
+                                        <div class="text-xs font-bold uppercase tracking-wider mb-0.5"
+                                            :class="selectedDate.isPublicHoliday ? 'text-red-600 dark:text-red-400' : 'text-amber-600 dark:text-amber-400'">
+                                            {{ selectedDate.isPublicHoliday ? 'ថ្ងៃឈប់សម្រាកផ្លូវការ • Public Holiday' : 'ពិធីបុណ្យប្រពៃណី • Observance (Working Day)' }}
+                                        </div>
+                                        <p class="font-bold text-sm sm:text-base text-gray-900 dark:text-white">
+                                            {{ selectedDate.holiday.khmer }}
+                                        </p>
+                                        <p class="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300 mt-0.5">
+                                            {{ selectedDate.holiday.english }}
+                                        </p>
+                                        <p v-if="selectedDate.holiday.description" class="mt-2 text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
+                                            {{ selectedDate.holiday.description }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Buddhist Holy Days (ថ្ងៃឧបោសថសីល) in Current Month -->
+                    <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-xl border border-gray-200/80 dark:border-gray-700 overflow-hidden">
+                        <div class="p-4 sm:p-5 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <span class="text-xl">☸️</span>
+                                <div>
+                                    <h3 class="text-sm sm:text-base font-bold text-gray-900 dark:text-white">
+                                        ថ្ងៃឧបោសថសីល ខែ{{ currentSolarKhmerMonth }}
+                                    </h3>
+                                    <p class="text-[11px] text-gray-500 dark:text-gray-400">Buddhist Holy Days in {{ currentMonthName }}</p>
+                                </div>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300">
+                                {{ toKhmerNumeral(currentMonthHolyDays.length) }} ថ្ងៃ
+                            </span>
+                        </div>
+                        <div class="divide-y divide-gray-100 dark:divide-gray-700/60">
+                            <button v-for="(hDay, idx) in currentMonthHolyDays" :key="idx"
+                                @click="selectDate(hDay)"
+                                class="w-full p-3.5 sm:px-5 flex items-center justify-between hover:bg-amber-50/50 dark:hover:bg-gray-700/50 transition-all text-left">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-xl bg-amber-100/80 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300 font-bold text-sm flex flex-col items-center justify-center">
+                                        <span>{{ toKhmerNumeral(hDay.date) }}</span>
+                                        <span class="text-[9px] opacity-75">{{ hDay.date }}</span>
+                                    </div>
+                                    <div>
+                                        <div class="text-xs sm:text-sm font-bold text-gray-900 dark:text-white flex items-center gap-1.5">
+                                            <span>ថ្ងៃ{{ hDay.weekdayKhmer }} • {{ hDay.lunarInfo.baseDay }}</span>
+                                            <span v-if="hDay.isToday" class="px-1.5 py-0.2 bg-red-500 text-white text-[10px] rounded-full">ថ្ងៃនេះ</span>
+                                        </div>
+                                        <div class="text-[11px] text-gray-500 dark:text-gray-400">
+                                            ខែ{{ hDay.lunarInfo.monthKhmer }} • {{ hDay.date }} {{ currentMonthName }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="text-lg">{{ hDay.lunarPhase }}</span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Holidays & Observances Explorer (Tabs: Upcoming vs Full Year) -->
+            <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-xl border border-gray-200/80 dark:border-gray-700 overflow-hidden mb-8">
+                <div class="p-4 sm:p-6 border-b border-gray-100 dark:border-gray-700 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div>
+                        <h2 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                            <SparklesIcon class="h-5 w-5 sm:h-6 sm:w-6 text-red-500" />
+                            <span>តារាងថ្ងៃបុណ្យជាតិ និងថ្ងៃឈប់សម្រាកផ្លូវការ</span>
+                        </h2>
+                        <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">
+                            Official Public Holidays & Traditional Observances (ចុចលើថ្ងៃបុណ្យណាមួយដើម្បីមើលក្នុងប្រតិទិន)
+                        </p>
+                    </div>
+
+                    <!-- View Mode Toggle & Search -->
+                    <div class="flex flex-wrap items-center gap-2">
+                        <div class="inline-flex rounded-xl bg-gray-100 dark:bg-gray-700 p-1">
+                            <button @click="holidayTab = 'upcoming'"
+                                class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all"
+                                :class="holidayTab === 'upcoming' 
+                                    ? 'bg-white dark:bg-gray-800 text-red-600 dark:text-red-400 shadow-sm' 
+                                    : 'text-gray-600 dark:text-gray-300'">
+                                ថ្ងៃបុណ្យខាងមុខ (Upcoming)
+                            </button>
+                            <button @click="holidayTab = 'year'"
+                                class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all"
+                                :class="holidayTab === 'year' 
+                                    ? 'bg-white dark:bg-gray-800 text-red-600 dark:text-red-400 shadow-sm' 
+                                    : 'text-gray-600 dark:text-gray-300'">
+                                ប្រចាំឆ្នាំ {{ toKhmerNumeral(currentYear) }} (All {{ currentYear }})
+                            </button>
+                        </div>
+
+                        <input v-model.trim="holidaySearch" type="text" placeholder="ស្វែងរកថ្ងៃបុណ្យ..."
+                            class="px-3 py-1.5 rounded-xl text-xs sm:text-sm bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-transparent focus:border-blue-500 focus:bg-white dark:focus:bg-gray-800 focus:outline-none" />
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:gap-px bg-gray-100 dark:bg-gray-700">
+                    <div v-for="(holiday, idx) in displayedHolidays" :key="idx"
+                        @click="jumpToHoliday(holiday)"
+                        class="p-4 sm:p-5 bg-white dark:bg-gray-800 hover:bg-blue-50/40 dark:hover:bg-gray-700/60 cursor-pointer transition-all flex items-center gap-4">
+                        <div class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl flex flex-col items-center justify-center flex-shrink-0 border"
+                            :class="holiday.isPast 
+                                ? 'bg-gray-50 dark:bg-gray-700/50 border-gray-200 dark:border-gray-600 text-gray-400' 
+                                : holiday.isPublicHoliday 
+                                    ? 'bg-red-50 dark:bg-red-900/25 border-red-200 dark:border-red-800/50 text-red-600 dark:text-red-400'
+                                    : 'bg-amber-50 dark:bg-amber-900/25 border-amber-200 dark:border-amber-800/50 text-amber-600 dark:text-amber-400'">
+                            <span class="text-lg sm:text-xl font-extrabold leading-none">
+                                {{ holiday.day }}
+                            </span>
+                            <span class="text-[10px] sm:text-xs font-semibold mt-0.5">
+                                {{ holiday.monthShort }}
+                            </span>
+                        </div>
+
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center gap-1.5 mb-0.5">
+                                <span class="px-2 py-0.5 rounded-md text-[10px] font-bold"
+                                    :class="holiday.isPublicHoliday 
+                                        ? 'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300' 
+                                        : 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300'">
+                                    {{ holiday.isPublicHoliday ? 'ឈប់សម្រាក' : 'ប្រពៃណី (ធ្វើការ)' }}
+                                </span>
+                                <span class="text-xs text-gray-400 dark:text-gray-500">• {{ holiday.weekdayName }} {{ holiday.year }}</span>
+                            </div>
+                            <p class="font-bold text-gray-900 dark:text-white text-sm sm:text-base truncate">
+                                {{ holiday.khmer }}
+                            </p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 truncate">
+                                {{ holiday.english }}
                             </p>
                         </div>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Upcoming Holidays -->
-            <div class="animate-fade-in-up bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden mb-6" style="animation-delay: 200ms">
-                <div class="p-4 sm:p-6 border-b border-gray-100 dark:border-gray-700">
-                    <h2 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                        <SparklesIcon class="h-5 w-5 sm:h-6 sm:w-6 text-yellow-500" />
-                        ថ្ងៃបុណ្យជាតិ និងថ្ងៃឈប់សម្រាកខាងមុខ
-                        <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Upcoming Official Holidays</span>
-                    </h2>
-                </div>
-                <div class="divide-y divide-gray-100 dark:divide-gray-700">
-                    <div v-for="(holiday, idx) in upcomingHolidays" :key="idx"
-                        class="p-4 sm:p-5 hover:bg-gradient-to-r hover:from-red-50/50 hover:to-blue-50/50 dark:hover:from-red-900/10 dark:hover:to-blue-900/10 transition-all">
-                        <div class="flex items-center gap-4">
-                            <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex flex-col items-center justify-center flex-shrink-0"
-                                :class="holiday.isPast ? 'bg-gray-100 dark:bg-gray-700' : 'bg-gradient-to-br from-red-100 to-blue-100 dark:from-red-900/30 dark:to-blue-900/30'">
-                                <span class="text-lg sm:text-xl font-bold" :class="holiday.isPast ? 'text-gray-400' : 'text-red-600 dark:text-red-400'">
-                                    {{ holiday.day }}
-                                </span>
-                                <span class="text-[10px] sm:text-xs" :class="holiday.isPast ? 'text-gray-400' : 'text-gray-500 dark:text-gray-400'">
-                                    {{ holiday.monthShort }}
-                                </span>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <p class="font-semibold text-gray-900 dark:text-white text-sm sm:text-base">
-                                    {{ holiday.khmer }}
-                                </p>
-                                <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-                                    {{ holiday.english }} • {{ holiday.weekdayName }}
-                                </p>
-                            </div>
-                            <div class="text-right flex-shrink-0">
-                                <span v-if="holiday.daysUntil === 0" class="px-2.5 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs font-medium rounded-full">
-                                    ថ្ងៃនេះ! (Today)
-                                </span>
-                                <span v-else-if="holiday.daysUntil === 1" class="px-2.5 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-medium rounded-full">
-                                    ថ្ងៃស្អែក (Tomorrow)
-                                </span>
-                                <span v-else-if="holiday.daysUntil > 1" class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-                                    {{ toKhmerNumeral(holiday.daysUntil) }} ថ្ងៃទៀត ({{ holiday.daysUntil }}d)
-                                </span>
-                                <span v-else class="text-xs text-gray-400">
-                                    បានកន្លង ({{ Math.abs(holiday.daysUntil) }}d ago)
-                                </span>
-                            </div>
+                        <div class="text-right flex-shrink-0">
+                            <span v-if="holiday.daysUntil === 0" class="px-2.5 py-1 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 text-xs font-bold rounded-full">
+                                ថ្ងៃនេះ!
+                            </span>
+                            <span v-else-if="holiday.daysUntil === 1" class="px-2.5 py-1 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 text-xs font-bold rounded-full">
+                                ថ្ងៃស្អែក
+                            </span>
+                            <span v-else-if="holiday.daysUntil > 1" class="px-2.5 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs font-semibold rounded-full">
+                                {{ toKhmerNumeral(holiday.daysUntil) }} ថ្ងៃទៀត
+                            </span>
+                            <span v-else class="text-xs text-gray-400">
+                                បានកន្លង
+                            </span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Khmer Months Reference -->
-            <div class="animate-fade-in-up bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 rounded-2xl p-4 sm:p-6 border border-amber-200 dark:border-amber-800 mb-6" style="animation-delay: 300ms">
-                <h2 class="text-lg sm:text-xl font-bold text-amber-900 dark:text-amber-200 mb-4 flex items-center gap-2">
-                    <span class="text-2xl">📜</span>
-                    ខែខ្មែរទាំង ១២ ខែ
-                    <span class="text-sm font-normal text-amber-700 dark:text-amber-400">12 Khmer Lunar Months</span>
-                </h2>
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3">
-                    <div v-for="(month, idx) in khmerMonths" :key="idx"
-                        class="p-3 bg-white/70 dark:bg-gray-800/70 rounded-xl animate-fade-in-up hover:bg-white dark:hover:bg-gray-700/80 hover:shadow-md transition-all duration-200"
-                        :style="{ animationDelay: (idx * 50) + 'ms' }">
-                        <div class="font-semibold text-gray-900 dark:text-white text-sm sm:text-base">{{ month.khmer }}</div>
-                        <div class="text-xs text-gray-500 dark:text-gray-400">{{ month.english }}</div>
-                        <div class="text-[10px] text-amber-600 dark:text-amber-400 mt-1">{{ month.gregorian }}</div>
+            <!-- Khmer Months Reference & Cultural Info -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <div class="lg:col-span-7 bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/15 dark:to-orange-900/15 rounded-3xl p-5 sm:p-6 border border-amber-200/80 dark:border-amber-800/60">
+                    <h2 class="text-lg sm:text-xl font-bold text-amber-900 dark:text-amber-200 mb-4 flex items-center gap-2">
+                        <span class="text-2xl">📜</span>
+                        <span>ខែច័ន្ទគតិខ្មែរទាំង ១២ ខែ (12 Khmer Lunar Months)</span>
+                    </h2>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2.5">
+                        <div v-for="(month, idx) in khmerMonths" :key="idx"
+                            class="p-3 bg-white/80 dark:bg-gray-800/80 rounded-2xl border border-amber-100 dark:border-gray-700 hover:shadow-md transition-all">
+                            <div class="flex items-center justify-between">
+                                <span class="text-[11px] font-bold text-amber-600 dark:text-amber-400">ខែទី {{ toKhmerNumeral(idx + 1) }}</span>
+                                <span class="text-[10px] text-gray-400">{{ month.days }}ថ្ងៃ</span>
+                            </div>
+                            <div class="font-bold text-gray-900 dark:text-white text-sm sm:text-base mt-0.5">{{ month.khmer }}</div>
+                            <div class="text-xs text-gray-500 dark:text-gray-400">{{ month.english }} • {{ month.gregorian }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 bg-white dark:bg-gray-800 rounded-3xl shadow-xl p-5 sm:p-6 border border-gray-200/80 dark:border-gray-700 flex flex-col justify-between space-y-4">
+                    <div>
+                        <h2 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+                            <span class="text-2xl">🏛️</span>
+                            <span>អំពីប្រតិទិនខ្មែរ (About Khmer Calendar)</span>
+                        </h2>
+                        <div class="space-y-3">
+                            <div class="p-3.5 bg-gray-50 dark:bg-gray-700/50 rounded-2xl">
+                                <h3 class="font-bold text-gray-900 dark:text-white text-sm mb-1">📅 ពុទ្ធសករាជ (ព.ស.) និងស័ក</h3>
+                                <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                                    ពុទ្ធសករាជផ្លាស់ប្តូរនៅថ្ងៃ ១រោច ខែពិសាខ (១ថ្ងៃក្រោយបុណ្យវិសាខបូជា) ចំណែកឯឆ្នាំសត្វទាំង ១២ និងស័កទាំង ១០ ផ្លាស់ប្តូរនៅថ្ងៃវារៈឡើងស័ក (ថ្ងៃទី៣ នៃបុណ្យចូលឆ្នាំថ្មីប្រពៃណីជាតិ)។
+                                </p>
+                            </div>
+                            <div class="p-3.5 bg-gray-50 dark:bg-gray-700/50 rounded-2xl">
+                                <h3 class="font-bold text-gray-900 dark:text-white text-sm mb-1">☸️ ថ្ងៃឧបោសថសីល និងខ្នើត-រនោច</h3>
+                                <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                                    ក្នុងមួយខែច័ន្ទគតិមានថ្ងៃសីលចំនួន ៤ ថ្ងៃ គឺថ្ងៃ ៨កើត, ១៥កើត (ពេញបូណ៌មី), ៨រោច និងថ្ងៃ ១៤រោច (ខែខ្វះ ២៩ថ្ងៃ) ឬ ១៥រោច (ខែពេញ ៣០ថ្ងៃ)។
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-3 border-t border-gray-100 dark:border-gray-700 text-center text-xs text-gray-500 dark:text-gray-400">
+                        ប្រតិទិនខ្មែរ • គណនាតាមក្បួនឆន្ទគតិខ្មែរ និងអនុក្រឹត្យថ្ងៃឈប់សម្រាកផ្លូវការ • ព.ស. {{ toKhmerNumeral(currentKhmerYear) }}
                     </div>
                 </div>
             </div>
 
-            <!-- Cultural Info -->
-            <div class="animate-fade-in-up bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-4 sm:p-6 border border-gray-100 dark:border-gray-700" style="animation-delay: 400ms">
-                <h2 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                    <span class="text-2xl">🏛️</span>
-                    ព័ត៌មានប្រតិទិនខ្មែរ
-                </h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
-                        <h3 class="font-semibold text-gray-900 dark:text-white mb-2">📅 ព.ស. (ពុទ្ធសករាជ)</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">
-                            ប្រព័ន្ធប្រតិទិនខ្មែរប្រើពុទ្ធសករាជ ដែលរាប់ចាប់ពីថ្ងៃព្រះពុទ្ធបរិនិព្វាន និងផ្លាស់ប្តូរនៅថ្ងៃ ១រោច ខែពិសាខ (ក្រោយថ្ងៃវិសាខបូជា)។ បច្ចុប្បន្នគឺ ព.ស. {{ toKhmerNumeral(currentKhmerYear) }} ({{ currentKhmerYear }} BE)។
-                        </p>
-                    </div>
-                    <div class="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
-                        <h3 class="font-semibold text-gray-900 dark:text-white mb-2">🌙 ប្រតិទិនច័ន្ទគតិខ្មែរ (ឆន្ទគតិ)</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">
-                            ប្រតិទិនខ្មែរគណនាតាមដំណើរព្រះច័ន្ទ (ខ្នើត និងរនោច)។ ថ្ងៃបុណ្យជាតិសំខាន់ៗដូចជា បុណ្យវិសាខបូជា ច្រត់ព្រះនង្គ័ល ភ្ជុំបិណ្ឌ និងបុណ្យអុំទូក ត្រូវបានកំណត់តាមប្រតិទិនច័ន្ទគតិ និងអនុក្រឹត្យរាជរដ្ឋាភិបាល។
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <footer class="text-center text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
-                <p>ប្រតិទិនខ្មែរ • Khmer Calendar • ព.ស. {{ toKhmerNumeral(currentKhmerYear) }}</p>
-            </footer>
         </div>
     </div>
 </template>
@@ -299,6 +609,10 @@ export default {
         return {
             currentDate: new Date(),
             selectedDate: null,
+            activeFilter: 'all',
+            holidayTab: 'upcoming',
+            holidaySearch: '',
+            copiedKhmerDate: false,
             dayNames: [
                 { full: 'Sunday', short: 'Sun', khmer: 'អាទិត្យ' },
                 { full: 'Monday', short: 'Mon', khmer: 'ចន្ទ' },
@@ -308,6 +622,7 @@ export default {
                 { full: 'Friday', short: 'Fri', khmer: 'សុក្រ' },
                 { full: 'Saturday', short: 'Sat', khmer: 'សៅរ៍' }
             ],
+            englishMonthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
             solarKhmerMonths: [
                 'មករា', 'កុម្ភៈ', 'មីនា', 'មេសា', 'ឧសភា', 'មិថុនា',
                 'កក្កដា', 'សីហា', 'កញ្ញា', 'តុលា', 'វិច្ឆិកា', 'ធ្នូ'
@@ -355,24 +670,32 @@ export default {
                 'សំរឹទ្ធិស័ក'
             ],
             khmerMonths: [
-                { khmer: 'ខែមិគសិរ', english: 'Mikosir', gregorian: 'Nov-Dec' },
-                { khmer: 'ខែបុស្ស', english: 'Boss', gregorian: 'Dec-Jan' },
-                { khmer: 'ខែមាឃ', english: 'Meakh', gregorian: 'Jan-Feb' },
-                { khmer: 'ខែផល្គុន', english: 'Phalkun', gregorian: 'Feb-Mar' },
-                { khmer: 'ខែចេត្រ', english: 'Chaet', gregorian: 'Mar-Apr' },
-                { khmer: 'ខែពិសាខ', english: 'Visakh', gregorian: 'Apr-May' },
-                { khmer: 'ខែជេស្ឋ', english: 'Chesth', gregorian: 'May-Jun' },
-                { khmer: 'ខែអាសាឍ', english: 'Asath', gregorian: 'Jun-Jul' },
-                { khmer: 'ខែស្រាពណ៍', english: 'Srapon', gregorian: 'Jul-Aug' },
-                { khmer: 'ខែភទ្របទ', english: 'Photrobot', gregorian: 'Aug-Sep' },
-                { khmer: 'ខែអស្សុជ', english: 'Asuj', gregorian: 'Sep-Oct' },
-                { khmer: 'ខែកក្តិក', english: 'Katdek', gregorian: 'Oct-Nov' }
+                { khmer: 'ខែមិគសិរ', english: 'Mikosir', gregorian: 'Nov-Dec', days: '២៩' },
+                { khmer: 'ខែបុស្ស', english: 'Boss', gregorian: 'Dec-Jan', days: '៣០' },
+                { khmer: 'ខែមាឃ', english: 'Meakh', gregorian: 'Jan-Feb', days: '២៩' },
+                { khmer: 'ខែផល្គុន', english: 'Phalkun', gregorian: 'Feb-Mar', days: '៣០' },
+                { khmer: 'ខែចេត្រ', english: 'Chaet', gregorian: 'Mar-Apr', days: '២៩' },
+                { khmer: 'ខែពិសាខ', english: 'Visakh', gregorian: 'Apr-May', days: '៣០' },
+                { khmer: 'ខែជេស្ឋ', english: 'Chesth', gregorian: 'May-Jun', days: '២៩/៣០' },
+                { khmer: 'ខែអាសាឍ', english: 'Asath', gregorian: 'Jun-Jul', days: '៣០' },
+                { khmer: 'ខែស្រាពណ៍', english: 'Srapon', gregorian: 'Jul-Aug', days: '២៩' },
+                { khmer: 'ខែភទ្របទ', english: 'Photrobot', gregorian: 'Aug-Sep', days: '៣០' },
+                { khmer: 'ខែអស្សុជ', english: 'Asuj', gregorian: 'Sep-Oct', days: '២៩' },
+                { khmer: 'ខែកក្តិក', english: 'Katdek', gregorian: 'Oct-Nov', days: '៣០' }
             ],
             khmerNumerals: ['០', '១', '២', '៣', '៤', '៥', '៦', '៧', '៨', '៩'],
             holidaysCache: {}
         };
     },
     computed: {
+        yearOptions() {
+            const base = new Date().getFullYear();
+            const years = [];
+            for (let y = base - 5; y <= base + 6; y++) {
+                years.push(y);
+            }
+            return years;
+        },
         currentYear() {
             return this.currentDate.getFullYear();
         },
@@ -380,7 +703,9 @@ export default {
             return this.currentDate.getMonth();
         },
         referenceLunarData() {
-            const refDay = this.selectedDate ? this.selectedDate.date : 15;
+            const refDay = this.selectedDate && this.selectedDate.month === this.currentMonth && this.selectedDate.year === this.currentYear
+                ? this.selectedDate.date
+                : 15;
             return this.calculateKhmerLunar(this.currentYear, this.currentMonth, refDay);
         },
         currentKhmerYear() {
@@ -409,6 +734,29 @@ export default {
             }
             return `ខែ${firstKhmer}`;
         },
+        todayBannerInfo() {
+            const now = new Date();
+            const y = now.getFullYear();
+            const m = now.getMonth();
+            const d = now.getDate();
+            const dow = now.getDay();
+            const lunarInfo = this.getLunarDay(y, m, d);
+            const holiday = this.getHoliday(y, m + 1, d);
+            return {
+                day: d,
+                khmerLunarFullDate: `ថ្ងៃ${this.dayNames[dow].khmer} ${lunarInfo.baseDay} ខែ${lunarInfo.monthKhmer} ឆ្នាំ${lunarInfo.zodiacKhmer} ${lunarInfo.sakKhmer} ព.ស. ${this.toKhmerNumeral(lunarInfo.beYear)}`,
+                khmerSolarFullDate: `ទី${this.toKhmerNumeral(d)} ខែ${this.solarKhmerMonths[m]} ឆ្នាំ${this.toKhmerNumeral(y)}`,
+                isPublicHoliday: !!(holiday && holiday.isPublicHoliday !== false),
+                isWeekend: dow === 0 || dow === 6
+            };
+        },
+        selectedDateIso() {
+            if (!this.selectedDate) return '';
+            const y = this.selectedDate.year;
+            const m = String(this.selectedDate.month + 1).padStart(2, '0');
+            const d = String(this.selectedDate.date).padStart(2, '0');
+            return `${y}-${m}-${d}`;
+        },
         calendarDays() {
             const year = this.currentYear;
             const month = this.currentMonth;
@@ -431,6 +779,7 @@ export default {
                     holiday: null,
                     isHoliday: false,
                     isPublicHoliday: false,
+                    isWeekend: false,
                     isHolyDay: false,
                     lunarPhase: null,
                     lunarDay: ''
@@ -439,15 +788,20 @@ export default {
             
             // Current month days
             for (let i = 1; i <= daysInMonth; i++) {
+                const dateObj = new Date(year, month, i);
+                const dow = dateObj.getDay();
                 const isToday = today.getDate() === i && 
                                today.getMonth() === month && 
                                today.getFullYear() === year;
                 
                 const holiday = this.getHoliday(year, month + 1, i);
                 const lunarData = this.getLunarDay(year, month, i);
+                const isPublicHoliday = !!(holiday && holiday.isPublicHoliday !== false);
+                const isWeekend = dow === 0 || dow === 6;
                 
                 days.push({
                     date: i,
+                    weekdayKhmer: this.dayNames[dow].khmer,
                     isCurrentMonth: true,
                     isToday,
                     isSelected: this.selectedDate && 
@@ -456,7 +810,9 @@ export default {
                                this.selectedDate.year === year,
                     holiday,
                     isHoliday: !!holiday,
-                    isPublicHoliday: !!(holiday && holiday.isPublicHoliday !== false),
+                    isPublicHoliday,
+                    isWeekend,
+                    isWorkingDay: !isPublicHoliday && !isWeekend,
                     isHolyDay: lunarData.isHolyDay,
                     lunarPhase: lunarData.phase,
                     lunarDay: lunarData.day,
@@ -475,6 +831,7 @@ export default {
                     holiday: null,
                     isHoliday: false,
                     isPublicHoliday: false,
+                    isWeekend: false,
                     isHolyDay: false,
                     lunarPhase: null,
                     lunarDay: ''
@@ -482,6 +839,21 @@ export default {
             }
             
             return days;
+        },
+        currentMonthDays() {
+            return this.calendarDays.filter(d => d.isCurrentMonth);
+        },
+        currentMonthHolyDays() {
+            return this.currentMonthDays.filter(d => d.isHolyDay);
+        },
+        monthStats() {
+            const current = this.currentMonthDays;
+            return {
+                totalDays: current.length,
+                workingDays: current.filter(d => d.isWorkingDay).length,
+                publicHolidays: current.filter(d => d.isPublicHoliday).length,
+                holyDays: current.filter(d => d.isHolyDay).length
+            };
         },
         upcomingHolidays() {
             const now = new Date();
@@ -494,25 +866,50 @@ export default {
             ].filter(h => h.isPublicHoliday !== false);
             
             return allHolidays
-                .map(h => {
-                    const holidayDate = new Date(h.year, h.month - 1, h.day);
-                    const timeDiff = holidayDate.getTime() - todayMidnight.getTime();
-                    const daysUntil = Math.round(timeDiff / (1000 * 60 * 60 * 24));
-                    
-                    return {
-                        ...h,
-                        day: h.day,
-                        monthShort: holidayDate.toLocaleString('en-US', { month: 'short' }),
-                        weekdayName: `ថ្ងៃ${this.dayNames[holidayDate.getDay()].khmer}`,
-                        daysUntil,
-                        isPast: daysUntil < 0
-                    };
-                })
-                .filter(h => h.daysUntil >= -5)
-                .slice(0, 8);
+                .map(h => this.EnrichHolidayItem(h, todayMidnight))
+                .filter(h => h.daysUntil >= 0)
+                .slice(0, 10);
+        },
+        nextUpcomingHoliday() {
+            return this.upcomingHolidays.length > 0 ? this.upcomingHolidays[0] : null;
+        },
+        displayedHolidays() {
+            const now = new Date();
+            const todayMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            let list = [];
+            if (this.holidayTab === 'year') {
+                list = this.getHolidaysForYear(this.currentYear).map(h => this.EnrichHolidayItem(h, todayMidnight));
+            } else {
+                list = this.upcomingHolidays;
+            }
+            if (this.holidaySearch) {
+                const q = this.holidaySearch.toLowerCase();
+                list = list.filter(h => h.khmer.toLowerCase().includes(q) || h.english.toLowerCase().includes(q));
+            }
+            return list;
         }
     },
     methods: {
+        EnrichHolidayItem(h, todayMidnight) {
+            const holidayDate = new Date(h.year, h.month - 1, h.day);
+            const timeDiff = holidayDate.getTime() - todayMidnight.getTime();
+            const daysUntil = Math.round(timeDiff / (1000 * 60 * 60 * 24));
+            return {
+                ...h,
+                day: h.day,
+                monthShort: holidayDate.toLocaleString('en-US', { month: 'short' }),
+                weekdayName: `ថ្ងៃ${this.dayNames[holidayDate.getDay()].khmer}`,
+                daysUntil,
+                isPast: daysUntil < 0
+            };
+        },
+        isDayMatchingFilter(day) {
+            if (this.activeFilter === 'all') return true;
+            if (this.activeFilter === 'workday') return day.isWorkingDay;
+            if (this.activeFilter === 'holiday') return day.isPublicHoliday;
+            if (this.activeFilter === 'holyday') return day.isHolyDay;
+            return true;
+        },
         toKhmerNumeral(num) {
             return String(num).split('').map(d => this.khmerNumerals[parseInt(d)] ?? d).join('');
         },
@@ -699,11 +1096,10 @@ export default {
                 for (let d = 1; d <= daysInMonth; d++) {
                     const l = this.calculateKhmerLunar(year, m, d);
                     const pNum = l.period[0];
-                    const pPhase = l.period[1]; // 'K' or 'R'
+                    const pPhase = l.period[1];
                     const mName = l.month.name;
                     let lunarHoliday = null;
 
-                    // 1. Meak Bochea Day (15 Keut Meakh - Traditional Buddhist observance)
                     if (mName === 'MÉAKH' && pPhase === 'K' && pNum === 15) {
                         lunarHoliday = {
                             month: m + 1,
@@ -713,9 +1109,7 @@ export default {
                             description: 'Important Buddhist observance day on the full moon of Meakh (15 Keut Meakh).',
                             isPublicHoliday: false
                         };
-                    }
-                    // 2. Visak Bochea Day (15 Keut Visakh - Official Public Holiday)
-                    else if (mName === 'VĬSAKH' && pPhase === 'K' && pNum === 15) {
+                    } else if (mName === 'VĬSAKH' && pPhase === 'K' && pNum === 15) {
                         lunarHoliday = {
                             month: m + 1,
                             day: d,
@@ -724,9 +1118,7 @@ export default {
                             description: 'Official public holiday commemorating the birth, enlightenment, and Parinirvana of Lord Buddha (15 Keut Visakh).',
                             isPublicHoliday: true
                         };
-                    }
-                    // 3. Royal Ploughing Ceremony (4 Roach Visakh - Official Public Holiday)
-                    else if (mName === 'VĬSAKH' && pPhase === 'R' && pNum === 4) {
+                    } else if (mName === 'VĬSAKH' && pPhase === 'R' && pNum === 4) {
                         lunarHoliday = {
                             month: m + 1,
                             day: d,
@@ -735,9 +1127,7 @@ export default {
                             description: 'Official public holiday and ancient royal ceremony marking the traditional start of the rice-growing season (4 Roach Visakh).',
                             isPublicHoliday: true
                         };
-                    }
-                    // 4. Kan Ben Day 1 (1 Roach Photrobot - Traditional start of Pchum Ben season)
-                    else if (mName === 'PHÔTRÔBÂT' && pPhase === 'R' && pNum === 1) {
+                    } else if (mName === 'PHÔTRÔBÂT' && pPhase === 'R' && pNum === 1) {
                         lunarHoliday = {
                             month: m + 1,
                             day: d,
@@ -746,9 +1136,7 @@ export default {
                             description: 'First day of the 15-day Kan Ben / Pchum Ben religious period honoring ancestors (1 Roach Photrobot).',
                             isPublicHoliday: false
                         };
-                    }
-                    // 5. Pchum Ben Festival (14 Roach Photrobot, 15 Roach Photrobot, 1 Keut Asuj - 3 Official Public Holidays)
-                    else if (mName === 'PHÔTRÔBÂT' && pPhase === 'R' && pNum === 14) {
+                    } else if (mName === 'PHÔTRÔBÂT' && pPhase === 'R' && pNum === 14) {
                         lunarHoliday = {
                             month: m + 1,
                             day: d,
@@ -757,8 +1145,7 @@ export default {
                             description: 'First official public holiday of the Pchum Ben Festival honoring ancestors (14 Roach Photrobot).',
                             isPublicHoliday: true
                         };
-                    }
-                    else if (mName === 'PHÔTRÔBÂT' && pPhase === 'R' && pNum === 15) {
+                    } else if (mName === 'PHÔTRÔBÂT' && pPhase === 'R' && pNum === 15) {
                         lunarHoliday = {
                             month: m + 1,
                             day: d,
@@ -767,8 +1154,7 @@ export default {
                             description: 'Main day of Pchum Ben Festival when families gather at pagodas across Cambodia (15 Roach Photrobot).',
                             isPublicHoliday: true
                         };
-                    }
-                    else if (mName === 'ÂSSŎCH' && pPhase === 'K' && pNum === 1) {
+                    } else if (mName === 'ÂSSŎCH' && pPhase === 'K' && pNum === 1) {
                         lunarHoliday = {
                             month: m + 1,
                             day: d,
@@ -777,9 +1163,7 @@ export default {
                             description: 'Third and final official public holiday of the Pchum Ben Festival (1 Keut Asuj).',
                             isPublicHoliday: true
                         };
-                    }
-                    // 6. Water Festival / Bon Om Touk (14 Keut Katdek, 15 Keut Katdek, 1 Roach Katdek - 3 Official Public Holidays)
-                    else if (mName === 'KÂTDĔK' && pPhase === 'K' && pNum === 14) {
+                    } else if (mName === 'KÂTDĔK' && pPhase === 'K' && pNum === 14) {
                         lunarHoliday = {
                             month: m + 1,
                             day: d,
@@ -788,8 +1172,7 @@ export default {
                             description: 'First official day of Bon Om Touk celebrating the reversal of the Tonle Sap River (14 Keut Katdek).',
                             isPublicHoliday: true
                         };
-                    }
-                    else if (mName === 'KÂTDĔK' && pPhase === 'K' && pNum === 15) {
+                    } else if (mName === 'KÂTDĔK' && pPhase === 'K' && pNum === 15) {
                         lunarHoliday = {
                             month: m + 1,
                             day: d,
@@ -798,8 +1181,7 @@ export default {
                             description: 'Second official day of the Water Festival with boat races, illuminated floats, and Moon Salutation (15 Keut Katdek).',
                             isPublicHoliday: true
                         };
-                    }
-                    else if (mName === 'KÂTDĔK' && pPhase === 'R' && pNum === 1) {
+                    } else if (mName === 'KÂTDĔK' && pPhase === 'R' && pNum === 1) {
                         lunarHoliday = {
                             month: m + 1,
                             day: d,
@@ -813,7 +1195,6 @@ export default {
                     if (lunarHoliday) {
                         const key = `${lunarHoliday.month}-${lunarHoliday.day}`;
                         if (byKey[key]) {
-                            // Merge overlapping solar & lunar holidays (e.g., May 1, 2026: Labor Day + Visak Bochea Day)
                             byKey[key] = {
                                 year,
                                 month: lunarHoliday.month,
@@ -841,7 +1222,6 @@ export default {
             const holidays = this.getHolidaysForYear(year);
             return holidays.find(h => h.month === month && h.day === day) || null;
         },
-        // Calculate accurate lunar day for Khmer calendar
         getLunarDay(year, month, day) {
             try {
                 const lunarData = this.calculateKhmerLunar(year, month, day);
@@ -851,7 +1231,6 @@ export default {
                 const monthKhmer = this.lunarMonthKhmerMap[lunarData.month.name] || '';
                 const lunarDayKhmer = this.toKhmerNumeral(lunarDayNumber);
 
-                // Determine Buddhist Holy Days (ថ្ងៃសីល) and Moon Phase
                 const isEndOfWaning = !isWaxing && ((monthLength === 29 && lunarDayNumber === 14) || (monthLength === 30 && lunarDayNumber === 15));
                 const isHolyDay =
                     (isWaxing && (lunarDayNumber === 8 || lunarDayNumber === 15)) ||
@@ -869,7 +1248,6 @@ export default {
                     phase = '🌑';
                 }
 
-                // Traditional Khmer format: numeral before កើត/រោច (e.g., ១កើត, ១៥រោច)
                 const baseLabel = `${lunarDayKhmer}${isWaxing ? 'កើត' : 'រោច'}`;
                 const dayLabel = (isWaxing && lunarDayNumber === 1 && monthKhmer)
                     ? `${baseLabel} ${monthKhmer}`
@@ -882,6 +1260,7 @@ export default {
                     isHolyDay,
                     dayNumber: lunarDayNumber,
                     isWaxing,
+                    monthLength,
                     monthKhmer,
                     zodiacKhmer: this.zodiacKhmerMap[lunarData.zodiac] || '',
                     sakKhmer: this.sakKhmerList[lunarData.sequence] || '',
@@ -903,6 +1282,64 @@ export default {
         },
         nextMonth() {
             this.currentDate = new Date(this.currentYear, this.currentMonth + 1, 1);
+        },
+        onMonthSelect(event) {
+            const newMonth = parseInt(event.target.value, 10);
+            if (!isNaN(newMonth)) {
+                this.currentDate = new Date(this.currentYear, newMonth, 1);
+            }
+        },
+        onYearSelect(event) {
+            const newYear = parseInt(event.target.value, 10);
+            if (!isNaN(newYear)) {
+                this.currentDate = new Date(newYear, this.currentMonth, 1);
+            }
+        },
+        onQuickDateJump(event) {
+            const val = event.target.value;
+            if (!val) return;
+            const [y, m, d] = val.split('-').map(Number);
+            if (!y || !m || !d) return;
+            this.currentDate = new Date(y, m - 1, 1);
+            const holiday = this.getHoliday(y, m, d);
+            const lunarInfo = this.getLunarDay(y, m - 1, d);
+            this.selectDate({
+                date: d,
+                isCurrentMonth: true,
+                holiday,
+                isPublicHoliday: !!(holiday && holiday.isPublicHoliday !== false),
+                isHolyDay: lunarInfo.isHolyDay,
+                lunarInfo
+            });
+        },
+        jumpToHoliday(holiday) {
+            const y = holiday.year || this.currentYear;
+            const m = holiday.month - 1;
+            const d = holiday.day;
+            this.currentDate = new Date(y, m, 1);
+            const holidayObj = this.getHoliday(y, holiday.month, d);
+            const lunarInfo = this.getLunarDay(y, m, d);
+            this.selectDate({
+                date: d,
+                isCurrentMonth: true,
+                holiday: holidayObj,
+                isPublicHoliday: !!(holidayObj && holidayObj.isPublicHoliday !== false),
+                isHolyDay: lunarInfo.isHolyDay,
+                lunarInfo
+            });
+        },
+        async copyKhmerDate() {
+            if (!this.selectedDate) return;
+            const text = `${this.selectedDate.khmerLunarFullDate} ${this.selectedDate.khmerSolarFullDate}`;
+            try {
+                await navigator.clipboard.writeText(text);
+                this.copiedKhmerDate = true;
+                setTimeout(() => {
+                    this.copiedKhmerDate = false;
+                }, 2000);
+            } catch (e) {
+                console.error('Copy failed:', e);
+            }
         },
         goToToday() {
             const now = new Date();
@@ -934,6 +1371,7 @@ export default {
                 date: day.date,
                 month: this.currentMonth,
                 year: this.currentYear,
+                weekdayKhmer,
                 monthShort: date.toLocaleString('en-US', { month: 'short' }),
                 fullDate: date.toLocaleString('en-US', { 
                     weekday: 'long', 
@@ -946,7 +1384,8 @@ export default {
                 holiday: day.holiday,
                 isPublicHoliday: !!(day.holiday && day.holiday.isPublicHoliday !== false),
                 isWeekend: dayOfWeek === 0 || dayOfWeek === 6,
-                isHolyDay: !!lunarInfo.isHolyDay
+                isHolyDay: !!lunarInfo.isHolyDay,
+                lunarInfo
             };
         }
     },
