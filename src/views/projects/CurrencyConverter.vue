@@ -1,300 +1,598 @@
 <template>
-    <div class="min-h-screen bg-gradient-to-br from-blue-50/80 via-purple-50/40 to-pink-50/80 dark:from-gray-900 dark:via-gray-800/50 dark:to-gray-900 py-6 sm:py-8 lg:py-12 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-3xl mx-auto">
-            <!-- Enhanced Header -->
-            <div class="text-center mb-6 sm:mb-8">
-                <div class="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 shadow-lg mb-4 sm:mb-5">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 sm:h-10 sm:w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
+    <div class="min-h-screen bg-slate-50/80 dark:bg-[#030816] text-slate-900 dark:text-slate-100 pb-20 pt-20 md:pt-24 relative overflow-hidden">
+        <!-- Ambient Decorative Background Glows -->
+        <div class="pointer-events-none fixed inset-0 overflow-hidden z-0">
+            <div class="absolute -top-32 -right-32 w-[28rem] h-[28rem] bg-indigo-500/10 dark:bg-indigo-500/10 rounded-full blur-3xl"></div>
+            <div class="absolute top-1/3 -left-32 w-[26rem] h-[26rem] bg-sky-500/10 dark:bg-sky-500/10 rounded-full blur-3xl"></div>
+            <div class="absolute -bottom-32 right-1/4 w-[28rem] h-[28rem] bg-emerald-500/10 dark:bg-teal-500/10 rounded-full blur-3xl"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <!-- Top Header & Controls -->
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-6">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-500/10 dark:bg-indigo-400/10 border border-indigo-500/20 text-indigo-700 dark:text-indigo-300 text-xs font-semibold tracking-wide uppercase mb-3">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span>Cambodia &amp; Global FX Intelligence</span>
+                        <span class="text-indigo-400 dark:text-indigo-500">•</span>
+                        <span class="font-khmer">អត្រាប្តូរប្រាក់ និងរូបិយប័ណ្ណ</span>
+                    </div>
+                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white flex flex-wrap items-center gap-3">
+                        <span>Currency &amp; Dual-Cash Terminal</span>
+                        <span class="text-lg sm:text-xl font-normal text-slate-500 dark:text-slate-400 hidden sm:inline">|</span>
+                        <span class="text-base sm:text-lg font-semibold bg-gradient-to-r from-indigo-600 via-sky-600 to-emerald-500 dark:from-indigo-400 dark:via-sky-300 dark:to-emerald-400 bg-clip-text text-transparent">
+                            Updated {{ formattedTime }}
+                        </span>
+                    </h1>
                 </div>
-                <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-2 sm:mb-3">
-                    Currency Converter
-                </h1>
-                <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-3 sm:mb-4">
-                    Real-time exchange rates • Instant conversion
-                </p>
-                <div class="flex items-center justify-center gap-2 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <span>{{ formattedTime }}</span>
-                    <button @click="fetchExchangeRates"
-                        class="ml-1 p-1.5 rounded-lg bg-white dark:bg-gray-800 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700 transition-all shadow-sm hover:shadow-md"
-                        aria-label="Refresh rates"
-                        title="Refresh exchange rates">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+
+                <!-- Right Controls: KHR Rate Mode & Refresh -->
+                <div class="flex flex-wrap items-center gap-2.5">
+                    <!-- Cambodia KHR Rate Mode Selector -->
+                    <div class="inline-flex items-center p-1 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+                        <button
+                            v-for="mode in khrRateModes"
+                            :key="mode.id"
+                            @click="khrRateMode = mode.id"
+                            :class="khrRateMode === mode.id ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'"
+                            class="px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all"
+                            :title="mode.desc"
+                        >
+                            {{ mode.label }}
+                        </button>
+                    </div>
+
+                    <!-- Refresh Button -->
+                    <button
+                        @click="fetchExchangeRates"
+                        :disabled="loading"
+                        title="Refresh live exchange rates"
+                        class="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs sm:text-sm font-semibold shadow-sm shadow-indigo-500/20 transition-all disabled:opacity-50"
+                    >
+                        <svg class="w-4 h-4" :class="{ 'animate-spin': loading }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                         </svg>
+                        <span class="hidden sm:inline">Refresh Rates</span>
                     </button>
                 </div>
             </div>
 
-            <!-- Loading State -->
-            <div v-if="loading" class="flex flex-col items-center justify-center py-16 sm:py-20">
-                <div class="relative">
-                    <div class="w-16 h-16 sm:w-20 sm:h-20 border-4 border-blue-200 dark:border-blue-900 rounded-full"></div>
-                    <div class="w-16 h-16 sm:w-20 sm:h-20 border-4 border-blue-500 border-t-transparent rounded-full animate-spin absolute top-0 left-0"></div>
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 sm:h-8 sm:w-8 text-blue-500 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                    </div>
+            <!-- Popular Currency Corridor Quick-Pairs Bar -->
+            <div class="mb-6 bg-white/80 dark:bg-slate-900/70 backdrop-blur-md rounded-2xl p-3 border border-slate-200/80 dark:border-slate-800/80 shadow-sm">
+                <div class="flex items-center gap-2 overflow-x-auto scrollbar-thin pb-1">
+                    <span class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-2 shrink-0 flex items-center gap-1.5">
+                        <span>💱</span>
+                        <span>Quick Corridors:</span>
+                    </span>
+                    <button
+                        v-for="pair in popularCorridors"
+                        :key="`${pair.from}-${pair.to}`"
+                        @click="selectPair(pair.from, pair.to)"
+                        :class="[
+                            fromCurrency === pair.from && toCurrency === pair.to
+                                ? 'bg-gradient-to-r from-indigo-600 to-sky-600 text-white shadow-md shadow-indigo-500/20 border-transparent'
+                                : 'bg-slate-100/80 dark:bg-slate-800/70 text-slate-700 dark:text-slate-300 border-slate-200/60 dark:border-slate-700/60 hover:bg-indigo-50 dark:hover:bg-slate-800 hover:border-indigo-400/40'
+                        ]"
+                        class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all shrink-0"
+                    >
+                        <span>{{ pair.emoji }}</span>
+                        <span>{{ pair.from }} → {{ pair.to }}</span>
+                        <span class="text-[11px] opacity-80 font-normal">({{ pair.label }})</span>
+                    </button>
                 </div>
-                <p class="mt-6 text-sm sm:text-base text-gray-600 dark:text-gray-400 font-medium">Loading exchange rates...</p>
             </div>
 
-            <!-- Error State -->
-            <div v-else-if="error" class="bg-red-50 dark:bg-red-900/20 border-2 border-red-200 dark:border-red-800 rounded-xl sm:rounded-2xl p-5 sm:p-6 mb-6 text-center shadow-lg">
-                <div class="text-red-500 mb-3 text-lg sm:text-xl font-bold flex items-center justify-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                    </svg>
-                    Error
+            <!-- Loading Skeleton State -->
+            <div v-if="loading && Object.keys(rates).length === 0" class="space-y-6">
+                <div class="h-80 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-8 animate-pulse flex flex-col justify-between">
+                    <div class="flex justify-between">
+                        <div class="h-8 w-56 bg-slate-200 dark:bg-slate-800 rounded-xl"></div>
+                        <div class="h-10 w-36 bg-slate-200 dark:bg-slate-800 rounded-xl"></div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="h-32 bg-slate-200 dark:bg-slate-800 rounded-2xl"></div>
+                        <div class="h-32 bg-slate-200 dark:bg-slate-800 rounded-2xl"></div>
+                    </div>
                 </div>
-                <p class="text-sm sm:text-base text-gray-700 dark:text-gray-300 mb-4">{{ error }}</p>
-                <button @click="fetchExchangeRates"
-                    class="px-5 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all text-sm sm:text-base font-semibold shadow-md hover:shadow-lg transform hover:scale-105">
-                    🔄 Try Again
+            </div>
+
+            <!-- Warning / Cached Rate Notice -->
+            <div v-if="error" class="mb-6 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/60 p-4 flex items-center justify-between gap-4">
+                <div class="flex items-center gap-3 text-xs sm:text-sm text-amber-800 dark:text-amber-200">
+                    <span class="text-xl">⚠️</span>
+                    <span>{{ error }}</span>
+                </div>
+                <button
+                    @click="fetchExchangeRates"
+                    class="px-3.5 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold shrink-0 transition-colors"
+                >
+                    Retry
                 </button>
             </div>
 
-            <!-- Main Converter -->
-            <div v-else class="space-y-5 sm:space-y-6">
-                <!-- Enhanced Converter Card -->
-                <div class="bg-white dark:bg-gray-800 rounded-2xl sm:rounded-3xl shadow-xl p-5 sm:p-6 lg:p-8 border border-gray-200 dark:border-gray-700 hover:shadow-2xl transition-all duration-300 animate-fade-in-up" style="animation-delay: 0ms; border-top: 4px solid transparent; border-image: linear-gradient(to right, #3b82f6, #a855f7, #ec4899) 1;">
-                    <!-- From Currency -->
-                    <div class="mb-4 sm:mb-5">
-                        <label class="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 sm:mb-3 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            From
-                        </label>
-                        <div class="flex flex-col sm:flex-row gap-3">
-                            <select 
-                                v-model="fromCurrency"
-                                @change="convertCurrency"
-                                class="w-full sm:w-32 px-4 py-3 sm:py-3.5 rounded-xl border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white font-bold text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm hover:shadow-md cursor-pointer"
-                            >
-                                <option v-for="currency in currencies" :key="currency.code" :value="currency.code">
-                                    {{ currency.code }}
-                                </option>
-                            </select>
-                            <input 
-                                v-model.number="amount" 
-                                type="number" 
-                                step="0.01"
-                                min="0"
-                                placeholder="0.00"
-                                class="flex-1 px-4 sm:px-5 py-3 sm:py-3.5 rounded-xl border-2 border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 text-gray-900 dark:text-white text-xl sm:text-2xl lg:text-3xl font-bold focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all shadow-sm hover:shadow-md"
-                                @input="convertCurrency"
-                            />
-                        </div>
-                    </div>
+            <!-- Main FX Dashboard -->
+            <div v-if="Object.keys(rates).length > 0" class="space-y-6">
+                <!-- Hero Interactive Converter & Cambodia Dual-Currency Split Banner -->
+                <div class="relative rounded-3xl overflow-hidden shadow-xl border border-white/15 bg-gradient-to-br from-indigo-700 via-sky-700 to-teal-700 dark:from-indigo-900 dark:via-slate-900 dark:to-teal-950">
+                    <div class="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.6),transparent_60%)]"></div>
+                    <div class="absolute -bottom-24 -right-24 w-80 h-80 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
 
-                    <!-- Swap Button -->
-                    <div class="flex justify-center my-3 sm:my-4">
-                        <button 
-                            @click="swapCurrencies"
-                            class="p-3 sm:p-3.5 rounded-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 transition-all shadow-lg hover:shadow-xl transform hover:scale-110 active:scale-90 hover:ring-4 hover:ring-purple-200 dark:hover:ring-purple-800"
-                            aria-label="Swap currencies"
-                            title="Swap currencies"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
-                            </svg>
-                        </button>
-                    </div>
+                    <div class="relative z-10 p-6 sm:p-8 lg:p-10 text-white">
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                            <!-- Left 7 Columns: Main Interactive Currency Converter -->
+                            <div class="lg:col-span-7 flex flex-col justify-between space-y-5">
+                                <div class="flex flex-wrap items-center justify-between gap-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-xs font-bold uppercase tracking-wider">
+                                            Instant FX Calculator
+                                        </span>
+                                        <span class="text-xs text-white/80">
+                                            1 {{ fromCurrency }} = <strong>{{ formatRatePrecision(exchangeRate) }} {{ toCurrency }}</strong>
+                                        </span>
+                                    </div>
+                                    <button
+                                        @click="copyConvertedValue"
+                                        class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-black/25 hover:bg-black/35 text-xs font-semibold transition-all"
+                                    >
+                                        <span>{{ copied ? '✅ Copied!' : '📋 Copy Result' }}</span>
+                                    </button>
+                                </div>
 
-                    <!-- To Currency -->
-                    <div class="mb-4 sm:mb-5">
-                        <label class="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 sm:mb-3 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            To
-                        </label>
-                        <div class="flex flex-col sm:flex-row gap-3">
-                            <select 
-                                v-model="toCurrency"
-                                @change="convertCurrency"
-                                class="w-full sm:w-32 px-4 py-3 sm:py-3.5 rounded-xl border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white font-bold text-base sm:text-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all shadow-sm hover:shadow-md cursor-pointer"
-                            >
-                                <option v-for="currency in currencies" :key="currency.code" :value="currency.code">
-                                    {{ currency.code }}
-                                </option>
-                            </select>
-                            <div class="flex-1 px-4 sm:px-5 py-3 sm:py-3.5 rounded-xl border-2 border-blue-400 dark:border-blue-500 bg-gradient-to-r from-blue-50 via-purple-50 to-pink-50 dark:from-blue-900/30 dark:via-purple-900/30 dark:to-pink-900/30 text-gray-900 dark:text-white text-xl sm:text-2xl lg:text-3xl font-bold shadow-md">
-                                {{ formatCurrency(convertedAmount) }}
+                                <!-- From / Swap / To Converter Inputs -->
+                                <div class="space-y-3">
+                                    <!-- FROM Box -->
+                                    <div class="rounded-2xl bg-white/15 backdrop-blur-md p-4 border border-white/20">
+                                        <div class="flex items-center justify-between text-xs text-white/80 font-semibold mb-2">
+                                            <span>You Send / Convert From</span>
+                                            <span>{{ getCurrencyMeta(fromCurrency).name }} ({{ getCurrencyMeta(fromCurrency).khmer }})</span>
+                                        </div>
+                                        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                                            <select
+                                                v-model="fromCurrency"
+                                                @change="convertCurrency"
+                                                class="sm:w-44 px-3.5 py-3 rounded-xl bg-slate-900/60 hover:bg-slate-900/80 border border-white/20 text-white font-bold text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-sky-400 cursor-pointer"
+                                            >
+                                                <option
+                                                    v-for="curr in currencies"
+                                                    :key="curr.code"
+                                                    :value="curr.code"
+                                                    class="bg-slate-900 text-white"
+                                                >
+                                                    {{ curr.flag }} {{ curr.code }} — {{ curr.name }}
+                                                </option>
+                                            </select>
+
+                                            <div class="relative flex-1">
+                                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-bold text-white/70">
+                                                    {{ getCurrencyMeta(fromCurrency).symbol }}
+                                                </span>
+                                                <input
+                                                    v-model.number="amount"
+                                                    type="number"
+                                                    step="any"
+                                                    min="0"
+                                                    placeholder="0.00"
+                                                    @input="convertCurrency"
+                                                    class="w-full pl-10 pr-4 py-3 rounded-xl bg-white/10 focus:bg-white/20 border border-white/20 text-white text-2xl sm:text-3xl font-black tracking-tight focus:outline-none focus:ring-2 focus:ring-sky-300"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Swap Button + Inverse Rate Row -->
+                                    <div class="flex items-center justify-between px-2 -my-1">
+                                        <span class="text-xs text-white/80 font-medium">
+                                            Inverse: 1 {{ toCurrency }} = <strong>{{ formatRatePrecision(inverseExchangeRate) }} {{ fromCurrency }}</strong>
+                                        </span>
+                                        <button
+                                            @click="swapCurrencies"
+                                            class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white text-indigo-900 hover:bg-sky-50 font-extrabold text-xs shadow-lg transition-all hover:scale-105 active:scale-95"
+                                            title="Swap From and To currencies"
+                                        >
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+                                            </svg>
+                                            <span>Swap Pair</span>
+                                        </button>
+                                    </div>
+
+                                    <!-- TO Box -->
+                                    <div class="rounded-2xl bg-black/25 backdrop-blur-md p-4 border border-white/25">
+                                        <div class="flex items-center justify-between text-xs text-white/80 font-semibold mb-2">
+                                            <span>Converted Amount</span>
+                                            <span>{{ getCurrencyMeta(toCurrency).name }} ({{ getCurrencyMeta(toCurrency).khmer }})</span>
+                                        </div>
+                                        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                                            <select
+                                                v-model="toCurrency"
+                                                @change="convertCurrency"
+                                                class="sm:w-44 px-3.5 py-3 rounded-xl bg-slate-900/60 hover:bg-slate-900/80 border border-white/20 text-white font-bold text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-sky-400 cursor-pointer"
+                                            >
+                                                <option
+                                                    v-for="curr in currencies"
+                                                    :key="curr.code"
+                                                    :value="curr.code"
+                                                    class="bg-slate-900 text-white"
+                                                >
+                                                    {{ curr.flag }} {{ curr.code }} — {{ curr.name }}
+                                                </option>
+                                            </select>
+
+                                            <div class="flex-1 px-4 py-3 rounded-xl bg-white/15 border border-white/20 flex items-baseline justify-between gap-2 overflow-x-auto">
+                                                <span class="text-lg font-bold text-sky-200 shrink-0">{{ getCurrencyMeta(toCurrency).symbol }}</span>
+                                                <span class="text-2xl sm:text-3xl font-black tracking-tight text-white">
+                                                    {{ formatCurrencyDisplay(convertedAmount, toCurrency) }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Context-Aware Quick Amount Pills -->
+                                <div>
+                                    <div class="text-[11px] font-bold uppercase tracking-wider text-white/75 mb-2">
+                                        Quick {{ fromCurrency }} Preset Amounts:
+                                    </div>
+                                    <div class="flex flex-wrap gap-2">
+                                        <button
+                                            v-for="preset in dynamicQuickAmounts"
+                                            :key="preset.value"
+                                            @click="amount = preset.value; convertCurrency()"
+                                            :class="amount === preset.value ? 'bg-white text-indigo-950 shadow-md' : 'bg-white/15 hover:bg-white/25 text-white border-white/15'"
+                                            class="px-3.5 py-1.5 rounded-xl text-xs font-extrabold border transition-all"
+                                        >
+                                            {{ preset.label }}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Right 5 Columns: Cambodia Dual-Currency (USD + KHR) Cash Split Helper -->
+                            <div class="lg:col-span-5 flex flex-col justify-between gap-4 bg-black/25 backdrop-blur-md rounded-2xl p-5 sm:p-6 border border-white/15">
+                                <div>
+                                    <div class="flex items-center justify-between gap-2 mb-1">
+                                        <span class="text-xs uppercase tracking-wider text-emerald-300 font-bold">🇰🇭 Cambodia Dual-Currency Helper</span>
+                                        <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-white/15 text-white">
+                                            $1 = {{ formatInteger(effectiveKhrPerUsd) }} ៛
+                                        </span>
+                                    </div>
+                                    <h3 class="text-base sm:text-lg font-extrabold text-white">
+                                        USD Bills + Khmer Riel Change Split
+                                    </h3>
+                                    <p class="text-xs text-white/75 mt-1 leading-relaxed">
+                                        In Cambodia, whole dollars are paid in USD and fractional cents are settled in Khmer Riel (rounded to 100 ៛).
+                                    </p>
+                                </div>
+
+                                <!-- Split Breakdown Visual Boxes -->
+                                <div class="space-y-3 my-1">
+                                    <div class="p-3.5 rounded-xl bg-white/10 border border-white/15 flex items-center justify-between">
+                                        <div>
+                                            <span class="text-[11px] uppercase tracking-wider text-white/70 font-bold block">Total Value in USD &amp; KHR</span>
+                                            <div class="text-lg font-extrabold text-white mt-0.5">
+                                                ${{ formatCurrencyDisplay(equivalentUsdTotal, 'USD') }} USD
+                                            </div>
+                                        </div>
+                                        <div class="text-right">
+                                            <span class="text-[11px] text-white/70 block">Full Riel Equivalent</span>
+                                            <div class="text-lg font-extrabold text-amber-300">
+                                                {{ formatInteger(Math.round((equivalentUsdTotal * effectiveKhrPerUsd) / 100) * 100) }} ៛
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Mixed Cash Payment Box -->
+                                    <div class="p-4 rounded-2xl bg-gradient-to-r from-emerald-500/25 to-teal-500/20 border border-emerald-300/30">
+                                        <div class="text-[11px] font-bold uppercase tracking-wider text-emerald-200 mb-2">
+                                            Recommended Cash Payment Split:
+                                        </div>
+                                        <div class="grid grid-cols-2 gap-3">
+                                            <div class="p-3 rounded-xl bg-black/25 border border-white/10">
+                                                <span class="text-xs text-white/70 block">🇺🇸 USD Banknotes</span>
+                                                <strong class="text-2xl font-black text-white mt-0.5 block">
+                                                    ${{ formatInteger(cambodiaCashSplit.usdWhole) }}
+                                                </strong>
+                                                <span class="text-[11px] text-emerald-200 mt-0.5 block">
+                                                    {{ cambodiaCashSplit.usdBillsHint }}
+                                                </span>
+                                            </div>
+                                            <div class="p-3 rounded-xl bg-black/25 border border-white/10">
+                                                <span class="text-xs text-white/70 block">🇰🇭 Riel Fractional Change</span>
+                                                <strong class="text-2xl font-black text-amber-300 mt-0.5 block">
+                                                    {{ formatInteger(cambodiaCashSplit.khrRemainder) }} ៛
+                                                </strong>
+                                                <span class="text-[11px] text-amber-200/90 mt-0.5 block">
+                                                    For ${{ cambodiaCashSplit.centsFormatted }} cents
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Quick Retail Rate Selector Footer -->
+                                <div class="pt-2 border-t border-white/15 flex items-center justify-between text-xs text-white/80">
+                                    <span>Active KHR Rate: <strong>{{ activeKhrModeLabel }}</strong></span>
+                                    <button
+                                        @click="selectPair('USD', 'KHR')"
+                                        class="underline hover:text-white font-semibold"
+                                    >
+                                        Set USD → KHR
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Exchange Rate - Enhanced -->
-                    <div class="pt-4 sm:pt-5 border-t-2 border-gray-200 dark:border-gray-700">
-                        <div class="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-xl p-3 sm:p-4 text-center">
-                            <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-1.5 uppercase tracking-wide font-semibold">
-                                Exchange Rate
-                            </p>
-                            <p class="text-base sm:text-lg lg:text-xl font-bold text-gray-900 dark:text-white">
-                                1 {{ fromCurrency }} = <span class="text-blue-600 dark:text-blue-400">{{ exchangeRate.toFixed(4) }}</span> {{ toCurrency }}
-                            </p>
-                        </div>
-                    </div>
                 </div>
 
-                <!-- Quick Convert Buttons - Enhanced -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-5 border border-gray-200 dark:border-gray-700 animate-fade-in-up" style="animation-delay: 100ms">
-                    <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-3 sm:mb-4 text-center font-semibold">Quick amounts</p>
-                    <div class="flex flex-wrap gap-2 sm:gap-3 justify-center">
-                        <button
-                            v-for="quick in quickAmounts"
-                            :key="quick"
-                            @click="amount = quick; convertCurrency()"
-                            class="px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-blue-500 dark:hover:border-blue-500 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 dark:hover:from-blue-900/20 dark:hover:to-purple-900/20 transition-all text-sm sm:text-base font-bold text-gray-900 dark:text-white shadow-sm hover:shadow-md transform hover:scale-105 active:scale-95"
-                        >
-                            {{ formatNumber(quick) }}
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Popular Currencies - Enhanced -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-5 border border-gray-200 dark:border-gray-700 animate-fade-in-up" style="animation-delay: 200ms">
-                    <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-3 sm:mb-4 text-center font-semibold">Select currency</p>
-                    <div class="flex gap-3 sm:gap-4 justify-center">
-                        <button
-                            v-for="popular in popularCurrencies"
-                            :key="popular.code"
-                            @click="setPopularCurrency(popular.code)"
-                            class="px-5 sm:px-6 py-3 sm:py-3.5 rounded-xl border-2 transition-all text-sm sm:text-base font-bold shadow-sm hover:shadow-md transform hover:scale-105 active:scale-95"
-                            :class="toCurrency === popular.code 
-                                ? 'border-blue-500 bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-md' 
-                                : 'border-gray-200 dark:border-gray-700 hover:border-blue-400 dark:hover:border-blue-600 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 dark:hover:from-blue-900/20 dark:hover:to-purple-900/20 text-gray-900 dark:text-white'"
-                        >
-                            {{ popular.code }}
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Exchange Rate Comparison Chart -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-5 sm:p-6 border border-gray-200 dark:border-gray-700 animate-fade-in-up" style="animation-delay: 300ms">
-                    <h3 class="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-4 sm:mb-5 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                        </svg>
-                        Exchange Rate Comparison
-                    </h3>
-                    <div class="space-y-4">
-                        <div v-for="currency in currencies" :key="currency.code" class="relative">
-                            <div class="flex items-center justify-between mb-2">
-                                <div class="flex items-center gap-2">
-                                    <div class="w-3 h-3 rounded-full" :class="getCurrencyColor(currency.code)"></div>
-                                    <span class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">{{ currency.code }}</span>
-                                    <span class="text-xs text-gray-500 dark:text-gray-400">{{ currency.name }}</span>
+                <!-- 12-Column Main Content Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                    <!-- LEFT 8 COLUMNS: Live Multi-Currency Board, Banknote Conversion Cheat-Sheet & Cross Matrix -->
+                    <div class="lg:col-span-8 space-y-6">
+                        <!-- 1. Multi-Currency Live Watchlist (Simultaneous Conversion) -->
+                        <div class="bg-white dark:bg-slate-900/90 rounded-3xl p-6 border border-slate-200/80 dark:border-slate-800/80 shadow-sm">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5">
+                                <div>
+                                    <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                                        <span class="w-2 h-5 rounded-full bg-indigo-500"></span>
+                                        <span>Multi-Currency Live Watchlist</span>
+                                    </h3>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                                        Live value of <strong>{{ getCurrencyMeta(fromCurrency).symbol }}{{ formatCurrencyDisplay(amount || 1, fromCurrency) }} {{ fromCurrency }}</strong> across regional &amp; global currencies — click any card to select
+                                    </p>
                                 </div>
-                                <span class="text-sm sm:text-base font-bold text-gray-900 dark:text-white">
-                                    {{ getRateDisplay(currency.code) }}
+                                <span class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/50 px-3 py-1 rounded-full self-start sm:self-auto">
+                                    {{ currencies.length }} Currencies
                                 </span>
                             </div>
-                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 sm:h-4 overflow-hidden">
-                                <div 
-                                    class="h-full rounded-full transition-all duration-700 ease-in-out"
-                                    :class="getCurrencyColor(currency.code)"
-                                    :style="{ width: getBarWidth(currency.code) + '%' }"
-                                ></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Currency Strength Widget -->
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 animate-fade-in-up" style="animation-delay: 400ms">
-                    <div 
-                        v-for="currency in currencies" 
-                        :key="currency.code"
-                        class="bg-gradient-to-br rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-5 border border-gray-200 dark:border-gray-700 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden"
-                        :class="getCurrencyGradient(currency.code)"
-                    >
-                        <div class="shimmer absolute inset-0 pointer-events-none"></div>
-                        <div class="flex items-center justify-between mb-3">
-                            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-white/20 dark:bg-black/20 flex items-center justify-center">
-                                <span class="text-lg sm:text-xl font-bold text-white">{{ currency.code }}</span>
-                            </div>
-                            <div class="text-right">
-                                <p class="text-xs text-white/80">Rate vs USD</p>
-                                <p class="text-lg sm:text-xl font-bold text-white">{{ getRateDisplay(currency.code) }}</p>
-                            </div>
-                        </div>
-                        <div class="pt-3 border-t border-white/20">
-                            <p class="text-xs text-white/90 mb-1">{{ currency.name }}</p>
-                            <div class="flex items-center gap-1">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                                </svg>
-                                <span class="text-xs text-white/80">Base: USD</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                                <button
+                                    v-for="curr in currencies"
+                                    :key="curr.code"
+                                    @click="setPopularCurrency(curr.code)"
+                                    :class="[
+                                        toCurrency === curr.code
+                                            ? 'bg-indigo-50/90 dark:bg-indigo-950/40 border-indigo-500/60 ring-2 ring-indigo-500/20 shadow-sm'
+                                            : fromCurrency === curr.code
+                                            ? 'bg-emerald-50/70 dark:bg-emerald-950/30 border-emerald-500/40'
+                                            : 'bg-slate-50/70 dark:bg-slate-800/40 border-slate-200/60 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800/80'
+                                    ]"
+                                    class="p-4 rounded-2xl border text-left transition-all flex flex-col justify-between group"
+                                >
+                                    <div class="flex items-center justify-between gap-2 mb-2">
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-2xl">{{ curr.flag }}</span>
+                                            <div>
+                                                <div class="text-sm font-extrabold text-slate-900 dark:text-white flex items-center gap-1.5">
+                                                    <span>{{ curr.code }}</span>
+                                                    <span
+                                                        v-if="toCurrency === curr.code"
+                                                        class="text-[10px] px-1.5 py-0.5 rounded bg-indigo-600 text-white font-bold"
+                                                    >
+                                                        TO
+                                                    </span>
+                                                    <span
+                                                        v-else-if="fromCurrency === curr.code"
+                                                        class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-600 text-white font-bold"
+                                                    >
+                                                        FROM
+                                                    </span>
+                                                </div>
+                                                <div class="text-[11px] text-slate-500 dark:text-slate-400 truncate max-w-[120px]">
+                                                    {{ curr.name }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <span class="font-khmer text-[11px] text-slate-400 dark:text-slate-500">{{ curr.khmer }}</span>
+                                    </div>
 
-                <!-- Conversion Matrix Widget -->
-                <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-5 sm:p-6 border border-gray-200 dark:border-gray-700 animate-fade-in-up" style="animation-delay: 500ms">
-                    <h3 class="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-4 sm:mb-5 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v7a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-3zM14 16a1 1 0 011-1h4a1 1 0 011 1v3a1 1 0 01-1 1h-4a1 1 0 01-1-1v-3z" />
-                        </svg>
-                        Conversion Matrix
-                    </h3>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-sm sm:text-base">
-                            <thead>
-                                <tr class="border-b-2 border-gray-200 dark:border-gray-700">
-                                    <th class="text-left py-2 sm:py-3 px-2 sm:px-3 text-gray-600 dark:text-gray-400 font-semibold"></th>
-                                    <th v-for="currency in currencies" :key="currency.code" class="text-center py-2 sm:py-3 px-2 sm:px-3 text-gray-900 dark:text-white font-bold">
-                                        {{ currency.code }}
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="from in currencies" :key="from.code" class="border-b border-gray-100 dark:border-gray-700/50 hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors">
-                                    <td class="py-2 sm:py-3 px-2 sm:px-3 font-semibold text-gray-900 dark:text-white">
-                                        {{ from.code }}
-                                    </td>
-                                    <td v-for="to in currencies" :key="to.code" class="text-center py-2 sm:py-3 px-2 sm:px-3">
-                                        <span v-if="from.code === to.code" class="text-gray-400 dark:text-gray-500 font-bold">1.0000</span>
-                                        <span v-else class="text-gray-900 dark:text-white font-semibold">
-                                            {{ getConversionRate(from.code, to.code).toFixed(4) }}
+                                    <div class="pt-2 border-t border-slate-200/60 dark:border-slate-700/60 flex items-baseline justify-between gap-1">
+                                        <span class="text-xs font-bold text-slate-400">{{ curr.symbol }}</span>
+                                        <span class="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white truncate">
+                                            {{ formatCurrencyDisplay((amount || 1) * getConversionRate(fromCurrency, curr.code), curr.code) }}
                                         </span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                                    </div>
+                                    <div class="text-[10px] text-slate-400 dark:text-slate-500 mt-1 flex justify-between">
+                                        <span>1 {{ fromCurrency }} = {{ formatRatePrecision(getConversionRate(fromCurrency, curr.code)) }} {{ curr.code }}</span>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
 
-                <!-- Info Card - Enhanced -->
-                <div class="bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 dark:from-purple-900/20 dark:via-pink-900/20 dark:to-blue-900/20 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-5 border border-purple-200 dark:border-purple-800 animate-fade-in-up" style="animation-delay: 600ms">
-                    <div class="flex items-start gap-3 mb-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6 text-purple-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <div class="flex-1">
-                            <p class="text-sm sm:text-base font-semibold text-gray-900 dark:text-white mb-1">
-                                Base Currency: <span class="text-purple-600 dark:text-purple-400">{{ baseCurrency }}</span>
-                            </p>
-                            <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
-                                {{ Object.keys(rates).length }} currencies available
-                            </p>
+                        <!-- 2. Bidirectional Travel & Shopping Cheat-Sheet Table -->
+                        <div class="bg-white dark:bg-slate-900/90 rounded-3xl p-6 border border-slate-200/80 dark:border-slate-800/80 shadow-sm">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5">
+                                <div>
+                                    <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                                        <span class="w-2 h-5 rounded-full bg-emerald-500"></span>
+                                        <span>Quick Pocket Conversion Table ({{ fromCurrency }} ⇄ {{ toCurrency }})</span>
+                                    </h3>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                                        Click any row to load that amount directly into the calculator
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <!-- Forward Table: FROM -> TO -->
+                                <div class="rounded-2xl border border-slate-200/80 dark:border-slate-800 overflow-hidden">
+                                    <div class="px-4 py-3 bg-slate-100/80 dark:bg-slate-800/80 border-b border-slate-200/80 dark:border-slate-800 flex items-center justify-between">
+                                        <span class="text-xs font-extrabold text-slate-800 dark:text-slate-200">
+                                            {{ getCurrencyMeta(fromCurrency).flag }} {{ fromCurrency }} → {{ getCurrencyMeta(toCurrency).flag }} {{ toCurrency }}
+                                        </span>
+                                        <span class="text-[11px] text-slate-500">Rate: {{ formatRatePrecision(exchangeRate) }}</span>
+                                    </div>
+                                    <div class="divide-y divide-slate-100 dark:divide-slate-800/70">
+                                        <button
+                                            v-for="step in referenceTableSteps"
+                                            :key="`fwd-${step}`"
+                                            @click="amount = step; convertCurrency()"
+                                            class="w-full px-4 py-2.5 flex items-center justify-between text-xs sm:text-sm hover:bg-indigo-50/50 dark:hover:bg-slate-800/50 transition-colors"
+                                        >
+                                            <span class="font-semibold text-slate-700 dark:text-slate-300">
+                                                {{ formatInteger(step) }} {{ fromCurrency }}
+                                            </span>
+                                            <span class="font-extrabold text-indigo-600 dark:text-indigo-400">
+                                                {{ getCurrencyMeta(toCurrency).symbol }}{{ formatCurrencyDisplay(step * exchangeRate, toCurrency) }} {{ toCurrency }}
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Reverse Table: TO -> FROM -->
+                                <div class="rounded-2xl border border-slate-200/80 dark:border-slate-800 overflow-hidden">
+                                    <div class="px-4 py-3 bg-slate-100/80 dark:bg-slate-800/80 border-b border-slate-200/80 dark:border-slate-800 flex items-center justify-between">
+                                        <span class="text-xs font-extrabold text-slate-800 dark:text-slate-200">
+                                            {{ getCurrencyMeta(toCurrency).flag }} {{ toCurrency }} → {{ getCurrencyMeta(fromCurrency).flag }} {{ fromCurrency }}
+                                        </span>
+                                        <span class="text-[11px] text-slate-500">Rate: {{ formatRatePrecision(inverseExchangeRate) }}</span>
+                                    </div>
+                                    <div class="divide-y divide-slate-100 dark:divide-slate-800/70">
+                                        <button
+                                            v-for="step in reverseReferenceTableSteps"
+                                            :key="`rev-${step}`"
+                                            @click="swapCurrencies(); amount = step; convertCurrency()"
+                                            class="w-full px-4 py-2.5 flex items-center justify-between text-xs sm:text-sm hover:bg-emerald-50/50 dark:hover:bg-slate-800/50 transition-colors"
+                                        >
+                                            <span class="font-semibold text-slate-700 dark:text-slate-300">
+                                                {{ formatInteger(step) }} {{ toCurrency }}
+                                            </span>
+                                            <span class="font-extrabold text-emerald-600 dark:text-emerald-400">
+                                                {{ getCurrencyMeta(fromCurrency).symbol }}{{ formatCurrencyDisplay(step * inverseExchangeRate, fromCurrency) }} {{ fromCurrency }}
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3. Regional Cross-Rate Matrix -->
+                        <div class="bg-white dark:bg-slate-900/90 rounded-3xl p-6 border border-slate-200/80 dark:border-slate-800/80 shadow-sm">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5">
+                                <div>
+                                    <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                                        <span class="w-2 h-5 rounded-full bg-sky-500"></span>
+                                        <span>ASEAN &amp; Global Cross-Rate Matrix</span>
+                                    </h3>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                                        Click any intersecting cell to switch your active currency pair
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="overflow-x-auto scrollbar-thin">
+                                <table class="w-full text-xs sm:text-sm border-collapse">
+                                    <thead>
+                                        <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400">
+                                            <th class="py-3 px-3 text-left font-bold">1 Unit ↓ =</th>
+                                            <th
+                                                v-for="col in matrixCurrencies"
+                                                :key="`head-${col.code}`"
+                                                class="py-3 px-3 text-right font-extrabold text-slate-800 dark:text-slate-200"
+                                            >
+                                                {{ col.flag }} {{ col.code }}
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-100 dark:divide-slate-800/70">
+                                        <tr
+                                            v-for="row in matrixCurrencies"
+                                            :key="`row-${row.code}`"
+                                            class="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors"
+                                        >
+                                            <td class="py-3 px-3 font-extrabold text-slate-900 dark:text-white whitespace-nowrap">
+                                                {{ row.flag }} 1 {{ row.code }}
+                                            </td>
+                                            <td
+                                                v-for="col in matrixCurrencies"
+                                                :key="`${row.code}-${col.code}`"
+                                                @click="row.code !== col.code && selectPair(row.code, col.code)"
+                                                :class="[
+                                                    row.code === col.code
+                                                        ? 'text-slate-400 dark:text-slate-600 bg-slate-50/50 dark:bg-slate-900/40'
+                                                        : fromCurrency === row.code && toCurrency === col.code
+                                                        ? 'bg-indigo-600 text-white font-extrabold rounded-lg cursor-pointer'
+                                                        : 'text-slate-700 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-slate-800 cursor-pointer font-semibold'
+                                                ]"
+                                                class="py-3 px-3 text-right whitespace-nowrap transition-colors"
+                                            >
+                                                {{ row.code === col.code ? '1.00' : formatMatrixCell(getConversionRate(row.code, col.code)) }}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                    <div class="pt-3 border-t border-purple-200 dark:border-purple-700">
-                        <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 flex items-start gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                            </svg>
-                            <span>Rates are for reference only. Actual transaction rates may vary.</span>
-                        </p>
+
+                    <!-- RIGHT 4 COLUMNS: Khmer Riel Banknotes Guide & Smart Cambodia Payment Tips -->
+                    <div class="lg:col-span-4 space-y-6">
+                        <!-- 1. Cambodian Riel (KHR) Banknotes Visual Reference -->
+                        <div class="bg-white dark:bg-slate-900/90 rounded-3xl p-6 border border-slate-200/80 dark:border-slate-800/80 shadow-sm">
+                            <div class="flex items-center justify-between mb-1">
+                                <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                                    <span class="w-2 h-5 rounded-full bg-amber-500"></span>
+                                    <span>Khmer Riel Banknote Guide</span>
+                                </h3>
+                                <span class="font-khmer text-xs font-bold text-amber-600 dark:text-amber-400">ប្រាក់រៀលខ្មែរ</span>
+                            </div>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">
+                                Tap any banknote to convert that Riel denomination
+                            </p>
+
+                            <div class="space-y-2.5">
+                                <button
+                                    v-for="note in khrBanknotes"
+                                    :key="note.value"
+                                    @click="selectPair('KHR', 'USD'); amount = note.value; convertCurrency()"
+                                    class="w-full p-3 rounded-2xl bg-slate-50/90 dark:bg-slate-800/50 hover:bg-indigo-50/60 dark:hover:bg-slate-800 border border-slate-200/70 dark:border-slate-700/60 flex items-center justify-between gap-3 text-left transition-all"
+                                >
+                                    <div class="flex items-center gap-3">
+                                        <span
+                                            :class="note.badgeColor"
+                                            class="w-14 py-1.5 rounded-xl text-center text-xs font-black text-white shadow-sm shrink-0"
+                                        >
+                                            {{ note.shortLabel }}
+                                        </span>
+                                        <div>
+                                            <div class="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white flex items-center gap-1.5">
+                                                <span>{{ formatInteger(note.value) }} ៛</span>
+                                                <span class="font-khmer text-xs font-normal text-slate-500 dark:text-slate-400">({{ note.khmer }})</span>
+                                            </div>
+                                            <div class="text-[11px] text-slate-500 dark:text-slate-400">{{ note.motif }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="text-right shrink-0">
+                                        <span class="text-xs sm:text-sm font-extrabold text-emerald-600 dark:text-emerald-400 block">
+                                            ≈ ${{ (note.value / effectiveKhrPerUsd).toFixed(2) }}
+                                        </span>
+                                        <span class="text-[10px] text-slate-400">USD</span>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 2. Practical Currency & Payment Tips in Cambodia -->
+                        <div class="bg-white dark:bg-slate-900/90 rounded-3xl p-6 border border-slate-200/80 dark:border-slate-800/80 shadow-sm space-y-4">
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                                <span class="w-2 h-5 rounded-full bg-teal-500"></span>
+                                <span>Cambodia Money &amp; KHQR Tips</span>
+                            </h3>
+
+                            <div class="space-y-3">
+                                <div
+                                    v-for="(tip, idx) in cambodiaPaymentTips"
+                                    :key="idx"
+                                    class="p-3.5 rounded-2xl bg-slate-50/90 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 flex items-start gap-3"
+                                >
+                                    <span class="text-xl shrink-0 mt-0.5">{{ tip.icon }}</span>
+                                    <div>
+                                        <h4 class="text-xs font-bold text-slate-900 dark:text-white">{{ tip.title }}</h4>
+                                        <p class="text-xs text-slate-600 dark:text-slate-300 mt-0.5 leading-relaxed">{{ tip.desc }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -303,292 +601,421 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import logger from '@/utils/logger'
+import { ref, computed, onMounted } from 'vue';
+import logger from '@/utils/logger';
 
 // State
-const loading = ref(true)
-const error = ref(null)
-const amount = ref(1)
-const fromCurrency = ref('USD')
-const toCurrency = ref('KHR')
-const rates = ref({})
-const baseCurrency = ref('USD')
-const lastUpdated = ref(null)
+const loading = ref(true);
+const error = ref(null);
+const amount = ref(100);
+const fromCurrency = ref('USD');
+const toCurrency = ref('KHR');
+const rates = ref({});
+const baseCurrency = ref('USD');
+const lastUpdated = ref(null);
+const khrRateMode = ref('live'); // 'live' | '4000' | '4100'
+const copied = ref(false);
 
-// Quick convert amounts
-const quickAmounts = [1, 10, 100, 1000]
+const khrRateModes = [
+    { id: 'live', label: 'Live Market', desc: 'Real-time international mid-market KHR rate' },
+    { id: '4000', label: '4,000 ៛ (Street)', desc: 'Standard Cambodian street & cafe rate (1 USD = 4,000 KHR)' },
+    { id: '4100', label: '4,100 ៛ (Retail)', desc: 'Common supermarket & retail rate (1 USD = 4,100 KHR)' }
+];
 
-// Popular currencies (only 3: Khmer, USA, China)
-const popularCurrencies = [
-    { code: 'USD', name: 'US Dollar' },
-    { code: 'KHR', name: 'Cambodian Riel' },
-    { code: 'CNY', name: 'Chinese Yuan' }
-]
+const popularCorridors = [
+    { from: 'USD', to: 'KHR', emoji: '🇺🇸→🇰🇭', label: 'Dollar to Riel' },
+    { from: 'KHR', to: 'USD', emoji: '🇰🇭→🇺🇸', label: 'Riel to Dollar' },
+    { from: 'THB', to: 'KHR', emoji: '🇹🇭→🇰🇭', label: 'Baht to Riel' },
+    { from: 'CNY', to: 'USD', emoji: '🇨🇳→🇺🇸', label: 'Yuan to Dollar' },
+    { from: 'VND', to: 'KHR', emoji: '🇻🇳→🇰🇭', label: 'Dong to Riel' },
+    { from: 'EUR', to: 'USD', emoji: '🇪🇺→🇺🇸', label: 'Euro to Dollar' },
+    { from: 'SGD', to: 'USD', emoji: '🇸🇬→🇺🇸', label: 'Sing$ to Dollar' }
+];
 
-// All available currencies (only 3)
 const currencies = ref([
-    { code: 'USD', name: 'US Dollar' },
-    { code: 'KHR', name: 'Cambodian Riel' },
-    { code: 'CNY', name: 'Chinese Yuan' }
-])
+    { code: 'USD', symbol: '$', flag: '🇺🇸', name: 'US Dollar', khmer: 'ដុល្លារអាមេរិក' },
+    { code: 'KHR', symbol: '៛', flag: '🇰🇭', name: 'Cambodian Riel', khmer: 'រៀលខ្មែរ' },
+    { code: 'THB', symbol: '฿', flag: '🇹🇭', name: 'Thai Baht', khmer: 'បាតថៃ' },
+    { code: 'VND', symbol: '₫', flag: '🇻🇳', name: 'Vietnamese Dong', khmer: 'ដុងវៀតណាម' },
+    { code: 'CNY', symbol: '¥', flag: '🇨🇳', name: 'Chinese Yuan', khmer: 'យ៉ន់ចិន' },
+    { code: 'EUR', symbol: '€', flag: '🇪🇺', name: 'Euro', khmer: 'អឺរ៉ូ' },
+    { code: 'SGD', symbol: 'S$', flag: '🇸🇬', name: 'Singapore Dollar', khmer: 'ដុល្លារសិង្ហបុរី' },
+    { code: 'JPY', symbol: '¥', flag: '🇯🇵', name: 'Japanese Yen', khmer: 'យ៉េនជប៉ុន' },
+    { code: 'KRW', symbol: '₩', flag: '🇰🇷', name: 'South Korean Won', khmer: 'វ៉ុនកូរ៉េ' },
+    { code: 'GBP', symbol: '£', flag: '🇬🇧', name: 'British Pound', khmer: 'ផោនអង់គ្លេស' },
+    { code: 'AUD', symbol: 'A$', flag: '🇦🇺', name: 'Australian Dollar', khmer: 'ដុល្លារអូស្ត្រាលី' },
+    { code: 'MYR', symbol: 'RM', flag: '🇲🇾', name: 'Malaysian Ringgit', khmer: 'រីងហ្គីតម៉ាឡេស៊ី' }
+]);
 
-// Computed
+const khrBanknotes = [
+    { value: 100, shortLabel: '100 ៛', khmer: 'មួយរយរៀល', motif: 'Independence Monument & Preah Vihear', badgeColor: 'bg-orange-500' },
+    { value: 500, shortLabel: '500 ៛', khmer: 'ប្រាំរយរៀល', motif: 'Kizuna & Tsubasa Mekong Bridges', badgeColor: 'bg-rose-500' },
+    { value: 1000, shortLabel: '1K ៛', khmer: 'មួយពាន់រៀល', motif: 'Royal Palace Throne Hall & Kinnari', badgeColor: 'bg-sky-600' },
+    { value: 2000, shortLabel: '2K ៛', khmer: 'ពីរពាន់រៀល', motif: 'Prasat Preah Vihear & Angkor Lion', badgeColor: 'bg-emerald-600' },
+    { value: 5000, shortLabel: '5K ៛', khmer: 'ប្រាំពាន់រៀល', motif: 'Kampong Kdei Ancient Bridge', badgeColor: 'bg-purple-600' },
+    { value: 10000, shortLabel: '10K ៛', khmer: 'មួយម៉ឺនរៀល', motif: 'Neak Pean Island Temple', badgeColor: 'bg-blue-600' },
+    { value: 20000, shortLabel: '20K ៛', khmer: 'ពីរម៉ឺនរៀល', motif: 'Banteay Srei Temple Sanctuary', badgeColor: 'bg-pink-600' },
+    { value: 50000, shortLabel: '50K ៛', khmer: 'ប្រាំម៉ឺនរៀល', motif: 'Bakong Temple & Baby Elephant', badgeColor: 'bg-amber-600' },
+    { value: 100000, shortLabel: '100K ៛', khmer: 'មួយសែនរៀល', motif: 'Royal Family & Bayon Relief', badgeColor: 'bg-teal-700' }
+];
+
+const cambodiaPaymentTips = [
+    {
+        icon: '💵',
+        title: 'Keep USD Banknotes Crisp & Untorn',
+        desc: 'Merchants and banks in Cambodia frequently reject USD bills with even small tears, ink stamps, or heavy creases.'
+    },
+    {
+        icon: '📱',
+        title: 'NBC Bakong & KHQR Everywhere',
+        desc: 'Almost every shop, tuk-tuk, and market stall accepts Bakong KHQR scans in both KHR and USD seamlessly.'
+    },
+    {
+        icon: '🪙',
+        title: 'No USD Coins Used in Circulation',
+        desc: 'US coins are not used in Cambodia. Any change under $1.00 is always given in Khmer Riel notes (e.g., $0.50 = 2,000 ៛).'
+    }
+];
+
+const getCurrencyMeta = (code) => {
+    return (
+        currencies.value.find(c => c.code === code) || {
+            code,
+            symbol: '',
+            flag: '🌐',
+            name: code,
+            khmer: ''
+        }
+    );
+};
+
+// Effective rate map respecting the user's KHR rate mode override
+const effectiveRates = computed(() => {
+    const base = { ...rates.value };
+    if (!base.USD) base.USD = 1;
+    if (khrRateMode.value === '4000') {
+        base.KHR = 4000;
+    } else if (khrRateMode.value === '4100') {
+        base.KHR = 4100;
+    }
+    return base;
+});
+
+const effectiveKhrPerUsd = computed(() => {
+    return effectiveRates.value.KHR || 4050;
+});
+
+const activeKhrModeLabel = computed(() => {
+    if (khrRateMode.value === '4000') return 'Street Standard (4,000 ៛/$1)';
+    if (khrRateMode.value === '4100') return 'Retail Rate (4,100 ៛/$1)';
+    return `Live Mid-Market (${Math.round(effectiveKhrPerUsd.value).toLocaleString()} ៛/$1)`;
+});
+
+const getConversionRate = (from, to) => {
+    const r = effectiveRates.value;
+    if (!r[from] || !r[to]) return 0;
+    if (from === to) return 1;
+    return r[to] / r[from];
+};
+
 const exchangeRate = computed(() => {
-    if (!rates.value[fromCurrency.value] || !rates.value[toCurrency.value]) return 0
-    return rates.value[toCurrency.value] / rates.value[fromCurrency.value]
-})
+    return getConversionRate(fromCurrency.value, toCurrency.value);
+});
+
+const inverseExchangeRate = computed(() => {
+    return getConversionRate(toCurrency.value, fromCurrency.value);
+});
 
 const convertedAmount = computed(() => {
-    if (!amount.value || amount.value <= 0) return 0
-    return amount.value * exchangeRate.value
-})
+    if (!amount.value || amount.value <= 0) return 0;
+    return amount.value * exchangeRate.value;
+});
+
+const equivalentUsdTotal = computed(() => {
+    if (!amount.value || amount.value <= 0) return 0;
+    return amount.value * getConversionRate(fromCurrency.value, 'USD');
+});
+
+const cambodiaCashSplit = computed(() => {
+    const totalUsd = equivalentUsdTotal.value;
+    const usdWhole = Math.floor(totalUsd + 1e-6);
+    const fractionalUsd = Math.max(0, totalUsd - usdWhole);
+    const rawKhr = fractionalUsd * effectiveKhrPerUsd.value;
+    const khrRemainder = Math.round(rawKhr / 100) * 100;
+
+    let remaining = usdWhole;
+    const bills = [100, 50, 20, 10, 5, 1];
+    const parts = [];
+    for (const bill of bills) {
+        if (remaining >= bill) {
+            const count = Math.floor(remaining / bill);
+            remaining %= bill;
+            parts.push(`${count}×$${bill}`);
+        }
+    }
+
+    return {
+        usdWhole,
+        khrRemainder,
+        centsFormatted: fractionalUsd.toFixed(2).slice(2),
+        usdBillsHint: parts.length ? parts.slice(0, 3).join(' + ') : 'Pay in Riel notes'
+    };
+});
+
+const dynamicQuickAmounts = computed(() => {
+    if (fromCurrency.value === 'KHR' || fromCurrency.value === 'VND') {
+        return [
+            { value: 4000, label: '4,000' },
+            { value: 10000, label: '10K' },
+            { value: 20000, label: '20K' },
+            { value: 50000, label: '50K' },
+            { value: 100000, label: '100K' },
+            { value: 500000, label: '500K' },
+            { value: 1000000, label: '1M' }
+        ];
+    }
+    return [
+        { value: 1, label: '1' },
+        { value: 5, label: '5' },
+        { value: 10, label: '10' },
+        { value: 20, label: '20' },
+        { value: 50, label: '50' },
+        { value: 100, label: '100' },
+        { value: 500, label: '500' },
+        { value: 1000, label: '1,000' }
+    ];
+});
+
+const referenceTableSteps = computed(() => {
+    if (fromCurrency.value === 'KHR' || fromCurrency.value === 'VND') {
+        return [1000, 4000, 10000, 20000, 50000, 100000, 500000];
+    }
+    return [1, 5, 10, 20, 50, 100, 500];
+});
+
+const reverseReferenceTableSteps = computed(() => {
+    if (toCurrency.value === 'KHR' || toCurrency.value === 'VND') {
+        return [1000, 4000, 10000, 20000, 50000, 100000, 500000];
+    }
+    return [1, 5, 10, 20, 50, 100, 500];
+});
+
+const matrixCurrencies = computed(() => {
+    return currencies.value.slice(0, 7);
+});
 
 const formattedTime = computed(() => {
-    if (!lastUpdated.value) return 'Never'
-    return new Date(lastUpdated.value).toLocaleString('en-US', { 
-        month: 'short', 
-        day: 'numeric', 
-        year: 'numeric',
+    if (!lastUpdated.value) return 'Syncing...';
+    return new Date(lastUpdated.value).toLocaleString('en-US', {
+        month: 'short',
+        day: 'numeric',
         hour: '2-digit',
         minute: '2-digit'
-    })
-})
+    });
+});
 
-// Methods
+// Formatting Helpers
+const formatInteger = (val) => {
+    if (!val && val !== 0) return '0';
+    return Math.round(val).toLocaleString('en-US');
+};
 
-const formatCurrency = (value) => {
-    if (!value || value === 0) return '0.00'
+const formatCurrencyDisplay = (value, code = '') => {
+    if (!value || value === 0) return '0.00';
+    if (code === 'KHR' || code === 'VND' || code === 'KRW' || code === 'JPY') {
+        return new Intl.NumberFormat('en-US', {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        }).format(Math.round(value));
+    }
     return new Intl.NumberFormat('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
-    }).format(value)
-}
+    }).format(value);
+};
 
-const formatNumber = (num) => {
-    if (num >= 1000) return (num / 1000).toFixed(0) + 'K'
-    return num.toString()
-}
+const formatRatePrecision = (rate) => {
+    if (!rate || rate === 0) return '0.00';
+    if (rate >= 100) return rate.toFixed(2);
+    if (rate >= 1) return rate.toFixed(4);
+    return rate.toFixed(6);
+};
 
-const getRateDisplay = (code) => {
-    if (!rates.value[code] || !rates.value['USD']) return '0.0000'
-    const rate = rates.value[code] / rates.value['USD']
-    return rate.toFixed(4)
-}
+const formatMatrixCell = (rate) => {
+    if (!rate) return '—';
+    if (rate >= 100) return Math.round(rate).toLocaleString('en-US');
+    if (rate >= 1) return rate.toFixed(2);
+    return rate.toFixed(4);
+};
 
-const getBarWidth = (code) => {
-    if (!rates.value[code] || !rates.value['USD']) return 0
-    const currentRate = rates.value[code] / rates.value['USD']
-    
-    // Normalize to show relative strength
-    if (code === 'USD') return 100
-    
-    // Calculate max rate for normalization
-    const allRates = currencies.value.map(c => {
-        if (!rates.value[c.code] || !rates.value['USD']) return 0
-        return rates.value[c.code] / rates.value['USD']
-    })
-    const maxRate = Math.max(...allRates)
-    
-    if (maxRate === 0) return 0
-    return (currentRate / maxRate) * 100
-}
-
-const getCurrencyColor = (code) => {
-    const colors = {
-        'USD': 'bg-gradient-to-r from-blue-500 to-blue-600',
-        'KHR': 'bg-gradient-to-r from-red-500 to-red-600',
-        'CNY': 'bg-gradient-to-r from-yellow-500 to-yellow-600'
+const selectPair = (from, to) => {
+    fromCurrency.value = from;
+    toCurrency.value = to;
+    if ((from === 'KHR' || from === 'VND') && amount.value < 500) {
+        amount.value = 40000;
+    } else if (from !== 'KHR' && from !== 'VND' && amount.value >= 4000) {
+        amount.value = 100;
     }
-    return colors[code] || 'bg-gradient-to-r from-gray-500 to-gray-600'
-}
+    convertCurrency();
+};
 
-const getCurrencyGradient = (code) => {
-    const gradients = {
-        'USD': 'from-blue-500 to-blue-600',
-        'KHR': 'from-red-500 to-red-600',
-        'CNY': 'from-yellow-500 to-yellow-600'
+const copyConvertedValue = async () => {
+    try {
+        const text = `${formatCurrencyDisplay(convertedAmount.value, toCurrency.value)} ${toCurrency.value}`;
+        await navigator.clipboard.writeText(text);
+        copied.value = true;
+        setTimeout(() => {
+            copied.value = false;
+        }, 2000);
+    } catch (e) {
+        logger.error('Copy failed:', e);
     }
-    return gradients[code] || 'from-gray-500 to-gray-600'
-}
-
-const getConversionRate = (from, to) => {
-    if (!rates.value[from] || !rates.value[to]) return 0
-    if (from === to) return 1
-    return rates.value[to] / rates.value[from]
-}
+};
 
 const fetchExchangeRates = async () => {
-    loading.value = true
-    error.value = null
+    loading.value = true;
+    error.value = null;
 
     try {
-        const apiKey = process.env.VUE_APP_CURRENCY_API_KEY || ''
-        let apiUrl = ''
-        
-        if (apiKey) {
-            apiUrl = `https://v6.exchangerate-api.com/v6/${apiKey}/latest/USD`
-        } else {
-            apiUrl = 'https://api.exchangerate-api.com/v4/latest/USD'
-        }
+        const apiKey = process.env.VUE_APP_CURRENCY_API_KEY || '';
+        const apiUrl = apiKey
+            ? `https://v6.exchangerate-api.com/v6/${apiKey}/latest/USD`
+            : 'https://api.exchangerate-api.com/v4/latest/USD';
 
-        let response = await fetch(apiUrl)
-        let data = null
-        
+        let response = await fetch(apiUrl);
         if (!response.ok) {
-            logger.warn('Primary API failed, trying fallback...')
-            const fallbackUrl = 'https://api.exchangerate.host/latest?base=USD'
-            response = await fetch(fallbackUrl)
-            
+            logger.warn('Primary FX API failed, trying fallback...');
+            response = await fetch('https://open.er-api.com/v6/latest/USD');
             if (!response.ok) {
-                throw new Error(`API request failed with status ${response.status}. Please try again later.`)
+                throw new Error(`FX API request failed with status ${response.status}.`);
             }
         }
-        
-        data = await response.json()
-        
+
+        const data = await response.json();
         if (data.rates) {
-            rates.value = { USD: 1, ...data.rates }
-            baseCurrency.value = data.base || 'USD'
+            rates.value = { USD: 1, ...data.rates };
+            baseCurrency.value = data.base || 'USD';
         } else if (data.result === 'success' && data.conversion_rates) {
-            rates.value = data.conversion_rates
-            baseCurrency.value = 'USD'
+            rates.value = data.conversion_rates;
+            baseCurrency.value = 'USD';
         } else {
-            logger.error('Unexpected API response:', data)
-            throw new Error('Invalid API response format. Please try again later.')
+            throw new Error('Invalid exchange rate response format.');
         }
 
-        lastUpdated.value = new Date().toISOString()
-        
-        localStorage.setItem('currencyRates', JSON.stringify({
-            rates: rates.value,
-            baseCurrency: baseCurrency.value,
-            lastUpdated: lastUpdated.value
-        }))
-        
-        error.value = null
-
+        lastUpdated.value = new Date().toISOString();
+        localStorage.setItem(
+            'currencyRates',
+            JSON.stringify({
+                rates: rates.value,
+                baseCurrency: baseCurrency.value,
+                lastUpdated: lastUpdated.value
+            })
+        );
     } catch (err) {
-        logger.error('Error fetching exchange rates:', err)
-        
-        const cached = localStorage.getItem('currencyRates')
+        logger.error('Error fetching exchange rates:', err);
+        const cached = localStorage.getItem('currencyRates');
         if (cached) {
             try {
-                const cachedData = JSON.parse(cached)
-                const cacheAge = new Date() - new Date(cachedData.lastUpdated)
-                
-                if (cacheAge < 86400000) {
-                    rates.value = cachedData.rates || {}
-                    baseCurrency.value = cachedData.baseCurrency || 'USD'
-                    lastUpdated.value = cachedData.lastUpdated
-                    error.value = 'Using cached rates (last updated: ' + new Date(cachedData.lastUpdated).toLocaleString() + '). ' + err.message
-                } else {
-                    error.value = 'Failed to fetch fresh rates. Cache expired. ' + err.message
-                }
+                const cachedData = JSON.parse(cached);
+                rates.value = cachedData.rates || {};
+                baseCurrency.value = cachedData.baseCurrency || 'USD';
+                lastUpdated.value = cachedData.lastUpdated;
+                error.value = `Showing cached rates from ${new Date(cachedData.lastUpdated).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}.`;
             } catch (e) {
-                error.value = err.message || 'Failed to load exchange rates. Please check your internet connection.'
+                error.value = err.message || 'Unable to load exchange rates.';
             }
         } else {
-            error.value = err.message || 'Failed to load exchange rates. Please check your internet connection and try again.'
+            // Built-in fallback rates so the converter is never broken offline
+            rates.value = {
+                USD: 1,
+                KHR: 4065,
+                THB: 34.2,
+                VND: 25300,
+                CNY: 7.24,
+                EUR: 0.92,
+                SGD: 1.34,
+                JPY: 152.4,
+                KRW: 1380,
+                GBP: 0.78,
+                AUD: 1.52,
+                MYR: 4.38
+            };
+            lastUpdated.value = new Date().toISOString();
+            error.value = 'Live FX feed unreachable — using reference fallback rates.';
         }
     } finally {
-        loading.value = false
+        loading.value = false;
     }
-}
+};
 
 const convertCurrency = () => {
-    logger.log(`Converting ${amount.value} ${fromCurrency.value} to ${toCurrency.value}`)
-}
+    logger.log(`Converting ${amount.value} ${fromCurrency.value} to ${toCurrency.value}`);
+};
 
 const swapCurrencies = () => {
-    const temp = fromCurrency.value
-    fromCurrency.value = toCurrency.value
-    toCurrency.value = temp
-    convertCurrency()
-}
+    const temp = fromCurrency.value;
+    fromCurrency.value = toCurrency.value;
+    toCurrency.value = temp;
+    convertCurrency();
+};
 
 const setPopularCurrency = (code) => {
-    toCurrency.value = code
-    convertCurrency()
-}
+    if (fromCurrency.value === code) {
+        swapCurrencies();
+        return;
+    }
+    toCurrency.value = code;
+    convertCurrency();
+};
 
-// Lifecycle
 onMounted(async () => {
-    const cached = localStorage.getItem('currencyRates')
+    const cached = localStorage.getItem('currencyRates');
     if (cached) {
         try {
-            const cachedData = JSON.parse(cached)
-            const cacheAge = new Date() - new Date(cachedData.lastUpdated)
-            if (cacheAge < 3600000) {
-                rates.value = cachedData.rates || {}
-                baseCurrency.value = cachedData.baseCurrency || 'USD'
-                lastUpdated.value = cachedData.lastUpdated
-                loading.value = false
+            const cachedData = JSON.parse(cached);
+            if (cachedData.rates) {
+                rates.value = cachedData.rates;
+                baseCurrency.value = cachedData.baseCurrency || 'USD';
+                lastUpdated.value = cachedData.lastUpdated;
+                loading.value = false;
             }
         } catch (e) {
-            logger.error('Error loading cached rates:', e)
+            logger.error('Error loading cached rates:', e);
         }
     }
-    
-    await fetchExchangeRates()
-})
+    await fetchExchangeRates();
+});
 </script>
 
 <style scoped>
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
+.font-khmer {
+    font-family: 'Kantumruy Pro', 'Hanuman', sans-serif;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
 
-input[type="number"] {
+input[type='number'] {
     -moz-appearance: textfield;
 }
 
-/* Hide scrollbar for horizontal scroll */
-.scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+.scrollbar-thin::-webkit-scrollbar {
+    height: 5px;
 }
 
-.scrollbar-hide::-webkit-scrollbar {
-    display: none;
+.scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
 }
 
-/* Staggered entrance animation */
-.animate-fade-in-up {
-    animation: fadeInUp 0.6s ease-out both;
+.scrollbar-thin::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.35);
+    border-radius: 9999px;
 }
 
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Shimmer effect for gradient cards */
-.shimmer {
-    background: linear-gradient(
-        90deg,
-        transparent 0%,
-        rgba(255, 255, 255, 0.15) 50%,
-        transparent 100%
-    );
-    background-size: 200% 100%;
-    animation: shimmer 2.5s infinite;
-}
-
-@keyframes shimmer {
-    0% {
-        background-position: -200% 0;
-    }
-    100% {
-        background-position: 200% 0;
-    }
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: rgba(148, 163, 184, 0.55);
 }
 </style>
