@@ -10,16 +10,18 @@
 
                 <div class="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 sm:gap-5">
                     <div class="min-w-0">
-                        <div class="inline-flex flex-wrap items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-[11px] sm:text-sm font-medium mb-2.5 border border-white/20">
-                            <span>🇰🇭</span>
-                            <span>ប្រតិទិនច័ន្ទគតិ-សុរិយគតិខ្មែរ</span>
-                            <span class="hidden xs:inline">• Official Chhankitek</span>
+                        <div class="flex items-center gap-2 mb-2.5">
+                            <div class="inline-flex flex-wrap items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-[11px] sm:text-sm font-medium border border-white/20">
+                                <span>🇰🇭</span>
+                                <span>{{ isKhmer ? 'ប្រតិទិនច័ន្ទគតិ-សុរិយគតិខ្មែរ' : 'Official Khmer Chhankitek Calendar' }}</span>
+                            </div>
+                            <LanguageToggle />
                         </div>
                         <h1 class="text-xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight mb-1.5 leading-tight">
-                            ប្រតិទិនខ្មែរ • Khmer Calendar
+                            {{ isKhmer ? 'ប្រតិទិនខ្មែរ • Khmer Calendar' : 'Khmer Calendar • ប្រតិទិនខ្មែរ' }}
                         </h1>
                         <p class="text-white/90 text-xs sm:text-base font-medium leading-relaxed break-words">
-                            ថ្ងៃនេះ៖ {{ todayBannerInfo.khmerLunarFullDate }} • {{ todayBannerInfo.khmerSolarFullDate }}
+                            {{ isKhmer ? 'ថ្ងៃនេះ៖ ' : 'Today: ' }}{{ todayBannerInfo.khmerLunarFullDate }} • {{ todayBannerInfo.khmerSolarFullDate }}
                         </p>
                     </div>
 
@@ -30,11 +32,11 @@
                                 <span>{{ todayBannerInfo.day }}</span>
                             </div>
                             <div class="min-w-0">
-                                <div class="text-[11px] sm:text-xs text-white/80 truncate">ស្ថានភាពថ្ងៃនេះ (Today's Status)</div>
+                                <div class="text-[11px] sm:text-xs text-white/80 truncate">{{ isKhmer ? 'ស្ថានភាពថ្ងៃនេះ' : 'Today\'s Status' }}</div>
                                 <div class="text-xs sm:text-sm font-bold flex items-center gap-1.5 mt-0.5 truncate">
-                                    <span v-if="todayBannerInfo.isPublicHoliday" class="truncate">🔴 ថ្ងៃឈប់សម្រាកផ្លូវការ</span>
-                                    <span v-else-if="todayBannerInfo.isWeekend" class="truncate">🟠 ថ្ងៃចុងសប្តាហ៍ (Weekend)</span>
-                                    <span v-else class="truncate">🟢 ថ្ងៃធ្វើការធម្មតា (Working Day)</span>
+                                    <span v-if="todayBannerInfo.isPublicHoliday" class="truncate">🔴 {{ isKhmer ? 'ថ្ងៃឈប់សម្រាកផ្លូវការ' : 'Public Holiday' }}</span>
+                                    <span v-else-if="todayBannerInfo.isWeekend" class="truncate">🟠 {{ isKhmer ? 'ថ្ងៃចុងសប្តាហ៍' : 'Weekend' }}</span>
+                                    <span v-else class="truncate">🟢 {{ isKhmer ? 'ថ្ងៃធ្វើការធម្មតា' : 'Working Day' }}</span>
                                 </div>
                             </div>
                         </div>
@@ -44,8 +46,8 @@
                             class="min-w-0 bg-black/20 hover:bg-black/30 cursor-pointer transition-all backdrop-blur-md border border-white/15 rounded-2xl px-3.5 py-2.5 sm:px-4 sm:py-3 flex items-center gap-3">
                             <div class="text-xl sm:text-2xl shrink-0">🎉</div>
                             <div class="min-w-0 flex-1">
-                                <div class="text-[11px] sm:text-xs text-white/75 truncate">ថ្ងៃឈប់សម្រាកបន្ទាប់ ({{ nextUpcomingHoliday.daysUntil === 0 ? 'ថ្ងៃនេះ' : nextUpcomingHoliday.daysUntil + ' ថ្ងៃទៀត' }})</div>
-                                <div class="text-xs sm:text-sm font-bold truncate">{{ nextUpcomingHoliday.khmer }}</div>
+                                <div class="text-[11px] sm:text-xs text-white/75 truncate">{{ isKhmer ? 'ថ្ងៃឈប់សម្រាកបន្ទាប់' : 'Next Holiday' }} ({{ nextUpcomingHoliday.daysUntil === 0 ? (isKhmer ? 'ថ្ងៃនេះ' : 'Today') : (isKhmer ? nextUpcomingHoliday.daysUntil + ' ថ្ងៃទៀត' : 'In ' + nextUpcomingHoliday.daysUntil + ' days') }})</div>
+                                <div class="text-xs sm:text-sm font-bold truncate">{{ isKhmer ? nextUpcomingHoliday.khmer : nextUpcomingHoliday.english }}</div>
                             </div>
                         </div>
                     </div>
@@ -64,7 +66,7 @@
                         📅
                     </div>
                     <div class="min-w-0">
-                        <div class="text-[11px] sm:text-xs opacity-80 truncate">ថ្ងៃសរុបក្នុងខែ</div>
+                        <div class="text-[11px] sm:text-xs opacity-80 truncate">{{ isKhmer ? 'ថ្ងៃសរុបក្នុងខែ' : 'Days in Month' }}</div>
                         <div class="text-base sm:text-xl font-bold leading-tight mt-0.5">{{ toKhmerNumeral(monthStats.totalDays) }} <span class="text-[11px] sm:text-xs font-normal opacity-75">({{ monthStats.totalDays }}d)</span></div>
                     </div>
                 </button>
@@ -79,7 +81,7 @@
                         💼
                     </div>
                     <div class="min-w-0">
-                        <div class="text-[11px] sm:text-xs opacity-80 truncate">ថ្ងៃធ្វើការ</div>
+                        <div class="text-[11px] sm:text-xs opacity-80 truncate">{{ isKhmer ? 'ថ្ងៃធ្វើការ' : 'Working Days' }}</div>
                         <div class="text-base sm:text-xl font-bold leading-tight mt-0.5">{{ toKhmerNumeral(monthStats.workingDays) }} <span class="text-[11px] sm:text-xs font-normal opacity-75">({{ monthStats.workingDays }}d)</span></div>
                     </div>
                 </button>
@@ -94,7 +96,7 @@
                         🎉
                     </div>
                     <div class="min-w-0">
-                        <div class="text-[11px] sm:text-xs opacity-80 truncate">ថ្ងៃបុណ្យជាតិ</div>
+                        <div class="text-[11px] sm:text-xs opacity-80 truncate">{{ isKhmer ? 'ថ្ងៃបុណ្យជាតិ' : 'Public Holidays' }}</div>
                         <div class="text-base sm:text-xl font-bold leading-tight mt-0.5">{{ toKhmerNumeral(monthStats.publicHolidays) }} <span class="text-[11px] sm:text-xs font-normal opacity-75">({{ monthStats.publicHolidays }}d)</span></div>
                     </div>
                 </button>
@@ -109,7 +111,7 @@
                         ☸️
                     </div>
                     <div class="min-w-0">
-                        <div class="text-[11px] sm:text-xs opacity-80 truncate">ថ្ងៃឧបោសថសីល</div>
+                        <div class="text-[11px] sm:text-xs opacity-80 truncate">{{ isKhmer ? 'ថ្ងៃឧបោសថសីល' : 'Buddhist Holy Days' }}</div>
                         <div class="text-base sm:text-xl font-bold leading-tight mt-0.5">{{ toKhmerNumeral(monthStats.holyDays) }} <span class="text-[11px] sm:text-xs font-normal opacity-75">({{ monthStats.holyDays }}d)</span></div>
                     </div>
                 </button>
@@ -597,6 +599,8 @@ import {
     CalendarIcon,
     SparklesIcon
 } from '@heroicons/vue/24/outline';
+import LanguageToggle from '@/components/LanguageToggle.vue';
+import { useLanguage } from '@/composables/useLanguage';
 
 export default {
     name: 'KhmerCalendar',
@@ -604,7 +608,18 @@ export default {
         ChevronLeftIcon,
         ChevronRightIcon,
         CalendarIcon,
-        SparklesIcon
+        SparklesIcon,
+        LanguageToggle
+    },
+    setup() {
+        const { currentLang, isKhmer, isEnglish, setLanguage, t } = useLanguage();
+        return {
+            currentLang,
+            isKhmer,
+            isEnglish,
+            setLanguage,
+            t
+        };
     },
     data() {
         return {

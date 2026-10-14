@@ -40,7 +40,7 @@
                             class="flex items-center hover:text-green-500 dark:hover:text-green-400 text-[14px] transition-colors duration-200 px-2 py-1 rounded-md"
                             :class="{ 'text-green-500 dark:text-green-400 font-semibold': isFeatureActive }"
                             aria-label="Other Features" aria-haspopup="true" :aria-expanded="isFeaturesMenuOpen">
-                            Other Features
+                            {{ isKhmer ? 'មុខងារផ្សេងៗ' : 'Other Features' }}
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transition-transform duration-200" viewBox="0 0 20 20"
                                 fill="currentColor" :class="{ 'transform rotate-180': isFeaturesMenuOpen }">
                                 <path fill-rule="evenodd"
@@ -71,8 +71,11 @@
                 </div>
             </div>
 
-            <!-- Right Controls: Theme Toggle & Mobile Hamburger -->
+            <!-- Right Controls: Language Toggle, Theme Toggle & Mobile Hamburger -->
             <div class="flex items-center space-x-2">
+                <!-- Language Toggle Button (KM / EN) -->
+                <LanguageToggle class="hidden sm:inline-flex" />
+
                 <!-- Theme Toggle Button -->
                 <div class="relative" ref="themeDropdown">
                     <button @click.stop="toggleThemeMenu"
@@ -167,7 +170,7 @@
                     <!-- Other Features Section -->
                     <div class="pt-2 border-t border-gray-100 dark:border-gray-800 space-y-1">
                         <div class="px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500">
-                            Other Features
+                            {{ isKhmer ? 'មុខងារផ្សេងៗ' : 'Other Features' }}
                         </div>
                         <div class="space-y-0.5">
                             <router-link v-for="feature in featureLinks" :key="feature.path" :to="feature.path"
@@ -186,9 +189,15 @@
                         </div>
                     </div>
 
+                    <!-- Language Switcher Row in Mobile Menu -->
+                    <div class="pt-2 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between px-3 py-2">
+                        <span class="text-xs font-medium text-gray-500 dark:text-gray-400">{{ isKhmer ? 'ភាសា' : 'Language' }}</span>
+                        <LanguageToggle />
+                    </div>
+
                     <!-- Theme Switcher Row -->
                     <div class="pt-2 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between px-3 py-2">
-                        <span class="text-xs font-medium text-gray-500 dark:text-gray-400">Theme</span>
+                        <span class="text-xs font-medium text-gray-500 dark:text-gray-400">{{ isKhmer ? 'ស្បែករចនា' : 'Theme' }}</span>
                         <div class="flex items-center bg-gray-100 dark:bg-gray-800 p-1 rounded-xl space-x-1">
                             <button @click="setTheme('light')"
                                 class="px-2.5 py-1 rounded-lg text-xs font-medium flex items-center space-x-1 transition-all"
@@ -224,6 +233,8 @@
 import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import analytics from '@/utils/analytics';
+import LanguageToggle from '@/components/LanguageToggle.vue';
+import { useLanguage } from '@/composables/useLanguage';
 import {
     SunIcon,
     MoonIcon,
@@ -241,6 +252,7 @@ import {
 
 const route = useRoute();
 const router = useRouter();
+const { isKhmer } = useLanguage();
 
 // Refs
 const currentTheme = ref('system');
@@ -253,55 +265,55 @@ const themeDropdown = ref(null);
 const featuresDropdown = ref(null);
 
 // Feature links with clean Heroicon components and color accents
-const featureLinks = [
+const featureLinks = computed(() => [
     {
         path: '/weather-app',
-        label: 'Weather App',
+        label: isKhmer.value ? 'ព្យាករណ៍ធាតុអាកាស' : 'Weather App',
         icon: SunIcon,
         badgeBg: 'bg-amber-500/10 dark:bg-amber-500/20',
         badgeText: 'text-amber-500 dark:text-amber-400'
     },
     {
         path: '/air-quality',
-        label: 'Air Quality',
+        label: isKhmer.value ? 'គុណភាពខ្យល់' : 'Air Quality',
         icon: CloudIcon,
         badgeBg: 'bg-sky-500/10 dark:bg-sky-500/20',
         badgeText: 'text-sky-500 dark:text-sky-400'
     },
     {
         path: '/khmer-calendar',
-        label: 'Khmer Calendar',
+        label: isKhmer.value ? 'ប្រតិទិនខ្មែរ' : 'Khmer Calendar',
         icon: CalendarDaysIcon,
         badgeBg: 'bg-rose-500/10 dark:bg-rose-500/20',
         badgeText: 'text-rose-500 dark:text-rose-400'
     },
     {
         path: '/currency-converter',
-        label: 'Currency Converter',
+        label: isKhmer.value ? 'ប្តូរប្រាក់' : 'Currency Converter',
         icon: CurrencyDollarIcon,
         badgeBg: 'bg-emerald-500/10 dark:bg-emerald-500/20',
         badgeText: 'text-emerald-500 dark:text-emerald-400'
     },
     {
         path: '/crypto-tracker-password',
-        label: 'Crypto Tracker',
+        label: isKhmer.value ? 'តាមដានគ្រីបតូ' : 'Crypto Tracker',
         icon: ChartBarIcon,
         badgeBg: 'bg-indigo-500/10 dark:bg-indigo-500/20',
         badgeText: 'text-indigo-500 dark:text-indigo-400'
     }
-];
+]);
 
 // Computed properties
 const standardNavLinks = computed(() => {
     return [
-        { path: '/', label: 'Home', icon: HomeIcon },
-        { path: '/projects', label: 'Projects', icon: BriefcaseIcon },
-        { path: '/about', label: 'About', icon: UserIcon },
+        { path: '/', label: isKhmer.value ? 'ទំព័រដើម' : 'Home', icon: HomeIcon },
+        { path: '/projects', label: isKhmer.value ? 'គម្រោង' : 'Projects', icon: BriefcaseIcon },
+        { path: '/about', label: isKhmer.value ? 'អំពីខ្ញុំ' : 'About', icon: UserIcon },
     ];
 });
 
 const isFeatureActive = computed(() => {
-    return featureLinks.some(link => route.path === link.path || route.path === '/crypto-tracker');
+    return featureLinks.value.some(link => route.path === link.path || route.path === '/crypto-tracker');
 });
 
 // Single unified navigation handler that closes menus reliably

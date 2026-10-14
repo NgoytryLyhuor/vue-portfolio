@@ -11,14 +11,15 @@
             <!-- Top Header & Controls -->
             <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 sm:gap-6 mb-5 sm:mb-6">
                 <div class="min-w-0">
-                    <div class="inline-flex flex-wrap items-center gap-1.5 sm:gap-2 px-3 py-1 rounded-full bg-emerald-500/10 dark:bg-emerald-400/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-[11px] sm:text-xs font-semibold tracking-wide uppercase mb-2.5">
-                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
-                        <span>Cambodia Air Quality Monitor</span>
-                        <span class="text-emerald-400 dark:text-emerald-500">•</span>
-                        <span class="font-khmer">គុណភាពខ្យល់កម្ពុជា</span>
+                    <div class="flex items-center gap-2 mb-2.5 flex-wrap">
+                        <div class="inline-flex flex-wrap items-center gap-1.5 sm:gap-2 px-3 py-1 rounded-full bg-emerald-500/10 dark:bg-emerald-400/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-[11px] sm:text-xs font-semibold tracking-wide uppercase">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
+                            <span>{{ isKhmer ? 'គុណភាពខ្យល់កម្ពុជា' : 'Cambodia Air Quality Monitor' }}</span>
+                        </div>
+                        <LanguageToggle />
                     </div>
                     <h1 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                        <span>Air Quality Intelligence</span>
+                        <span>{{ isKhmer ? 'ការតាមដានគុណភាពខ្យល់កម្ពុជា' : 'Air Quality Intelligence' }}</span>
                         <span class="text-lg sm:text-xl font-normal text-slate-500 dark:text-slate-400 hidden sm:inline">|</span>
                         <span class="text-xs sm:text-lg font-semibold bg-gradient-to-r from-emerald-600 via-teal-600 to-sky-500 dark:from-emerald-400 dark:via-teal-300 dark:to-sky-400 bg-clip-text text-transparent">
                             {{ formattedDateTime }}
@@ -32,11 +33,11 @@
                     <button
                         @click="useMyLocation"
                         :disabled="locating || loading"
-                        title="Find nearest air quality station to my location"
+                        :title="isKhmer ? 'ស្វែងរកស្ថានីយជិតបំផុត' : 'Find nearest air quality station to my location'"
                         class="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 px-3 py-2 sm:py-2.5 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 hover:border-emerald-500/50 text-slate-700 dark:text-slate-200 text-xs sm:text-sm font-semibold shadow-sm transition-all disabled:opacity-50"
                     >
                         <MapPinIcon class="w-4 h-4 text-emerald-500 shrink-0" :class="{ 'animate-bounce': locating }" />
-                        <span class="truncate">{{ locating ? 'Locating...' : 'Nearest Station' }}</span>
+                        <span class="truncate">{{ locating ? (isKhmer ? 'កំពុងស្វែងរក...' : 'Locating...') : (isKhmer ? 'ស្ថានីយជិតបំផុត' : 'Nearest Station') }}</span>
                     </button>
 
                     <!-- AQI Standard Toggle (US vs CN) -->
@@ -81,18 +82,18 @@
                         class="inline-flex items-center justify-center gap-1.5 px-3 py-2 sm:py-2.5 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 hover:border-sky-500/50 text-slate-700 dark:text-slate-200 text-xs sm:text-sm font-semibold shadow-sm transition-all shrink-0"
                     >
                         <span class="w-2 h-2 rounded-full shrink-0" :class="telegramSettings.enabled ? 'bg-emerald-500 animate-ping' : 'bg-slate-400'"></span>
-                        <span>Alerts</span>
+                        <span>{{ isKhmer ? 'ការជូនដំណឹង' : 'Alerts' }}</span>
                     </a>
 
                     <!-- Refresh Button -->
                     <button
                         @click="fetchPollutionData"
                         :disabled="loading"
-                        title="Refresh air quality data"
+                        :title="isKhmer ? 'ផ្ទុកទិន្នន័យឡើងវិញ' : 'Refresh air quality data'"
                         class="inline-flex items-center justify-center gap-1.5 px-3 py-2 sm:py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-semibold shadow-sm shadow-emerald-500/20 transition-all disabled:opacity-50 shrink-0"
                     >
                         <ArrowPathIcon class="w-4 h-4" :class="{ 'animate-spin': loading }" />
-                        <span class="hidden sm:inline">Refresh</span>
+                        <span class="hidden sm:inline">{{ isKhmer ? 'ផ្ទុកទិន្នន័យ' : 'Refresh' }}</span>
                     </button>
                 </div>
             </div>
@@ -102,7 +103,7 @@
                 <div class="flex items-center gap-2 overflow-x-auto scrollbar-thin pb-1">
                     <span class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-1.5 shrink-0 flex items-center gap-1">
                         <span>🇰🇭</span>
-                        <span class="hidden sm:inline">Monitoring Hubs:</span>
+                        <span class="hidden sm:inline">{{ isKhmer ? 'បណ្តាញស្ថានីយ៖' : 'Monitoring Hubs:' }}</span>
                     </span>
                     <button
                         v-for="hub in cambodiaHubs"
@@ -776,6 +777,8 @@
 
 <script>
 import logger from '@/utils/logger';
+import LanguageToggle from '@/components/LanguageToggle.vue';
+import { useLanguage } from '@/composables/useLanguage';
 import {
     ArrowPathIcon,
     MapPinIcon,
@@ -793,7 +796,18 @@ export default {
         SunIcon,
         BeakerIcon,
         ShieldCheckIcon,
-        UserGroupIcon
+        UserGroupIcon,
+        LanguageToggle
+    },
+    setup() {
+        const { currentLang, isKhmer, isEnglish, setLanguage, t } = useLanguage();
+        return {
+            currentLang,
+            isKhmer,
+            isEnglish,
+            setLanguage,
+            t
+        };
     },
     data() {
         return {
@@ -941,8 +955,16 @@ export default {
             return this.lastUpdated ? new Date(this.lastUpdated).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '--:--';
         },
         formattedDateTime() {
-            if (!this.lastUpdated) return 'Syncing live sensor...';
-            return new Date(this.lastUpdated).toLocaleString('en-US', {
+            if (!this.lastUpdated) return this.isKhmer ? 'កំពុងទាញយកទិន្នន័យ...' : 'Syncing live sensor...';
+            const d = new Date(this.lastUpdated);
+            if (this.isKhmer) {
+                const daysKhmer = ['អាទិត្យ', 'ចន្ទ', 'អង្គារ', 'ពុធ', 'ព្រហស្បតិ៍', 'សុក្រ', 'សៅរ៍'];
+                const monthsKhmer = ['មករា', 'កុម្ភៈ', 'មីនា', 'មេសា', 'ឧសភា', 'មិថុនា', 'កក្កដា', 'សីហា', 'កញ្ញា', 'តុលា', 'វិច្ឆិកា', 'ធ្នូ'];
+                const hours = d.getHours().toString().padStart(2, '0');
+                const mins = d.getMinutes().toString().padStart(2, '0');
+                return `ថ្ងៃ${daysKhmer[d.getDay()]} ទី${d.getDate()} ខែ${monthsKhmer[d.getMonth()]} ម៉ោង ${hours}:${mins}`;
+            }
+            return d.toLocaleString('en-US', {
                 weekday: 'short',
                 month: 'short',
                 day: 'numeric',
@@ -960,6 +982,11 @@ export default {
         },
         dispersionRating() {
             const ws = this.weatherData?.ws || 0;
+            if (this.isKhmer) {
+                if (ws >= 4) return { label: 'ខ្យល់បក់ខ្លាំង', note: 'ជួយកម្ចាត់កំហាប់ធូលីកខ្វក់លឿន' };
+                if (ws >= 2) return { label: 'ខ្យល់បក់មធ្យម', note: 'ខ្យល់ចេញចូលថេរល្មម' };
+                return { label: 'ខ្យល់ស្ងប់ស្ងាត់', note: 'ធូលីអាចដក់យូរក្នុងបរិយាកាស' };
+            }
             if (ws >= 4) {
                 return { label: 'Strong Dispersion', note: 'Breeze actively clearing air' };
             }
@@ -980,13 +1007,25 @@ export default {
         },
         pm25WhoComparison() {
             const pm = this.estimatedPm25;
+            if (this.isKhmer) {
+                if (pm <= 15) return 'ស្របតាមគោលដៅ WHO (២៤ ម៉ោង)';
+                const ratio = (pm / 15).toFixed(1);
+                return `${ratio}× លើសគោលការណ៍ WHO`;
+            }
             if (pm <= 15) return 'Meets WHO 24h target';
             const ratio = (pm / 15).toFixed(1);
             return `${ratio}× WHO 24h guideline`;
         },
         outdoorSafetyBadge() {
-            if (!this.pollutionData) return 'Checking';
+            if (!this.pollutionData) return this.isKhmer ? 'កំពុងពិនិត្យ' : 'Checking';
             const aqi = this.pollutionData.aqius;
+            if (this.isKhmer) {
+                if (aqi <= 50) return 'សុវត្ថិភាពក្រៅផ្ទះ';
+                if (aqi <= 100) return 'សុវត្ថិភាពទូទៅ';
+                if (aqi <= 150) return 'កាត់បន្ថយការប្រឹង';
+                if (aqi <= 200) return 'ជៀវាងការប្រឹង';
+                return 'ស្នាក់នៅក្នុងផ្ទះ';
+            }
             if (aqi <= 50) return 'Safe Outdoors';
             if (aqi <= 100) return 'Generally Safe';
             if (aqi <= 150) return 'Limit Exertion';
@@ -996,6 +1035,11 @@ export default {
         maskRecommendationShort() {
             if (!this.pollutionData) return '';
             const aqi = this.pollutionData.aqius;
+            if (this.isKhmer) {
+                if (aqi <= 100) return 'មិនបាច់ពាក់ម៉ាស់';
+                if (aqi <= 150) return 'KN95 សម្រាប់អ្នកងាយរងគ្រោះ';
+                return 'ត្រូវពាក់ម៉ាស់ KN95/N95';
+            }
             if (aqi <= 100) return 'No mask required';
             if (aqi <= 150) return 'KN95 for sensitive';
             return 'Wear KN95/N95 mask';
@@ -1068,6 +1112,69 @@ export default {
         },
         protectiveActions() {
             const aqi = this.pollutionData?.aqius || 0;
+            if (this.isKhmer) {
+                return [
+                    {
+                        icon: '😷',
+                        title: 'ការណែនាំអំពីការពាក់ម៉ាស់',
+                        status: aqi <= 100 ? 'មិនចាំបាច់' : aqi <= 150 ? 'ក្រុមងាយរងគ្រោះ' : 'ត្រូវពាក់ KN95/N95',
+                        badgeClass:
+                            aqi <= 100
+                                ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300'
+                                : aqi <= 150
+                                ? 'bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300'
+                                : 'bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300',
+                        advice:
+                            aqi <= 100
+                                ? 'ខ្យល់អាកាសបរិសុទ្ធល្អ — មិនចាំបាច់ពាក់ម៉ាស់សម្រាប់ការដើរ ឬធ្វើដំណើរទូទៅឡើយ។'
+                                : aqi <= 150
+                                ? 'គួរពាក់ម៉ាស់ KN95 ប្រសិនបើធ្វើដំណើរតាមផ្លូវដែលមានចរាចរណ៍កកកុញ ឬប្រសិនបើអ្នកមានជំងឺហឺត។'
+                                : 'ត្រូវពាក់ម៉ាស់ការពារកម្រិតខ្ពស់ KN95 ឬ N95 រាល់ពេលចេញទៅក្រៅផ្ទះ។'
+                    },
+                    {
+                        icon: '🪟',
+                        title: 'ការបើកបង្អួច និងខ្យល់ចេញចូល',
+                        status: aqi <= 85 ? 'អាចបើកបង្អួចបាន' : 'គួរបិទបង្អួច',
+                        badgeClass:
+                            aqi <= 85
+                                ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300'
+                                : 'bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300',
+                        advice:
+                            aqi <= 85
+                                ? 'ពេលវេលាល្អក្នុងការបើកបង្អួចឲ្យខ្យល់អាកាសបរិសុទ្ធធម្មជាតិចេញចូលក្នុងបន្ទប់។'
+                                : 'គួរបិទបង្អួចដើម្បីការពារធូលីហុយពីខាងក្រៅ និងបើកម៉ាស៊ីនចម្រោះខ្យល់ប្រសិនបើមាន។'
+                    },
+                    {
+                        icon: '🏃',
+                        title: 'ការហាត់ប្រាណ និងកីឡាក្រៅផ្ទះ',
+                        status: aqi <= 50 ? 'ល្អប្រសើរ' : aqi <= 100 ? 'ធម្មតា' : 'គួរហាត់ក្នុងផ្ទះ',
+                        badgeClass:
+                            aqi <= 100
+                                ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300'
+                                : 'bg-orange-100 dark:bg-orange-900/40 text-orange-700 dark:text-orange-300',
+                        advice:
+                            aqi <= 100
+                                ? 'មានសុវត្ថិភាពសម្រាប់ការរត់ ជិះកង់តាមមាត់ទន្លេ និងកីឡាក្រៅផ្ទះ។'
+                                : 'កាត់បន្ថយការប្រឹងប្រែងខ្លាំងក្រៅផ្ទះ ហើយជ្រើសរើសការហាត់ក្នុងផ្ទះជំនួសវិញ។'
+                    },
+                    {
+                        icon: '👶',
+                        title: 'កុមារ និងក្រុមងាយរងគ្រោះ',
+                        status: aqi <= 50 ? 'គ្មានការរឹតបន្តឹង' : aqi <= 100 ? 'តាមដានរោគសញ្ញា' : 'ត្រូវយកចិត្តទុកដាក់',
+                        badgeClass:
+                            aqi <= 50
+                                ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300'
+                                : aqi <= 100
+                                ? 'bg-sky-100 dark:bg-sky-900/40 text-sky-700 dark:text-sky-300'
+                                : 'bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300',
+                        advice:
+                            aqi <= 100
+                                ? 'មានសុវត្ថិភាពសម្រាប់ការលេងនៅសួនកុមារ និងការដើរលេងជាលក្ខណៈគ្រួសារ។'
+                                : 'កាត់បន្ថយការលេងក្រៅផ្ទះយូរសម្រាប់កុមារ មនុស្សចាស់ និងអ្នកមានបញ្ហាផ្លូវដង្ហើម។'
+                    }
+                ];
+            }
+
             return [
                 {
                     icon: '😷',
@@ -1241,6 +1348,55 @@ export default {
             }
         },
         getAqiDescription(aqi) {
+            if (this.isKhmer) {
+                if (aqi <= 50) {
+                    return {
+                        title: 'គុណភាពខ្យល់ល្អប្រសើរណាស់',
+                        description: 'ខ្យល់បរិសុទ្ធ និងស្រស់ថ្លា។ គ្មានហានិភ័យចំពោះសុខភាព — ល្អបំផុតសម្រាប់សកម្មភាពក្រៅផ្ទះទាំងអស់។',
+                        recommendations: 'លក្ខខណ្ឌល្អឥតខ្ចោះសម្រាប់ការហាត់ប្រាណ ជិះកង់ និងដើរកម្សាន្តតាមមាត់ទន្លេ។ អាចបើកបង្អួចឲ្យខ្យល់អាកាសធម្មជាតិចេញចូលក្នុងផ្ទះ។',
+                        sensitiveGroups: 'មនុស្សគ្រប់វ័យអាចរីករាយជាមួយសកម្មភាពក្រៅផ្ទះដោយសុវត្ថិភាព គ្មានការរឹតបន្តឹងឡើយ។'
+                    };
+                }
+                if (aqi <= 100) {
+                    return {
+                        title: 'គុណភាពខ្យល់កម្រិតមធ្យម',
+                        description: 'គុណភាពខ្យល់អាចទទួលយកបានជាទូទៅ ប៉ុន្តែមនុស្សងាយប្រតិកម្មខ្លាំងអាចមានការរំខានបន្តិចបន្តួចដល់ផ្លូវដង្ហើម។',
+                        recommendations: 'មនុស្សភាគច្រើនអាចរីករាយជាមួយសកម្មភាពក្រៅផ្ទះធម្មតា។ គួរកាត់បន្ថយការប្រឹងប្រែងខ្លាំងនៅជិតតំបន់ចរាចរណ៍កកកុញ។',
+                        sensitiveGroups: 'អ្នកមានជំងឺហឺត ឬបញ្ហាផ្លូវដង្ហើមគួរតាមដានរោគសញ្ញាក្នុងអំឡុងពេលហាត់ប្រាណយូរនៅក្រៅផ្ទះ។'
+                    };
+                }
+                if (aqi <= 150) {
+                    return {
+                        title: 'មិនល្អសម្រាប់ក្រុមងាយរងគ្រោះ',
+                        description: 'កុមារ មនុស្សចាស់ និងអ្នកមានជំងឺផ្លូវដង្ហើមអាចមានផលប៉ះពាល់។ ប្រជាជនទូទៅមិនសូវប្រឈមនឹងផលប៉ះពាល់ខ្លាំងឡើយ។',
+                        recommendations: 'គួរសម្រាកឲ្យបានច្រើនក្នុងអំឡុងពេលធ្វើសកម្មភាពក្រៅផ្ទះ។ បិទបង្អួចនៅជិតផ្លូវដែលមានយានយន្តច្រើន។',
+                        sensitiveGroups: 'កុមារ មនុស្សចាស់ និងអ្នកជំងឺបេះដូង ឬសួតគួរកាត់បន្ថយការប្រឹងប្រែងខ្លាំងនៅក្រៅផ្ទះ។'
+                    };
+                }
+                if (aqi <= 200) {
+                    return {
+                        title: 'មិនល្អចំពោះសុខភាពទូទៅ',
+                        description: 'មនុស្សទូទៅអាចចាប់ផ្តើមមានផលប៉ះពាល់សុខភាព ហើយក្រុមងាយរងគ្រោះអាចប្រឈមនឹងបញ្ហាធ្ងន់ធ្ងរជាងនេះ។',
+                        recommendations: 'ជៀសវាងការធ្វើការងារធ្ងន់ ឬហាត់ប្រាណក្រៅផ្ទះ។ ពាក់ម៉ាស់ KN95/N95 នៅពេលចេញក្រៅ និងបើកម៉ាស៊ីនចម្រោះខ្យល់ក្នុងផ្ទះ។',
+                        sensitiveGroups: 'ក្រុមងាយរងគ្រោះគួរជៀសវាងសកម្មភាពក្រៅផ្ទះទាំងអស់ ហើយស្នាក់នៅក្នុងផ្ទះដែលមានខ្យល់ស្អាត។'
+                    };
+                }
+                if (aqi <= 300) {
+                    return {
+                        title: 'គ្រោះថ្នាក់ខ្លាំងចំពោះសុខភាព',
+                        description: 'កម្រិតប្រកាសអាសន្នសុខភាព៖ មនុស្សគ្រប់រូបអាចជួបប្រទះបញ្ហាសុខភាពធ្ងន់ធ្ងរដោយសារកំហាប់ធូលីកខ្វក់ឡើងខ្ពស់។',
+                        recommendations: 'ជៀសវាងសកម្មភាពរាងកាយក្រៅផ្ទះទាំងអស់។ បិទទ្វារបង្អួចឲ្យជិត និងប្រើម៉ាស៊ីនចម្រោះខ្យល់ HEPA ក្នុងបន្ទប់។',
+                        sensitiveGroups: 'ក្រុមងាយរងគ្រោះទាំងអស់ត្រូវស្នាក់នៅក្នុងផ្ទះជាដាច់ខាត និងត្រៀមថ្នាំព្យាបាលជាប់ខ្លួន។'
+                    };
+                }
+                return {
+                    title: 'កម្រិតគ្រោះថ្នាក់ធ្ងន់ធ្ងរបំផុត',
+                    description: 'ស្ថានភាពអាសន្នសុខភាពធ្ងន់ធ្ងរ! ប្រជាជនទាំងមូលអាចរងផលប៉ះពាល់ដោយសារការបំពុលខ្យល់កម្រិតខ្ពស់បំផុត។',
+                    recommendations: 'ស្នាក់នៅក្នុងផ្ទះដោយបិទទ្វារ និងបង្អួចឲ្យជិត។ ពាក់ម៉ាស់ការពារ N95 ប្រសិនបើចាំបាច់ត្រូវចេញក្រៅ។',
+                    sensitiveGroups: 'គ្រោះថ្នាក់ខ្លាំងបំផុតសម្រាប់មនុស្សគ្រប់គ្នា។ សូមទៅជួបគ្រូពេទ្យជាបន្ទាន់ប្រសិនបើពិបាកដកដង្ហើម ឬថប់ទ្រូង។'
+                };
+            }
+
             if (aqi <= 50) {
                 return {
                     title: 'Excellent Air Quality',
@@ -1442,6 +1598,14 @@ export default {
             }, 5000);
         },
         getAqiLevel(aqi) {
+            if (this.isKhmer) {
+                if (aqi <= 50) return 'ល្អប្រសើរ';
+                if (aqi <= 100) return 'មធ្យម';
+                if (aqi <= 150) return 'មិនល្អសម្រាប់ក្រុមងាយរងគ្រោះ';
+                if (aqi <= 200) return 'មិនល្អចំពោះសុខភាព';
+                if (aqi <= 300) return 'គ្រោះថ្នាក់ខ្លាំង';
+                return 'គ្រោះថ្នាក់ធ្ងន់ធ្ងរ';
+            }
             if (aqi <= 50) return 'Good';
             if (aqi <= 100) return 'Moderate';
             if (aqi <= 150) return 'Unhealthy for Sensitive Groups';

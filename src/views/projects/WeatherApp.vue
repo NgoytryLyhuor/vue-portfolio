@@ -11,14 +11,15 @@
             <!-- Top Header & Controls -->
             <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 sm:gap-6 mb-5 sm:mb-6">
                 <div class="min-w-0">
-                    <div class="inline-flex flex-wrap items-center gap-1.5 sm:gap-2 px-3 py-1 rounded-full bg-sky-500/10 dark:bg-sky-400/10 border border-sky-500/20 text-sky-700 dark:text-sky-300 text-[11px] sm:text-xs font-semibold tracking-wide uppercase mb-2.5">
-                        <span class="w-2 h-2 rounded-full bg-sky-500 animate-pulse shrink-0"></span>
-                        <span>Cambodia Weather</span>
-                        <span class="text-sky-400 dark:text-sky-500">•</span>
-                        <span class="font-khmer">ឧតុនិយម និងរដូវកាលកម្ពុជា</span>
+                    <div class="flex items-center gap-2 mb-2.5 flex-wrap">
+                        <div class="inline-flex flex-wrap items-center gap-1.5 sm:gap-2 px-3 py-1 rounded-full bg-sky-500/10 dark:bg-sky-400/10 border border-sky-500/20 text-sky-700 dark:text-sky-300 text-[11px] sm:text-xs font-semibold tracking-wide uppercase">
+                            <span class="w-2 h-2 rounded-full bg-sky-500 animate-pulse shrink-0"></span>
+                            <span>{{ isKhmer ? 'ឧតុនិយម និងរដូវកាលកម្ពុជា' : 'Cambodia Weather & Seasons' }}</span>
+                        </div>
+                        <LanguageToggle />
                     </div>
                     <h1 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                        <span>Atmospheric Forecast</span>
+                        <span>{{ isKhmer ? 'ព្យាករណ៍ធាតុអាកាសកម្ពុជា' : 'Atmospheric Forecast' }}</span>
                         <span class="text-lg sm:text-xl font-normal text-slate-500 dark:text-slate-400 hidden sm:inline">|</span>
                         <span class="text-sm sm:text-xl font-semibold bg-gradient-to-r from-sky-600 via-indigo-600 to-teal-500 dark:from-sky-400 dark:via-indigo-400 dark:to-teal-300 bg-clip-text text-transparent">
                             {{ currentDate }}
@@ -32,7 +33,7 @@
                         <input
                             v-model="searchQuery"
                             type="text"
-                            placeholder="Search any city..."
+                            :placeholder="isKhmer ? 'ស្វែងរកទីក្រុង ឬខេត្ត...' : 'Search any city...'"
                             class="w-full pl-9 pr-16 py-2.5 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500/50 shadow-sm transition-all"
                         />
                         <svg class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -43,7 +44,7 @@
                             type="submit"
                             class="absolute right-1.5 top-1/2 -translate-y-1/2 px-2.5 py-1 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold transition-colors"
                         >
-                            Go
+                            {{ isKhmer ? 'ស្វែងរក' : 'Go' }}
                         </button>
                     </form>
 
@@ -52,14 +53,14 @@
                         <button
                             @click="useMyLocation"
                             :disabled="locating || loading"
-                            title="Use my current location"
+                            :title="isKhmer ? 'ប្រើប្រាស់ទីតាំងបច្ចុប្បន្នរបស់ខ្ញុំ' : 'Use my current location'"
                             class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 hover:border-sky-500/50 text-slate-700 dark:text-slate-200 text-xs sm:text-sm font-semibold shadow-sm transition-all disabled:opacity-50"
                         >
                             <svg class="w-4 h-4 text-sky-500 shrink-0" :class="{ 'animate-spin': locating }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                             </svg>
-                            <span>{{ locating ? 'Locating...' : 'GPS' }}</span>
+                            <span>{{ locating ? (isKhmer ? 'កំពុងស្វែងរក...' : 'Locating...') : (isKhmer ? 'ទីតាំងខ្ញុំ' : 'GPS') }}</span>
                         </button>
 
                         <!-- Temperature Unit Toggle (°C / °F) -->
@@ -84,13 +85,13 @@
                         <button
                             @click="fetchWeatherData"
                             :disabled="loading"
-                            title="Refresh weather data"
+                            :title="isKhmer ? 'ផ្ទុកទិន្នន័យឡើងវិញ' : 'Refresh weather data'"
                             class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs sm:text-sm font-semibold shadow-sm shadow-sky-500/20 transition-all disabled:opacity-50"
                         >
                             <svg class="w-4 h-4 shrink-0" :class="{ 'animate-spin': loading }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                             </svg>
-                            <span>Refresh</span>
+                            <span>{{ isKhmer ? 'ផ្ទុកឡើងវិញ' : 'Refresh' }}</span>
                         </button>
                     </div>
                 </div>
@@ -101,7 +102,7 @@
                 <div class="flex items-center gap-2 overflow-x-auto scrollbar-thin pb-1">
                     <span class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-1.5 sm:px-2 shrink-0 flex items-center gap-1">
                         <span>🇰🇭</span>
-                        <span class="hidden xs:inline">Hubs:</span>
+                        <span class="hidden xs:inline">{{ isKhmer ? 'ខេត្ត-ក្រុង៖' : 'Hubs:' }}</span>
                     </span>
                     <button
                         v-for="city in cambodiaCities"
@@ -241,7 +242,7 @@
                                             </span>
                                         </div>
                                         <div class="inline-flex flex-wrap items-center gap-1.5 px-3 py-1.5 rounded-xl bg-black/20 backdrop-blur-sm text-xs sm:text-sm font-medium">
-                                            <span>Feels <strong class="font-bold">{{ formatTemp(currentWeather.feels_like) }}°{{ unit }}</strong></span>
+                                            <span>{{ isKhmer ? 'មានអារម្មណ៍ដូច' : 'Feels' }} <strong class="font-bold">{{ formatTemp(currentWeather.feels_like) }}°{{ unit }}</strong></span>
                                             <span>•</span>
                                             <span class="font-semibold text-amber-200">{{ thermalComfortLabel }}</span>
                                         </div>
@@ -251,22 +252,22 @@
                                 <!-- 4 Quick Hero Metrics -->
                                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 pt-1">
                                     <div class="rounded-2xl bg-white/15 backdrop-blur-md p-3 sm:p-3.5 border border-white/15 min-w-0">
-                                        <div class="text-[11px] sm:text-xs text-white/75 font-medium">Humidity</div>
+                                        <div class="text-[11px] sm:text-xs text-white/75 font-medium">{{ isKhmer ? 'សំណើម' : 'Humidity' }}</div>
                                         <div class="text-lg sm:text-xl font-extrabold mt-0.5">{{ currentWeather.humidity }}%</div>
-                                        <div class="text-[10px] sm:text-[11px] text-white/80 mt-0.5 truncate">Dew {{ formatTemp(currentWeather.dew_point) }}°</div>
+                                        <div class="text-[10px] sm:text-[11px] text-white/80 mt-0.5 truncate">{{ isKhmer ? 'សន្សើម' : 'Dew' }} {{ formatTemp(currentWeather.dew_point) }}°</div>
                                     </div>
                                     <div class="rounded-2xl bg-white/15 backdrop-blur-md p-3 sm:p-3.5 border border-white/15 min-w-0">
-                                        <div class="text-[11px] sm:text-xs text-white/75 font-medium">Wind &amp; Dir</div>
+                                        <div class="text-[11px] sm:text-xs text-white/75 font-medium">{{ isKhmer ? 'ល្បឿនខ្យល់' : 'Wind & Dir' }}</div>
                                         <div class="text-lg sm:text-xl font-extrabold mt-0.5">{{ Math.round(currentWeather.wind_speed) }} <span class="text-xs font-normal">km/h</span></div>
                                         <div class="text-[10px] sm:text-[11px] text-white/80 mt-0.5 truncate">{{ windDirectionCardinal }} ({{ currentWeather.wind_deg }}°)</div>
                                     </div>
                                     <div class="rounded-2xl bg-white/15 backdrop-blur-md p-3 sm:p-3.5 border border-white/15 min-w-0">
-                                        <div class="text-[11px] sm:text-xs text-white/75 font-medium">UV Index</div>
+                                        <div class="text-[11px] sm:text-xs text-white/75 font-medium">{{ isKhmer ? 'កម្រិត UV' : 'UV Index' }}</div>
                                         <div class="text-lg sm:text-xl font-extrabold mt-0.5">{{ uvIndex }} <span class="text-[11px] font-semibold px-1.5 py-0.5 rounded bg-black/20">{{ uvLevel }}</span></div>
-                                        <div class="text-[10px] sm:text-[11px] text-white/80 mt-0.5 truncate">Clouds {{ currentWeather.clouds }}%</div>
+                                        <div class="text-[10px] sm:text-[11px] text-white/80 mt-0.5 truncate">{{ isKhmer ? 'ពពក' : 'Clouds' }} {{ currentWeather.clouds }}%</div>
                                     </div>
                                     <div class="rounded-2xl bg-white/15 backdrop-blur-md p-3 sm:p-3.5 border border-white/15 min-w-0">
-                                        <div class="text-[11px] sm:text-xs text-white/75 font-medium">Visibility</div>
+                                        <div class="text-[11px] sm:text-xs text-white/75 font-medium">{{ isKhmer ? 'ចម្ងាយមើល' : 'Visibility' }}</div>
                                         <div class="text-lg sm:text-xl font-extrabold mt-0.5">{{ currentWeather.visibility }} <span class="text-xs font-normal">km</span></div>
                                         <div class="text-[10px] sm:text-[11px] text-white/80 mt-0.5 truncate">{{ currentWeather.pressure }} hPa</div>
                                     </div>
@@ -277,8 +278,8 @@
                             <div class="lg:col-span-5 min-w-0 flex flex-col justify-between gap-4 bg-black/20 backdrop-blur-md rounded-2xl p-4 sm:p-6 border border-white/15">
                                 <div class="flex flex-wrap items-center justify-between gap-2">
                                     <div>
-                                        <span class="text-[11px] uppercase tracking-wider text-white/70 font-bold block">Solar Cycle &amp; Daylight</span>
-                                        <h3 class="text-sm sm:text-lg font-bold text-white mt-0.5">{{ daylightDuration }} of Daylight</h3>
+                                        <span class="text-[11px] uppercase tracking-wider text-white/70 font-bold block">{{ isKhmer ? 'វដ្តព្រះអាទិត្យ និងពន្លឺថ្ងៃ' : 'Solar Cycle & Daylight' }}</span>
+                                        <h3 class="text-sm sm:text-lg font-bold text-white mt-0.5">{{ daylightDuration }} {{ isKhmer ? 'ម៉ោងមានពន្លឺថ្ងៃ' : 'of Daylight' }}</h3>
                                     </div>
                                     <span class="px-2.5 py-1 rounded-full text-[11px] sm:text-xs font-bold bg-amber-400/20 border border-amber-300/30 text-amber-200">
                                         {{ sunStatusLabel }}
@@ -291,17 +292,17 @@
                                         <div class="flex items-center gap-1">
                                             <span class="text-sm sm:text-base">🌅</span>
                                             <div>
-                                                <div class="text-[10px] uppercase text-white/60">Sunrise</div>
+                                                <div class="text-[10px] uppercase text-white/60">{{ isKhmer ? 'ថ្ងៃរះ' : 'Sunrise' }}</div>
                                                 <div class="text-[11px] sm:text-xs">{{ formatTime(currentWeather.sunrise) }}</div>
                                             </div>
                                         </div>
                                         <div class="text-center">
-                                            <div class="text-[10px] uppercase text-white/60">Noon</div>
+                                            <div class="text-[10px] uppercase text-white/60">{{ isKhmer ? 'ថ្ងៃត្រង់' : 'Noon' }}</div>
                                             <div class="text-[11px] sm:text-xs">{{ solarNoonTime }}</div>
                                         </div>
                                         <div class="flex items-center gap-1 text-right">
                                             <div>
-                                                <div class="text-[10px] uppercase text-white/60">Sunset</div>
+                                                <div class="text-[10px] uppercase text-white/60">{{ isKhmer ? 'ថ្ងៃលិច' : 'Sunset' }}</div>
                                                 <div class="text-[11px] sm:text-xs">{{ formatTime(currentWeather.sunset) }}</div>
                                             </div>
                                             <span class="text-sm sm:text-base">🌇</span>
@@ -320,8 +321,8 @@
                                         ></div>
                                     </div>
                                     <div class="flex justify-between text-[11px] text-white/75 mt-2">
-                                        <span>Daylight: {{ sunProgress }}%</span>
-                                        <span>Season: <strong>{{ currentSeason.name }}</strong></span>
+                                        <span>{{ isKhmer ? 'ពន្លឺថ្ងៃ' : 'Daylight' }}: {{ sunProgress }}%</span>
+                                        <span>{{ isKhmer ? 'រដូវកាល' : 'Season' }}: <strong>{{ isKhmer ? (isRainySeason ? 'រដូវវស្សា' : 'រដូវប្រាំង') : currentSeason.name }}</strong></span>
                                     </div>
                                 </div>
 
@@ -331,16 +332,16 @@
                                         <div class="text-xl sm:text-2xl shrink-0">{{ isRainySeason ? '🌧️' : '☀️' }}</div>
                                         <div class="min-w-0">
                                             <div class="text-xs font-bold text-white flex flex-wrap items-center gap-1">
-                                                <span>{{ currentSeason.name }}</span>
-                                                <span class="text-[10px] font-normal text-white/75">({{ currentSeason.dateRange }})</span>
+                                                <span>{{ isKhmer ? (isRainySeason ? 'រដូវវស្សា' : 'រដូវប្រាំង') : currentSeason.name }}</span>
+                                                <span class="text-[10px] font-normal text-white/75">({{ isKhmer ? (isRainySeason ? 'ឧសភា - តុលា' : 'វិច្ឆិកា - មេសា') : currentSeason.dateRange }})</span>
                                             </div>
                                             <p class="text-[11px] text-white/80 truncate mt-0.5">
-                                                {{ isRainySeason ? 'Monsoon rains & lush green landscapes' : 'Golden harvest skies & cool breezes' }}
+                                                {{ isRainySeason ? (isKhmer ? 'ភ្លៀងធ្លាក់សម្បូរ ធម្មជាតិពណ៌បៃតងស្រស់បំព្រង' : 'Monsoon rains & lush green landscapes') : (isKhmer ? 'រដូវច្រូតកាត់ស្រូវ មេឃស្រឡះខ្យល់រំភើយ' : 'Golden harvest skies & cool breezes') }}
                                             </p>
                                         </div>
                                     </div>
                                     <a href="#cambodia-season-guide" class="px-2.5 py-1.5 rounded-lg bg-white/20 hover:bg-white/30 text-xs font-bold shrink-0 transition-colors">
-                                        Guide ↓
+                                        {{ isKhmer ? 'មគ្គុទ្ទេសក៍ ↓' : 'Guide ↓' }}
                                     </a>
                                 </div>
                             </div>
@@ -358,10 +359,10 @@
                                 <div class="min-w-0">
                                     <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                                         <span class="w-2 h-5 rounded-full bg-sky-500 shrink-0"></span>
-                                        <span class="truncate">Upcoming 3-Hour Interval Forecast</span>
+                                        <span class="truncate">{{ isKhmer ? 'ការព្យាករណ៍ចន្លោះពេល ៣ ម៉ោង' : 'Upcoming 3-Hour Interval Forecast' }}</span>
                                     </h3>
                                     <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                                        Track temperature shifts, rain probability, and wind speed over the next 36 hours
+                                        {{ isKhmer ? 'តាមដានបម្រែបម្រួលកម្តៅ ឱកាសភ្លៀង និងល្បឿនខ្យល់ក្នុងរយៈពេល ៣៦ ម៉ោងខាងមុខ' : 'Track temperature shifts, rain probability, and wind speed over the next 36 hours' }}
                                     </p>
                                 </div>
 
@@ -388,7 +389,7 @@
                                     class="min-w-[96px] sm:min-w-[104px] rounded-2xl p-3 sm:p-3.5 border flex flex-col items-center text-center transition-all shrink-0"
                                 >
                                     <span class="text-xs font-bold" :class="idx === 0 ? 'text-sky-600 dark:text-sky-400' : 'text-slate-600 dark:text-slate-300'">
-                                        {{ idx === 0 ? 'Next' : formatHour(hour.dt) }}
+                                        {{ idx === 0 ? (isKhmer ? 'បន្ទាប់' : 'Next') : formatHour(hour.dt) }}
                                     </span>
                                     <span class="text-[10px] text-slate-400 dark:text-slate-500">{{ formatShortDate(hour.dt) }}</span>
 
@@ -426,14 +427,14 @@
                                 <div>
                                     <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                                         <span class="w-2 h-5 rounded-full bg-indigo-500 shrink-0"></span>
-                                        <span>Multi-Day Outlook &amp; Day Inspector</span>
+                                        <span>{{ isKhmer ? 'ការព្យាករណ៍ច្រើនថ្ងៃខាងមុខ' : 'Multi-Day Outlook & Day Inspector' }}</span>
                                     </h3>
                                     <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                                        Tap any day below to inspect its detailed temperature range and conditions
+                                        {{ isKhmer ? 'ចុចលើថ្ងៃណាមួយខាងក្រោមដើម្បីមើលព័ត៌មានលម្អិត' : 'Tap any day below to inspect its detailed temperature range and conditions' }}
                                     </p>
                                 </div>
                                 <span class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/50 px-3 py-1 rounded-full self-start sm:self-auto">
-                                    {{ forecast.length }}-Day Forecast
+                                    {{ isKhmer ? 'ព្យាករណ៍ ' + forecast.length + ' ថ្ងៃ' : forecast.length + '-Day Forecast' }}
                                 </span>
                             </div>
 
@@ -445,7 +446,7 @@
                                     :class="[
                                         selectedDayIndex === index
                                             ? 'bg-sky-50/90 dark:bg-sky-950/30 border-sky-400/60 dark:border-sky-500/50 shadow-sm'
-                                            : 'bg-slate-50/70 dark:bg-slate-800/40 border-slate-200/60 dark:border-slate-800 hover:bg-slate-100/80 dark:hover:bg-slate-800/70'
+                                             : 'bg-slate-50/70 dark:bg-slate-800/40 border-slate-200/60 dark:border-slate-800 hover:bg-slate-100/80 dark:hover:bg-slate-800/70'
                                     ]"
                                     class="rounded-2xl p-3 sm:p-4 border transition-all cursor-pointer"
                                 >
@@ -454,11 +455,11 @@
                                         <div class="col-span-5 sm:col-span-4 flex items-center gap-2 sm:gap-2.5 min-w-0">
                                             <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center font-bold text-[10px] sm:text-xs shrink-0"
                                                 :class="index === 0 ? 'bg-sky-600 text-white' : 'bg-slate-200/70 dark:bg-slate-700/70 text-slate-700 dark:text-slate-300'">
-                                                {{ index === 0 ? 'NOW' : formatWeekdayShort(day.dt) }}
+                                                {{ index === 0 ? (isKhmer ? 'ឥឡូវ' : 'NOW') : formatWeekdayShort(day.dt) }}
                                             </div>
                                             <div class="min-w-0">
                                                 <div class="font-bold text-xs sm:text-sm text-slate-900 dark:text-white truncate">
-                                                    {{ index === 0 ? 'Today' : formatDayFull(day.dt) }}
+                                                    {{ index === 0 ? (isKhmer ? 'ថ្ងៃនេះ' : 'Today') : formatDayFull(day.dt) }}
                                                 </div>
                                                 <div class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 capitalize truncate">
                                                     {{ day.condition }}
@@ -509,25 +510,25 @@
                                     <!-- Expanded Day Details Drawer -->
                                     <div v-if="selectedDayIndex === index" class="mt-3.5 pt-3.5 border-t border-slate-200/80 dark:border-slate-700/70 grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 text-xs">
                                         <div class="p-2.5 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200/60 dark:border-slate-800">
-                                            <span class="text-slate-400 block text-[11px]">Temp Range</span>
+                                            <span class="text-slate-400 block text-[11px]">{{ isKhmer ? 'កម្តៅទាប-ខ្ពស់' : 'Temp Range' }}</span>
                                             <strong class="text-xs sm:text-sm text-slate-800 dark:text-slate-100 mt-0.5 block">
                                                 {{ formatTemp(day.min_temp) }}°{{ unit }} – {{ formatTemp(day.max_temp) }}°{{ unit }}
                                             </strong>
                                         </div>
                                         <div class="p-2.5 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200/60 dark:border-slate-800">
-                                            <span class="text-slate-400 block text-[11px]">Rain Chance</span>
+                                            <span class="text-slate-400 block text-[11px]">{{ isKhmer ? 'ឱកាសភ្លៀង' : 'Rain Chance' }}</span>
                                             <strong class="text-xs sm:text-sm text-sky-600 dark:text-sky-400 mt-0.5 block">
-                                                {{ day.rain }}% ({{ day.rain >= 60 ? 'Showers' : day.rain >= 30 ? 'Scattered' : 'Mostly dry' }})
+                                                {{ day.rain }}% ({{ isKhmer ? (day.rain >= 60 ? 'ភ្លៀងធ្លាក់' : day.rain >= 30 ? 'ភ្លៀងរលឹម' : 'មេឃរាំង') : (day.rain >= 60 ? 'Showers' : day.rain >= 30 ? 'Scattered' : 'Mostly dry') }})
                                             </strong>
                                         </div>
                                         <div class="p-2.5 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200/60 dark:border-slate-800">
-                                            <span class="text-slate-400 block text-[11px]">Avg Humidity</span>
+                                            <span class="text-slate-400 block text-[11px]">{{ isKhmer ? 'សំណើមមធ្យម' : 'Avg Humidity' }}</span>
                                             <strong class="text-xs sm:text-sm text-slate-800 dark:text-slate-100 mt-0.5 block">
                                                 {{ day.humidity || currentWeather.humidity }}%
                                             </strong>
                                         </div>
                                         <div class="p-2.5 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200/60 dark:border-slate-800">
-                                            <span class="text-slate-400 block text-[11px]">Max Wind</span>
+                                            <span class="text-slate-400 block text-[11px]">{{ isKhmer ? 'កម្លាំងខ្យល់' : 'Max Wind' }}</span>
                                             <strong class="text-xs sm:text-sm text-slate-800 dark:text-slate-100 mt-0.5 block">
                                                 {{ day.wind || Math.round(currentWeather.wind_speed) }} km/h
                                             </strong>
@@ -544,13 +545,13 @@
                                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3.5 sm:gap-4 relative z-10">
                                     <div class="min-w-0">
                                         <div class="inline-flex flex-wrap items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/15 backdrop-blur-sm text-[11px] sm:text-xs font-bold uppercase tracking-wider mb-2">
-                                            <span>🇰🇭 Cambodian Climate</span>
+                                            <span>🇰🇭 {{ isKhmer ? 'អាកាសធាតុកម្ពុជា' : 'Cambodian Climate' }}</span>
                                             <span>•</span>
-                                            <span>{{ activeSeasonData.dateRange }}</span>
+                                            <span>{{ isKhmer ? (activeSeasonKey === 'rainy' ? 'ឧសភា - តុលា' : 'វិច្ឆិកា - មេសា') : activeSeasonData.dateRange }}</span>
                                         </div>
                                         <h3 class="text-xl sm:text-3xl font-extrabold flex flex-wrap items-center gap-2">
                                             <span>{{ activeSeasonKey === 'rainy' ? '🌧️' : '☀️' }}</span>
-                                            <span>{{ activeSeasonData.name }}</span>
+                                            <span>{{ isKhmer ? (activeSeasonKey === 'rainy' ? 'រដូវវស្សា' : 'រដូវប្រាំង') : activeSeasonData.name }}</span>
                                             <span class="font-khmer text-base sm:text-xl font-normal opacity-90">
                                                 ({{ activeSeasonKey === 'rainy' ? 'រដូវវស្សា' : 'រដូវប្រាំង' }})
                                             </span>
@@ -565,7 +566,7 @@
                                             class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5"
                                         >
                                             <span>☀️</span>
-                                            <span>Dry Season</span>
+                                            <span>{{ isKhmer ? 'រដូវប្រាំង' : 'Dry Season' }}</span>
                                         </button>
                                         <button
                                             @click="selectedSeasonOverride = 'rainy'"
@@ -573,7 +574,7 @@
                                             class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5"
                                         >
                                             <span>🌧️</span>
-                                            <span>Rainy Season</span>
+                                            <span>{{ isKhmer ? 'រដូវវស្សា' : 'Rainy Season' }}</span>
                                         </button>
                                     </div>
                                 </div>
@@ -799,10 +800,10 @@
                         <div class="bg-white dark:bg-slate-900/90 rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-slate-200/80 dark:border-slate-800/80 shadow-sm">
                             <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-1">
                                 <span class="w-2 h-5 rounded-full bg-emerald-500 shrink-0"></span>
-                                <span>Smart Lifestyle Advisories</span>
+                                <span>{{ isKhmer ? 'ការណែនាំបែបជីវិតឆ្លាតវៃ' : 'Smart Lifestyle Advisories' }}</span>
                             </h3>
                             <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">
-                                Real-time guidance based on {{ location.name }}'s current atmosphere
+                                {{ isKhmer ? 'ការណែនាំតាមពេលវេលាជាក់ស្តែងផ្អែកលើធាតុអាកាសនៅ ' + (location.khmer || location.name) : 'Real-time guidance based on ' + location.name + '\'s current atmosphere' }}
                             </p>
 
                             <div class="space-y-3">
@@ -831,13 +832,13 @@
                         <div class="bg-white dark:bg-slate-900/90 rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-slate-200/80 dark:border-slate-800/80 shadow-sm space-y-4">
                             <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                                 <span class="w-2 h-5 rounded-full bg-amber-500 shrink-0"></span>
-                                <span>Atmospheric Telemetry</span>
+                                <span>{{ isKhmer ? 'ទិន្នន័យបរិយាកាសលម្អិត' : 'Atmospheric Telemetry' }}</span>
                             </h3>
 
                             <!-- UV Index Gauge Card -->
                             <div class="p-3.5 sm:p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60">
                                 <div class="flex items-center justify-between gap-2 mb-2">
-                                    <span class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">☀️ UV Radiation</span>
+                                    <span class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">☀️ {{ isKhmer ? 'កាំរស្មី UV' : 'UV Radiation' }}</span>
                                     <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-slate-200 dark:bg-slate-700" :class="uvLevelColor">
                                         {{ uvIndex }} • {{ uvLevel }}
                                     </span>
@@ -849,22 +850,22 @@
                                     ></div>
                                 </div>
                                 <p class="text-xs text-slate-600 dark:text-slate-300 mt-1">
-                                    {{ uvIndex >= 6 ? 'High solar intensity — wear sunglasses, hat, and SPF 30+ sunscreen.' : uvIndex >= 3 ? 'Moderate UV — seek shade during midday hours.' : 'Low UV index — safe for outdoor activities without extra sun protection.' }}
+                                    {{ isKhmer ? (uvIndex >= 6 ? 'កាំរស្មីព្រះអាទិត្យខ្លាំង — គួរពាក់វ៉ែនតាការពារ មួក និងលាបឡេការពារកម្តៅថ្ងៃ SPF 30+' : uvIndex >= 3 ? 'កម្រិត UV មធ្យម — គួរស្វែងរកម្លប់នៅពេលថ្ងៃត្រង់' : 'កម្រិត UV ទាប — មានសុវត្ថិភាពខ្ពស់ក្នុងការដើរលេងក្រៅផ្ទះ') : (uvIndex >= 6 ? 'High solar intensity — wear sunglasses, hat, and SPF 30+ sunscreen.' : uvIndex >= 3 ? 'Moderate UV — seek shade during midday hours.' : 'Low UV index — safe for outdoor activities without extra sun protection.') }}
                                 </p>
                             </div>
 
                             <!-- Wind Speed & Compass Card -->
                             <div class="p-3.5 sm:p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between gap-4">
                                 <div class="min-w-0">
-                                    <span class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">🧭 Wind &amp; Vector</span>
+                                    <span class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">🧭 {{ isKhmer ? 'ខ្យល់ និងទិសដៅ' : 'Wind & Vector' }}</span>
                                     <div class="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white mt-1">
                                         {{ Math.round(currentWeather.wind_speed) }} <span class="text-xs font-normal text-slate-500">km/h</span>
                                     </div>
                                     <div class="text-xs text-slate-600 dark:text-slate-300 mt-1">
-                                        Direction: <strong>{{ windDirectionCardinal }}</strong> ({{ currentWeather.wind_deg }}°)
+                                        {{ isKhmer ? 'ទិសដៅ' : 'Direction' }}: <strong>{{ windDirectionCardinal }}</strong> ({{ currentWeather.wind_deg }}°)
                                     </div>
                                     <div v-if="currentWeather.wind_gust" class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
-                                        Gusts up to {{ Math.round(currentWeather.wind_gust) }} km/h
+                                        {{ isKhmer ? 'ខ្យល់កន្ត្រាក់រហូតដល់ ' + Math.round(currentWeather.wind_gust) + ' km/h' : 'Gusts up to ' + Math.round(currentWeather.wind_gust) + ' km/h' }}
                                     </div>
                                 </div>
 
@@ -884,42 +885,42 @@
                             <!-- 2x2 Secondary Telemetry Grid -->
                             <div class="grid grid-cols-2 gap-2.5 sm:gap-3">
                                 <div class="p-3 sm:p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 min-w-0">
-                                    <span class="text-[10px] sm:text-[11px] font-bold uppercase text-slate-400 block truncate">💧 Dew Point</span>
+                                    <span class="text-[10px] sm:text-[11px] font-bold uppercase text-slate-400 block truncate">💧 {{ isKhmer ? 'ចំណុចសន្សើម' : 'Dew Point' }}</span>
                                     <div class="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white mt-1">
                                         {{ formatTemp(currentWeather.dew_point) }}°{{ unit }}
                                     </div>
                                     <span class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 block truncate">
-                                        {{ currentWeather.dew_point >= 24 ? 'Very Muggy' : currentWeather.dew_point >= 20 ? 'Humid & Sticky' : 'Comfortable' }}
+                                        {{ isKhmer ? (currentWeather.dew_point >= 24 ? 'ក្តៅស្អុះស្អាប់ខ្លាំង' : currentWeather.dew_point >= 20 ? 'សំណើមស្អិតខ្លួន' : 'ត្រជាក់ស្រួលខ្លួន') : (currentWeather.dew_point >= 24 ? 'Very Muggy' : currentWeather.dew_point >= 20 ? 'Humid & Sticky' : 'Comfortable') }}
                                     </span>
                                 </div>
 
                                 <div class="p-3 sm:p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 min-w-0">
-                                    <span class="text-[10px] sm:text-[11px] font-bold uppercase text-slate-400 block truncate">⏲️ Pressure</span>
+                                    <span class="text-[10px] sm:text-[11px] font-bold uppercase text-slate-400 block truncate">⏲️ {{ isKhmer ? 'សម្ពាធខ្យល់' : 'Pressure' }}</span>
                                     <div class="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white mt-1">
                                         {{ currentWeather.pressure }} <span class="text-xs font-normal">hPa</span>
                                     </div>
                                     <span class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 block truncate">
-                                        {{ currentWeather.pressure < 1008 ? 'Low (Unsettled)' : currentWeather.pressure > 1015 ? 'High (Stable)' : 'Normal Tropical' }}
+                                        {{ isKhmer ? (currentWeather.pressure < 1008 ? 'ទាប (មិនថេរ)' : currentWeather.pressure > 1015 ? 'ខ្ពស់ (ថេរល្អ)' : 'ធម្មតា') : (currentWeather.pressure < 1008 ? 'Low (Unsettled)' : currentWeather.pressure > 1015 ? 'High (Stable)' : 'Normal Tropical') }}
                                     </span>
                                 </div>
 
                                 <div class="p-3 sm:p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 min-w-0">
-                                    <span class="text-[10px] sm:text-[11px] font-bold uppercase text-slate-400 block truncate">☁️ Cloud Cover</span>
+                                    <span class="text-[10px] sm:text-[11px] font-bold uppercase text-slate-400 block truncate">☁️ {{ isKhmer ? 'ពពកគ្រប' : 'Cloud Cover' }}</span>
                                     <div class="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white mt-1">
                                         {{ currentWeather.clouds }}%
                                     </div>
                                     <span class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 block truncate">
-                                        {{ currentWeather.clouds > 75 ? 'Overcast sky' : currentWeather.clouds > 35 ? 'Partly cloudy' : 'Mostly clear' }}
+                                        {{ isKhmer ? (currentWeather.clouds > 75 ? 'មេឃស្រទំ' : currentWeather.clouds > 35 ? 'មានពពកខ្លះ' : 'មេឃស្រឡះ') : (currentWeather.clouds > 75 ? 'Overcast sky' : currentWeather.clouds > 35 ? 'Partly cloudy' : 'Mostly clear') }}
                                     </span>
                                 </div>
 
                                 <div class="p-3 sm:p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 min-w-0">
-                                    <span class="text-[10px] sm:text-[11px] font-bold uppercase text-slate-400 block truncate">👁️ Visibility</span>
+                                    <span class="text-[10px] sm:text-[11px] font-bold uppercase text-slate-400 block truncate">👁️ {{ isKhmer ? 'ចម្ងាយមើល' : 'Visibility' }}</span>
                                     <div class="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white mt-1">
                                         {{ currentWeather.visibility }} <span class="text-xs font-normal">km</span>
                                     </div>
                                     <span class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 block truncate">
-                                        {{ currentWeather.visibility >= 9 ? 'Crystal clear' : currentWeather.visibility >= 5 ? 'Moderate haze' : 'Low visibility' }}
+                                        {{ isKhmer ? (currentWeather.visibility >= 9 ? 'ច្បាស់ល្អណាស់' : currentWeather.visibility >= 5 ? 'ស្រអាប់ល្មម' : 'ចម្ងាយមើលទាប') : (currentWeather.visibility >= 9 ? 'Crystal clear' : currentWeather.visibility >= 5 ? 'Moderate haze' : 'Low visibility') }}
                                     </span>
                                 </div>
                             </div>
@@ -933,6 +934,8 @@
 
 <script>
 import logger from '@/utils/logger';
+import LanguageToggle from '@/components/LanguageToggle.vue';
+import { useLanguage } from '@/composables/useLanguage';
 
 const SEASON_CATALOG = {
     rainy: {
@@ -1060,6 +1063,19 @@ const TRADITIONAL_FOODS = [
 
 export default {
     name: 'WeatherApp',
+    components: {
+        LanguageToggle
+    },
+    setup() {
+        const { currentLang, isKhmer, isEnglish, setLanguage, t } = useLanguage();
+        return {
+            currentLang,
+            isKhmer,
+            isEnglish,
+            setLanguage,
+            t
+        };
+    },
     data() {
         return {
             apiKey: process.env.VUE_APP_WEATHER_API_KEY || '3504abf6222f69d05c100fa0ef8165bb',
@@ -1072,17 +1088,6 @@ export default {
             selectedDayIndex: 0,
             activeSeasonTab: 'overview',
             selectedSeasonOverride: null,
-            hourlyModes: [
-                { id: 'temp', label: 'Temp' },
-                { id: 'rain', label: 'Rain %' },
-                { id: 'wind', label: 'Wind' }
-            ],
-            seasonTabs: [
-                { id: 'overview', label: 'Overview & Activities', icon: '🌿' },
-                { id: 'health', label: 'Wardrobe & Wellness', icon: '👕' },
-                { id: 'agriculture', label: 'Farming & Travel', icon: '🌾' },
-                { id: 'culture', label: 'Memories & Street Food', icon: '🍜' }
-            ],
             cambodiaCities: [
                 { name: 'Phnom Penh', khmer: 'ភ្នំពេញ', lat: 11.5564, lon: 104.9282, emoji: '🏛️', region: 'Capital & Mekong Confluence' },
                 { name: 'Siem Reap', khmer: 'សៀមរាប', lat: 13.3633, lon: 103.8564, emoji: '🛕', region: 'Angkor Archaeological Park' },
@@ -1132,12 +1137,48 @@ export default {
     },
     computed: {
         currentDate() {
+            if (this.isKhmer) {
+                const now = new Date();
+                const daysKhmer = ['អាទិត្យ', 'ចន្ទ', 'អង្គារ', 'ពុធ', 'ព្រហស្បតិ៍', 'សុក្រ', 'សៅរ៍'];
+                const monthsKhmer = ['មករា', 'កុម្ភៈ', 'មីនា', 'មេសា', 'ឧសភា', 'មិថុនា', 'កក្កដា', 'សីហា', 'កញ្ញា', 'តុលា', 'វិច្ឆិកា', 'ធ្នូ'];
+                return `ថ្ងៃ${daysKhmer[now.getDay()]} ទី${now.getDate()} ខែ${monthsKhmer[now.getMonth()]} ឆ្នាំ${now.getFullYear()}`;
+            }
             return new Date().toLocaleDateString('en-US', {
                 weekday: 'long',
                 month: 'short',
                 day: 'numeric',
                 year: 'numeric'
             });
+        },
+        hourlyModes() {
+            if (this.isKhmer) {
+                return [
+                    { id: 'temp', label: 'កម្តៅ' },
+                    { id: 'rain', label: 'ឱកាសភ្លៀង' },
+                    { id: 'wind', label: 'ខ្យល់' }
+                ];
+            }
+            return [
+                { id: 'temp', label: 'Temp' },
+                { id: 'rain', label: 'Rain %' },
+                { id: 'wind', label: 'Wind' }
+            ];
+        },
+        seasonTabs() {
+            if (this.isKhmer) {
+                return [
+                    { id: 'overview', label: 'ទិដ្ឋភាពទូទៅ និងសកម្មភាព', icon: '🌿' },
+                    { id: 'health', label: 'ការស្លៀកពាក់ និងសុខភាព', icon: '👕' },
+                    { id: 'agriculture', label: 'កសិកម្ម និងដំណើរកម្សាន្ត', icon: '🌾' },
+                    { id: 'culture', label: 'អនុស្សាវរីយ៍ និងម្ហូបខ្មែរ', icon: '🍜' }
+                ];
+            }
+            return [
+                { id: 'overview', label: 'Overview & Activities', icon: '🌿' },
+                { id: 'health', label: 'Wardrobe & Wellness', icon: '👕' },
+                { id: 'agriculture', label: 'Farming & Travel', icon: '🌾' },
+                { id: 'culture', label: 'Memories & Street Food', icon: '🍜' }
+            ];
         },
         isRainySeason() {
             const month = new Date().getMonth();
@@ -1224,6 +1265,13 @@ export default {
         },
         thermalComfortLabel() {
             const fl = this.currentWeather.feels_like;
+            if (this.isKhmer) {
+                if (fl >= 38) return 'ក្តៅខ្លាំង និងសំណើមខ្ពស់';
+                if (fl >= 33) return 'កម្តៅត្រូពិចក្តៅល្មម';
+                if (fl >= 26) return 'អាកាសធាតុកក់ក្តៅស្រួល';
+                if (fl >= 20) return 'ត្រជាក់ស្រួលខ្លួន';
+                return 'ត្រជាក់បរិសុទ្ធតំបន់ខ្ពង់រាប';
+            }
             if (fl >= 38) return 'Very Hot & Humid';
             if (fl >= 33) return 'Warm Tropical Heat';
             if (fl >= 26) return 'Pleasant & Warm';
@@ -1231,6 +1279,13 @@ export default {
             return 'Crisp Highland Air';
         },
         uvLevel() {
+            if (this.isKhmer) {
+                if (this.uvIndex <= 2) return 'ទាប';
+                if (this.uvIndex <= 5) return 'មធ្យម';
+                if (this.uvIndex <= 7) return 'ខ្ពស់';
+                if (this.uvIndex <= 10) return 'ខ្ពស់ខ្លាំង';
+                return 'គ្រោះថ្នាក់ខ្លាំង';
+            }
             if (this.uvIndex <= 2) return 'Low';
             if (this.uvIndex <= 5) return 'Moderate';
             if (this.uvIndex <= 7) return 'High';
@@ -1248,6 +1303,51 @@ export default {
             const nextRain = this.hourlyForecast.length ? Math.max(...this.hourlyForecast.slice(0, 3).map(h => h.rain)) : 0;
             const temp = this.currentWeather.temp;
             const wind = this.currentWeather.wind_speed;
+
+            if (this.isKhmer) {
+                return [
+                    {
+                        icon: '☔',
+                        title: 'ការត្រៀមឆ័ត្រ និងអាវភ្លៀង',
+                        status: nextRain >= 50 ? 'គួរយកឆ័ត្រតាម' : nextRain >= 25 ? 'ឱកាសភ្លៀងតិច' : 'មេឃស្រឡះល្អ',
+                        badgeClass: nextRain >= 50
+                            ? 'bg-sky-100 dark:bg-sky-900/50 text-sky-700 dark:text-sky-300'
+                            : 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300',
+                        advice: nextRain >= 50
+                            ? `មានឱកាសភ្លៀងរហូតដល់ ${nextRain}% ក្នុងប៉ុន្មានម៉ោងខាងមុខ។ សូមត្រៀមឆ័ត្រ ឬអាវភ្លៀងតាមខ្លួន។`
+                            : 'ឱកាសភ្លៀងទាបក្នុងរយៈពេល ៦–៩ ម៉ោងខាងមុខ — ល្អសម្រាប់ការដើរលេង ឬទស្សនាប្រាសាទ។'
+                    },
+                    {
+                        icon: '🚴',
+                        title: 'ការហាត់ប្រាណ និងជិះកង់',
+                        status: temp > 34 ? 'ព្រឹកព្រលឹមល្អបំផុត' : nextRain >= 60 ? 'រង់ចាំមេឃរាំង' : 'លក្ខខណ្ឌល្អប្រសើរ',
+                        badgeClass: temp > 34 || nextRain >= 60
+                            ? 'bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300'
+                            : 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300',
+                        advice: temp > 34
+                            ? 'អាកាសធាតុក្តៅខ្លាំង។ គួរហាត់ប្រាណ ឬជិះកង់មុនម៉ោង ៩ ព្រឹក ឬក្រោយម៉ោង ៥ ល្ងាច។'
+                            : `មានខ្យល់បក់ត្រជាក់ស្រួល ${Math.round(wind)} គ.ម/ម៉ោង ស័ក្តិសមសម្រាប់រត់ ឬដើរកម្សាន្តតាមមាត់ទន្លេ។`
+                    },
+                    {
+                        icon: '📸',
+                        title: 'ពន្លឺថ្ងៃថតរូប និងទស្សនាប្រាសាទ',
+                        status: this.currentWeather.clouds <= 65 ? 'ពន្លឺភ្លឺថ្លាល្អ' : 'ពន្លឺស្រទន់តាមពពក',
+                        badgeClass: 'bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300',
+                        advice: `ថ្ងៃលិចថ្ងៃនេះនៅម៉ោង ${this.formatTime(this.currentWeather.sunset)} — ${this.currentWeather.clouds <= 65 ? 'ផ្ទៃមេឃមានពណ៌មាសស្រស់ស្អាតខ្លាំង។' : 'ពពកក្រាស់បង្កើតទស្សនីយភាពស្រទន់ប្លែកភ្នែក។'}`
+                    },
+                    {
+                        icon: '👕',
+                        title: 'ការហាលសំលៀកបំពាក់',
+                        status: nextRain < 30 && this.currentWeather.humidity < 80 ? 'ស្ងួតលឿនល្អ' : 'គួរហាលក្នុងម្លប់',
+                        badgeClass: nextRain < 30 && this.currentWeather.humidity < 80
+                            ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300'
+                            : 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300',
+                        advice: nextRain < 30 && this.currentWeather.humidity < 80
+                            ? 'កម្តៅថ្ងៃ និងខ្យល់បក់ជួយឲ្យខោអាវស្ងួតលឿនល្អនៅក្រៅផ្ទះ។'
+                            : 'សំណើមខ្ពស់ ឬអាចមានភ្លៀងធ្លាក់ — គួរហាលសំលៀកបំពាក់នៅក្រោមដំបូលសំយ៉ាបផ្ទះ។'
+                    }
+                ];
+            }
 
             return [
                 {
