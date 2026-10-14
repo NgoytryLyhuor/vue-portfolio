@@ -1,10 +1,14 @@
 <!-- App.vue - Vue Portfolio Main Component -->
 <template>
   <ErrorBoundary>
-    <div class="min-h-screen bg-gray-50 dark:bg-dark-bg text-gray-900 dark:text-white transition-all duration-500 ease-in-out flex flex-col">
+    <div class="min-h-screen bg-gray-50 dark:bg-dark-bg text-gray-900 dark:text-white transition-colors duration-500 ease-in-out flex flex-col">
       <NavBar v-if="route.meta.showNavBar" />
-      <main class="container mx-auto px-4 py-8 transition-all duration-500 ease-in-out flex-grow">
-        <router-view />
+      <main class="container mx-auto px-4 py-8 flex-grow">
+        <router-view v-slot="{ Component, route: currentRoute }">
+          <transition name="ios-page" mode="out-in">
+            <component :is="Component" :key="currentRoute.path" />
+          </transition>
+        </router-view>
       </main>
       <AppFooter />
     </div>
@@ -23,9 +27,27 @@ useMetaTags(); // Initialize meta tags management
 </script>
 
 <style>
+/* iOS 27 / Apple Fluid Page Transitions */
+.ios-page-enter-active {
+  transition: opacity 0.32s cubic-bezier(0.25, 1, 0.5, 1),
+              transform 0.32s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.ios-page-leave-active {
+  transition: opacity 0.18s cubic-bezier(0.25, 1, 0.5, 1),
+              transform 0.18s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.ios-page-enter-from {
+  opacity: 0;
+  transform: translateY(8px) scale(0.996);
+}
+.ios-page-leave-to {
+  opacity: 0;
+  transform: translateY(-4px) scale(0.996);
+}
+
 .language-changing main {
-  transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.25s cubic-bezier(0.25, 1, 0.5, 1), transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
   opacity: 0.85;
-  transform: translateY(1px);
+  transform: scale(0.998);
 }
 </style>

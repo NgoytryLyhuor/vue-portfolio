@@ -50,16 +50,18 @@
                         </button>
 
                         <!-- Features dropdown menu -->
-                        <transition enter-active-class="transition ease-out duration-100"
-                            enter-from-class="transform opacity-0 scale-95"
-                            enter-to-class="transform opacity-100 scale-100"
-                            leave-active-class="transition ease-in duration-75"
-                            leave-from-class="transform opacity-100 scale-100"
-                            leave-to-class="transform opacity-0 scale-95">
+                        <transition
+                            enter-active-class="transition duration-200 ease-[cubic-bezier(0.34,1.3,0.64,1)]"
+                            enter-from-class="transform opacity-0 scale-95 -translate-y-2"
+                            enter-to-class="transform opacity-100 scale-100 translate-y-0"
+                            leave-active-class="transition duration-150 ease-[cubic-bezier(0.25,1,0.5,1)]"
+                            leave-from-class="transform opacity-100 scale-100 translate-y-0"
+                            leave-to-class="transform opacity-0 scale-95 -translate-y-2"
+                        >
                             <div v-if="isFeaturesMenuOpen"
-                                class="absolute left-0 w-56 rounded-xl dark:bg-gray-800 mt-2 shadow-lg z-50 border dark:border-gray-700 bg-white overflow-hidden">
+                                class="absolute left-0 w-56 rounded-2xl dark:bg-gray-800/95 mt-2 shadow-2xl z-50 border border-gray-200/80 dark:border-gray-700/80 bg-white/95 backdrop-blur-xl overflow-hidden p-1">
                                 <router-link v-for="feature in featureLinks" :key="feature.path" :to="feature.path"
-                                    class="flex items-center px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 w-full text-left transition-colors duration-150 cursor-pointer"
+                                    class="flex items-center px-3.5 py-2.5 text-sm rounded-xl text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700/70 w-full text-left transition-all duration-150 cursor-pointer active:scale-95"
                                     :class="{ 'bg-gray-100 dark:bg-gray-700 font-semibold text-green-600 dark:text-green-400': $route.path === feature.path }"
                                     @click="selectFeature(feature.path, $event)">
                                     <component :is="feature.icon" class="h-5 w-5 mr-3 shrink-0 text-gray-500 dark:text-gray-400" />
@@ -90,27 +92,30 @@
                     </button>
 
                     <!-- Theme dropdown menu -->
-                    <transition enter-active-class="transition ease-out duration-100"
-                        enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100"
-                        leave-active-class="transition ease-in duration-75"
-                        leave-from-class="transform opacity-100 scale-100"
-                        leave-to-class="transform opacity-0 scale-95">
+                    <transition
+                        enter-active-class="transition duration-200 ease-[cubic-bezier(0.34,1.3,0.64,1)]"
+                        enter-from-class="transform opacity-0 scale-95 -translate-y-2"
+                        enter-to-class="transform opacity-100 scale-100 translate-y-0"
+                        leave-active-class="transition duration-150 ease-[cubic-bezier(0.25,1,0.5,1)]"
+                        leave-from-class="transform opacity-100 scale-100 translate-y-0"
+                        leave-to-class="transform opacity-0 scale-95 -translate-y-2"
+                    >
                         <div v-if="isThemeMenuOpen"
-                            class="absolute right-0 w-40 rounded-xl dark:bg-gray-800 mt-2 shadow-lg z-50 border dark:border-gray-700 bg-white overflow-hidden py-1">
+                            class="absolute right-0 w-40 rounded-2xl dark:bg-gray-800/95 mt-2 shadow-2xl z-50 border border-gray-200/80 dark:border-gray-700/80 bg-white/95 backdrop-blur-xl overflow-hidden p-1.5">
                             <button @click="setTheme('light')"
-                                class="flex items-center px-4 py-2 text-xs text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 w-full text-left transition-colors duration-150"
+                                class="flex items-center px-3 py-2 text-xs rounded-xl text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700/70 w-full text-left transition-all duration-150 active:scale-95"
                                 :class="{ 'bg-gray-100 dark:bg-gray-700 font-semibold text-green-600 dark:text-green-400': currentTheme === 'light' }">
                                 <SunIcon class="h-4 w-4 mr-2 text-amber-500" />
                                 Light
                             </button>
                             <button @click="setTheme('dark')"
-                                class="flex items-center px-4 py-2 text-xs text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 w-full text-left transition-colors duration-150"
+                                class="flex items-center px-3 py-2 text-xs rounded-xl text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700/70 w-full text-left transition-all duration-150 active:scale-95"
                                 :class="{ 'bg-gray-100 dark:bg-gray-700 font-semibold text-green-600 dark:text-green-400': currentTheme === 'dark' }">
                                 <MoonIcon class="h-4 w-4 mr-2 text-indigo-400" />
                                 Dark
                             </button>
                             <button @click="setTheme('system')"
-                                class="flex items-center px-4 py-2 text-xs text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 w-full text-left transition-colors duration-150"
+                                class="flex items-center px-3 py-2 text-xs rounded-xl text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700/70 w-full text-left transition-all duration-150 active:scale-95"
                                 :class="{ 'bg-gray-100 dark:bg-gray-700 font-semibold text-green-600 dark:text-green-400': currentTheme === 'system' }">
                                 <ComputerDesktopIcon class="h-4 w-4 mr-2 text-gray-500 dark:text-gray-400" />
                                 System
@@ -130,12 +135,14 @@
         </div>
 
         <!-- Full-screen Mobile Backdrop (Tap outside to close) -->
-        <transition enter-active-class="transition-opacity duration-200 ease-out"
+        <transition
+            enter-active-class="transition-opacity duration-300 ease-[cubic-bezier(0.25,1,0.5,1)]"
             enter-from-class="opacity-0"
             enter-to-class="opacity-100"
-            leave-active-class="transition-opacity duration-150 ease-in"
+            leave-active-class="transition-opacity duration-200 ease-[cubic-bezier(0.25,1,0.5,1)]"
             leave-from-class="opacity-100"
-            leave-to-class="opacity-0">
+            leave-to-class="opacity-0"
+        >
             <div v-if="isMobileMenuOpen"
                 @click="isMobileMenuOpen = false"
                 class="md:hidden fixed inset-0 top-[57px] bg-black/40 dark:bg-black/60 backdrop-blur-sm z-40"
@@ -143,12 +150,14 @@
         </transition>
 
         <!-- Clean Slide-down Mobile Navigation Menu -->
-        <transition enter-active-class="transition ease-out duration-200"
-            enter-from-class="opacity-0 -translate-y-2"
-            enter-to-class="opacity-100 translate-y-0"
-            leave-active-class="transition ease-in duration-150"
-            leave-from-class="opacity-100 translate-y-0"
-            leave-to-class="opacity-0 -translate-y-2">
+        <transition
+            enter-active-class="transition duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]"
+            enter-from-class="opacity-0 -translate-y-4 scale-[0.98]"
+            enter-to-class="opacity-100 translate-y-0 scale-100"
+            leave-active-class="transition duration-200 ease-[cubic-bezier(0.32,0.72,0,1)]"
+            leave-from-class="opacity-100 translate-y-0 scale-100"
+            leave-to-class="opacity-0 -translate-y-3 scale-[0.98]"
+        >
             <div v-if="isMobileMenuOpen"
                 class="md:hidden absolute left-0 right-0 top-full w-full bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border-b border-gray-200 dark:border-gray-800 shadow-2xl z-50 max-h-[calc(100vh-4rem)] overflow-y-auto">
                 <div class="px-4 py-3 space-y-2">
