@@ -43,7 +43,8 @@ if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
       
       navigator.serviceWorker.register(swPath)
         .then((registration) => {
-          console.log('[Service Worker] Registration successful:', registration.scope);
+          // Immediately check for newer sw.js on the server
+          registration.update().catch(() => {});
           
           // Check for updates
           registration.addEventListener('updatefound', () => {
@@ -51,8 +52,8 @@ if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
             if (newWorker) {
               newWorker.addEventListener('statechange', () => {
                 if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                  // New service worker available, prompt user to refresh
-                  console.log('[Service Worker] New version available. Refresh to update.');
+                  // Prompt new service worker to activate immediately
+                  newWorker.postMessage({ type: 'SKIP_WAITING' });
                 }
               });
             }
