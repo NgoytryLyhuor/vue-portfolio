@@ -227,9 +227,7 @@ import {
     CloudIcon,
     CalendarDaysIcon,
     CurrencyDollarIcon,
-    ChartBarIcon,
-    LockClosedIcon,
-    WrenchScrewdriverIcon
+    ChartBarIcon
 } from '@heroicons/vue/24/outline';
 
 const route = useRoute();
@@ -272,16 +270,6 @@ const featureLinks = [
         path: '/crypto-tracker-password',
         label: 'Crypto Tracker',
         icon: ChartBarIcon
-    },
-    {
-        path: '/garage',
-        label: 'Lyhuor Garage (Locked)',
-        icon: LockClosedIcon
-    },
-    {
-        path: '/prius-maintenance',
-        label: 'Prius 2011 Care',
-        icon: WrenchScrewdriverIcon
     }
 ];
 
@@ -295,7 +283,7 @@ const standardNavLinks = computed(() => {
 });
 
 const isFeatureActive = computed(() => {
-    return featureLinks.some(link => route.path === link.path || route.path === '/crypto-tracker' || route.path === '/garage');
+    return featureLinks.some(link => route.path === link.path || route.path === '/crypto-tracker');
 });
 
 // Navigation handlers that reliably push route and close menus
