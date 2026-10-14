@@ -143,21 +143,21 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                     </svg>
                 </div>
-                <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-2">Failed to Load Air Quality Data</h2>
+                <h2 class="text-xl font-bold text-slate-900 dark:text-white mb-2">{{ isKhmer ? 'មិនអាចទាញយកទិន្នន័យគុណភាពខ្យល់បានទេ' : 'Failed to Load Air Quality Data' }}</h2>
                 <p class="text-sm text-slate-600 dark:text-slate-300 mb-6 leading-relaxed">{{ error }}</p>
                 <div class="flex flex-wrap justify-center gap-3">
                     <button
                         @click="selectCambodiaHub(cambodiaHubs[0])"
                         class="px-5 py-2.5 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-sm font-semibold hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors"
                     >
-                        Reset to Phnom Penh
+                        {{ isKhmer ? 'កំណត់ទៅរាជធានីភ្នំពេញ' : 'Reset to Phnom Penh' }}
                     </button>
                     <button
                         @click="fetchPollutionData"
                         class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold transition-colors inline-flex items-center gap-2"
                     >
                         <ArrowPathIcon class="w-4 h-4" :class="{ 'animate-spin': loading }" />
-                        <span>Try Again</span>
+                        <span>{{ isKhmer ? 'ព្យាយាមម្តងទៀត' : 'Try Again' }}</span>
                     </button>
                 </div>
             </div>
@@ -186,15 +186,15 @@
                                             </span>
                                             <span class="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-black/25 backdrop-blur-md">
                                                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                                                <span>Live Sensor</span>
+                                                <span>{{ isKhmer ? 'ឧបករណ៍វាស់ផ្ទាល់' : 'Live Sensor' }}</span>
                                             </span>
                                         </div>
                                         <p class="text-xs sm:text-sm text-white/85 mt-1.5 flex items-center gap-1.5 sm:gap-2 flex-wrap">
-                                            <span>Station: {{ cityInfo.city }}, {{ cityInfo.country }}</span>
+                                            <span>{{ isKhmer ? 'ស្ថានីយ៖ ' : 'Station: ' }}{{ cityInfo.city }}, {{ cityInfo.country }}</span>
                                             <span>•</span>
                                             <span>{{ selectedHub.region }}</span>
                                             <span>•</span>
-                                            <span>Updated {{ formattedTime }}</span>
+                                            <span>{{ isKhmer ? 'បានធ្វើបច្ចុប្បន្នភាព ' : 'Updated ' }}{{ formattedTime }}</span>
                                         </p>
                                     </div>
                                 </div>
@@ -245,10 +245,10 @@
                                         </p>
                                         <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2 pt-1">
                                             <span class="px-2.5 py-1.5 rounded-xl bg-black/25 backdrop-blur-sm text-xs font-semibold">
-                                                Main Pollutant: <strong>{{ formatPollutantShort(pollutionData.mainus) }}</strong> ({{ formatPollutantName(pollutionData.mainus) }})
+                                                {{ isKhmer ? 'សារធាតុកខ្វក់ចម្បង៖' : 'Main Pollutant:' }} <strong>{{ formatPollutantShort(pollutionData.mainus) }}</strong> ({{ formatPollutantName(pollutionData.mainus) }})
                                             </span>
                                             <span class="px-2.5 py-1.5 rounded-xl bg-black/25 backdrop-blur-sm text-xs font-semibold">
-                                                Est. PM2.5: <strong>~{{ estimatedPm25 }} µg/m³</strong>
+                                                {{ isKhmer ? 'កម្រិត PM2.5៖' : 'Est. PM2.5:' }} <strong>~{{ estimatedPm25 }} µg/m³</strong>
                                             </span>
                                         </div>
                                     </div>
@@ -257,22 +257,22 @@
                                 <!-- 4 Quick Hero Pills -->
                                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 pt-1">
                                     <div class="rounded-2xl bg-white/15 backdrop-blur-md p-3 sm:p-3.5 border border-white/15 min-w-0">
-                                        <div class="text-[11px] sm:text-xs text-white/75 font-medium truncate">US EPA AQI</div>
+                                        <div class="text-[11px] sm:text-xs text-white/75 font-medium truncate">{{ isKhmer ? 'សន្ទស្សន៍ US EPA' : 'US EPA AQI' }}</div>
                                         <div class="text-xl sm:text-2xl font-extrabold mt-0.5">{{ pollutionData.aqius }}</div>
                                         <div class="text-[11px] text-white/80 mt-0.5 truncate">{{ getAqiLevel(pollutionData.aqius) }}</div>
                                     </div>
                                     <div class="rounded-2xl bg-white/15 backdrop-blur-md p-3 sm:p-3.5 border border-white/15 min-w-0">
-                                        <div class="text-[11px] sm:text-xs text-white/75 font-medium truncate">China MEP AQI</div>
+                                        <div class="text-[11px] sm:text-xs text-white/75 font-medium truncate">{{ isKhmer ? 'សន្ទស្សន៍ China MEP' : 'China MEP AQI' }}</div>
                                         <div class="text-xl sm:text-2xl font-extrabold mt-0.5">{{ pollutionData.aqicn }}</div>
-                                        <div class="text-[11px] text-white/80 mt-0.5 truncate">Poll. {{ formatPollutantShort(pollutionData.maincn || pollutionData.mainus) }}</div>
+                                        <div class="text-[11px] text-white/80 mt-0.5 truncate">{{ isKhmer ? 'ជាតិពុល' : 'Poll.' }} {{ formatPollutantShort(pollutionData.maincn || pollutionData.mainus) }}</div>
                                     </div>
                                     <div class="rounded-2xl bg-white/15 backdrop-blur-md p-3 sm:p-3.5 border border-white/15 min-w-0">
-                                        <div class="text-[11px] sm:text-xs text-white/75 font-medium truncate">Est. PM2.5 Mass</div>
+                                        <div class="text-[11px] sm:text-xs text-white/75 font-medium truncate">{{ isKhmer ? 'ទម្ងន់ធូលី PM2.5' : 'Est. PM2.5 Mass' }}</div>
                                         <div class="text-xl sm:text-2xl font-extrabold mt-0.5 truncate">{{ estimatedPm25 }} <span class="text-xs font-normal">µg/m³</span></div>
                                         <div class="text-[11px] text-white/80 mt-0.5 truncate">{{ pm25WhoComparison }}</div>
                                     </div>
                                     <div class="rounded-2xl bg-white/15 backdrop-blur-md p-3 sm:p-3.5 border border-white/15 min-w-0">
-                                        <div class="text-[11px] sm:text-xs text-white/75 font-medium truncate">Outdoor Safety</div>
+                                        <div class="text-[11px] sm:text-xs text-white/75 font-medium truncate">{{ isKhmer ? 'សុវត្ថិភាពក្រៅផ្ទះ' : 'Outdoor Safety' }}</div>
                                         <div class="text-base sm:text-lg font-extrabold mt-0.5 truncate">{{ outdoorSafetyBadge }}</div>
                                         <div class="text-[11px] text-white/80 mt-0.5 truncate">{{ maskRecommendationShort }}</div>
                                     </div>
@@ -283,8 +283,8 @@
                             <div class="lg:col-span-5 min-w-0 flex flex-col justify-between gap-4 bg-black/20 backdrop-blur-md rounded-2xl p-4 sm:p-6 border border-white/15">
                                 <div class="flex items-center justify-between gap-2">
                                     <div class="min-w-0">
-                                        <span class="text-[11px] sm:text-xs uppercase tracking-wider text-white/70 font-bold block">Co-Located Weather &amp; Airflow</span>
-                                        <h3 class="text-sm sm:text-lg font-bold text-white mt-0.5 truncate">Pollutant Dispersion Conditions</h3>
+                                        <span class="text-[11px] sm:text-xs uppercase tracking-wider text-white/70 font-bold block">{{ isKhmer ? 'ធាតុអាកាស និងចរន្តខ្យល់ក្នុងតំបន់' : 'Co-Located Weather & Airflow' }}</span>
+                                        <h3 class="text-sm sm:text-lg font-bold text-white mt-0.5 truncate">{{ isKhmer ? 'លក្ខខណ្ឌនៃការសាយភាយធូលី' : 'Pollutant Dispersion Conditions' }}</h3>
                                     </div>
                                     <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-white/20 text-white shrink-0">
                                         {{ dispersionRating.label }}
@@ -304,12 +304,12 @@
                                                 {{ formatTemp(weatherData.tp) }}°<span class="text-lg sm:text-xl font-bold opacity-80">{{ tempUnit }}</span>
                                             </div>
                                             <div class="text-[11px] sm:text-xs text-white/80 mt-0.5 truncate">
-                                                Ambient Station Temp
+                                                {{ isKhmer ? 'កម្តៅបរិយាកាស' : 'Ambient Station Temp' }}
                                             </div>
                                         </div>
                                     </div>
                                     <div class="text-right shrink-0">
-                                        <div class="text-[11px] sm:text-xs text-white/75">Wind Speed</div>
+                                        <div class="text-[11px] sm:text-xs text-white/75">{{ isKhmer ? 'ល្បឿនខ្យល់' : 'Wind Speed' }}</div>
                                         <div class="text-lg sm:text-xl font-extrabold">{{ windSpeedKmh }} km/h</div>
                                         <div class="text-[11px] text-white/80">{{ getWindDirection(weatherData.wd) }} ({{ weatherData.wd }}°)</div>
                                     </div>
@@ -318,24 +318,24 @@
                                 <!-- 4 Weather Telemetry Boxes -->
                                 <div v-if="weatherData" class="grid grid-cols-2 gap-2.5 text-xs">
                                     <div class="p-2.5 sm:p-3 rounded-xl bg-white/10 border border-white/10 min-w-0">
-                                        <span class="text-white/70 block truncate">💧 Humidity</span>
+                                        <span class="text-white/70 block truncate">💧 {{ isKhmer ? 'សំណើម' : 'Humidity' }}</span>
                                         <strong class="text-sm sm:text-base font-extrabold text-white mt-0.5 block">{{ weatherData.hu }}%</strong>
-                                        <span class="text-[11px] text-white/75 block truncate">{{ weatherData.hu > 75 ? 'High moisture' : 'Moderate humidity' }}</span>
+                                        <span class="text-[11px] text-white/75 block truncate">{{ weatherData.hu > 75 ? (isKhmer ? 'សំណើមខ្ពស់' : 'High moisture') : (isKhmer ? 'សំណើមមធ្យម' : 'Moderate humidity') }}</span>
                                     </div>
                                     <div class="p-2.5 sm:p-3 rounded-xl bg-white/10 border border-white/10 min-w-0">
-                                        <span class="text-white/70 block truncate">💨 Wind Velocity</span>
+                                        <span class="text-white/70 block truncate">💨 {{ isKhmer ? 'ល្បឿនខ្យល់' : 'Wind Velocity' }}</span>
                                         <strong class="text-sm sm:text-base font-extrabold text-white mt-0.5 block">{{ weatherData.ws }} m/s</strong>
                                         <span class="text-[11px] text-white/75 block truncate">{{ dispersionRating.note }}</span>
                                     </div>
                                     <div class="p-2.5 sm:p-3 rounded-xl bg-white/10 border border-white/10 min-w-0">
-                                        <span class="text-white/70 block truncate">⏲️ Pressure</span>
+                                        <span class="text-white/70 block truncate">⏲️ {{ isKhmer ? 'សម្ពាធខ្យល់' : 'Pressure' }}</span>
                                         <strong class="text-sm sm:text-base font-extrabold text-white mt-0.5 block">{{ weatherData.pr }} hPa</strong>
-                                        <span class="text-[11px] text-white/75 block truncate">{{ weatherData.pr >= 1012 ? 'Stable air mass' : 'Low pressure trough' }}</span>
+                                        <span class="text-[11px] text-white/75 block truncate">{{ weatherData.pr >= 1012 ? (isKhmer ? 'ម៉ាស់ខ្យល់ថេរ' : 'Stable air mass') : (isKhmer ? 'ជ្រលងសម្ពាធទាប' : 'Low pressure trough') }}</span>
                                     </div>
                                     <div class="p-2.5 sm:p-3 rounded-xl bg-white/10 border border-white/10 min-w-0">
-                                        <span class="text-white/70 block truncate">🧭 Airflow Vector</span>
+                                        <span class="text-white/70 block truncate">🧭 {{ isKhmer ? 'ទិសដៅខ្យល់បក់' : 'Airflow Vector' }}</span>
                                         <strong class="text-sm sm:text-base font-extrabold text-white mt-0.5 block">{{ getWindDirection(weatherData.wd) }}</strong>
-                                        <span class="text-[11px] text-white/75 block truncate">Bearing {{ weatherData.wd }}°</span>
+                                        <span class="text-[11px] text-white/75 block truncate">{{ isKhmer ? 'មុំទិស ' + weatherData.wd + '°' : 'Bearing ' + weatherData.wd + '°' }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -353,26 +353,26 @@
                                 <div class="min-w-0">
                                     <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                                         <span class="w-2 h-5 rounded-full bg-emerald-500 shrink-0"></span>
-                                        <span>Interactive AQI Scale &amp; Health Explorer</span>
+                                        <span>{{ isKhmer ? 'មាត្រដ្ឋាន AQI និងផលប៉ះពាល់សុខភាព' : 'Interactive AQI Scale & Health Explorer' }}</span>
                                     </h3>
                                     <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                                        Tap any AQI tier below to inspect its health impact and protective protocol
+                                        {{ isKhmer ? 'ចុចលើកម្រិត AQI ណាមួយខាងក្រោមដើម្បីមើលផលប៉ះពាល់សុខភាព និងវិធានការការពារ' : 'Tap any AQI tier below to inspect its health impact and protective protocol' }}
                                     </p>
                                 </div>
                                 <span v-if="activeAqiLevel" class="text-xs font-bold px-3 py-1 rounded-full self-start sm:self-auto shrink-0" :class="activeAqiLevel.badgeClass">
-                                    Current: {{ activeAqiLevel.emoji }} {{ activeAqiLevel.shortName || activeAqiLevel.name }} ({{ pollutionData.aqius }})
+                                    {{ isKhmer ? 'បច្ចុប្បន្ន៖ ' : 'Current: ' }}{{ activeAqiLevel.emoji }} {{ activeAqiLevel.shortName || activeAqiLevel.name }} ({{ pollutionData.aqius }})
                                 </span>
                             </div>
 
                             <!-- Spectrum Bar with Live Pin -->
                             <div class="relative pt-3 pb-7 px-1">
                                 <div class="h-3.5 rounded-full overflow-hidden flex shadow-inner">
-                                    <div class="flex-1 bg-emerald-500" title="Good (0-50)"></div>
-                                    <div class="flex-1 bg-amber-400" title="Moderate (51-100)"></div>
-                                    <div class="flex-1 bg-orange-500" title="Unhealthy for Sensitive Groups (101-150)"></div>
-                                    <div class="flex-1 bg-red-500" title="Unhealthy (151-200)"></div>
-                                    <div class="flex-1 bg-purple-600" title="Very Unhealthy (201-300)"></div>
-                                    <div class="flex-[0.6] bg-rose-900" title="Hazardous (301-500)"></div>
+                                    <div class="flex-1 bg-emerald-500" :title="isKhmer ? 'ល្អ (០-៥០)' : 'Good (0-50)'"></div>
+                                    <div class="flex-1 bg-amber-400" :title="isKhmer ? 'មធ្យម (៥១-១០០)' : 'Moderate (51-100)'"></div>
+                                    <div class="flex-1 bg-orange-500" :title="isKhmer ? 'មិនល្អសម្រាប់ក្រុមងាយរងគ្រោះ (១០១-១៥០)' : 'Unhealthy for Sensitive Groups (101-150)'"></div>
+                                    <div class="flex-1 bg-red-500" :title="isKhmer ? 'មិនល្អចំពោះសុខភាព (១៥១-២០០)' : 'Unhealthy (151-200)'"></div>
+                                    <div class="flex-1 bg-purple-600" :title="isKhmer ? 'គ្រោះថ្នាក់ខ្លាំង (២០១-៣០០)' : 'Very Unhealthy (201-300)'"></div>
+                                    <div class="flex-[0.6] bg-rose-900" :title="isKhmer ? 'គ្រោះថ្នាក់ធ្ងន់ធ្ងរ (៣០១-៥០០)' : 'Hazardous (301-500)'"></div>
                                 </div>
 
                                 <!-- Animated Marker Pin -->
@@ -432,7 +432,7 @@
                                         v-if="activeAqiLevel && activeAqiLevel.name === inspectedLevelDetails.name"
                                         class="text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 shrink-0"
                                     >
-                                        Active Station Level
+                                        {{ isKhmer ? 'កម្រិតជាក់ស្តែងបច្ចុប្បន្ន' : 'Active Station Level' }}
                                     </span>
                                 </div>
                                 <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
@@ -442,14 +442,14 @@
                                     <div class="p-3 sm:p-3.5 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200/60 dark:border-slate-800">
                                         <div class="font-bold text-slate-900 dark:text-white flex items-center gap-1.5 mb-1">
                                             <ShieldCheckIcon class="w-4 h-4 text-emerald-500 shrink-0" />
-                                            <span>General Public Guidance</span>
+                                            <span>{{ isKhmer ? 'ការណែនាំសម្រាប់ប្រជាពលរដ្ឋទូទៅ' : 'General Public Guidance' }}</span>
                                         </div>
                                         <p class="text-slate-600 dark:text-slate-300 leading-relaxed">{{ inspectedLevelDetails.recommendations }}</p>
                                     </div>
                                     <div class="p-3 sm:p-3.5 rounded-xl bg-white dark:bg-slate-900/90 border border-slate-200/60 dark:border-slate-800">
                                         <div class="font-bold text-slate-900 dark:text-white flex items-center gap-1.5 mb-1">
                                             <UserGroupIcon class="w-4 h-4 text-amber-500 shrink-0" />
-                                            <span>Sensitive Groups Protocol</span>
+                                            <span>{{ isKhmer ? 'វិធានការសម្រាប់ក្រុមងាយរងគ្រោះ' : 'Sensitive Groups Protocol' }}</span>
                                         </div>
                                         <p class="text-slate-600 dark:text-slate-300 leading-relaxed">{{ inspectedLevelDetails.sensitiveGroups }}</p>
                                     </div>
@@ -463,14 +463,14 @@
                                 <div class="min-w-0">
                                     <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                                         <span class="w-2 h-5 rounded-full bg-orange-500 shrink-0"></span>
-                                        <span>Primary Pollutant &amp; Chemical Profile</span>
+                                        <span>{{ isKhmer ? 'សារធាតុកខ្វក់ចម្បង និងលក្ខណៈគីមី' : 'Primary Pollutant & Chemical Profile' }}</span>
                                     </h3>
                                     <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                                        Dominant atmospheric pollutant and reference guide for major urban emissions
+                                        {{ isKhmer ? 'សារធាតុកខ្វក់ចម្បងក្នុងបរិយាកាស និងព័ត៌មានលម្អិតអំពីការបំភាយឧស្ម័នសំខាន់ៗ' : 'Dominant atmospheric pollutant and reference guide for major urban emissions' }}
                                     </p>
                                 </div>
                                 <span class="text-xs font-bold px-3 py-1 rounded-full bg-orange-500/10 text-orange-600 dark:text-orange-400 self-start sm:self-auto shrink-0">
-                                    Dominant: {{ formatPollutantShort(pollutionData.mainus) }}
+                                    {{ isKhmer ? 'ចម្បង៖ ' : 'Dominant: ' }}{{ formatPollutantShort(pollutionData.mainus) }}
                                 </span>
                             </div>
 
@@ -478,7 +478,7 @@
                             <div class="rounded-2xl p-4 sm:p-5 bg-gradient-to-r from-orange-500/10 via-amber-500/5 to-transparent border border-orange-500/20 flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-5 sm:mb-6">
                                 <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-orange-500 text-white flex flex-col items-center justify-center font-black shrink-0 shadow-md shadow-orange-500/20">
                                     <span class="text-base sm:text-lg leading-none">{{ formatPollutantShort(pollutionData.mainus) }}</span>
-                                    <span class="text-[10px] font-semibold opacity-85 mt-0.5">Primary</span>
+                                    <span class="text-[10px] font-semibold opacity-85 mt-0.5">{{ isKhmer ? 'ចម្បង' : 'Primary' }}</span>
                                 </div>
                                 <div class="flex-1 min-w-0">
                                     <div class="flex flex-wrap items-center gap-2">
@@ -486,7 +486,7 @@
                                             {{ formatPollutantName(pollutionData.mainus) }}
                                         </h4>
                                         <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
-                                            Est. ~{{ estimatedPm25 }} µg/m³
+                                            {{ isKhmer ? 'ប៉ាន់ស្មាន ~' : 'Est. ~' }}{{ estimatedPm25 }} µg/m³
                                         </span>
                                     </div>
                                     <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">
@@ -526,16 +526,16 @@
                                     </div>
                                     <div class="min-w-0">
                                         <div class="flex flex-wrap items-center gap-2">
-                                            <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Telegram Automated AQI Alerts</h3>
+                                            <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">{{ isKhmer ? 'ការជូនដំណឹងស្វ័យប្រវត្តិតាម Telegram' : 'Telegram Automated AQI Alerts' }}</h3>
                                             <span
                                                 :class="telegramSettings.enabled ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300' : 'bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400'"
                                                 class="text-[11px] font-bold px-2.5 py-0.5 rounded-full"
                                             >
-                                                {{ telegramSettings.enabled ? 'Active' : 'Disabled' }}
+                                                {{ telegramSettings.enabled ? (isKhmer ? 'ដំណើរការ' : 'Active') : (isKhmer ? 'បិទ' : 'Disabled') }}
                                             </span>
                                         </div>
                                         <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                                            Receive instant Telegram bot notifications whenever {{ cityInfo.city }}'s AQI exceeds your safety threshold
+                                            {{ isKhmer ? 'ទទួលបានការជូនដំណឹងភ្លាមៗតាម Telegram Bot នៅពេលកម្រិត AQI នៅ ' + (selectedHub.khmer || cityInfo.city) + ' លើសពីកម្រិតកំណត់សុវត្ថិភាពរបស់អ្នក' : 'Receive instant Telegram bot notifications whenever ' + cityInfo.city + '\'s AQI exceeds your safety threshold' }}
                                         </p>
                                     </div>
                                 </div>
@@ -557,21 +557,25 @@
                                     >
                                         <span class="flex items-center gap-2 min-w-0">
                                             <span class="shrink-0">🤖</span>
-                                            <span class="truncate">How to connect your Telegram Bot (4 steps)</span>
+                                            <span class="truncate">{{ isKhmer ? 'របៀបភ្ជាប់ Telegram Bot របស់អ្នក (៤ ជំហាន)' : 'How to connect your Telegram Bot (4 steps)' }}</span>
                                         </span>
-                                        <span class="text-xs underline shrink-0">{{ showTelegramGuide ? 'Hide' : 'Guide' }}</span>
+                                        <span class="text-xs underline shrink-0">{{ showTelegramGuide ? (isKhmer ? 'លាក់' : 'Hide') : (isKhmer ? 'ការណែនាំ' : 'Guide') }}</span>
                                     </button>
                                     <ol v-if="showTelegramGuide" class="mt-3 text-xs text-sky-800 dark:text-sky-300 space-y-1.5 list-decimal list-inside leading-relaxed border-t border-sky-200/60 dark:border-sky-800/60 pt-3">
-                                        <li>Open Telegram and message <strong>@BotFather</strong>, then send <code class="px-1.5 py-0.5 rounded bg-sky-100 dark:bg-sky-900 font-mono">/newbot</code>.</li>
-                                        <li>Copy the HTTP API <strong>Bot Token</strong> provided by BotFather and paste it below.</li>
-                                        <li>Start a conversation with your new bot and message <strong>@userinfobot</strong> to get your numeric <strong>Chat ID</strong>.</li>
-                                        <li>Click <strong>Send Test Alert</strong> below to verify your connection!</li>
+                                        <li v-if="isKhmer">បើក Telegram ហើយផ្ញើសារទៅកាន់ <strong>@BotFather</strong> រួចផ្ញើពាក្យ <code class="px-1.5 py-0.5 rounded bg-sky-100 dark:bg-sky-900 font-mono">/newbot</code>។</li>
+                                        <li v-else>Open Telegram and message <strong>@BotFather</strong>, then send <code class="px-1.5 py-0.5 rounded bg-sky-100 dark:bg-sky-900 font-mono">/newbot</code>.</li>
+                                        <li v-if="isKhmer">ចម្លងកូដ HTTP API <strong>Bot Token</strong> ដែលផ្តល់ដោយ BotFather ហើយបិទភ្ជាប់ក្នុងប្រអប់ខាងក្រោម។</li>
+                                        <li v-else>Copy the HTTP API <strong>Bot Token</strong> provided by BotFather and paste it below.</li>
+                                        <li v-if="isKhmer">ចាប់ផ្តើមផ្ញើសារទៅកាន់ bot ថ្មីរបស់អ្នក ហើយផ្ញើសារទៅកាន់ <strong>@userinfobot</strong> ដើម្បីទទួលបានលេខសម្គាល់ <strong>Chat ID</strong> របស់អ្នក។</li>
+                                        <li v-else>Start a conversation with your new bot and message <strong>@userinfobot</strong> to get your numeric <strong>Chat ID</strong>.</li>
+                                        <li v-if="isKhmer">ចុចលើប៊ូតុង <strong>ផ្ញើសារសាកល្បង</strong> ខាងក្រោមដើម្បីផ្ទៀងផ្ទាត់ការតភ្ជាប់!</li>
+                                        <li v-else>Click <strong>Send Test Alert</strong> below to verify your connection!</li>
                                     </ol>
                                 </div>
 
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
-                                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Telegram Bot Token</label>
+                                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">{{ isKhmer ? 'កូដសម្ងាត់ Telegram Bot Token' : 'Telegram Bot Token' }}</label>
                                         <input
                                             v-model="telegramSettings.botToken"
                                             type="password"
@@ -581,7 +585,7 @@
                                         />
                                     </div>
                                     <div>
-                                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Telegram Chat ID</label>
+                                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">{{ isKhmer ? 'លេខសម្គាល់ Telegram Chat ID' : 'Telegram Chat ID' }}</label>
                                         <input
                                             v-model="telegramSettings.chatId"
                                             type="text"
@@ -594,31 +598,31 @@
 
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div>
-                                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">AQI Alert Threshold</label>
+                                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">{{ isKhmer ? 'កម្រិតកំណត់ប្រកាសអាសន្ន AQI' : 'AQI Alert Threshold' }}</label>
                                         <select
                                             v-model="telegramSettings.threshold"
                                             class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-sky-500/50"
                                             @change="saveSettings"
                                         >
-                                            <option value="50">🟢 Good (AQI 50+)</option>
-                                            <option value="100">🟡 Moderate (AQI 100+)</option>
-                                            <option value="150">🟠 Unhealthy for Sensitive (AQI 150+)</option>
-                                            <option value="200">🔴 Unhealthy (AQI 200+)</option>
-                                            <option value="300">🟣 Very Unhealthy (AQI 300+)</option>
+                                            <option value="50">🟢 {{ isKhmer ? 'ល្អ (AQI 50+)' : 'Good (AQI 50+)' }}</option>
+                                            <option value="100">🟡 {{ isKhmer ? 'មធ្យម (AQI 100+)' : 'Moderate (AQI 100+)' }}</option>
+                                            <option value="150">🟠 {{ isKhmer ? 'មិនល្អសម្រាប់ក្រុមងាយរងគ្រោះ (AQI 150+)' : 'Unhealthy for Sensitive (AQI 150+)' }}</option>
+                                            <option value="200">🔴 {{ isKhmer ? 'មិនល្អ (AQI 200+)' : 'Unhealthy (AQI 200+)' }}</option>
+                                            <option value="300">🟣 {{ isKhmer ? 'គ្រោះថ្នាក់ខ្លាំង (AQI 300+)' : 'Very Unhealthy (AQI 300+)' }}</option>
                                         </select>
                                     </div>
                                     <div>
-                                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Auto-Check Frequency</label>
+                                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">{{ isKhmer ? 'ភាពញឹកញាប់នៃការពិនិត្យស្វ័យប្រវត្តិ' : 'Auto-Check Frequency' }}</label>
                                         <select
                                             v-model="telegramSettings.checkInterval"
                                             class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-sky-500/50"
                                             @change="updateAutoCheck"
                                         >
-                                            <option value="0">🔴 Manual Only (Disabled)</option>
-                                            <option value="5">⚡ Every 5 minutes</option>
-                                            <option value="10">🕐 Every 10 minutes</option>
-                                            <option value="30">🕑 Every 30 minutes</option>
-                                            <option value="60">🕓 Every 1 hour</option>
+                                            <option value="0">🔴 {{ isKhmer ? 'ពិនិត្យដោយដៃប៉ុណ្ណោះ (បិទ)' : 'Manual Only (Disabled)' }}</option>
+                                            <option value="5">⚡ {{ isKhmer ? 'រៀងរាល់ ៥ នាទីម្តង' : 'Every 5 minutes' }}</option>
+                                            <option value="10">🕐 {{ isKhmer ? 'រៀងរាល់ ១០ នាទីម្តង' : 'Every 10 minutes' }}</option>
+                                            <option value="30">🕑 {{ isKhmer ? 'រៀងរាល់ ៣០ នាទីម្តង' : 'Every 30 minutes' }}</option>
+                                            <option value="60">🕓 {{ isKhmer ? 'រៀងរាល់ ១ ម៉ោងម្តង' : 'Every 1 hour' }}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -627,10 +631,10 @@
                                 <div v-if="Number(telegramSettings.checkInterval) > 0" class="p-3.5 rounded-2xl bg-emerald-50/80 dark:bg-emerald-950/30 border border-emerald-200/70 dark:border-emerald-800/60 flex flex-wrap items-center justify-between gap-2">
                                     <div class="flex items-center gap-2.5">
                                         <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping shrink-0"></span>
-                                        <span class="text-xs sm:text-sm font-bold text-emerald-800 dark:text-emerald-200">Automated Background Monitoring Active</span>
+                                        <span class="text-xs sm:text-sm font-bold text-emerald-800 dark:text-emerald-200">{{ isKhmer ? 'ការតាមដានស្វ័យប្រវត្តិកំពុងដំណើរការ' : 'Automated Background Monitoring Active' }}</span>
                                     </div>
                                     <span class="text-xs font-mono font-bold text-emerald-700 dark:text-emerald-300 bg-white/80 dark:bg-slate-900/80 px-2.5 py-1 rounded-lg">
-                                        Next check: {{ nextCheckTime }}
+                                        {{ isKhmer ? 'ពិនិត្យបន្ទាប់៖ ' : 'Next check: ' }}{{ nextCheckTime }}
                                     </span>
                                 </div>
 
@@ -641,14 +645,14 @@
                                         :disabled="sendingAlert || !telegramSettings.botToken || !telegramSettings.chatId"
                                         class="flex-1 px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-sm font-bold shadow-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
-                                        {{ sendingAlert ? 'Sending to Telegram...' : 'Send Test Alert' }}
+                                        {{ sendingAlert ? (isKhmer ? 'កំពុងផ្ញើទៅ Telegram...' : 'Sending to Telegram...') : (isKhmer ? 'ផ្ញើសារសាកល្បង' : 'Send Test Alert') }}
                                     </button>
                                     <button
                                         @click="checkAndAlert"
                                         :disabled="sendingAlert || !telegramSettings.botToken || !telegramSettings.chatId"
                                         class="flex-1 px-5 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-sm font-bold border border-slate-200 dark:border-slate-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
-                                        Evaluate Threshold Now
+                                        {{ isKhmer ? 'វាយតម្លៃកម្រិតឥឡូវនេះ' : 'Evaluate Threshold Now' }}
                                     </button>
                                 </div>
 
@@ -662,12 +666,12 @@
                             </div>
 
                             <div v-else class="pt-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-                                <span>Toggle the switch above to configure instant Telegram notifications when air pollution spikes.</span>
+                                <span>{{ isKhmer ? 'បើកកុងតាក់ខាងលើដើម្បីកំណត់ការជូនដំណឹងភ្លាមៗតាម Telegram នៅពេលការបំពុលខ្យល់កើនឡើង។' : 'Toggle the switch above to configure instant Telegram notifications when air pollution spikes.' }}</span>
                                 <button
                                     @click="telegramSettings.enabled = true; saveSettings()"
                                     class="px-4 py-2 rounded-xl bg-sky-500/10 hover:bg-sky-500/20 text-sky-600 dark:text-sky-400 font-bold text-xs shrink-0 transition-colors"
                                 >
-                                    Configure Bot →
+                                    {{ isKhmer ? 'កំណត់រចនាសម្ព័ន្ធ Bot →' : 'Configure Bot →' }}
                                 </button>
                             </div>
                         </div>
@@ -679,10 +683,10 @@
                         <div class="bg-white dark:bg-slate-900/90 rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-slate-200/80 dark:border-slate-800/80 shadow-sm">
                             <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-1">
                                 <span class="w-2 h-5 rounded-full bg-teal-500 shrink-0"></span>
-                                <span>Protective Action Matrix</span>
+                                <span>{{ isKhmer ? 'វិធានការការពារសុខភាព' : 'Protective Action Matrix' }}</span>
                             </h3>
                             <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">
-                                Real-time respiratory &amp; lifestyle recommendations for AQI {{ pollutionData.aqius }}
+                                {{ isKhmer ? 'ការណែនាំផ្លូវដង្ហើម និងការរស់នៅជាក់ស្តែងសម្រាប់ AQI ' + pollutionData.aqius : 'Real-time respiratory & lifestyle recommendations for AQI ' + pollutionData.aqius }}
                             </p>
 
                             <div class="space-y-2.5 sm:space-y-3">
@@ -712,12 +716,12 @@
                             <div class="flex items-center justify-between gap-2 mb-3">
                                 <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2 min-w-0">
                                     <BeakerIcon class="w-5 h-5 text-emerald-500 shrink-0" />
-                                    <span class="truncate">PM2.5 vs. WHO Guideline</span>
+                                    <span class="truncate">{{ isKhmer ? 'កម្រិត PM2.5 ធៀបនឹងគោលការណ៍ WHO' : 'PM2.5 vs. WHO Guideline' }}</span>
                                 </h3>
                                 <span class="text-xs font-bold text-slate-500 dark:text-slate-400 shrink-0">~{{ estimatedPm25 }} µg/m³</span>
                             </div>
                             <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mb-4">
-                                The World Health Organization (WHO) 24-hour safe guideline for fine particulate matter (PM2.5) is <strong>15 µg/m³</strong>.
+                                {{ isKhmer ? 'គោលការណ៍ណែនាំសុវត្ថិភាព ២៤ ម៉ោងរបស់អង្គការសុខភាពពិភពលោក (WHO) សម្រាប់ធូលីល្អិត (PM2.5) គឺ ' : 'The World Health Organization (WHO) 24-hour safe guideline for fine particulate matter (PM2.5) is ' }}<strong>15 µg/m³</strong>.
                             </p>
                             <div class="h-3 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden relative mb-2">
                                 <div
@@ -728,7 +732,7 @@
                             </div>
                             <div class="flex justify-between text-[10px] sm:text-[11px] text-slate-400 font-semibold">
                                 <span>0 µg/m³</span>
-                                <span class="text-emerald-600 dark:text-emerald-400">WHO Target: 15 µg/m³</span>
+                                <span class="text-emerald-600 dark:text-emerald-400">{{ isKhmer ? 'គោលដៅ WHO៖ 15 µg/m³' : 'WHO Target: 15 µg/m³' }}</span>
                                 <span>75+ µg/m³</span>
                             </div>
                         </div>
@@ -737,32 +741,32 @@
                         <div class="bg-white dark:bg-slate-900/90 rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-slate-200/80 dark:border-slate-800/80 shadow-sm">
                             <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-4">
                                 <SunIcon class="w-5 h-5 text-amber-500 shrink-0" />
-                                <span>Station Telemetry &amp; Source</span>
+                                <span>{{ isKhmer ? 'ព័ត៌មានស្ថានីយ និងប្រភពទិន្នន័យ' : 'Station Telemetry & Source' }}</span>
                             </h3>
                             <div class="space-y-2.5 text-xs">
                                 <div class="flex items-center justify-between gap-2 py-2 border-b border-slate-100 dark:border-slate-800">
-                                    <span class="text-slate-500 dark:text-slate-400 shrink-0">Selected Hub</span>
+                                    <span class="text-slate-500 dark:text-slate-400 shrink-0">{{ isKhmer ? 'តំបន់ជ្រើសរើស' : 'Selected Hub' }}</span>
                                     <span class="font-bold text-slate-900 dark:text-white text-right truncate">{{ selectedHub.name }} ({{ selectedHub.khmer || cityInfo.country }})</span>
                                 </div>
                                 <div class="flex items-center justify-between gap-2 py-2 border-b border-slate-100 dark:border-slate-800">
-                                    <span class="text-slate-500 dark:text-slate-400 shrink-0">Reporting Station</span>
+                                    <span class="text-slate-500 dark:text-slate-400 shrink-0">{{ isKhmer ? 'ស្ថានីយរាយការណ៍' : 'Reporting Station' }}</span>
                                     <span class="font-bold text-slate-900 dark:text-white text-right truncate">{{ cityInfo.city }}, {{ cityInfo.country }}</span>
                                 </div>
                                 <div class="flex items-center justify-between gap-2 py-2 border-b border-slate-100 dark:border-slate-800">
-                                    <span class="text-slate-500 dark:text-slate-400 shrink-0">US EPA Standard</span>
+                                    <span class="text-slate-500 dark:text-slate-400 shrink-0">{{ isKhmer ? 'ស្តង់ដារ US EPA' : 'US EPA Standard' }}</span>
                                     <span class="font-bold text-right" :class="aqiTextColor">{{ pollutionData.aqius }} AQI ({{ getAqiLevel(pollutionData.aqius) }})</span>
                                 </div>
                                 <div class="flex items-center justify-between gap-2 py-2 border-b border-slate-100 dark:border-slate-800">
-                                    <span class="text-slate-500 dark:text-slate-400 shrink-0">China MEP Standard</span>
+                                    <span class="text-slate-500 dark:text-slate-400 shrink-0">{{ isKhmer ? 'ស្តង់ដារ China MEP' : 'China MEP Standard' }}</span>
                                     <span class="font-bold text-slate-900 dark:text-white text-right">{{ pollutionData.aqicn }} AQI</span>
                                 </div>
                                 <div class="flex items-center justify-between gap-2 py-2">
-                                    <span class="text-slate-500 dark:text-slate-400 shrink-0">Sensor Timestamp</span>
+                                    <span class="text-slate-500 dark:text-slate-400 shrink-0">{{ isKhmer ? 'កាលបរិច្ឆេទឧបករណ៍វាស់' : 'Sensor Timestamp' }}</span>
                                     <span class="font-semibold text-slate-900 dark:text-white text-right truncate">{{ formattedDateTime }}</span>
                                 </div>
                             </div>
                             <p class="mt-4 text-[11px] text-slate-400 dark:text-slate-500 leading-relaxed">
-                                Powered by IQAir AirVisual atmospheric monitoring network. Readings reflect real-time ambient particulate and gas telemetry.
+                                {{ isKhmer ? 'ដំណើរការដោយបណ្តាញត្រួតពិនិត្យបរិយាកាស IQAir AirVisual។ ទិន្នន័យឆ្លុះបញ្ចាំងពីបរិមាណធូលីល្អិត និងឧស្ម័នជាក់ស្តែងតាមពេលវេលាពិត។' : 'Powered by IQAir AirVisual atmospheric monitoring network. Readings reflect real-time ambient particulate and gas telemetry.' }}
                             </p>
                         </div>
                     </div>
@@ -839,14 +843,6 @@ export default {
                 { name: 'Kampong Cham', khmer: 'កំពង់ចាម', lat: 11.9934, lon: 105.4635, emoji: '🌉', region: 'Central Mekong Valley' },
                 { name: 'Poipet', khmer: 'ប៉ោយប៉ែត', lat: 13.6580, lon: 102.5636, emoji: '🚉', region: 'Northwest Border Corridor' }
             ],
-            pollutantCatalog: [
-                { code: 'p2', symbol: 'PM2.5', name: 'Fine Particulate Matter', size: '≤ 2.5 µm', sources: 'Vehicle exhaust, biomass burning, construction dust & power plants.' },
-                { code: 'p1', symbol: 'PM10', name: 'Coarse Particulate Matter', size: '≤ 10 µm', sources: 'Unpaved road dust, construction sites, agricultural burning & pollen.' },
-                { code: 'o3', symbol: 'O₃', name: 'Ground-Level Ozone', size: 'Gas', sources: 'Formed when sunlight reacts with vehicle and industrial emissions.' },
-                { code: 'n2', symbol: 'NO₂', name: 'Nitrogen Dioxide', size: 'Gas', sources: 'Motor vehicle traffic, diesel generators, and thermal power stations.' },
-                { code: 's2', symbol: 'SO₂', name: 'Sulfur Dioxide', size: 'Gas', sources: 'Industrial fuel combustion and heavy marine/freight engines.' },
-                { code: 'co', symbol: 'CO', name: 'Carbon Monoxide', size: 'Gas', sources: 'Incomplete combustion from congested traffic and charcoal stoves.' }
-            ],
             circumference: 2 * Math.PI * 76,
             telegramSettings: {
                 enabled: false,
@@ -864,8 +860,88 @@ export default {
             autoCheckTimer: null,
             nextCheckTimestamp: null,
             countdownTimer: null,
-            currentTime: Date.now(),
-            aqiLevels: [
+            currentTime: Date.now()
+        };
+    },
+    computed: {
+        aqiLevels() {
+            if (this.isKhmer) {
+                return [
+                    {
+                        name: 'ល្អប្រសើរ',
+                        shortName: 'ល្អ',
+                        range: '0–50',
+                        min: 0,
+                        max: 50,
+                        emoji: '😊',
+                        description: 'គុណភាពខ្យល់ពេញចិត្ត ដោយគ្មាន ឬមានហានិភ័យតិចតួចបំផុតចំពោះសុខភាព។',
+                        badgeClass: 'bg-emerald-500 text-white',
+                        textClass: 'text-emerald-700 dark:text-emerald-300',
+                        activeClass: 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 ring-emerald-500/40'
+                    },
+                    {
+                        name: 'មធ្យម',
+                        shortName: 'មធ្យម',
+                        range: '51–100',
+                        min: 51,
+                        max: 100,
+                        emoji: '🙂',
+                        description: 'គុណភាពខ្យល់អាចទទួលយកបាន ប៉ុន្តែមនុស្សងាយប្រតិកម្មខ្លាំងអាចរងផលប៉ះពាល់តិចតួច។',
+                        badgeClass: 'bg-amber-500 text-white',
+                        textClass: 'text-amber-700 dark:text-amber-300',
+                        activeClass: 'border-amber-500 bg-amber-50 dark:bg-amber-950/40 ring-amber-500/40'
+                    },
+                    {
+                        name: 'មិនល្អសម្រាប់ក្រុមងាយរងគ្រោះ',
+                        shortName: 'ងាយរងគ្រោះ',
+                        range: '101–150',
+                        min: 101,
+                        max: 150,
+                        emoji: '😐',
+                        description: 'ក្រុមងាយរងគ្រោះអាចជួបប្រទះរោគសញ្ញាផ្លូវដង្ហើមពេលធ្វើសកម្មភាពយូរក្រៅផ្ទះ។',
+                        badgeClass: 'bg-orange-500 text-white',
+                        textClass: 'text-orange-700 dark:text-orange-300',
+                        activeClass: 'border-orange-500 bg-orange-50 dark:bg-orange-950/40 ring-orange-500/40'
+                    },
+                    {
+                        name: 'មិនល្អចំពោះសុខភាព',
+                        shortName: 'មិនល្អ',
+                        range: '151–200',
+                        min: 151,
+                        max: 200,
+                        emoji: '😷',
+                        description: 'មនុស្សគ្រប់គ្នាអាចចាប់ផ្តើមមានផលប៉ះពាល់សុខភាព ហើយក្រុមងាយរងគ្រោះប្រឈមនឹងហានិភ័យខ្ពស់។',
+                        badgeClass: 'bg-red-500 text-white',
+                        textClass: 'text-red-700 dark:text-red-300',
+                        activeClass: 'border-red-500 bg-red-50 dark:bg-red-950/40 ring-red-500/40'
+                    },
+                    {
+                        name: 'គ្រោះថ្នាក់ខ្លាំង',
+                        shortName: 'គ្រោះថ្នាក់ខ្លាំង',
+                        range: '201–300',
+                        min: 201,
+                        max: 300,
+                        emoji: '🤢',
+                        description: 'ការប្រកាសអាសន្នសុខភាព៖ មនុស្សគ្រប់រូបអាចជួបប្រទះផលប៉ះពាល់ផ្លូវដង្ហើមធ្ងន់ធ្ងរ។',
+                        badgeClass: 'bg-purple-600 text-white',
+                        textClass: 'text-purple-700 dark:text-purple-300',
+                        activeClass: 'border-purple-500 bg-purple-50 dark:bg-purple-950/40 ring-purple-500/40'
+                    },
+                    {
+                        name: 'គ្រោះថ្នាក់ធ្ងន់ធ្ងរ',
+                        shortName: 'គ្រោះថ្នាក់បំផុត',
+                        range: '301+',
+                        min: 301,
+                        max: 500,
+                        emoji: '☠️',
+                        description: 'ស្ថានភាពអាសន្នសុខភាពធ្ងន់ធ្ងរចំពោះប្រជាពលរដ្ឋទាំងអស់។',
+                        badgeClass: 'bg-rose-900 text-white',
+                        textClass: 'text-rose-800 dark:text-rose-200',
+                        activeClass: 'border-rose-800 bg-rose-100 dark:bg-rose-950/60 ring-rose-700/50'
+                    }
+                ];
+            }
+            return [
                 {
                     name: 'Good',
                     shortName: 'Good',
@@ -938,10 +1014,28 @@ export default {
                     textClass: 'text-rose-800 dark:text-rose-200',
                     activeClass: 'border-rose-800 bg-rose-100 dark:bg-rose-950/60 ring-rose-700/50'
                 }
-            ]
-        };
-    },
-    computed: {
+            ];
+        },
+        pollutantCatalog() {
+            if (this.isKhmer) {
+                return [
+                    { code: 'p2', symbol: 'PM2.5', name: 'ធូលីល្អិតកម្រិត ២.៥', size: '≤ ២.៥ µm', sources: 'ផ្សែងយានយន្ត ការដុតកាកសំណល់កសិកម្ម ធូលីដ្ឋានសំណង់ និងរោងចក្រអគ្គិសនី។' },
+                    { code: 'p1', symbol: 'PM10', name: 'ធូលីធំកម្រិត ១០', size: '≤ ១០ µm', sources: 'ធូលីផ្លូវលំដីហុយ ការដ្ឋានសំណង់ ការដុតព្រៃ និងលម្អងផ្កា។' },
+                    { code: 'o3', symbol: 'O₃', name: 'អូហ្សូនកម្រិតដី', size: 'ឧស្ម័ន', sources: 'កកើតឡើងនៅពេលពន្លឺព្រះអាទិត្យមានប្រតិកម្មជាមួយផ្សែងយានយន្ត និងឧស្ម័នរោងចក្រ។' },
+                    { code: 'n2', symbol: 'NO₂', name: 'អាសូតឌីអុកស៊ីត', size: 'ឧស្ម័ន', sources: 'ចរាចរណ៍យានយន្ត ម៉ាស៊ីនភ្លើងម៉ាស៊ូត និងរោងចក្រថាមពលកម្ដៅ។' },
+                    { code: 's2', symbol: 'SO₂', name: 'ស្ពាន់ធ័រឌីអុកស៊ីត', size: 'ឧស្ម័ន', sources: 'ការដុតឥន្ធនៈឧស្សាហកម្ម និងម៉ាស៊ីននាវា/រថយន្តធុនធ្ងន់។' },
+                    { code: 'co', symbol: 'CO', name: 'កាបូនម៉ូណូអុកស៊ីត', size: 'ឧស្ម័ន', sources: 'ការឆេះមិនសព្វពីការកកស្ទះចរាចរណ៍ និងចង្ក្រានធ្យូង/អុស។' }
+                ];
+            }
+            return [
+                { code: 'p2', symbol: 'PM2.5', name: 'Fine Particulate Matter', size: '≤ 2.5 µm', sources: 'Vehicle exhaust, biomass burning, construction dust & power plants.' },
+                { code: 'p1', symbol: 'PM10', name: 'Coarse Particulate Matter', size: '≤ 10 µm', sources: 'Unpaved road dust, construction sites, agricultural burning & pollen.' },
+                { code: 'o3', symbol: 'O₃', name: 'Ground-Level Ozone', size: 'Gas', sources: 'Formed when sunlight reacts with vehicle and industrial emissions.' },
+                { code: 'n2', symbol: 'NO₂', name: 'Nitrogen Dioxide', size: 'Gas', sources: 'Motor vehicle traffic, diesel generators, and thermal power stations.' },
+                { code: 's2', symbol: 'SO₂', name: 'Sulfur Dioxide', size: 'Gas', sources: 'Industrial fuel combustion and heavy marine/freight engines.' },
+                { code: 'co', symbol: 'CO', name: 'Carbon Monoxide', size: 'Gas', sources: 'Incomplete combustion from congested traffic and charcoal stoves.' }
+            ];
+        },
         displayedAqiValue() {
             if (!this.pollutionData) return 0;
             return this.aqiStandard === 'CN' ? this.pollutionData.aqicn : this.pollutionData.aqius;
@@ -1535,13 +1629,13 @@ export default {
         },
         async checkAndAlert() {
             if (!this.pollutionData) {
-                this.showAlertStatus(false, 'No air quality data available');
+                this.showAlertStatus(false, this.isKhmer ? 'មិនមានទិន្នន័យគុណភាពខ្យល់ទេ' : 'No air quality data available');
                 return;
             }
             if (this.pollutionData.aqius >= parseInt(this.telegramSettings.threshold)) {
                 await this.sendDangerAlert();
             } else {
-                this.showAlertStatus(true, `AQI is ${this.pollutionData.aqius} — below your threshold of ${this.telegramSettings.threshold}. No alert needed.`);
+                this.showAlertStatus(true, this.isKhmer ? `កម្រិត AQI គឺ ${this.pollutionData.aqius} — ទាបជាងកម្រិតកំណត់ ${this.telegramSettings.threshold} របស់អ្នក។ មិនចាំបាច់ផ្ញើសារប្រកាសអាសន្នទេ។` : `AQI is ${this.pollutionData.aqius} — below your threshold of ${this.telegramSettings.threshold}. No alert needed.`);
             }
         },
         async autoSendAlert() {
@@ -1575,13 +1669,13 @@ export default {
                 });
                 const data = await response.json();
                 if (data.ok) {
-                    this.showAlertStatus(true, '✅ Alert sent to Telegram successfully!');
+                    this.showAlertStatus(true, this.isKhmer ? '✅ បានផ្ញើសារប្រកាសអាសន្នទៅកាន់ Telegram ដោយជោគជ័យ!' : '✅ Alert sent to Telegram successfully!');
                 } else {
                     throw new Error(data.description || 'Failed to send message');
                 }
             } catch (error) {
                 logger.error('Telegram API error:', error);
-                this.showAlertStatus(false, `❌ Failed: ${error.message}`);
+                this.showAlertStatus(false, this.isKhmer ? `❌ បរាជ័យ៖ ${error.message}` : `❌ Failed: ${error.message}`);
             } finally {
                 this.sendingAlert = false;
             }
@@ -1609,6 +1703,17 @@ export default {
             return 'Hazardous';
         },
         formatPollutantName(key) {
+            if (this.isKhmer) {
+                const namesKm = {
+                    p1: 'ធូលីកម្រិត PM10',
+                    p2: 'ធូលីល្អិតកម្រិត PM2.5',
+                    o3: 'អូហ្សូនកម្រិតដី (O₃)',
+                    n2: 'អាសូតឌីអុកស៊ីត (NO₂)',
+                    s2: 'ស្ពាន់ធ័រឌីអុកស៊ីត (SO₂)',
+                    co: 'កាបូនម៉ូណូអុកស៊ីត (CO)'
+                };
+                return namesKm[key] || key;
+            }
             const names = {
                 p1: 'Coarse Particulate Matter (PM10)',
                 p2: 'Fine Particulate Matter (PM2.5)',
@@ -1624,6 +1729,18 @@ export default {
             return names[key] || key || 'PM2.5';
         },
         getHealthAdvice(pollutant, aqi) {
+            if (this.isKhmer) {
+                if (aqi <= 50) return 'ខ្យល់អាកាសបរិសុទ្ធល្អ — គ្មានផលប៉ះពាល់សុខភាពឡើយ។ រីករាយជាមួយសកម្មភាពក្រៅផ្ទះដោយសេរី។';
+                if (pollutant === 'p2' || pollutant === 'p1') {
+                    if (aqi <= 100) return 'កំហាប់ធូលីល្អិតស្ថិតក្នុងកម្រិតមធ្យម។ អ្នកងាយប្រតិកម្មខ្លាំងគួរជៀសវាងតំបន់ចរាចរណ៍កកកុញ។';
+                    if (aqi <= 150) return 'កំហាប់ធូលីល្អិតកើនឡើង — ក្រុមងាយរងគ្រោះគួរកាត់បន្ថយការហាត់ប្រាណយូរនៅក្រៅផ្ទះ។';
+                    return 'កំហាប់ធូលីខ្ពស់ខ្លាំង — ត្រូវពាក់ម៉ាស់ការពារ KN95/N95 នៅពេលចេញក្រៅ និងបើកម៉ាស៊ីនចម្រោះខ្យល់ HEPA ក្នុងផ្ទះ។';
+                }
+                if (pollutant === 'o3') {
+                    return 'កម្រិតអូហ្សូនកើនឡើងខ្ពស់នៅពេលរសៀលថ្ងៃក្តៅ — គួររៀបចំការហាត់ប្រាណក្រៅផ្ទះនៅពេលព្រឹកព្រលឹម។';
+                }
+                return 'គួរកាត់បន្ថយការប្រឹងប្រែងខ្លាំងនៅក្រៅផ្ទះ ប្រសិនបើអ្នកមានអារម្មណ៍ក្អក ឬរលាកបំពង់ក។';
+            }
             if (aqi <= 50) return 'Clean air quality — no health impacts expected. Enjoy all outdoor activities freely.';
             if (pollutant === 'p2' || pollutant === 'p1') {
                 if (aqi <= 100) return 'Fine particles are within moderate limits. Sensitive individuals should avoid heavy traffic corridors.';
@@ -1636,15 +1753,18 @@ export default {
             return 'Consider reducing prolonged outdoor exertion if you experience coughing or throat irritation.';
         },
         getWindDirection(degrees) {
-            if (degrees === undefined || degrees === null) return 'Calm';
-            if (degrees >= 337.5 || degrees < 22.5) return 'North';
-            if (degrees >= 22.5 && degrees < 67.5) return 'Northeast';
-            if (degrees >= 67.5 && degrees < 112.5) return 'East';
-            if (degrees >= 112.5 && degrees < 157.5) return 'Southeast';
-            if (degrees >= 157.5 && degrees < 202.5) return 'South';
-            if (degrees >= 202.5 && degrees < 247.5) return 'Southwest';
-            if (degrees >= 247.5 && degrees < 292.5) return 'West';
-            return 'Northwest';
+            if (degrees === undefined || degrees === null) return this.isKhmer ? 'ស្ងប់' : 'Calm';
+            let dir = 'North';
+            let dirKm = 'ជើង';
+            if (degrees >= 337.5 || degrees < 22.5) { dir = 'North'; dirKm = 'ជើង'; }
+            else if (degrees >= 22.5 && degrees < 67.5) { dir = 'Northeast'; dirKm = 'ឦសាន'; }
+            else if (degrees >= 67.5 && degrees < 112.5) { dir = 'East'; dirKm = 'កើត'; }
+            else if (degrees >= 112.5 && degrees < 157.5) { dir = 'Southeast'; dirKm = 'អាគ្នេយ៍'; }
+            else if (degrees >= 157.5 && degrees < 202.5) { dir = 'South'; dirKm = 'ត្បូង'; }
+            else if (degrees >= 202.5 && degrees < 247.5) { dir = 'Southwest'; dirKm = 'និរតី'; }
+            else if (degrees >= 247.5 && degrees < 292.5) { dir = 'West'; dirKm = 'បស្ចិម'; }
+            else { dir = 'Northwest'; dirKm = 'ពាយព្យ'; }
+            return this.isKhmer ? dirKm : dir;
         }
     }
 };

@@ -106,19 +106,19 @@
                                 class="flex items-center px-3 py-2 text-xs rounded-xl text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700/70 w-full text-left transition-all duration-150 active:scale-95"
                                 :class="{ 'bg-gray-100 dark:bg-gray-700 font-semibold text-green-600 dark:text-green-400': currentTheme === 'light' }">
                                 <SunIcon class="h-4 w-4 mr-2 text-amber-500" />
-                                Light
+                                {{ isKhmer ? 'ពន្លឺ' : 'Light' }}
                             </button>
                             <button @click="setTheme('dark')"
                                 class="flex items-center px-3 py-2 text-xs rounded-xl text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700/70 w-full text-left transition-all duration-150 active:scale-95"
                                 :class="{ 'bg-gray-100 dark:bg-gray-700 font-semibold text-green-600 dark:text-green-400': currentTheme === 'dark' }">
                                 <MoonIcon class="h-4 w-4 mr-2 text-indigo-400" />
-                                Dark
+                                {{ isKhmer ? 'ងងឹត' : 'Dark' }}
                             </button>
                             <button @click="setTheme('system')"
                                 class="flex items-center px-3 py-2 text-xs rounded-xl text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700/70 w-full text-left transition-all duration-150 active:scale-95"
                                 :class="{ 'bg-gray-100 dark:bg-gray-700 font-semibold text-green-600 dark:text-green-400': currentTheme === 'system' }">
                                 <ComputerDesktopIcon class="h-4 w-4 mr-2 text-gray-500 dark:text-gray-400" />
-                                System
+                                {{ isKhmer ? 'ប្រព័ន្ធ' : 'System' }}
                             </button>
                         </div>
                     </transition>
@@ -213,21 +213,21 @@
                                 :class="currentTheme === 'light' ? 'bg-white dark:bg-gray-700 text-amber-500 shadow-sm font-semibold' : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'"
                                 aria-label="Light theme">
                                 <SunIcon class="h-3.5 w-3.5" />
-                                <span>Light</span>
+                                <span>{{ isKhmer ? 'ពន្លឺ' : 'Light' }}</span>
                             </button>
                             <button @click="setTheme('dark')"
                                 class="px-2.5 py-1 rounded-lg text-xs font-medium flex items-center space-x-1 transition-all"
                                 :class="currentTheme === 'dark' ? 'bg-white dark:bg-gray-700 text-indigo-400 shadow-sm font-semibold' : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'"
                                 aria-label="Dark theme">
                                 <MoonIcon class="h-3.5 w-3.5" />
-                                <span>Dark</span>
+                                <span>{{ isKhmer ? 'ងងឹត' : 'Dark' }}</span>
                             </button>
                             <button @click="setTheme('system')"
                                 class="px-2.5 py-1 rounded-lg text-xs font-medium flex items-center space-x-1 transition-all"
                                 :class="currentTheme === 'system' ? 'bg-white dark:bg-gray-700 text-green-500 shadow-sm font-semibold' : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'"
                                 aria-label="System theme">
                                 <ComputerDesktopIcon class="h-3.5 w-3.5" />
-                                <span>Auto</span>
+                                <span>{{ isKhmer ? 'ស្វ័យប្រវត្តិ' : 'Auto' }}</span>
                             </button>
                         </div>
                     </div>

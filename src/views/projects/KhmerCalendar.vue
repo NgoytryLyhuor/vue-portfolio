@@ -18,7 +18,7 @@
                             {{ isKhmer ? 'ប្រតិទិនខ្មែរ • Khmer Calendar' : 'Khmer Calendar • ប្រតិទិនខ្មែរ' }}
                         </h1>
                         <p class="text-white/90 text-xs sm:text-base font-medium leading-relaxed break-words">
-                            {{ isKhmer ? 'ថ្ងៃនេះ៖ ' : 'Today: ' }}{{ todayBannerInfo.khmerLunarFullDate }} • {{ todayBannerInfo.khmerSolarFullDate }}
+                            {{ isKhmer ? 'ថ្ងៃនេះ៖ ' : 'Today: ' }}{{ isKhmer ? todayBannerInfo.khmerLunarFullDate : todayBannerInfo.englishLunarFullDate }} • {{ isKhmer ? todayBannerInfo.khmerSolarFullDate : todayBannerInfo.englishSolarFullDate }}
                         </p>
                     </div>
 
@@ -64,7 +64,7 @@
                     </div>
                     <div class="min-w-0">
                         <div class="text-[11px] sm:text-xs opacity-80 truncate">{{ isKhmer ? 'ថ្ងៃសរុបក្នុងខែ' : 'Days in Month' }}</div>
-                        <div class="text-base sm:text-xl font-bold leading-tight mt-0.5">{{ toKhmerNumeral(monthStats.totalDays) }} <span class="text-[11px] sm:text-xs font-normal opacity-75">({{ monthStats.totalDays }}d)</span></div>
+                        <div class="text-base sm:text-xl font-bold leading-tight mt-0.5">{{ isKhmer ? toKhmerNumeral(monthStats.totalDays) + ' ថ្ងៃ' : monthStats.totalDays + ' days' }}</div>
                     </div>
                 </button>
 
@@ -79,7 +79,7 @@
                     </div>
                     <div class="min-w-0">
                         <div class="text-[11px] sm:text-xs opacity-80 truncate">{{ isKhmer ? 'ថ្ងៃធ្វើការ' : 'Working Days' }}</div>
-                        <div class="text-base sm:text-xl font-bold leading-tight mt-0.5">{{ toKhmerNumeral(monthStats.workingDays) }} <span class="text-[11px] sm:text-xs font-normal opacity-75">({{ monthStats.workingDays }}d)</span></div>
+                        <div class="text-base sm:text-xl font-bold leading-tight mt-0.5">{{ isKhmer ? toKhmerNumeral(monthStats.workingDays) + ' ថ្ងៃ' : monthStats.workingDays + ' days' }}</div>
                     </div>
                 </button>
 
@@ -94,7 +94,7 @@
                     </div>
                     <div class="min-w-0">
                         <div class="text-[11px] sm:text-xs opacity-80 truncate">{{ isKhmer ? 'ថ្ងៃបុណ្យជាតិ' : 'Public Holidays' }}</div>
-                        <div class="text-base sm:text-xl font-bold leading-tight mt-0.5">{{ toKhmerNumeral(monthStats.publicHolidays) }} <span class="text-[11px] sm:text-xs font-normal opacity-75">({{ monthStats.publicHolidays }}d)</span></div>
+                        <div class="text-base sm:text-xl font-bold leading-tight mt-0.5">{{ isKhmer ? toKhmerNumeral(monthStats.publicHolidays) + ' ថ្ងៃ' : monthStats.publicHolidays + ' days' }}</div>
                     </div>
                 </button>
 
@@ -109,7 +109,7 @@
                     </div>
                     <div class="min-w-0">
                         <div class="text-[11px] sm:text-xs opacity-80 truncate">{{ isKhmer ? 'ថ្ងៃឧបោសថសីល' : 'Buddhist Holy Days' }}</div>
-                        <div class="text-base sm:text-xl font-bold leading-tight mt-0.5">{{ toKhmerNumeral(monthStats.holyDays) }} <span class="text-[11px] sm:text-xs font-normal opacity-75">({{ monthStats.holyDays }}d)</span></div>
+                        <div class="text-base sm:text-xl font-bold leading-tight mt-0.5">{{ isKhmer ? toKhmerNumeral(monthStats.holyDays) + ' ថ្ងៃ' : monthStats.holyDays + ' days' }}</div>
                     </div>
                 </button>
             </div>
@@ -136,14 +136,14 @@
                                     <div class="text-center sm:text-left px-1 min-w-0">
                                         <div class="flex flex-wrap items-center justify-center sm:justify-start gap-1.5 sm:gap-2">
                                             <h2 class="text-lg sm:text-2xl font-extrabold text-gray-900 dark:text-white leading-tight">
-                                                ខែ{{ currentSolarKhmerMonth }} {{ toKhmerNumeral(currentYear) }}
+                                                {{ isKhmer ? `ខែ${currentSolarKhmerMonth} ${toKhmerNumeral(currentYear)}` : `${currentMonthName} ${currentYear}` }}
                                             </h2>
-                                            <span class="text-xs sm:text-base font-semibold text-gray-500 dark:text-gray-400">
+                                            <span v-if="isKhmer" class="text-xs sm:text-base font-semibold text-gray-500 dark:text-gray-400">
                                                 ({{ currentMonthName }} {{ currentYear }})
                                             </span>
                                         </div>
                                         <p class="text-[11px] sm:text-sm font-medium text-blue-600 dark:text-blue-400 mt-0.5 truncate">
-                                            🌙 {{ khmerMonthName }} • ឆ្នាំ{{ currentZodiacKhmer }} ព.ស. {{ toKhmerNumeral(currentKhmerYear) }}
+                                            🌙 {{ isKhmer ? `${khmerMonthName} • ឆ្នាំ${currentZodiacKhmer} ព.ស. ${toKhmerNumeral(currentKhmerYear)}` : `Lunar: ${englishMonthName} • Year of the ${currentZodiacEnglish} • B.E. ${currentKhmerYear}` }}
                                         </p>
                                     </div>
 
@@ -160,7 +160,7 @@
                                         aria-label="Select Month"
                                         class="w-full sm:w-auto px-2.5 sm:px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border-0 focus:ring-2 focus:ring-blue-500 cursor-pointer truncate">
                                         <option v-for="(mName, mIdx) in solarKhmerMonths" :key="mIdx" :value="mIdx">
-                                            {{ mName }} ({{ englishMonthsShort[mIdx] }})
+                                            {{ isKhmer ? mName + ' (' + englishMonthsShort[mIdx] + ')' : englishMonthsShort[mIdx] + ' (' + mName + ')' }}
                                         </option>
                                     </select>
 
@@ -168,14 +168,14 @@
                                         aria-label="Select Year"
                                         class="w-full sm:w-auto px-2.5 sm:px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border-0 focus:ring-2 focus:ring-blue-500 cursor-pointer truncate">
                                         <option v-for="yr in yearOptions" :key="yr" :value="yr">
-                                            {{ yr }} (ព.ស. {{ toKhmerNumeral(yr + 544) }})
+                                            {{ yr }} ({{ isKhmer ? 'ព.ស. ' + toKhmerNumeral(yr + 544) : 'B.E. ' + (yr + 544) }})
                                         </option>
                                     </select>
 
                                     <button @click="goToToday" 
                                         class="w-full sm:w-auto px-3 py-2 rounded-xl bg-gradient-to-r from-red-600 to-blue-600 hover:from-red-700 hover:to-blue-700 text-white text-xs sm:text-sm font-semibold shadow-sm hover:shadow transition-all flex items-center justify-center gap-1.5">
                                         <CalendarIcon class="h-4 w-4 shrink-0" />
-                                        <span>ថ្ងៃនេះ</span>
+                                        <span>{{ isKhmer ? 'ថ្ងៃនេះ' : 'Today' }}</span>
                                     </button>
                                 </div>
                             </div>
@@ -185,25 +185,25 @@
                                 <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5">
                                     <span class="inline-flex items-center gap-1">
                                         <span class="w-2 h-2 rounded-full bg-red-500 shrink-0"></span>
-                                        <span>ថ្ងៃឈប់សម្រាក (Holiday)</span>
+                                        <span>{{ isKhmer ? 'ថ្ងៃឈប់សម្រាក' : 'Holiday' }}</span>
                                     </span>
                                     <span class="inline-flex items-center gap-1">
                                         <span>☸️</span>
-                                        <span>ថ្ងៃសីល (Holy Day)</span>
+                                        <span>{{ isKhmer ? 'ថ្ងៃសីល' : 'Holy Day' }}</span>
                                     </span>
                                     <span class="inline-flex items-center gap-1">
                                         <span class="w-2 h-2 rounded-full bg-amber-500 shrink-0"></span>
-                                        <span>ពិធីបុណ្យ (Observance)</span>
+                                        <span>{{ isKhmer ? 'ពិធីបុណ្យ' : 'Observance' }}</span>
                                     </span>
                                     <span class="inline-flex items-center gap-1">
                                         <span class="w-2 h-2 rounded-full bg-orange-400 shrink-0"></span>
-                                        <span>ចុងសប្តាហ៍ (Weekend)</span>
+                                        <span>{{ isKhmer ? 'ចុងសប្តាហ៍' : 'Weekend' }}</span>
                                     </span>
                                 </div>
 
                                 <!-- Quick Date Jump Input -->
                                 <div class="flex items-center justify-between sm:justify-end gap-2 bg-gray-100/80 dark:bg-gray-700/50 sm:bg-transparent px-2.5 py-1.5 sm:p-0 rounded-xl">
-                                    <label for="quick-date-picker" class="text-xs font-medium text-gray-600 dark:text-gray-400 shrink-0">ទៅកាន់ថ្ងៃ៖</label>
+                                    <label for="quick-date-picker" class="text-xs font-medium text-gray-600 dark:text-gray-400 shrink-0">{{ isKhmer ? 'ទៅកាន់ថ្ងៃ៖' : 'Go to date:' }}</label>
                                     <input id="quick-date-picker" type="date" :value="selectedDateIso" @change="onQuickDateJump($event)"
                                         class="px-2 py-1 rounded-lg text-xs bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500" />
                                 </div>
@@ -215,8 +215,8 @@
                             <div v-for="(day, idx) in dayNames" :key="idx" 
                                 class="py-2 sm:py-3 px-0.5 text-center min-w-0"
                                 :class="idx === 0 ? 'text-red-600 dark:text-red-400' : idx === 6 ? 'text-orange-600 dark:text-orange-400' : 'text-gray-700 dark:text-gray-200'">
-                                <div class="text-[11px] sm:text-sm font-bold truncate">{{ day.khmer }}</div>
-                                <div class="text-[9px] sm:text-xs opacity-75 font-medium">{{ day.short }}</div>
+                                <div class="text-[11px] sm:text-sm font-bold truncate">{{ isKhmer ? day.khmer : day.full }}</div>
+                                <div class="text-[9px] sm:text-xs opacity-75 font-medium">{{ isKhmer ? day.khmer : day.short }}</div>
                             </div>
                         </div>
 
@@ -271,7 +271,7 @@
                                                     ? 'bg-amber-100/80 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300'
                                                     : 'bg-blue-50 text-blue-700 dark:bg-gray-700/80 dark:text-blue-300'
                                         ]">
-                                        {{ day.lunarDay }}
+                                        {{ isKhmer ? day.lunarDay : (day.lunarInfo && day.lunarInfo.dayEnglish ? day.lunarInfo.dayEnglish : day.lunarDay) }}
                                     </div>
 
                                     <div v-if="day.holiday" 
@@ -279,7 +279,7 @@
                                         :class="day.isPublicHoliday 
                                             ? 'bg-red-100/80 text-red-700 dark:bg-red-900/40 dark:text-red-300' 
                                             : 'bg-amber-100/80 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300'">
-                                        {{ day.holiday.khmer }}
+                                        {{ isKhmer ? day.holiday.khmer : day.holiday.english }}
                                     </div>
                                 </div>
                             </div>
@@ -302,26 +302,26 @@
                             <div class="flex items-start justify-between gap-3">
                                 <div class="min-w-0">
                                     <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] sm:text-xs font-bold bg-white/20 backdrop-blur-sm mb-2">
-                                        <span v-if="selectedDate.isPublicHoliday">🔴 ថ្ងៃឈប់សម្រាកផ្លូវការ</span>
-                                        <span v-else-if="selectedDate.isWeekend">🟠 ថ្ងៃឈប់សម្រាកចុងសប្តាហ៍</span>
-                                        <span v-else>🟢 ថ្ងៃធ្វើការធម្មតា (Working Day)</span>
+                                        <span v-if="selectedDate.isPublicHoliday">🔴 {{ isKhmer ? 'ថ្ងៃឈប់សម្រាកផ្លូវការ' : 'Public Holiday' }}</span>
+                                        <span v-else-if="selectedDate.isWeekend">🟠 {{ isKhmer ? 'ថ្ងៃឈប់សម្រាកចុងសប្តាហ៍' : 'Weekend' }}</span>
+                                        <span v-else>🟢 {{ isKhmer ? 'ថ្ងៃធ្វើការធម្មតា' : 'Working Day' }}</span>
                                     </span>
                                     <h3 class="text-lg sm:text-2xl font-extrabold truncate">
-                                        ថ្ងៃ{{ selectedDate.weekdayKhmer }} ទី{{ toKhmerNumeral(selectedDate.date) }}
+                                        {{ isKhmer ? 'ថ្ងៃ' + selectedDate.weekdayKhmer + ' ទី' + toKhmerNumeral(selectedDate.date) : selectedDate.weekday + ', ' + selectedDate.monthShort + ' ' + selectedDate.date }}
                                     </h3>
                                     <p class="text-white/85 text-xs sm:text-sm mt-0.5">
                                         {{ selectedDate.fullDate }}
                                     </p>
                                 </div>
                                 <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white/15 backdrop-blur-md border border-white/25 flex flex-col items-center justify-center flex-shrink-0 shadow-inner">
-                                    <span class="text-xl sm:text-2xl font-black leading-none">{{ toKhmerNumeral(selectedDate.date) }}</span>
+                                    <span class="text-xl sm:text-2xl font-black leading-none">{{ isKhmer ? toKhmerNumeral(selectedDate.date) : selectedDate.date }}</span>
                                     <span class="text-[10px] sm:text-[11px] font-semibold opacity-90 mt-1">{{ selectedDate.date }} {{ selectedDate.monthShort }}</span>
                                 </div>
                             </div>
 
                             <div v-if="selectedDate.isHolyDay" class="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-amber-400/25 border border-amber-300/40 text-xs font-bold text-amber-100">
                                 <span>☸️</span>
-                                <span>ថ្ងៃឧបោសថសីល ({{ selectedDate.lunarInfo.baseDay }})</span>
+                                <span>{{ isKhmer ? 'ថ្ងៃឧបោសថសីល (' + selectedDate.lunarInfo.baseDay + ')' : 'Buddhist Holy Day (' + selectedDate.lunarInfo.baseDayEnglish + ')' }}</span>
                             </div>
                         </div>
 
@@ -329,48 +329,48 @@
                         <div class="p-4 sm:p-6 space-y-4">
                             <div class="p-3 sm:p-3.5 rounded-2xl bg-gray-50 dark:bg-gray-700/50 border border-gray-200/70 dark:border-gray-600">
                                 <div class="flex items-center justify-between gap-2 mb-1.5">
-                                    <span class="text-[11px] sm:text-xs font-semibold text-gray-500 dark:text-gray-400 truncate">កាលបរិច្ឆេទខ្មែរផ្លូវការ</span>
+                                    <span class="text-[11px] sm:text-xs font-semibold text-gray-500 dark:text-gray-400 truncate">{{ isKhmer ? 'កាលបរិច្ឆេទខ្មែរផ្លូវការ' : 'Official Khmer Date' }}</span>
                                     <button @click="copyKhmerDate"
                                         class="px-2.5 py-1 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 shrink-0"
                                         :class="copiedKhmerDate 
                                             ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300' 
                                             : 'bg-blue-100 text-blue-700 hover:bg-blue-200 dark:bg-blue-900/40 dark:text-blue-300'">
-                                        <span>{{ copiedKhmerDate ? '✓ បានចម្លង' : '📋 ចម្លង' }}</span>
+                                        <span>{{ copiedKhmerDate ? (isKhmer ? '✓ បានចម្លង' : '✓ Copied') : (isKhmer ? '📋 ចម្លង' : '📋 Copy') }}</span>
                                     </button>
                                 </div>
                                 <p class="text-xs sm:text-sm font-bold text-gray-900 dark:text-white leading-relaxed break-words">
-                                    {{ selectedDate.khmerLunarFullDate }}
+                                    {{ isKhmer ? selectedDate.khmerLunarFullDate : selectedDate.englishLunarFullDate }}
                                 </p>
                                 <p class="text-xs font-medium text-gray-600 dark:text-gray-300 mt-1">
-                                    {{ selectedDate.khmerSolarFullDate }}
+                                    {{ isKhmer ? selectedDate.khmerSolarFullDate : selectedDate.englishSolarFullDate }}
                                 </p>
                             </div>
 
                             <!-- 4-Card Lunar Attribute Breakdown -->
                             <div class="grid grid-cols-2 gap-2.5">
                                 <div class="p-2.5 sm:p-3 rounded-xl bg-blue-50/60 dark:bg-gray-700/40 border border-blue-100 dark:border-gray-700 min-w-0">
-                                    <div class="text-[10px] sm:text-[11px] text-gray-500 dark:text-gray-400 truncate">ថ្ងៃច័ន្ទគតិ (Lunar Day)</div>
+                                    <div class="text-[10px] sm:text-[11px] text-gray-500 dark:text-gray-400 truncate">{{ isKhmer ? 'ថ្ងៃច័ន្ទគតិ' : 'Lunar Day' }}</div>
                                     <div class="text-xs sm:text-sm font-bold text-gray-900 dark:text-white mt-0.5 flex items-center gap-1 truncate">
-                                        <span>{{ selectedDate.lunarInfo.baseDay }}</span>
+                                        <span>{{ isKhmer ? selectedDate.lunarInfo.baseDay : selectedDate.lunarInfo.baseDayEnglish }}</span>
                                         <span v-if="selectedDate.lunarInfo.phase">{{ selectedDate.lunarInfo.phase }}</span>
                                     </div>
                                 </div>
                                 <div class="p-2.5 sm:p-3 rounded-xl bg-blue-50/60 dark:bg-gray-700/40 border border-blue-100 dark:border-gray-700 min-w-0">
-                                    <div class="text-[10px] sm:text-[11px] text-gray-500 dark:text-gray-400 truncate">ខែច័ន្ទគតិ (Lunar Month)</div>
+                                    <div class="text-[10px] sm:text-[11px] text-gray-500 dark:text-gray-400 truncate">{{ isKhmer ? 'ខែច័ន្ទគតិ' : 'Lunar Month' }}</div>
                                     <div class="text-xs sm:text-sm font-bold text-gray-900 dark:text-white mt-0.5 truncate">
-                                        ខែ{{ selectedDate.lunarInfo.monthKhmer }} ({{ toKhmerNumeral(selectedDate.lunarInfo.monthLength) }}ថ្ងៃ)
+                                        {{ isKhmer ? 'ខែ' + selectedDate.lunarInfo.monthKhmer + ' (' + toKhmerNumeral(selectedDate.lunarInfo.monthLength) + 'ថ្ងៃ)' : selectedDate.lunarInfo.monthEnglish + ' (' + selectedDate.lunarInfo.monthLength + ' days)' }}
                                     </div>
                                 </div>
                                 <div class="p-2.5 sm:p-3 rounded-xl bg-blue-50/60 dark:bg-gray-700/40 border border-blue-100 dark:border-gray-700 min-w-0">
-                                    <div class="text-[10px] sm:text-[11px] text-gray-500 dark:text-gray-400 truncate">ឆ្នាំសត្វ និងស័ក (Zodiac)</div>
+                                    <div class="text-[10px] sm:text-[11px] text-gray-500 dark:text-gray-400 truncate">{{ isKhmer ? 'ឆ្នាំសត្វ និងស័ក' : 'Zodiac & Sak' }}</div>
                                     <div class="text-xs sm:text-sm font-bold text-gray-900 dark:text-white mt-0.5 truncate">
-                                        ឆ្នាំ{{ selectedDate.lunarInfo.zodiacKhmer }} {{ selectedDate.lunarInfo.sakKhmer }}
+                                        {{ isKhmer ? 'ឆ្នាំ' + selectedDate.lunarInfo.zodiacKhmer + ' ' + selectedDate.lunarInfo.sakKhmer : 'Year of the ' + selectedDate.lunarInfo.zodiacEnglish + ' (' + selectedDate.lunarInfo.sakEnglish + ')' }}
                                     </div>
                                 </div>
                                 <div class="p-2.5 sm:p-3 rounded-xl bg-blue-50/60 dark:bg-gray-700/40 border border-blue-100 dark:border-gray-700 min-w-0">
-                                    <div class="text-[10px] sm:text-[11px] text-gray-500 dark:text-gray-400 truncate">ពុទ្ធសករាជ (Buddhist Era)</div>
+                                    <div class="text-[10px] sm:text-[11px] text-gray-500 dark:text-gray-400 truncate">{{ isKhmer ? 'ពុទ្ធសករាជ' : 'Buddhist Era' }}</div>
                                     <div class="text-xs sm:text-sm font-bold text-gray-900 dark:text-white mt-0.5 truncate">
-                                        ព.ស. {{ toKhmerNumeral(selectedDate.lunarInfo.beYear) }} ({{ selectedDate.lunarInfo.beYear }})
+                                        {{ isKhmer ? 'ព.ស. ' + toKhmerNumeral(selectedDate.lunarInfo.beYear) : 'B.E. ' + selectedDate.lunarInfo.beYear }}
                                     </div>
                                 </div>
                             </div>
@@ -386,13 +386,13 @@
                                     <div class="min-w-0">
                                         <div class="text-[11px] font-bold uppercase tracking-wider mb-0.5"
                                             :class="selectedDate.isPublicHoliday ? 'text-red-600 dark:text-red-400' : 'text-amber-600 dark:text-amber-400'">
-                                            {{ selectedDate.isPublicHoliday ? 'ថ្ងៃឈប់សម្រាកផ្លូវការ • Public Holiday' : 'ពិធីបុណ្យប្រពៃណី • Observance' }}
+                                            {{ selectedDate.isPublicHoliday ? (isKhmer ? 'ថ្ងៃឈប់សម្រាកផ្លូវការ' : 'Official Public Holiday') : (isKhmer ? 'ពិធីបុណ្យប្រពៃណី' : 'Traditional Observance') }}
                                         </div>
                                         <p class="font-bold text-sm sm:text-base text-gray-900 dark:text-white break-words">
-                                            {{ selectedDate.holiday.khmer }}
+                                            {{ isKhmer ? selectedDate.holiday.khmer : selectedDate.holiday.english }}
                                         </p>
                                         <p class="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300 mt-0.5 break-words">
-                                            {{ selectedDate.holiday.english }}
+                                            {{ isKhmer ? selectedDate.holiday.english : selectedDate.holiday.khmer }}
                                         </p>
                                         <p v-if="selectedDate.holiday.description" class="mt-2 text-xs text-gray-600 dark:text-gray-400 leading-relaxed">
                                             {{ selectedDate.holiday.description }}
@@ -410,13 +410,13 @@
                                 <span class="text-xl shrink-0">☸️</span>
                                 <div class="min-w-0">
                                     <h3 class="text-sm sm:text-base font-bold text-gray-900 dark:text-white truncate">
-                                        ថ្ងៃឧបោសថសីល ខែ{{ currentSolarKhmerMonth }}
+                                        {{ isKhmer ? 'ថ្ងៃឧបោសថសីល ខែ' + currentSolarKhmerMonth : 'Buddhist Holy Days in ' + currentMonthName }}
                                     </h3>
-                                    <p class="text-[11px] text-gray-500 dark:text-gray-400 truncate">Buddhist Holy Days in {{ currentMonthName }}</p>
+                                    <p class="text-[11px] text-gray-500 dark:text-gray-400 truncate">{{ isKhmer ? 'ខែសីលក្នុង ' + currentSolarKhmerMonth + ' ' + toKhmerNumeral(currentYear) : 'Holy days in ' + currentMonthName + ' ' + currentYear }}</p>
                                 </div>
                             </div>
                             <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300 shrink-0">
-                                {{ toKhmerNumeral(currentMonthHolyDays.length) }} ថ្ងៃ
+                                {{ isKhmer ? toKhmerNumeral(currentMonthHolyDays.length) + ' ថ្ងៃ' : currentMonthHolyDays.length + ' Days' }}
                             </span>
                         </div>
                         <div class="divide-y divide-gray-100 dark:divide-gray-700/60">
@@ -425,16 +425,16 @@
                                 class="w-full p-3.5 sm:px-5 flex items-center justify-between hover:bg-amber-50/50 dark:hover:bg-gray-700/50 transition-all text-left gap-3">
                                 <div class="flex items-center gap-3 min-w-0">
                                     <div class="w-10 h-10 rounded-xl bg-amber-100/80 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300 font-bold text-sm flex flex-col items-center justify-center shrink-0">
-                                        <span>{{ toKhmerNumeral(hDay.date) }}</span>
+                                        <span>{{ isKhmer ? toKhmerNumeral(hDay.date) : hDay.date }}</span>
                                         <span class="text-[9px] opacity-75">{{ hDay.date }}</span>
                                     </div>
                                     <div class="min-w-0">
                                         <div class="text-xs sm:text-sm font-bold text-gray-900 dark:text-white flex items-center gap-1.5 truncate">
-                                            <span class="truncate">ថ្ងៃ{{ hDay.weekdayKhmer }} • {{ hDay.lunarInfo.baseDay }}</span>
-                                            <span v-if="hDay.isToday" class="px-1.5 py-0.5 bg-red-500 text-white text-[10px] rounded-full shrink-0">ថ្ងៃនេះ</span>
+                                            <span class="truncate">{{ isKhmer ? 'ថ្ងៃ' + hDay.weekdayKhmer + ' • ' + hDay.lunarInfo.baseDay : hDay.weekday + ' • ' + (hDay.lunarInfo.baseDayEnglish || hDay.lunarInfo.baseDay) }}</span>
+                                            <span v-if="hDay.isToday" class="px-1.5 py-0.5 bg-red-500 text-white text-[10px] rounded-full shrink-0">{{ isKhmer ? 'ថ្ងៃនេះ' : 'Today' }}</span>
                                         </div>
                                         <div class="text-[11px] text-gray-500 dark:text-gray-400 truncate">
-                                            ខែ{{ hDay.lunarInfo.monthKhmer }} • {{ hDay.date }} {{ currentMonthName }}
+                                            {{ isKhmer ? 'ខែ' + hDay.lunarInfo.monthKhmer + ' • ' + toKhmerNumeral(hDay.date) + ' ' + currentSolarKhmerMonth : (hDay.lunarInfo.monthEnglish || hDay.lunarInfo.monthKhmer) + ' • ' + hDay.date + ' ' + currentMonthName }}
                                         </div>
                                     </div>
                                 </div>
@@ -452,10 +452,10 @@
                     <div class="min-w-0">
                         <h2 class="text-base sm:text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
                             <SparklesIcon class="h-5 w-5 sm:h-6 sm:w-6 text-red-500 shrink-0" />
-                            <span class="truncate">តារាងថ្ងៃបុណ្យជាតិ និងថ្ងៃឈប់សម្រាកផ្លូវការ</span>
+                            <span class="truncate">{{ isKhmer ? 'តារាងថ្ងៃបុណ្យជាតិ និងថ្ងៃឈប់សម្រាកផ្លូវការ' : 'Official Public Holidays & Observances' }}</span>
                         </h2>
                         <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5">
-                            Official Public Holidays &amp; Observances (ចុចលើថ្ងៃបុណ្យណាមួយដើម្បីមើលក្នុងប្រតិទិន)
+                            {{ isKhmer ? 'ចុចលើថ្ងៃបុណ្យណាមួយដើម្បីមើលក្នុងប្រតិទិន' : 'Tap any holiday to inspect in calendar' }}
                         </p>
                     </div>
 
@@ -467,18 +467,18 @@
                                 :class="holidayTab === 'upcoming' 
                                     ? 'bg-white dark:bg-gray-800 text-red-600 dark:text-red-400 shadow-sm' 
                                     : 'text-gray-600 dark:text-gray-300'">
-                                ថ្ងៃបុណ្យខាងមុខ
+                                {{ isKhmer ? 'ថ្ងៃបុណ្យខាងមុខ' : 'Upcoming Holidays' }}
                             </button>
                             <button @click="holidayTab = 'year'"
                                 class="px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-bold transition-all text-center"
                                 :class="holidayTab === 'year' 
                                     ? 'bg-white dark:bg-gray-800 text-red-600 dark:text-red-400 shadow-sm' 
                                     : 'text-gray-600 dark:text-gray-300'">
-                                ប្រចាំឆ្នាំ {{ toKhmerNumeral(currentYear) }}
+                                {{ isKhmer ? 'ប្រចាំឆ្នាំ ' + toKhmerNumeral(currentYear) : 'Full Year ' + currentYear }}
                             </button>
                         </div>
 
-                        <input v-model.trim="holidaySearch" type="text" placeholder="ស្វែងរកថ្ងៃបុណ្យ..."
+                        <input v-model.trim="holidaySearch" type="text" :placeholder="isKhmer ? 'ស្វែងរកថ្ងៃបុណ្យ...' : 'Search holidays...'"
                             class="w-full sm:w-48 px-3 py-2 sm:py-1.5 rounded-xl text-xs sm:text-sm bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border border-transparent focus:border-blue-500 focus:bg-white dark:focus:bg-gray-800 focus:outline-none" />
                     </div>
                 </div>
@@ -507,30 +507,30 @@
                                     :class="holiday.isPublicHoliday 
                                         ? 'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300' 
                                         : 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300'">
-                                    {{ holiday.isPublicHoliday ? 'ឈប់សម្រាក' : 'ប្រពៃណី (ធ្វើការ)' }}
+                                    {{ holiday.isPublicHoliday ? (isKhmer ? 'ឈប់សម្រាក' : 'Public Holiday') : (isKhmer ? 'ប្រពៃណី (ធ្វើការ)' : 'Observance (Workday)') }}
                                 </span>
-                                <span class="text-[11px] sm:text-xs text-gray-400 dark:text-gray-500 truncate">• {{ holiday.weekdayName }} {{ holiday.year }}</span>
+                                <span class="text-[11px] sm:text-xs text-gray-400 dark:text-gray-500 truncate">• {{ isKhmer ? holiday.weekdayKhmer : holiday.weekdayName }} {{ isKhmer ? toKhmerNumeral(holiday.year) : holiday.year }}</span>
                             </div>
                             <p class="font-bold text-gray-900 dark:text-white text-xs sm:text-base truncate">
-                                {{ holiday.khmer }}
+                                {{ isKhmer ? holiday.khmer : holiday.english }}
                             </p>
                             <p class="text-[11px] sm:text-xs text-gray-500 dark:text-gray-400 truncate">
-                                {{ holiday.english }}
+                                {{ isKhmer ? holiday.english : holiday.khmer }}
                             </p>
                         </div>
 
                         <div class="text-right flex-shrink-0">
                             <span v-if="holiday.daysUntil === 0" class="px-2 sm:px-2.5 py-1 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 text-[11px] sm:text-xs font-bold rounded-full">
-                                ថ្ងៃនេះ!
+                                {{ isKhmer ? 'ថ្ងៃនេះ!' : 'Today!' }}
                             </span>
                             <span v-else-if="holiday.daysUntil === 1" class="px-2 sm:px-2.5 py-1 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 text-[11px] sm:text-xs font-bold rounded-full">
-                                ថ្ងៃស្អែក
+                                {{ isKhmer ? 'ថ្ងៃស្អែក' : 'Tomorrow' }}
                             </span>
                             <span v-else-if="holiday.daysUntil > 1" class="px-2 sm:px-2.5 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-[11px] sm:text-xs font-semibold rounded-full">
-                                {{ toKhmerNumeral(holiday.daysUntil) }} ថ្ងៃទៀត
+                                {{ isKhmer ? toKhmerNumeral(holiday.daysUntil) + ' ថ្ងៃទៀត' : 'In ' + holiday.daysUntil + ' days' }}
                             </span>
                             <span v-else class="text-[11px] text-gray-400">
-                                បានកន្លង
+                                {{ isKhmer ? 'បានកន្លង' : 'Passed' }}
                             </span>
                         </div>
                     </div>
@@ -542,17 +542,17 @@
                 <div class="lg:col-span-7 min-w-0 bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/15 dark:to-orange-900/15 rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-amber-200/80 dark:border-amber-800/60">
                     <h2 class="text-base sm:text-xl font-bold text-amber-900 dark:text-amber-200 mb-3.5 sm:mb-4 flex items-center gap-2">
                         <span class="text-xl sm:text-2xl shrink-0">📜</span>
-                        <span>ខែច័ន្ទគតិខ្មែរទាំង ១២ ខែ (12 Khmer Lunar Months)</span>
+                        <span>{{ isKhmer ? 'ខែច័ន្ទគតិខ្មែរទាំង ១២ ខែ' : '12 Khmer Lunar Months' }}</span>
                     </h2>
                     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-2.5">
                         <div v-for="(month, idx) in khmerMonths" :key="idx"
                             class="p-2.5 sm:p-3 bg-white/80 dark:bg-gray-800/80 rounded-2xl border border-amber-100 dark:border-gray-700 hover:shadow-md transition-all min-w-0">
                             <div class="flex items-center justify-between">
-                                <span class="text-[10px] sm:text-[11px] font-bold text-amber-600 dark:text-amber-400">ខែទី {{ toKhmerNumeral(idx + 1) }}</span>
-                                <span class="text-[10px] text-gray-400">{{ month.days }}ថ្ងៃ</span>
+                                <span class="text-[10px] sm:text-[11px] font-bold text-amber-600 dark:text-amber-400">{{ isKhmer ? 'ខែទី ' + toKhmerNumeral(idx + 1) : 'Month ' + (idx + 1) }}</span>
+                                <span class="text-[10px] text-gray-400">{{ isKhmer ? month.days + ' ថ្ងៃ' : month.days + ' days' }}</span>
                             </div>
-                            <div class="font-bold text-gray-900 dark:text-white text-sm sm:text-base mt-0.5 truncate">{{ month.khmer }}</div>
-                            <div class="text-[11px] sm:text-xs text-gray-500 dark:text-gray-400 truncate">{{ month.english }} • {{ month.gregorian }}</div>
+                            <div class="font-bold text-gray-900 dark:text-white text-sm sm:text-base mt-0.5 truncate">{{ isKhmer ? month.khmer : month.english }}</div>
+                            <div class="text-[11px] sm:text-xs text-gray-500 dark:text-gray-400 truncate">{{ isKhmer ? month.english + ' • ' + month.gregorian : month.khmer + ' • ' + month.gregorian }}</div>
                         </div>
                     </div>
                 </div>
@@ -561,26 +561,26 @@
                     <div>
                         <h2 class="text-base sm:text-xl font-bold text-gray-900 dark:text-white mb-3.5 sm:mb-4 flex items-center gap-2">
                             <span class="text-xl sm:text-2xl shrink-0">🏛️</span>
-                            <span>អំពីប្រតិទិនខ្មែរ (About Khmer Calendar)</span>
+                            <span>{{ isKhmer ? 'អំពីប្រតិទិនខ្មែរ' : 'About Khmer Calendar' }}</span>
                         </h2>
                         <div class="space-y-3">
                             <div class="p-3 sm:p-3.5 bg-gray-50 dark:bg-gray-700/50 rounded-2xl">
-                                <h3 class="font-bold text-gray-900 dark:text-white text-xs sm:text-sm mb-1">📅 ពុទ្ធសករាជ (ព.ស.) និងស័ក</h3>
+                                <h3 class="font-bold text-gray-900 dark:text-white text-xs sm:text-sm mb-1">{{ isKhmer ? '📅 ពុទ្ធសករាជ (ព.ស.) និងស័ក' : '📅 Buddhist Era (B.E.) & Sak' }}</h3>
                                 <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                                    ពុទ្ធសករាជផ្លាស់ប្តូរនៅថ្ងៃ ១រោច ខែពិសាខ (១ថ្ងៃក្រោយបុណ្យវិសាខបូជា) ចំណែកឯឆ្នាំសត្វទាំង ១២ និងស័កទាំង ១០ ផ្លាស់ប្តូរនៅថ្ងៃវារៈឡើងស័ក (ថ្ងៃទី៣ នៃបុណ្យចូលឆ្នាំថ្មីប្រពៃណីជាតិ)។
+                                    {{ isKhmer ? 'ពុទ្ធសករាជផ្លាស់ប្តូរនៅថ្ងៃ ១រោច ខែពិសាខ (១ថ្ងៃក្រោយបុណ្យវិសាខបូជា) ចំណែកឯឆ្នាំសត្វទាំង ១២ និងស័កទាំង ១០ ផ្លាស់ប្តូរនៅថ្ងៃវារៈឡើងស័ក (ថ្ងៃទី៣ នៃបុណ្យចូលឆ្នាំថ្មីប្រពៃណីជាតិ)។' : 'The Buddhist Era increments on the 1st waning day of Visakha (day after Visak Bochea), while the 12 Zodiac animals and 10 Sak change on the 3rd day of Khmer New Year (Veareak Laeng Sak).' }}
                                 </p>
                             </div>
                             <div class="p-3 sm:p-3.5 bg-gray-50 dark:bg-gray-700/50 rounded-2xl">
-                                <h3 class="font-bold text-gray-900 dark:text-white text-xs sm:text-sm mb-1">☸️ ថ្ងៃឧបោសថសីល និងខ្នើត-រនោច</h3>
+                                <h3 class="font-bold text-gray-900 dark:text-white text-xs sm:text-sm mb-1">{{ isKhmer ? '☸️ ថ្ងៃឧបោសថសីល និងខ្នើត-រនោច' : '☸️ Buddhist Holy Days & Lunar Phases' }}</h3>
                                 <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                                    ក្នុងមួយខែច័ន្ទគតិមានថ្ងៃសីលចំនួន ៤ ថ្ងៃ គឺថ្ងៃ ៨កើត, ១៥កើត (ពេញបូណ៌មី), ៨រោច និងថ្ងៃ ១៤រោច (ខែខ្វះ ២៩ថ្ងៃ) ឬ ១៥រោច (ខែពេញ ៣០ថ្ងៃ)។
+                                    {{ isKhmer ? 'ក្នុងមួយខែច័ន្ទគតិមានថ្ងៃសីលចំនួន ៤ ថ្ងៃ គឺថ្ងៃ ៨កើត, ១៥កើត (ពេញបូណ៌មី), ៨រោច និងថ្ងៃ ១៤រោច (ខែខ្វះ ២៩ថ្ងៃ) ឬ ១៥រោច (ខែពេញ ៣០ថ្ងៃ)។' : 'Each lunar month has 4 holy days: the 8th waxing, 15th waxing (Full Moon), 8th waning, and 14th/15th waning (New Moon).' }}
                                 </p>
                             </div>
                         </div>
                     </div>
 
                     <div class="pt-3 border-t border-gray-100 dark:border-gray-700 text-center text-[11px] sm:text-xs text-gray-500 dark:text-gray-400">
-                        ប្រតិទិនខ្មែរ • គណនាតាមក្បួនឆន្ទគតិខ្មែរ និងអនុក្រឹត្យថ្ងៃឈប់សម្រាកផ្លូវការ • ព.ស. {{ toKhmerNumeral(currentKhmerYear) }}
+                        {{ isKhmer ? 'ប្រតិទិនខ្មែរ • គណនាតាមក្បួនឆន្ទគតិខ្មែរ និងអនុក្រឹត្យថ្ងៃឈប់សម្រាកផ្លូវការ • ព.ស. ' + toKhmerNumeral(currentKhmerYear) : 'Khmer Calendar • Calculated with Chhankitek rules & official Royal Decrees • B.E. ' + currentKhmerYear }}
                     </div>
                 </div>
             </div>
@@ -668,6 +668,20 @@ export default {
                 'JOR': 'ច',
                 'KAOR': 'កុរ'
             },
+            zodiacEnglishMap: {
+                'JUTE': 'Rat',
+                'CHLOV': 'Ox',
+                'KARL': 'Tiger',
+                'THOS': 'Rabbit',
+                'RORNG': 'Dragon',
+                'MASAGN': 'Snake',
+                'MOMEE': 'Horse',
+                'MOMAY': 'Goat',
+                'VOKE': 'Monkey',
+                'ROKA': 'Rooster',
+                'JOR': 'Dog',
+                'KAOR': 'Pig'
+            },
             sakKhmerList: [
                 'ឯកស័ក',
                 'ទោស័ក',
@@ -680,6 +694,34 @@ export default {
                 'នព្វស័ក',
                 'សំរឹទ្ធិស័ក'
             ],
+            sakEnglishList: [
+                '1st Sak',
+                '2nd Sak',
+                '3rd Sak',
+                '4th Sak',
+                '5th Sak',
+                '6th Sak',
+                '7th Sak',
+                '8th Sak',
+                '9th Sak',
+                '10th Sak'
+            ],
+            lunarMonthEnglishMap: {
+                'MĬKÔSĔR': 'Mikosir',
+                'BŎSS': 'Boss',
+                'MÉAKH': 'Meakh',
+                'PHÂLKŬN': 'Phalkun',
+                'CHÉTR': 'Chaet',
+                'VĬSAKH': 'Visakh',
+                'CHÉSTH': 'Chesth',
+                'ASATH': 'Asath',
+                'BÂTHÂMSATH': '1st Asath',
+                'TŬTĔYÉASATH': '2nd Asath',
+                'SRAPÔNÂ': 'Srapon',
+                'PHÔTRÔBÂT': 'Photrobot',
+                'ÂSSŎCH': 'Asuj',
+                'KÂTDĔK': 'Katdek'
+            },
             khmerMonths: [
                 { khmer: 'ខែមិគសិរ', english: 'Mikosir', gregorian: 'Nov-Dec', days: '២៩' },
                 { khmer: 'ខែបុស្ស', english: 'Boss', gregorian: 'Dec-Jan', days: '៣០' },
@@ -725,8 +767,14 @@ export default {
         currentZodiacKhmer() {
             return this.zodiacKhmerMap[this.referenceLunarData.zodiac] || '';
         },
+        currentZodiacEnglish() {
+            return this.zodiacEnglishMap[this.referenceLunarData.zodiac] || '';
+        },
         currentSakKhmer() {
             return this.sakKhmerList[this.referenceLunarData.sequence] || '';
+        },
+        currentSakEnglish() {
+            return this.sakEnglishList[this.referenceLunarData.sequence] || '';
         },
         currentMonthName() {
             return this.currentDate.toLocaleString('en-US', { month: 'long' });
@@ -745,6 +793,17 @@ export default {
             }
             return `ខែ${firstKhmer}`;
         },
+        englishMonthName() {
+            const firstDayLunar = this.calculateKhmerLunar(this.currentYear, this.currentMonth, 1);
+            const daysInMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
+            const lastDayLunar = this.calculateKhmerLunar(this.currentYear, this.currentMonth, daysInMonth);
+            const firstEn = this.lunarMonthEnglishMap[firstDayLunar.month.name] || '';
+            const lastEn = this.lunarMonthEnglishMap[lastDayLunar.month.name] || '';
+            if (firstEn && lastEn && firstEn !== lastEn) {
+                return `${firstEn} - ${lastEn}`;
+            }
+            return `${firstEn}`;
+        },
         todayBannerInfo() {
             const now = new Date();
             const y = now.getFullYear();
@@ -756,7 +815,9 @@ export default {
             return {
                 day: d,
                 khmerLunarFullDate: `ថ្ងៃ${this.dayNames[dow].khmer} ${lunarInfo.baseDay} ខែ${lunarInfo.monthKhmer} ឆ្នាំ${lunarInfo.zodiacKhmer} ${lunarInfo.sakKhmer} ព.ស. ${this.toKhmerNumeral(lunarInfo.beYear)}`,
+                englishLunarFullDate: `${this.dayNames[dow].full}, ${lunarInfo.baseDayEnglish} of ${lunarInfo.monthEnglish}, Year of the ${lunarInfo.zodiacEnglish} (${lunarInfo.sakEnglish}), B.E. ${lunarInfo.beYear}`,
                 khmerSolarFullDate: `ទី${this.toKhmerNumeral(d)} ខែ${this.solarKhmerMonths[m]} ឆ្នាំ${this.toKhmerNumeral(y)}`,
+                englishSolarFullDate: `${now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`,
                 isPublicHoliday: !!(holiday && holiday.isPublicHoliday !== false),
                 isWeekend: dow === 0 || dow === 6
             };
@@ -812,6 +873,7 @@ export default {
                 
                 days.push({
                     date: i,
+                    weekday: this.dayNames[dow].full,
                     weekdayKhmer: this.dayNames[dow].khmer,
                     isCurrentMonth: true,
                     isToday,
@@ -909,7 +971,8 @@ export default {
                 ...h,
                 day: h.day,
                 monthShort: holidayDate.toLocaleString('en-US', { month: 'short' }),
-                weekdayName: `ថ្ងៃ${this.dayNames[holidayDate.getDay()].khmer}`,
+                weekdayName: this.dayNames[holidayDate.getDay()].full,
+                weekdayKhmer: `ថ្ងៃ${this.dayNames[holidayDate.getDay()].khmer}`,
                 daysUntil,
                 isPast: daysUntil < 0
             };
@@ -1264,17 +1327,28 @@ export default {
                     ? `${baseLabel} ${monthKhmer}`
                     : baseLabel;
 
+                const monthEnglish = this.lunarMonthEnglishMap[lunarData.month.name] || '';
+                const baseDayEnglish = `${lunarDayNumber} ${isWaxing ? 'Waxing' : 'Waning'}`;
+                const dayLabelEnglish = (isWaxing && lunarDayNumber === 1 && monthEnglish)
+                    ? `${baseDayEnglish} ${monthEnglish}`
+                    : baseDayEnglish;
+
                 return {
                     day: dayLabel,
                     baseDay: baseLabel,
+                    dayEnglish: dayLabelEnglish,
+                    baseDayEnglish,
                     phase,
                     isHolyDay,
                     dayNumber: lunarDayNumber,
                     isWaxing,
                     monthLength,
                     monthKhmer,
+                    monthEnglish,
                     zodiacKhmer: this.zodiacKhmerMap[lunarData.zodiac] || '',
+                    zodiacEnglish: this.zodiacEnglishMap[lunarData.zodiac] || '',
                     sakKhmer: this.sakKhmerList[lunarData.sequence] || '',
+                    sakEnglish: this.sakEnglishList[lunarData.sequence] || '',
                     beYear: lunarData.years.BE
                 };
             } catch (error) {
@@ -1382,6 +1456,7 @@ export default {
                 date: day.date,
                 month: this.currentMonth,
                 year: this.currentYear,
+                weekday: this.dayNames[dayOfWeek].full,
                 weekdayKhmer,
                 monthShort: date.toLocaleString('en-US', { month: 'short' }),
                 fullDate: date.toLocaleString('en-US', { 
@@ -1391,7 +1466,9 @@ export default {
                     day: 'numeric' 
                 }),
                 khmerLunarFullDate: `ថ្ងៃ${weekdayKhmer} ${lunarInfo.baseDay} ខែ${lunarInfo.monthKhmer} ឆ្នាំ${lunarInfo.zodiacKhmer} ${lunarInfo.sakKhmer} ព.ស. ${this.toKhmerNumeral(lunarInfo.beYear)}`,
+                englishLunarFullDate: `${this.dayNames[dayOfWeek].full}, ${lunarInfo.baseDayEnglish} of ${lunarInfo.monthEnglish}, Year of the ${lunarInfo.zodiacEnglish} (${lunarInfo.sakEnglish}), B.E. ${lunarInfo.beYear}`,
                 khmerSolarFullDate: `ត្រូវនឹងថ្ងៃទី${this.toKhmerNumeral(day.date)} ខែ${solarMonthKhmer} ឆ្នាំ${this.toKhmerNumeral(this.currentYear)}`,
+                englishSolarFullDate: `Corresponds to ${date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`,
                 holiday: day.holiday,
                 isPublicHoliday: !!(day.holiday && day.holiday.isPublicHoliday !== false),
                 isWeekend: dayOfWeek === 0 || dayOfWeek === 6,

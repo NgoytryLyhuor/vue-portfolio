@@ -142,14 +142,14 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                     </svg>
                 </div>
-                <h2 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white mb-2">Unable to Load Weather Data</h2>
+                <h2 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white mb-2">{{ isKhmer ? 'មិនអាចទាញយកទិន្នន័យធាតុអាកាសបានទេ' : 'Unable to Load Weather Data' }}</h2>
                 <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-md mx-auto mb-6">{{ error }}</p>
                 <div class="flex flex-wrap justify-center gap-3">
                     <button @click="selectPresetCity(cambodiaCities[0])" class="px-4 py-2.5 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs sm:text-sm font-semibold hover:bg-slate-300 dark:hover:bg-slate-700 transition-colors">
-                        Reset to Phnom Penh
+                        {{ isKhmer ? 'កំណត់ទៅរាជធានីភ្នំពេញ' : 'Reset to Phnom Penh' }}
                     </button>
                     <button @click="fetchWeatherData" class="px-4 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs sm:text-sm font-semibold transition-colors">
-                        Try Again
+                        {{ isKhmer ? 'ព្យាយាមម្តងទៀត' : 'Try Again' }}
                     </button>
                 </div>
             </div>
@@ -580,7 +580,7 @@
                                 <div class="mt-4 pt-3.5 border-t border-white/15 relative z-10">
                                     <div class="flex justify-between text-[11px] sm:text-xs font-semibold text-white/90 mb-1.5">
                                         <span>{{ activeSeasonData.startMonth }}</span>
-                                        <span>Progress: {{ seasonProgress }}%</span>
+                                        <span>{{ isKhmer ? 'ដំណើរវិវត្តន៍៖ ' : 'Progress: ' }}{{ seasonProgress }}%</span>
                                         <span>{{ activeSeasonData.endMonth }}</span>
                                     </div>
                                     <div class="h-2 bg-black/25 rounded-full overflow-hidden">
@@ -623,7 +623,7 @@
                                         <div class="rounded-2xl bg-slate-50 dark:bg-slate-800/50 p-3.5 sm:p-4 border border-slate-200/70 dark:border-slate-700/60">
                                             <h4 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
                                                 <span>✨</span>
-                                                <span>Season Characteristics</span>
+                                                <span>{{ isKhmer ? 'លក្ខណៈពិសេសនៃរដូវកាល' : 'Season Characteristics' }}</span>
                                             </h4>
                                             <ul class="space-y-2">
                                                 <li
@@ -641,7 +641,7 @@
                                         <div class="rounded-2xl bg-slate-50 dark:bg-slate-800/50 p-3.5 sm:p-4 border border-slate-200/70 dark:border-slate-700/60">
                                             <h4 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
                                                 <span>🎯</span>
-                                                <span>Best Seasonal Activities</span>
+                                                <span>{{ isKhmer ? 'សកម្មភាពពេញនិយមប្រចាំរដូវ' : 'Best Seasonal Activities' }}</span>
                                             </h4>
                                             <div class="flex flex-wrap gap-2">
                                                 <span
@@ -659,7 +659,7 @@
                                     <div class="rounded-2xl bg-gradient-to-r from-amber-500/10 via-teal-500/10 to-sky-500/10 border border-teal-500/25 p-3.5 sm:p-4 flex items-start gap-3">
                                         <span class="text-xl sm:text-2xl shrink-0">💡</span>
                                         <div>
-                                            <div class="text-xs font-bold uppercase tracking-wider text-teal-700 dark:text-teal-300">Did You Know?</div>
+                                            <div class="text-xs font-bold uppercase tracking-wider text-teal-700 dark:text-teal-300">{{ isKhmer ? 'តើអ្នកដឹងទេ?' : 'Did You Know?' }}</div>
                                             <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 mt-0.5">{{ activeSeasonData.funFact }}</p>
                                         </div>
                                     </div>
@@ -670,7 +670,7 @@
                                     <div>
                                         <h4 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
                                             <span>👕</span>
-                                            <span>Recommended Cambodian Wardrobe &amp; Essentials</span>
+                                            <span>{{ isKhmer ? 'ការស្លៀកពាក់ និងសម្ភារចាំបាច់នៅកម្ពុជា' : 'Recommended Cambodian Wardrobe & Essentials' }}</span>
                                         </h4>
                                         <div class="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-3">
                                             <div
@@ -687,7 +687,7 @@
                                     <div class="rounded-2xl bg-emerald-50/70 dark:bg-emerald-950/20 border border-emerald-200/70 dark:border-emerald-800/50 p-4 sm:p-5">
                                         <h4 class="text-xs sm:text-sm font-bold text-emerald-900 dark:text-emerald-300 mb-3 flex items-center gap-2">
                                             <span>🩺</span>
-                                            <span>Seasonal Wellness &amp; Safety Tips</span>
+                                            <span>{{ isKhmer ? 'ការណែនាំសុខភាព និងសុវត្ថិភាពតាមរដូវ' : 'Seasonal Wellness & Safety Tips' }}</span>
                                         </h4>
                                         <ul class="space-y-2.5">
                                             <li
@@ -709,13 +709,13 @@
                                     <div class="rounded-2xl bg-amber-50/70 dark:bg-amber-950/20 border border-amber-200/70 dark:border-amber-800/50 p-4 sm:p-5">
                                         <h4 class="text-xs sm:text-sm font-bold text-amber-900 dark:text-amber-300 mb-2 flex items-center gap-2">
                                             <span>🌾</span>
-                                            <span>Agricultural Cycle &amp; Farming Wisdom</span>
+                                            <span>{{ isKhmer ? 'វដ្តកសិកម្ម និងក្បួនដាំដុះបុរាណខ្មែរ' : 'Agricultural Cycle & Farming Wisdom' }}</span>
                                         </h4>
                                         <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed mb-4">
                                             {{ activeSeasonData.agricultural_advice }}
                                         </p>
                                         <div class="flex flex-wrap items-center gap-2">
-                                            <span class="text-xs font-bold text-amber-800 dark:text-amber-300">Key Crops &amp; Harvest:</span>
+                                            <span class="text-xs font-bold text-amber-800 dark:text-amber-300">{{ isKhmer ? 'ដំណាំសំខាន់ៗ និងការប្រមូលផល៖' : 'Key Crops & Harvest:' }}</span>
                                             <span
                                                 v-for="(crop, i) in activeSeasonData.crops"
                                                 :key="i"
@@ -729,7 +729,7 @@
                                     <div class="rounded-2xl bg-sky-50/70 dark:bg-sky-950/20 border border-sky-200/70 dark:border-sky-800/50 p-4 sm:p-5">
                                         <h4 class="text-xs sm:text-sm font-bold text-sky-900 dark:text-sky-300 mb-2 flex items-center gap-2">
                                             <span>🧭</span>
-                                            <span>Traveler's Advisory across Cambodia</span>
+                                            <span>{{ isKhmer ? 'ការណែនាំសម្រាប់ដំណើរកម្សាន្តនៅកម្ពុជា' : 'Traveler\'s Advisory across Cambodia' }}</span>
                                         </h4>
                                         <p class="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
                                             {{ activeSeasonData.travelTips }}
@@ -742,10 +742,10 @@
                                     <div>
                                         <h4 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white mb-1 flex items-center gap-2">
                                             <span>🍜</span>
-                                            <span>Beloved Cambodian Seasonal Street Foods &amp; Dishes</span>
+                                            <span>{{ isKhmer ? 'ម្ហូប និងអាហារសម្រន់តាមរដូវកាលកម្ពុជា' : 'Beloved Cambodian Seasonal Street Foods & Dishes' }}</span>
                                         </h4>
                                         <p class="text-xs text-slate-500 dark:text-slate-400 mb-3">
-                                            Iconic flavors enjoyed across Cambodian markets and family kitchens
+                                            {{ isKhmer ? 'រសជាតិដ៏ឈ្ងុយឆ្ងាញ់ដែលប្រជាជនខ្មែរនិយមទទួលទានតាមផ្សារ និងក្នុងគ្រួសារ' : 'Iconic flavors enjoyed across Cambodian markets and family kitchens' }}
                                         </p>
                                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
                                             <div
@@ -765,7 +765,7 @@
                                     <div>
                                         <h4 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white mb-1 flex items-center gap-2">
                                             <span>🏮</span>
-                                            <span>Nostalgic Cambodian Countryside Memories</span>
+                                            <span>{{ isKhmer ? 'អនុស្សាវរីយ៍ជនបទខ្មែរដ៏ស្រស់បំព្រង' : 'Nostalgic Cambodian Countryside Memories' }}</span>
                                         </h4>
                                         <p class="text-xs text-slate-500 dark:text-slate-400 mb-3">
                                             {{ culturalMemories.intro }}
@@ -1022,6 +1022,95 @@ const SEASON_CATALOG = {
     }
 };
 
+const SEASON_CATALOG_KM = {
+    rainy: {
+        name: 'រដូវវស្សា',
+        dateRange: 'ឧសភា - តុលា',
+        startMonth: 'ឧសភា',
+        endMonth: 'តុលា',
+        description: 'រដូវខ្យល់មូសុងនាំមកនូវទឹកភ្លៀងប្រទានជីវិតដល់ទឹកដីកម្ពុជា។ ពេលព្រឹកមានពន្លឺថ្ងៃក្តៅឧណ្ហៗ បន្ទាប់មកមានភ្លៀងធ្លាក់នៅពេលរសៀល ធ្វើឲ្យវាលស្រែឡើងពណ៌បៃតងខ្ចីស្រស់បំព្រង។ ទឹកទន្លេមេគង្គហូរឡើង និងប្តូរទិសដៅហូរចូលបឹងទន្លេសាប ចិញ្ចឹមមច្ឆាជាតិ និងព្រៃលិចទឹកទូទាំងព្រះរាជាណាចក្រកម្ពុជា។',
+        characteristics: [
+            'សំណើមបរិយាកាសខ្ពស់ (៧៥%–៩០%)',
+            'ភ្លៀងមូសុងស្រស់ស្រាយនៅពេលរសៀល',
+            'សីតុណ្ហភាពជាមធ្យម៖ ២៥–៣២°C',
+            'បរិមាណទឹកភ្លៀងធ្លាក់ច្រើនបំផុតក្នុងខែកញ្ញា និងតុលា',
+            'ធម្មជាតិ វាលស្រែ និងប្រាសាទបុរាណឡើងពណ៌បៃតងស្រស់',
+            'ផ្ទៃមេឃពពកចម្រុះពណ៌ដ៏ល្អឥតខ្ចោះសម្រាប់ការថតរូប'
+        ],
+        activities: [
+            'ទស្សនាប្រាសាទអង្គរវត្តនៅពេលព្រឹកព្រលឹម',
+            'ទស្សនាសារមន្ទីរជាតិ និងវិចិត្រសាលក្នុងម្លប់',
+            'ស្ប៉ា និងម៉ាស្សាបុរាណខ្មែរសម្រាកកាយ',
+            'រៀនធ្វើម្ហូបខ្មែរបុរាណ',
+            'ថតរូបទេសភាពមេឃ និងស្រមោលទឹកប្រាសាទ',
+            'ជិះទូកកម្សាន្តភូមិបណ្តែតទឹកបឹងទន្លេសាប',
+            'ដំណើរកម្សាន្តទឹកធ្លាក់ភ្នំគូលែន និងមណ្ឌលគិរី'
+        ],
+        clothing: [
+            { icon: '☔', name: 'ឆ័ត្របត់ / អាវភ្លៀង' },
+            { icon: '👟', name: 'ស្បែកជើងធន់នឹងទឹក' },
+            { icon: '🩴', name: 'ស្បែកជើងផ្ទាត់ងាយស្ងួត' },
+            { icon: '👕', name: 'សម្លៀកបំពាក់សាច់ក្រណាត់កប្បាសត្រជាក់' },
+            { icon: '🎒', name: 'កាបូបការពារជម្រាបទឹក' },
+            { icon: '🧴', name: 'ថ្នាំលាបការពារមូសខាំ' }
+        ],
+        healthTips: [
+            'រក្សាកម្រិតជាតិទឹកក្នុងខ្លួន — ពិសារទឹកស្អាត និងទឹកដូងស្រស់ឲ្យបានច្រើន',
+            'លាបថ្នាំការពារមូស ជាពិសេសពេលព្រលឹម និងពេលព្រលប់',
+            'ដើរដោយប្រុងប្រយ័ត្នលើកាំជណ្តើរថ្មប្រាសាទបុរាណក្រោយពេលភ្លៀង',
+            'ដាក់សម្ភារអេឡិចត្រូនិក និងឯកសារធ្វើដំណើរក្នុងថង់ការពារជម្រាបទឹក',
+            'រៀបចំដំណើរកម្សាន្តក្រៅផ្ទះនៅពេលព្រឹកព្រលឹម (៦ ព្រឹក ដល់ ១ រសៀល)'
+        ],
+        agricultural_advice: 'ជារដូវកាលស្ទូងស្រែវស្សាចម្បងនៅកម្ពុជា។ កសិករដកសំណាប និងស្ទូងស្រែយ៉ាងមមាញឹកពេលទឹកភ្លៀងធ្លាក់ជោកជាំ។ សំណើមបរិបូរណ៍ជួយឲ្យដំណាំលូតលាស់លឿន រីឯកសិករត្រួតពិនិត្យភ្លឺស្រែ និងប្រព័ន្ធបង្ហូរទឹក។',
+        crops: ['ស្រូវវស្សា (ស្រូវធ្ងន់ និងស្រូវកណ្តាល)', 'ពោត', 'សណ្តែកសៀង', 'សណ្តែកបាយ', 'ត្រកួន', 'ផ្កាឈូក'],
+        travelTips: 'រៀបចំដំណើរកម្សាន្តប្រាសាទ និងកន្លែងក្រៅផ្ទះនៅពេលព្រឹក។ យកឆ័ត្រ ឬអាវភ្លៀងស្រាលតាមខ្លួន។ រដូវនេះភ្ញៀវទេសចរមិនសូវណែនណាន់តាប់ ប្រាសាទមានភាពស្ងប់ស្ងាត់ និងសណ្ឋាគារមានតម្លៃសមរម្យ!',
+        funFact: 'ក្នុងរដូវវស្សា បឹងទន្លេសាបរីកធំឡើងជាង ៥ ដង — ពី ២,៥០០ គីឡូម៉ែត្រការ៉េ រហូតដល់ជាង ១៦,០០០ គីឡូម៉ែត្រការ៉េ — ក្លាយជាប្រព័ន្ធអេកូឡូស៊ីទឹកសាបដែលសម្បូរត្រីជាងគេបំផុតមួយលើពិភពលោក!'
+    },
+    dry: {
+        name: 'រដូវប្រាំង',
+        dateRange: 'វិច្ឆិកា - មេសា',
+        startMonth: 'វិច្ឆិកា',
+        endMonth: 'មេសា',
+        description: 'រដូវប្រាំងជាវេលាមាសនៃប្រទេសកម្ពុជា — ពេលខ្យល់រំភើយបក់កាត់វាលស្រែពណ៌មាសទុំត្រៀមច្រូតកាត់។ ចាប់ពីព្រះរាជពិធីបុណ្យអុំទូក បណ្តែតប្រទីបក្នុងខែវិច្ឆិកា រហូតដល់ពិធីបុណ្យចូលឆ្នាំថ្មីប្រពៃណីជាតិក្នុងខែមេសា មេឃស្រឡះខៀវស្រងាត់ និងរាត្រីពោរពេញដោយផ្កាយបានលម្អជីវភាពភូមិឋាន និងទីក្រុង។',
+        characteristics: [
+            'ខ្យល់ធ្លាក់រំភើយត្រជាក់ពេលព្រឹក (ពិសេស វិច្ឆិកា–មករា)',
+            'ថ្ងៃលិចពណ៌មាសក្រហមច្រាលពេញផ្ទៃមេឃ',
+            'រាត្រីមេឃស្រឡះល្អឥតខ្ចោះសម្រាប់ការទទួលទានអាហារក្រៅផ្ទះ',
+            'ពេលរសៀលមានកម្តៅថ្ងៃក្តៅឧណ្ហៗ (កុម្ភៈ–មេសា)',
+            'ទេសភាពវាលស្រែពណ៌មាសទុំពេញផ្ទៃរាបកម្ពុជា',
+            'ទឹកសមុទ្រថ្លាឈ្វេងតាមបណ្តោយឆ្នេរ និងកោះភាគខាងត្បូង'
+        ],
+        activities: [
+            'ទស្សនាថ្ងៃរះដ៏អស្ចារ្យនៅប្រាសាទអង្គរវត្ត',
+            'ជិះកង់កម្សាន្តតាមភូមិស្រុកជនបទខ្មែរ',
+            'បង្ហោះខ្លែងឯកលើវាលស្រែក្រោយច្រូតកាត់',
+            'ពិធីបុណ្យវត្តអារាម និងពិធីមង្គលការខ្មែរ',
+            'ដើរផ្សាររាត្រីតាមមាត់ទន្លេ និងញ៉ាំអាហារសម្រន់',
+            'ដំណើរកម្សាន្តកោះរ៉ុង កំពត និងកែប',
+            'លេងល្បែងប្រជាប្រិយក្នុងពិធីបុណ្យចូលឆ្នាំថ្មី (មេសា)'
+        ],
+        clothing: [
+            { icon: '🧣', name: 'ក្រមាខ្មែរបុរាណ' },
+            { icon: '👕', name: 'អាវសាច់ត្រជាក់ និងខោក្រណាត់ស្រាល' },
+            { icon: '🩴', name: 'ស្បែកជើងដើរស្រួលជើង' },
+            { icon: '🕶️', name: 'វ៉ែនតាការពារកាំរស្មី UV' },
+            { icon: '👒', name: 'មួកស្លឹក ឬមួកបាំងថ្ងៃ' },
+            { icon: '🧴', name: 'ឡេការពារកម្តៅថ្ងៃ SPF ខ្ពស់' }
+        ],
+        healthTips: [
+            'ក្រោកពីព្រលឹមដើម្បីស្រូបយកខ្យល់ត្រជាក់មុនពេលថ្ងៃក្តៅ',
+            'សម្រាកក្នុងម្លប់ ឬក្នុងផ្ទះនៅចន្លោះម៉ោង ១២ ថ្ងៃត្រង់ ដល់ ៣ រសៀល',
+            'បន្ថែមភាពស្រស់ស្រាយដោយទឹកដូងខ្ចី និងទឹកអំពៅច្របាច់ស្រស់',
+            'ប្រើក្រមាជ្រលក់ទឹកជូតមុខដើម្បីកាត់បន្ថយកម្តៅពេលជិះកង់',
+            'ទទួលទានផ្លែឈើប្រចាំរដូវ៖ ស្វាយទុំ ខ្នុរ មៀន និងឪឡឹក'
+        ],
+        agricultural_advice: 'ជារដូវប្រមូលផលស្រូវដ៏អធិកអធម — ផលតបស្នងនៃការនឿយហត់ពេញមួយឆ្នាំ។ បងប្អូនកសិករប្រមូលផ្តុំគ្នាច្រូតកាត់ស្រូវ ចងបាច់ និងបញ្ជាន់ស្រូវក្រអូបថ្មីចូលជង្រុក។ ដំណាំឈើហូបផ្លែដូចជាស្វាយ ស្វាយចន្ទី និងដើមត្នោតផ្តល់ផលផ្អែមឆ្ងាញ់។',
+        crops: ['ស្រូវផ្ការំដួល/ម្លិះ (ច្រូតកាត់)', 'ស្វាយកែវរមៀត', 'ស្ករត្នោត', 'គ្រាប់ស្វាយចន្ទី', 'ឪឡឹក', 'ពោតផ្អែម'],
+        travelTips: 'ខែធ្នូ ដល់ កុម្ភៈ ជាពេលវេលាអាកាសធាតុត្រជាក់ស្រួលបំផុតសម្រាប់ដើរទស្សនាប្រាសាទ និងជិះកង់។ គួរកក់សណ្ឋាគារនៅសៀមរាប និងតំបន់ឆ្នេរទុកជាមុន ហើយកុំភ្លេចចូលរួមបុណ្យអុំទូក និងបុណ្យចូលឆ្នាំខ្មែរ!',
+        funFact: 'ក្នុងឱកាសបុណ្យចូលឆ្នាំថ្មីប្រពៃណីជាតិ ប្រជាជនកម្ពុជាតែងតែពូនភ្នំខ្សាច់នៅតាមទីវត្តអារាម — គ្រាប់ខ្សាច់នីមួយៗតំណាងឲ្យការរំដោះបាប និងការបួងសួងសុំសេចក្តីសុខចម្រើនដល់ក្រុមគ្រួសារ!'
+    }
+};
+
 const CULTURAL_MEMORIES = {
     intro: 'Across both seasons, Cambodian weather shapes cherished family traditions, village rhythms, and timeless childhood memories...',
     moments: [
@@ -1048,6 +1137,32 @@ const CULTURAL_MEMORIES = {
     ]
 };
 
+const CULTURAL_MEMORIES_KM = {
+    intro: 'គ្រប់រដូវកាលទាំងពីរ អាកាសធាតុកម្ពុជាតែងតែផ្សារភ្ជាប់យ៉ាងជិតស្និទ្ធជាមួយប្រពៃណីគ្រួសារ ចង្វាក់ជីវិតតាមភូមិស្រុក និងអនុស្សាវរីយ៍កុមារភាពដ៏កក់ក្តៅ...',
+    moments: [
+        {
+            icon: '🌅',
+            title: 'អ័ព្ទត្រជាក់ព្រឹកព្រលឹមលើវាលស្រែ',
+            description: 'ភ្ញាក់ឡើងទទួលខ្យល់ត្រជាក់ស្រស់ថ្លា និងអ័ព្ទសក្បុសរសាត់លើវាលស្រែខៀវស្រងាត់ ជាមួយសូរសត្វបក្សាបក្សីយំ និងក្លិនឈ្ងុយនៃបបរគ្រឿងក្តៅៗ។'
+        },
+        {
+            icon: '🪁',
+            title: 'ការបង្ហោះខ្លែងឯកក្នុងខ្យល់រំហើយ',
+            description: 'ការរត់លេងលើវាលស្រែដែលច្រូតកាត់រួច បង្ហោះខ្លែងឯកឫស្សីបន្លឺសូរយ៉ាងពីរោះក្នុងខ្យល់រំហើយ រីករាយជាមួយមិត្តភក្តិមុនពេលថ្ងៃលិច។'
+        },
+        {
+            icon: '🥭',
+            title: 'ជ្រកម្លប់ដើមស្វាយពេលរសៀល',
+            description: 'ការជួបជុំគ្នាក្រោមម្លប់ដើមស្វាយធំរបស់លោកយាយ ជជែកគ្នាលេង និងញ៉ាំស្វាយខ្ចីជ្រលក់អំបិលម្ទេស ឬទឹកត្រីផ្អែមយ៉ាងឆ្ងាញ់ជក់មាត់។'
+        },
+        {
+            icon: '💧',
+            title: 'ព្រះរាជពិធីបុណ្យអុំទូក និងបណ្តែតប្រទីប',
+            description: 'ទស្សនាការប្រណាំងទូកងចម្រុះពណ៌យ៉ាងស្វិតស្វាញតាមដងទន្លេសាប និងទន្លេមេគង្គ ព្រមទាំងការបាញ់កាំជ្រួចភ្លឺព្រោងព្រាតលើផ្ទៃមេឃរាត្រី។'
+        }
+    ]
+};
+
 const TRADITIONAL_FOODS = [
     { icon: '🍚', name: 'Bai Sach Chrouk', desc: 'Charcoal-grilled pork & broken rice' },
     { icon: '🍜', name: 'Nom Banh Chok', desc: 'Khmer rice noodles with green fish curry' },
@@ -1055,6 +1170,15 @@ const TRADITIONAL_FOODS = [
     { icon: '🥭', name: 'Svay Kralok', desc: 'Fresh green mango with chili salt' },
     { icon: '🥤', name: 'Tuk Ampov', desc: 'Iced kumquat sugarcane juice' },
     { icon: '🍲', name: 'Kuy Teav', desc: 'Aromatic morning pork-bone noodle soup' }
+];
+
+const TRADITIONAL_FOODS_KM = [
+    { icon: '🍚', name: 'បាយសាច់ជ្រូក', desc: 'សាច់ជ្រូកអាំងលើធ្យូងឈ្ងុយឆ្ងាញ់ ជាមួយបាយក្តៅ និងជ្រក់ត្រសក់' },
+    { icon: '🍜', name: 'នំបញ្ចុកសម្លប្រហើរ', desc: 'នំបញ្ចុកស្រស់សម្លប្រហើរត្រី ជាមួយបន្លែស្រស់ចម្រុះ' },
+    { icon: '🥥', name: 'នំគ្រក់', desc: 'នំគ្រក់ខ្ទិះដូងបំពងក្តៅៗស្រួយក្រៅទន់ក្នុង និងស្លឹកខ្ទឹម' },
+    { icon: '🥭', name: 'ស្វាយក្រឡុក / ស្វាយត្រាំ', desc: 'ស្វាយខ្ចីស្រួយស្រស់ជ្រលក់អំបិលម្ទេស ឬក្រឡុកទឹកត្រីផ្អែម' },
+    { icon: '🥤', name: 'ទឹកអំពៅ', desc: 'ទឹកអំពៅច្របាច់ស្រស់ត្រជាក់លាយក្រូចឆ្មារ ឬក្រូចខ្វិច' },
+    { icon: '🍲', name: 'គុយទាវកាត់ / គុយទាវឆ្អឹងជ្រូក', desc: 'គុយទាវទឹកស៊ុបឆ្អឹងជ្រូកដ៏ផ្អែមឈ្ងុយឆ្ងាញ់ពេលព្រឹក' }
 ];
 
 export default {
@@ -1123,9 +1247,7 @@ export default {
             forecast: [],
             alerts: [],
             uvIndex: 0,
-            lastUpdated: '',
-            culturalMemories: CULTURAL_MEMORIES,
-            culturalFoods: TRADITIONAL_FOODS
+            lastUpdated: ''
         };
     },
     computed: {
@@ -1182,7 +1304,14 @@ export default {
             return this.isRainySeason ? 'rainy' : 'dry';
         },
         activeSeasonData() {
-            return SEASON_CATALOG[this.activeSeasonKey] || this.currentSeason;
+            const catalog = this.isKhmer ? SEASON_CATALOG_KM : SEASON_CATALOG;
+            return catalog[this.activeSeasonKey] || catalog.dry;
+        },
+        culturalMemories() {
+            return this.isKhmer ? CULTURAL_MEMORIES_KM : CULTURAL_MEMORIES;
+        },
+        culturalFoods() {
+            return this.isKhmer ? TRADITIONAL_FOODS_KM : TRADITIONAL_FOODS;
         },
         weatherGradient() {
             const hour = new Date().getHours();
@@ -1223,12 +1352,15 @@ export default {
         },
         sunStatusLabel() {
             const now = Date.now();
-            if (!this.currentWeather.sunrise || !this.currentWeather.sunset) return 'Daytime';
-            if (now < this.currentWeather.sunrise) return 'Pre-Dawn';
-            if (now > this.currentWeather.sunset) return 'Nighttime';
+            if (!this.currentWeather.sunrise || !this.currentWeather.sunset) return this.isKhmer ? 'ពេលថ្ងៃ' : 'Daytime';
+            if (now < this.currentWeather.sunrise) return this.isKhmer ? 'មុនថ្ងៃរះ' : 'Pre-Dawn';
+            if (now > this.currentWeather.sunset) return this.isKhmer ? 'ពេលយប់' : 'Nighttime';
             const remainingMins = Math.round((this.currentWeather.sunset - now) / 60000);
             const hrs = Math.floor(remainingMins / 60);
             const mins = remainingMins % 60;
+            if (this.isKhmer) {
+                return hrs > 0 ? `នៅសល់ ${hrs}ម៉ោង ${mins}នាទី មុនថ្ងៃលិច` : `នៅសល់ ${mins}នាទី មុនថ្ងៃលិច`;
+            }
             return hrs > 0 ? `${hrs}h ${mins}m until sunset` : `${mins}m until sunset`;
         },
         windDirectionCardinal() {
@@ -1612,16 +1744,20 @@ export default {
                     (currentData.weather[0].main === 'Rain' && currentData.rain && currentData.rain['1h'] > 10)
                 ) {
                     this.alerts.push({
-                        title: 'Heavy Monsoon Rain Advisory',
-                        description: `Heavy rainfall detected around ${this.location.name}. Watch for localized street flooding and slippery roads.`,
+                        title: this.isKhmer ? 'ការប្រុងប្រយ័ត្នភ្លៀងមូសុងធ្លាក់ខ្លាំង' : 'Heavy Monsoon Rain Advisory',
+                        description: this.isKhmer
+                            ? `មានភ្លៀងធ្លាក់ខ្លាំងនៅជុំវិញ ${this.location.khmer || this.location.name}។ សូមប្រុងប្រយ័ត្នការលិចទឹកលើដងផ្លូវ និងផ្លូវរអិល។`
+                            : `Heavy rainfall detected around ${this.location.name}. Watch for localized street flooding and slippery roads.`,
                         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
                     });
                 }
 
                 if (currentData.main.temp >= 35 || currentData.main.feels_like >= 39) {
                     this.alerts.push({
-                        title: 'High Tropical Heat Advisory',
-                        description: `Feels-like temperature reaches ${this.formatTemp(currentData.main.feels_like)}°${this.unit}. Stay hydrated and limit midday sun exposure.`,
+                        title: this.isKhmer ? 'ការប្រុងប្រយ័ត្នរលកកម្តៅត្រជាក់' : 'High Tropical Heat Advisory',
+                        description: this.isKhmer
+                            ? `កម្តៅជាក់ស្តែងឡើងដល់ ${this.formatTemp(currentData.main.feels_like)}°${this.unit}។ សូមពិសារទឹកឲ្យបានច្រើន និងជៀសវាងត្រូវកម្តៅថ្ងៃខ្លាំង។`
+                            : `Feels-like temperature reaches ${this.formatTemp(currentData.main.feels_like)}°${this.unit}. Stay hydrated and limit midday sun exposure.`,
                         time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
                     });
                 }
@@ -1646,14 +1782,29 @@ export default {
         },
         formatShortDate(timestamp) {
             if (!timestamp) return '';
+            if (this.isKhmer) {
+                const d = new Date(timestamp);
+                const monthsKhmer = ['មករា', 'កុម្ភៈ', 'មីនា', 'មេសា', 'ឧសភា', 'មិថុនា', 'កក្កដា', 'សីហា', 'កញ្ញា', 'តុលា', 'វិច្ឆិកា', 'ធ្នូ'];
+                return `${d.getDate()} ${monthsKhmer[d.getMonth()]}`;
+            }
             return new Date(timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
         },
         formatWeekdayShort(timestamp) {
             if (!timestamp) return '';
+            if (this.isKhmer) {
+                const khmerDays = ['អាទិត្យ', 'ចន្ទ', 'អង្គារ', 'ពុធ', 'ព្រហស្បតិ៍', 'សុក្រ', 'សៅរ៍'];
+                return khmerDays[new Date(timestamp * 1000).getDay()];
+            }
             return new Date(timestamp * 1000).toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase();
         },
         formatDayFull(timestamp) {
             if (!timestamp) return '';
+            if (this.isKhmer) {
+                const d = new Date(timestamp * 1000);
+                const khmerDays = ['អាទិត្យ', 'ចន្ទ', 'អង្គារ', 'ពុធ', 'ព្រហស្បតិ៍', 'សុក្រ', 'សៅរ៍'];
+                const monthsKhmer = ['មករា', 'កុម្ភៈ', 'មីនា', 'មេសា', 'ឧសភា', 'មិថុនា', 'កក្កដា', 'សីហា', 'កញ្ញា', 'តុលា', 'វិច្ឆិកា', 'ធ្នូ'];
+                return `ថ្ងៃ${khmerDays[d.getDay()]} ទី${d.getDate()} ${monthsKhmer[d.getMonth()]}`;
+            }
             return new Date(timestamp * 1000).toLocaleDateString('en-US', {
                 weekday: 'short',
                 month: 'short',

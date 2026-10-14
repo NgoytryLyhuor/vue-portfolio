@@ -6,8 +6,11 @@
                 <!-- About Section -->
                 <div>
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Ngoytry Lyhuor</h3>
-                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">
-                        Professional web developer specializing in frontend development, JavaScript, Vue.js, PHP, Laravel, Java, and Spring Boot.
+                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 leading-relaxed">
+                        {{ isKhmer 
+                            ? 'អ្នកអភិវឌ្ឍន៍គេហទំព័រអាជីព ជំនាញលើការអភិវឌ្ឍ Frontend, JavaScript, Vue.js, PHP, Laravel, Java និង Spring Boot។' 
+                            : 'Professional web developer specializing in frontend development, JavaScript, Vue.js, PHP, Laravel, Java, and Spring Boot.' 
+                        }}
                     </p>
                     <div class="flex space-x-4">
                         <a 
@@ -38,30 +41,32 @@
 
                 <!-- Quick Links -->
                 <div>
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Quick Links</h3>
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                        {{ isKhmer ? 'តំណភ្ជាប់រហ័ស' : 'Quick Links' }}
+                    </h3>
                     <ul class="space-y-2">
                         <li>
                             <router-link 
                                 to="/" 
-                                class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 text-sm"
+                                class="text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors duration-200 text-sm"
                             >
-                                Home
+                                {{ isKhmer ? 'ទំព័រដើម' : 'Home' }}
                             </router-link>
                         </li>
                         <li>
                             <router-link 
                                 to="/projects" 
-                                class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 text-sm"
+                                class="text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors duration-200 text-sm"
                             >
-                                Projects
+                                {{ isKhmer ? 'គម្រោង' : 'Projects' }}
                             </router-link>
                         </li>
                         <li>
                             <router-link 
                                 to="/about" 
-                                class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 text-sm"
+                                class="text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors duration-200 text-sm"
                             >
-                                About
+                                {{ isKhmer ? 'អំពីខ្ញុំ' : 'About' }}
                             </router-link>
                         </li>
                     </ul>
@@ -69,38 +74,40 @@
 
                 <!-- Tools & Features -->
                 <div>
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Tools & Features</h3>
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                        {{ isKhmer ? 'ឧបករណ៍ & មុខងារ' : 'Tools & Features' }}
+                    </h3>
                     <ul class="space-y-2">
                         <li>
                             <router-link 
                                 to="/weather-app" 
-                                class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 text-sm"
+                                class="text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors duration-200 text-sm"
                             >
-                                Weather App
+                                {{ isKhmer ? 'ព្យាករណ៍ធាតុអាកាស' : 'Weather App' }}
                             </router-link>
                         </li>
                         <li>
                             <router-link 
                                 to="/air-quality" 
-                                class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 text-sm"
+                                class="text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors duration-200 text-sm"
                             >
-                                Air Quality
+                                {{ isKhmer ? 'គុណភាពខ្យល់' : 'Air Quality' }}
                             </router-link>
                         </li>
                         <li>
                             <router-link 
                                 to="/currency-converter" 
-                                class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 text-sm"
+                                class="text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors duration-200 text-sm"
                             >
-                                Currency Converter
+                                {{ isKhmer ? 'កម្មវិធីប្តូរប្រាក់' : 'Currency Converter' }}
                             </router-link>
                         </li>
                         <li>
                             <router-link 
                                 to="/khmer-calendar" 
-                                class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 text-sm"
+                                class="text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors duration-200 text-sm"
                             >
-                                Khmer Calendar
+                                {{ isKhmer ? 'ប្រតិទិនខ្មែរ' : 'Khmer Calendar' }}
                             </router-link>
                         </li>
                     </ul>
@@ -111,13 +118,13 @@
             <div class="mt-8 pt-8 border-t border-gray-200 dark:border-gray-800">
                 <div class="flex flex-col md:flex-row justify-between items-center">
                     <p class="text-gray-600 dark:text-gray-400 text-sm">
-                        © {{ currentYear }} Ngoytry Lyhuor. All rights reserved.
+                        © {{ currentYear }} Ngoytry Lyhuor. {{ isKhmer ? 'រក្សាសិទ្ធិគ្រប់យ៉ាង។' : 'All rights reserved.' }}
                     </p>
                     <div class="flex items-center space-x-4 mt-4 md:mt-0">
                         <span class="text-gray-600 dark:text-gray-400 text-sm">
-                            Built with 
+                            {{ isKhmer ? 'បង្កើតឡើងដោយ' : 'Built with' }} 
                             <span class="text-red-500">❤️</span> 
-                            using Vue.js & Tailwind CSS
+                            {{ isKhmer ? 'ប្រើប្រាស់ Vue.js & Tailwind CSS' : 'using Vue.js & Tailwind CSS' }}
                         </span>
                     </div>
                 </div>
@@ -129,14 +136,17 @@
 <script>
 // AppFooter Component - Site Footer with Links and Copyright
 import { computed } from 'vue';
+import { useLanguage } from '@/composables/useLanguage';
 
 export default {
   name: 'AppFooter',
   setup() {
+    const { isKhmer } = useLanguage();
     const currentYear = computed(() => new Date().getFullYear());
-    const githubUrl = 'https://github.com/NgoytryLyhuor'; // You can make this dynamic if needed
+    const githubUrl = 'https://github.com/NgoytryLyhuor';
     
     return {
+      isKhmer,
       currentYear,
       githubUrl
     };
