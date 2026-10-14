@@ -10,12 +10,9 @@
 
                 <div class="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 sm:gap-5">
                     <div class="min-w-0">
-                        <div class="flex items-center gap-2 mb-2.5">
-                            <div class="inline-flex flex-wrap items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-[11px] sm:text-sm font-medium border border-white/20">
-                                <span>🇰🇭</span>
-                                <span>{{ isKhmer ? 'ប្រតិទិនច័ន្ទគតិ-សុរិយគតិខ្មែរ' : 'Official Khmer Chhankitek Calendar' }}</span>
-                            </div>
-                            <LanguageToggle />
+                        <div class="inline-flex flex-wrap items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-[11px] sm:text-sm font-medium border border-white/20 mb-2.5">
+                            <span>🇰🇭</span>
+                            <span>{{ isKhmer ? 'ប្រតិទិនច័ន្ទគតិ-សុរិយគតិខ្មែរ' : 'Official Khmer Chhankitek Calendar' }}</span>
                         </div>
                         <h1 class="text-xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight mb-1.5 leading-tight">
                             {{ isKhmer ? 'ប្រតិទិនខ្មែរ • Khmer Calendar' : 'Khmer Calendar • ប្រតិទិនខ្មែរ' }}
@@ -599,7 +596,6 @@ import {
     CalendarIcon,
     SparklesIcon
 } from '@heroicons/vue/24/outline';
-import LanguageToggle from '@/components/LanguageToggle.vue';
 import { useLanguage } from '@/composables/useLanguage';
 
 export default {
@@ -608,8 +604,7 @@ export default {
         ChevronLeftIcon,
         ChevronRightIcon,
         CalendarIcon,
-        SparklesIcon,
-        LanguageToggle
+        SparklesIcon
     },
     setup() {
         const { currentLang, isKhmer, isEnglish, setLanguage, t } = useLanguage();

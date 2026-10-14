@@ -74,7 +74,7 @@
             <!-- Right Controls: Language Toggle, Theme Toggle & Mobile Hamburger -->
             <div class="flex items-center space-x-2">
                 <!-- Language Toggle Button (KM / EN) -->
-                <LanguageToggle class="hidden sm:inline-flex" />
+                <LanguageToggle class="inline-flex" />
 
                 <!-- Theme Toggle Button -->
                 <div class="relative" ref="themeDropdown">

@@ -64,14 +64,6 @@
                                 About
                             </router-link>
                         </li>
-                        <li>
-                            <router-link 
-                                to="/space-events" 
-                                class="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 text-sm"
-                            >
-                                Space Events
-                            </router-link>
-                        </li>
                     </ul>
                 </div>
 

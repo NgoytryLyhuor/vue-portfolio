@@ -11,12 +11,9 @@
             <!-- Top Header & Controls -->
             <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 sm:gap-6 mb-5 sm:mb-6">
                 <div class="min-w-0">
-                    <div class="flex items-center gap-2 mb-2.5 flex-wrap">
-                        <div class="inline-flex flex-wrap items-center gap-1.5 sm:gap-2 px-3 py-1 rounded-full bg-sky-500/10 dark:bg-sky-400/10 border border-sky-500/20 text-sky-700 dark:text-sky-300 text-[11px] sm:text-xs font-semibold tracking-wide uppercase">
-                            <span class="w-2 h-2 rounded-full bg-sky-500 animate-pulse shrink-0"></span>
-                            <span>{{ isKhmer ? 'ឧតុនិយម និងរដូវកាលកម្ពុជា' : 'Cambodia Weather & Seasons' }}</span>
-                        </div>
-                        <LanguageToggle />
+                    <div class="inline-flex flex-wrap items-center gap-1.5 sm:gap-2 px-3 py-1 rounded-full bg-sky-500/10 dark:bg-sky-400/10 border border-sky-500/20 text-sky-700 dark:text-sky-300 text-[11px] sm:text-xs font-semibold tracking-wide uppercase mb-2.5">
+                        <span class="w-2 h-2 rounded-full bg-sky-500 animate-pulse shrink-0"></span>
+                        <span>{{ isKhmer ? 'ឧតុនិយម និងរដូវកាលកម្ពុជា' : 'Cambodia Weather & Seasons' }}</span>
                     </div>
                     <h1 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white flex flex-wrap items-baseline gap-x-3 gap-y-1">
                         <span>{{ isKhmer ? 'ព្យាករណ៍ធាតុអាកាសកម្ពុជា' : 'Atmospheric Forecast' }}</span>
@@ -934,7 +931,6 @@
 
 <script>
 import logger from '@/utils/logger';
-import LanguageToggle from '@/components/LanguageToggle.vue';
 import { useLanguage } from '@/composables/useLanguage';
 
 const SEASON_CATALOG = {
@@ -1063,9 +1059,6 @@ const TRADITIONAL_FOODS = [
 
 export default {
     name: 'WeatherApp',
-    components: {
-        LanguageToggle
-    },
     setup() {
         const { currentLang, isKhmer, isEnglish, setLanguage, t } = useLanguage();
         return {

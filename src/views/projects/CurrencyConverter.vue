@@ -11,12 +11,9 @@
             <!-- Top Header & Controls -->
             <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 sm:gap-6 mb-5 sm:mb-6">
                 <div class="min-w-0">
-                    <div class="flex flex-wrap items-center gap-2 mb-2.5">
-                        <div class="inline-flex flex-wrap items-center gap-1.5 sm:gap-2 px-3 py-1 rounded-full bg-indigo-500/10 dark:bg-indigo-400/10 border border-indigo-500/20 text-indigo-700 dark:text-indigo-300 text-[11px] sm:text-xs font-semibold tracking-wide uppercase">
-                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
-                            <span>{{ isKhmer ? 'អត្រាប្តូរប្រាក់ និងរូបិយប័ណ្ណកម្ពុជា/សកល' : 'Cambodia & Global FX Intelligence' }}</span>
-                        </div>
-                        <LanguageToggle />
+                    <div class="inline-flex flex-wrap items-center gap-1.5 sm:gap-2 px-3 py-1 rounded-full bg-indigo-500/10 dark:bg-indigo-400/10 border border-indigo-500/20 text-indigo-700 dark:text-indigo-300 text-[11px] sm:text-xs font-semibold tracking-wide uppercase mb-2.5">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
+                        <span>{{ isKhmer ? 'អត្រាប្តូរប្រាក់ និងរូបិយប័ណ្ណកម្ពុជា/សកល' : 'Cambodia & Global FX Intelligence' }}</span>
                     </div>
                     <h1 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white flex flex-wrap items-baseline gap-x-3 gap-y-1">
                         <span>{{ isKhmer ? 'ស្ថានីយប្តូរប្រាក់ និងគណនាលុយអាប់ទ្វេ (USD/KHR)' : 'Currency & Dual-Cash Terminal' }}</span>
@@ -609,7 +606,6 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-import LanguageToggle from '@/components/LanguageToggle.vue';
 import { useLanguage } from '@/composables/useLanguage';
 import logger from '@/utils/logger';
 

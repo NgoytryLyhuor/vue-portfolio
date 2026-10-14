@@ -20,9 +20,16 @@ export function useLanguage() {
 
     const setLanguage = (lang) => {
         if (lang === 'km' || lang === 'en') {
+            if (currentLang.value === lang) return;
             currentLang.value = lang;
             if (typeof localStorage !== 'undefined') {
                 localStorage.setItem('preferred_language', lang);
+            }
+            if (typeof document !== 'undefined') {
+                document.documentElement.classList.add('language-changing');
+                setTimeout(() => {
+                    document.documentElement.classList.remove('language-changing');
+                }, 300);
             }
             if (typeof window !== 'undefined') {
                 window.dispatchEvent(new CustomEvent('language-changed', { detail: lang }));

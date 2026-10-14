@@ -21,3 +21,11 @@ import { useMetaTags } from './composables/useMetaTags';
 const route = useRoute();
 useMetaTags(); // Initialize meta tags management
 </script>
+
+<style>
+.language-changing main {
+  transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0.85;
+  transform: translateY(1px);
+}
+</style>

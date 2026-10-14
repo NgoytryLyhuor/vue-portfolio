@@ -11,12 +11,9 @@
             <!-- Top Header & Controls -->
             <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 sm:gap-6 mb-5 sm:mb-6">
                 <div class="min-w-0">
-                    <div class="flex items-center gap-2 mb-2.5 flex-wrap">
-                        <div class="inline-flex flex-wrap items-center gap-1.5 sm:gap-2 px-3 py-1 rounded-full bg-emerald-500/10 dark:bg-emerald-400/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-[11px] sm:text-xs font-semibold tracking-wide uppercase">
-                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
-                            <span>{{ isKhmer ? 'គុណភាពខ្យល់កម្ពុជា' : 'Cambodia Air Quality Monitor' }}</span>
-                        </div>
-                        <LanguageToggle />
+                    <div class="inline-flex flex-wrap items-center gap-1.5 sm:gap-2 px-3 py-1 rounded-full bg-emerald-500/10 dark:bg-emerald-400/10 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300 text-[11px] sm:text-xs font-semibold tracking-wide uppercase mb-2.5">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
+                        <span>{{ isKhmer ? 'គុណភាពខ្យល់កម្ពុជា' : 'Cambodia Air Quality Monitor' }}</span>
                     </div>
                     <h1 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white flex flex-wrap items-baseline gap-x-3 gap-y-1">
                         <span>{{ isKhmer ? 'ការតាមដានគុណភាពខ្យល់កម្ពុជា' : 'Air Quality Intelligence' }}</span>
@@ -777,7 +774,6 @@
 
 <script>
 import logger from '@/utils/logger';
-import LanguageToggle from '@/components/LanguageToggle.vue';
 import { useLanguage } from '@/composables/useLanguage';
 import {
     ArrowPathIcon,
@@ -796,8 +792,7 @@ export default {
         SunIcon,
         BeakerIcon,
         ShieldCheckIcon,
-        UserGroupIcon,
-        LanguageToggle
+        UserGroupIcon
     },
     setup() {
         const { currentLang, isKhmer, isEnglish, setLanguage, t } = useLanguage();
