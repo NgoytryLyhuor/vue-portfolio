@@ -116,7 +116,7 @@ const routes = [
         meta: {
             showNavBar: true,
             title: 'Currency Converter - Real-time Exchange Rates',
-            description: 'Convert between currencies with real-time exchange rates. Support for USD, KHR, EUR, GBP, and 20+ currencies.',
+            description: 'Convert between currencies with real-time exchange rates. Support for USD, KHR, CNY, and VND.',
             robots: 'index, follow'
         }
     },
