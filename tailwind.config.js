@@ -8,14 +8,14 @@ module.exports = {
     theme: {
         borderRadius: {
             'none': '0px',
-            'sm': '0px',
-            DEFAULT: '0px',
-            'md': '0px',
-            'lg': '0px',
-            'xl': '0px',
-            '2xl': '0px',
-            '3xl': '0px',
-            'full': '0px',
+            'sm': '6px',
+            DEFAULT: '8px',
+            'md': '8px',
+            'lg': '10px',
+            'xl': '12px',
+            '2xl': '14px',
+            '3xl': '16px',
+            'full': '9999px',
         },
         extend: {
             colors: {

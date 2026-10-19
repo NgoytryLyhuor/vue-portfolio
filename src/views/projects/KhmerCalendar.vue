@@ -2,12 +2,12 @@
     <div class="min-h-screen pt-12 sm:pt-16 pb-12 px-0 sm:px-4 lg:px-6 bg-gradient-to-br from-slate-50 via-red-50/20 to-blue-50/30 dark:from-gray-900 dark:via-gray-900 dark:to-slate-900 overflow-x-hidden">
         <div class="max-w-7xl mx-auto">
 
-            <!-- Top Hero & Live Today HUD Banner -->
-            <div class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 sm:p-7 mb-6 relative overflow-hidden">
+            <!-- Top Hero & Live Today HUD Banner (Subtle Rounded Corners) -->
+            <div class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl p-5 sm:p-7 mb-6 relative overflow-hidden shadow-sm">
                 <!-- Meta HUD Bar -->
                 <div class="flex flex-wrap items-center justify-between gap-3 pb-5 border-b border-slate-200 dark:border-slate-800 text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">
                     <div class="flex items-center gap-2">
-                        <span class="w-2 h-2 bg-rose-500 animate-pulse"></span>
+                        <span class="w-2 h-2 bg-rose-500 rounded-full animate-pulse"></span>
                         <span class="font-bold text-slate-700 dark:text-slate-200">
                             {{ isKhmer ? 'ប្រតិទិនច័ន្ទគតិ-សុរិយគតិខ្មែរផ្លូវការ' : 'OFFICIAL KHMER CHHANKITEK CALENDAR' }}
                         </span>
@@ -21,7 +21,7 @@
 
                 <div class="pt-5 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
                     <div class="min-w-0">
-                        <div class="inline-block px-2.5 py-1 text-[10px] font-mono uppercase tracking-widest font-bold bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800 mb-2">
+                        <div class="inline-block px-3 py-1 text-[11px] font-mono uppercase tracking-widest font-bold bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800 rounded-md mb-2">
                             {{ isKhmer ? 'កាលបរិច្ឆេទ & ថ្ងៃសីល' : 'CAMBODIA HOLY DAYS & FESTIVALS' }}
                         </div>
                         <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tight mb-2">
@@ -33,10 +33,10 @@
                         </p>
                     </div>
 
-                    <!-- Today Quick Status & Next Holiday (Sharp Boxes) -->
+                    <!-- Today Quick Status & Next Holiday (Subtle Rounded Boxes) -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:flex items-stretch gap-3 w-full lg:w-auto">
-                        <div class="border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-4 py-3 flex items-center gap-3">
-                            <div class="w-10 h-10 border border-rose-300 dark:border-rose-800 bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 font-mono font-black text-lg flex items-center justify-center shrink-0">
+                        <div class="border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 rounded-xl px-4 py-3 flex items-center gap-3">
+                            <div class="w-10 h-10 border border-rose-300 dark:border-rose-800 bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 font-mono font-black text-lg rounded-lg flex items-center justify-center shrink-0">
                                 <span>{{ isKhmer ? toKhmerNumeral(todayBannerInfo.day) : todayBannerInfo.day }}</span>
                             </div>
                             <div class="min-w-0">
@@ -51,7 +51,7 @@
 
                         <div v-if="nextUpcomingHoliday" 
                             @click="jumpToHoliday(nextUpcomingHoliday)"
-                            class="border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 hover:border-rose-500 dark:hover:border-rose-500 cursor-pointer transition-colors px-4 py-3 flex items-center gap-3">
+                            class="border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 hover:border-rose-500 dark:hover:border-rose-500 cursor-pointer transition-colors px-4 py-3 rounded-xl flex items-center gap-3">
                             <div class="text-2xl shrink-0">🎉</div>
                             <div class="min-w-0 flex-1">
                                 <div class="text-[10px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 truncate">

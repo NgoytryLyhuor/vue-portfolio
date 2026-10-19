@@ -1,12 +1,12 @@
 <template>
     <div
-        class="relative inline-flex items-center p-0.5 rounded-none bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 select-none transition-all duration-300 shrink-0"
+        class="relative inline-flex items-center p-0.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 select-none transition-all duration-300 shrink-0"
         role="group"
         aria-label="Language selector"
     >
-        <!-- Sharp Sliding Background Block -->
+        <!-- Sliding Background Block -->
         <div
-            class="absolute top-0.5 bottom-0.5 w-[calc(50%-2px)] rounded-none transition-transform duration-300 ease-[cubic-bezier(0.34,1.4,0.64,1)] pointer-events-none"
+            class="absolute top-0.5 bottom-0.5 w-[calc(50%-2px)] rounded-md transition-transform duration-300 ease-[cubic-bezier(0.34,1.4,0.64,1)] pointer-events-none"
             :class="[
                 currentLang === 'km'
                     ? 'left-0.5 translate-x-0 bg-gradient-to-r from-red-600 via-indigo-600 to-blue-700 shadow-sm'
@@ -18,7 +18,7 @@
         <button
             type="button"
             @click="setLanguage('km')"
-            class="relative z-10 inline-flex items-center justify-center gap-1.5 px-3 py-1 rounded-none text-xs font-bold transition-all duration-200 outline-none focus:outline-none"
+            class="relative z-10 inline-flex items-center justify-center gap-1.5 px-3 py-1 rounded-md text-xs font-bold transition-all duration-200 outline-none focus:outline-none"
             :class="[
                 currentLang === 'km'
                     ? 'text-white'
@@ -28,7 +28,7 @@
             :aria-pressed="currentLang === 'km'"
         >
             <!-- Cambodia Flag SVG Vector -->
-            <svg class="w-4 h-3 rounded-none shadow-sm shrink-0 overflow-hidden transition-transform duration-300" :class="{ 'scale-110': currentLang === 'km' }" viewBox="0 0 640 480" aria-hidden="true">
+            <svg class="w-4 h-3 rounded-sm shadow-sm shrink-0 overflow-hidden transition-transform duration-300" :class="{ 'scale-110': currentLang === 'km' }" viewBox="0 0 640 480" aria-hidden="true">
                 <path fill="#032ea1" d="M0 0h640v480H0z"/>
                 <path fill="#e00025" d="M0 120h640v240H0z"/>
                 <g fill="#fff" stroke="#000" transform="matrix(1.2 0 0 1.2 85.6 -522)">
@@ -95,7 +95,7 @@
         <button
             type="button"
             @click="setLanguage('en')"
-            class="relative z-10 inline-flex items-center justify-center gap-1.5 px-3 py-1 rounded-none text-xs font-bold transition-all duration-200 outline-none focus:outline-none"
+            class="relative z-10 inline-flex items-center justify-center gap-1.5 px-3 py-1 rounded-md text-xs font-bold transition-all duration-200 outline-none focus:outline-none"
             :class="[
                 currentLang === 'en'
                     ? 'text-white'
@@ -105,7 +105,7 @@
             :aria-pressed="currentLang === 'en'"
         >
             <!-- United Kingdom Flag SVG Vector -->
-            <svg class="w-4 h-3 rounded-none shadow-sm shrink-0 overflow-hidden transition-transform duration-300" :class="{ 'scale-110': currentLang === 'en' }" viewBox="0 0 640 480" aria-hidden="true">
+            <svg class="w-4 h-3 rounded-sm shadow-sm shrink-0 overflow-hidden transition-transform duration-300" :class="{ 'scale-110': currentLang === 'en' }" viewBox="0 0 640 480" aria-hidden="true">
                 <path fill="#012169" d="M0 0h640v480H0z"/>
                 <path fill="#FFF" d="m75 0 244 181L562 0h78v62L400 241l240 178v61h-80L320 301 81 480H0v-60l239-178L0 64V0z"/>
                 <path fill="#C8102E" d="m424 281 216 159v40L369 281zm-184 20 6 35L54 480H0zM640 0v3L391 191l2-44L590 0zM0 0l239 176h-60L0 42z"/>

@@ -2,26 +2,24 @@
     <div class="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
         <!-- Main Content -->
         <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-6 space-y-12">
-            <!-- Hero HUD Section (Modern Tech / Architectural Minimalist) -->
-            <section class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-10 relative overflow-hidden">
+            <!-- Hero HUD Section (Modern Tech with subtle rounded corners) -->
+            <section class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-10 relative overflow-hidden shadow-sm">
                 <!-- Top HUD Meta Bar -->
                 <div class="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-slate-200 dark:border-slate-800 text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">
                     <div class="flex items-center gap-2">
-                        <span class="w-2 h-2 bg-emerald-500 animate-pulse"></span>
+                        <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
                         <span class="font-bold text-slate-700 dark:text-slate-200">
-                            {{ isKhmer ? 'ប្រព័ន្ធដំណើរការ • ភ្នំពេញ កម្ពុជា' : 'SYSTEM ONLINE • PHNOM PENH, CAMBODIA' }}
+                            {{ isKhmer ? 'ភ្នំពេញ កម្ពុជា' : 'PHNOM PENH, CAMBODIA' }}
                         </span>
                     </div>
                     <div class="flex items-center gap-4">
                         <span>{{ isKhmer ? 'បច្ចេកវិទ្យា៖ VUE 3 / JAVA / LARAVEL' : 'STACK: VUE 3 / JAVA / LARAVEL' }}</span>
-                        <span class="hidden sm:inline">|</span>
-                        <span class="hidden sm:inline">{{ isKhmer ? 'កំណែប្រែ ២០២៦' : 'PORTFOLIO V2026' }}</span>
                     </div>
                 </div>
 
                 <!-- Main Hero Headline -->
                 <div class="py-8 space-y-4 max-w-4xl">
-                    <div class="inline-block px-2.5 py-1 text-[10px] font-mono uppercase tracking-widest font-bold bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800">
+                    <div class="inline-block px-3 py-1 text-[11px] font-mono uppercase tracking-widest font-bold bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 rounded-md">
                         {{ isKhmer ? 'អ្នកអភិវឌ្ឍន៍គេហទំព័រ & ប្រព័ន្ធកម្មវិធី FULL-STACK' : 'FULL-STACK WEB & SOFTWARE ENGINEER' }}
                     </div>
                     <h1 class="text-3xl sm:text-5xl font-black text-slate-900 dark:text-white tracking-tight uppercase">
@@ -36,15 +34,15 @@
                     <!-- Call-to-action Action Buttons -->
                     <div class="flex flex-wrap items-center gap-3 pt-3">
                         <router-link to="/projects"
-                            class="px-5 py-2.5 bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-xs font-mono font-bold uppercase tracking-wider border border-slate-900 dark:border-white hover:bg-blue-600 hover:border-blue-600 dark:hover:bg-blue-500 dark:hover:text-white dark:hover:border-blue-500 transition-all">
+                            class="px-5 py-2.5 bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-xs font-mono font-bold uppercase tracking-wider border border-slate-900 dark:border-white hover:bg-blue-600 hover:border-blue-600 dark:hover:bg-blue-500 dark:hover:text-white dark:hover:border-blue-500 rounded-lg transition-all">
                             {{ isKhmer ? 'ពិនិត្យមើលគម្រោង →' : 'Explore Projects →' }}
                         </router-link>
                         <router-link to="/about"
-                            class="px-5 py-2.5 bg-transparent text-slate-800 dark:text-slate-200 text-xs font-mono font-bold uppercase tracking-wider border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all">
+                            class="px-5 py-2.5 bg-transparent text-slate-800 dark:text-slate-200 text-xs font-mono font-bold uppercase tracking-wider border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all">
                             {{ isKhmer ? 'ប្រវត្តិរូប & បទពិសោធន៍' : 'About & Experience' }}
                         </router-link>
                         <router-link to="/vehicle-tax"
-                            class="px-5 py-2.5 bg-blue-50 dark:bg-blue-950/30 text-blue-700 dark:text-blue-300 text-xs font-mono font-bold uppercase tracking-wider border border-blue-300 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-all">
+                            class="px-5 py-2.5 bg-blue-50 dark:bg-blue-950/30 text-blue-700 dark:text-blue-300 text-xs font-mono font-bold uppercase tracking-wider border border-blue-300 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-900/40 rounded-lg transition-all">
                             {{ isKhmer ? '🧮 ម៉ាស៊ីនគណនាពន្ធឡាន' : '🧮 Cambodia Vehicle Tax' }}
                         </router-link>
                     </div>
@@ -57,7 +55,7 @@
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                         <router-link to="/vehicle-tax"
-                            class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 hover:border-blue-500 dark:hover:border-blue-500 transition-all group block">
+                            class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 rounded-xl hover:border-blue-500 dark:hover:border-blue-500 transition-all group block">
                             <div class="text-xl mb-1 group-hover:scale-105 transition-transform">🚗</div>
                             <div class="font-bold text-xs text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400">
                                 {{ isKhmer ? 'ពន្ធផ្លូវ & ឆៀកឡាន' : 'Vehicle Tax & Inspection' }}
@@ -68,7 +66,7 @@
                         </router-link>
 
                         <router-link to="/khmer-calendar"
-                            class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 hover:border-emerald-500 dark:hover:border-emerald-500 transition-all group block">
+                            class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 rounded-xl hover:border-emerald-500 dark:hover:border-emerald-500 transition-all group block">
                             <div class="text-xl mb-1 group-hover:scale-105 transition-transform">📅</div>
                             <div class="font-bold text-xs text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400">
                                 {{ isKhmer ? 'ប្រតិទិនចន្ទគតិខ្មែរ' : 'Khmer Lunar Calendar' }}
@@ -79,7 +77,7 @@
                         </router-link>
 
                         <router-link to="/weather-app"
-                            class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 hover:border-sky-500 dark:hover:border-sky-500 transition-all group block">
+                            class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 rounded-xl hover:border-sky-500 dark:hover:border-sky-500 transition-all group block">
                             <div class="text-xl mb-1 group-hover:scale-105 transition-transform">⛅</div>
                             <div class="font-bold text-xs text-slate-900 dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-400">
                                 {{ isKhmer ? 'ធាតុអាកាស & គុណភាពខ្យល់' : 'Weather & Air Quality' }}
@@ -90,7 +88,7 @@
                         </router-link>
 
                         <router-link to="/currency-converter"
-                            class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 hover:border-amber-500 dark:hover:border-amber-500 transition-all group block">
+                            class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 rounded-xl hover:border-amber-500 dark:hover:border-amber-500 transition-all group block">
                             <div class="text-xl mb-1 group-hover:scale-105 transition-transform">💱</div>
                             <div class="font-bold text-xs text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400">
                                 {{ isKhmer ? 'កម្មវិធីប្តូរប្រាក់រហ័ស' : 'Currency Converter' }}
@@ -116,10 +114,10 @@
                         </h2>
                     </div>
 
-                    <!-- Search Input (Sharp Tech Design) -->
+                    <!-- Search Input (Modern Subtle Rounded) -->
                     <div class="relative w-full sm:w-80">
                         <input v-model="searchQuery" type="text" :placeholder="isKhmer ? 'ស្វែងរកអត្ថបទ...' : 'Search articles...'"
-                            class="w-full px-3.5 py-2 rounded-none border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-xs font-medium focus:outline-none focus:border-blue-600 dark:focus:border-blue-400 transition-colors shadow-sm" />
+                            class="w-full px-3.5 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-xs font-medium focus:outline-none focus:border-blue-600 dark:focus:border-blue-400 transition-colors shadow-sm" />
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 absolute right-3 top-2.5 text-slate-400"
                             fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -128,10 +126,10 @@
                     </div>
                 </div>
 
-                <!-- Tag Filter Section (Sharp Rectangular Badges) -->
+                <!-- Tag Filter Section (Subtle Rounded Badges) -->
                 <div class="flex flex-wrap items-center gap-1.5 pb-2">
                     <button @click="resetFilters" 
-                        class="px-3 py-1 rounded-none text-xs font-mono font-bold uppercase tracking-wider transition-all border"
+                        class="px-3 py-1 rounded-lg text-xs font-mono font-bold uppercase tracking-wider transition-all border"
                         :class="selectedTags.length === 0
                             ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 border-slate-900 dark:border-white shadow-sm'
                             : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800 hover:border-slate-400'">
@@ -139,7 +137,7 @@
                     </button>
 
                     <button v-for="tag in popularTags" :key="tag" @click="toggleTag(tag)"
-                        class="px-3 py-1 rounded-none text-xs font-mono font-semibold uppercase tracking-wider transition-all border"
+                        class="px-3 py-1 rounded-lg text-xs font-mono font-semibold uppercase tracking-wider transition-all border"
                         :class="selectedTags.includes(tag)
                             ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
                             : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:border-blue-400'">
@@ -153,21 +151,21 @@
                 </div>
 
                 <!-- Error state -->
-                <div v-if="error" class="text-center py-12 border border-dashed border-red-300 dark:border-red-900 bg-red-50/50 dark:bg-red-950/20 p-8">
+                <div v-if="error" class="text-center py-12 border border-dashed border-red-300 dark:border-red-900 bg-red-50/50 dark:bg-red-950/20 p-8 rounded-2xl">
                     <div class="text-red-500 font-bold mb-2">{{ isKhmer ? '⚠️ មិនអាចទាញយកទិន្នន័យបានទេ' : '⚠️ Error loading articles' }}</div>
                     <p class="text-xs text-slate-600 dark:text-slate-400">{{ error }}</p>
                     <button @click="fetchArticles"
-                        class="mt-4 px-4 py-2 bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-xs font-mono font-bold uppercase rounded-none border border-slate-900 dark:border-white hover:bg-blue-600 transition-colors">
+                        class="mt-4 px-4 py-2 bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-xs font-mono font-bold uppercase rounded-lg border border-slate-900 dark:border-white hover:bg-blue-600 transition-colors">
                         {{ isKhmer ? 'ព្យាយាមម្តងទៀត' : 'Retry' }}
                     </button>
                 </div>
 
-                <!-- Articles grid (Sharp Monolithic Cards) -->
+                <!-- Articles grid (Clean Modern Cards with ~10px rounding) -->
                 <div v-if="!loading && !error">
-                    <div v-if="filteredArticles.length === 0" class="text-center py-16 border border-dashed border-slate-300 dark:border-slate-800 p-8">
+                    <div v-if="filteredArticles.length === 0" class="text-center py-16 border border-dashed border-slate-300 dark:border-slate-800 p-8 rounded-2xl">
                         <p class="text-sm text-slate-600 dark:text-slate-400">{{ isKhmer ? 'មិនមានអត្ថបទដែលត្រូវនឹងលក្ខខណ្ឌស្វែងរករបស់អ្នកឡើយ' : 'No articles found matching your criteria' }}</p>
                         <button @click="resetFilters"
-                            class="mt-4 px-4 py-2 bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-xs font-mono font-bold uppercase rounded-none border border-slate-900 dark:border-white hover:bg-blue-600 transition-colors">
+                            class="mt-4 px-4 py-2 bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-xs font-mono font-bold uppercase rounded-lg border border-slate-900 dark:border-white hover:bg-blue-600 transition-colors">
                             {{ isKhmer ? 'កំណត់តម្រងឡើងវិញ' : 'Reset filters' }}
                         </button>
                     </div>
@@ -175,7 +173,7 @@
                     <div v-else class="space-y-8">
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                             <article v-for="article in paginatedArticles" :key="article.id"
-                                class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500 dark:hover:border-blue-400 shadow-sm hover:shadow-lg transition-all duration-200 flex flex-col justify-between group p-5">
+                                class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500 dark:hover:border-blue-400 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-200 flex flex-col justify-between group p-5">
                                 <div class="space-y-3">
                                     <!-- Author & Date Header -->
                                     <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 pb-3 border-b border-slate-100 dark:border-slate-800">
@@ -184,7 +182,7 @@
                                                 v-if="article.user.profile_image" 
                                                 :src="article.user.profile_image"
                                                 :alt="`${article.user.name}'s profile`" 
-                                                class="w-6 h-6 rounded-none border border-slate-300 dark:border-slate-700 object-cover"
+                                                class="w-6 h-6 rounded-md border border-slate-300 dark:border-slate-700 object-cover"
                                                 loading="lazy"
                                             >
                                             <span class="font-medium text-[11px] truncate max-w-[120px]">{{ article.user.name }}</span>
@@ -203,7 +201,7 @@
                                     <!-- Tags List -->
                                     <div class="flex flex-wrap gap-1">
                                         <span v-for="tag in article.tag_list.slice(0, 3)" :key="tag" @click="toggleTag(tag)"
-                                            class="px-1.5 py-0.5 text-[10px] font-mono rounded-none bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-blue-100 dark:hover:bg-blue-900/50 cursor-pointer transition-colors border border-slate-200 dark:border-slate-700">
+                                            class="px-2 py-0.5 text-[10px] font-mono rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-blue-100 dark:hover:bg-blue-900/50 cursor-pointer transition-colors border border-slate-200 dark:border-slate-700">
                                             #{{ tag }}
                                         </span>
                                     </div>
@@ -232,12 +230,12 @@
                             </article>
                         </div>
 
-                        <!-- Pagination Controls (Sharp Rectangles) -->
+                        <!-- Pagination Controls (Subtle Rounded Buttons) -->
                         <div v-if="totalPages > 1" class="pt-4 border-t border-slate-200 dark:border-slate-800 flex justify-center items-center gap-2">
                             <button 
                                 @click="currentPage = Math.max(1, currentPage - 1)"
                                 :disabled="currentPage === 1"
-                                class="px-4 py-2 rounded-none border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 text-xs font-mono font-bold uppercase disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                                class="px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 text-xs font-mono font-bold uppercase disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                                 aria-label="Previous page"
                             >
                                 {{ isKhmer ? '← ថយក្រោយ' : '← Previous' }}
@@ -248,7 +246,7 @@
                             <button 
                                 @click="currentPage = Math.min(totalPages, currentPage + 1)"
                                 :disabled="currentPage === totalPages"
-                                class="px-4 py-2 rounded-none border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 text-xs font-mono font-bold uppercase disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                                class="px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 text-xs font-mono font-bold uppercase disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                                 aria-label="Next page"
                             >
                                 {{ isKhmer ? 'បន្ទាប់ →' : 'Next →' }}

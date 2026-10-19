@@ -2,12 +2,12 @@
     <div class="min-h-screen bg-gradient-to-b from-slate-50 via-gray-50 to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-800 dark:text-slate-100 py-6 sm:py-10 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
         <div class="max-w-7xl mx-auto space-y-6 sm:space-y-8">
 
-            <!-- Hero HUD Section (Architectural Sharp Tech) -->
-            <div class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-8 relative overflow-hidden">
+            <!-- Hero HUD Section (Modern Tech with subtle ~10px rounded corners) -->
+            <div class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-8 relative overflow-hidden shadow-sm">
                 <!-- Meta HUD Bar -->
                 <div class="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-slate-200 dark:border-slate-800 text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">
                     <div class="flex items-center gap-2">
-                        <span class="w-2 h-2 bg-emerald-500 animate-pulse"></span>
+                        <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
                         <span class="font-bold text-slate-700 dark:text-slate-200">
                             {{ isKhmer ? 'ក្រសួងសាធារណការ (MPWT) & អគ្គនាយកដ្ឋានពន្ធដារ (GDT)' : 'CAMBODIA MPWT & GDT VEHICLE COMPLIANCE' }}
                         </span>
@@ -22,7 +22,7 @@
                 <div class="pt-6">
                     <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
                         <div class="max-w-3xl space-y-3">
-                            <div class="inline-block px-2.5 py-1 text-[10px] font-mono uppercase tracking-widest font-bold bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800">
+                            <div class="inline-block px-3 py-1 text-[11px] font-mono uppercase tracking-widest font-bold bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 rounded-md">
                                 {{ isKhmer ? 'មគ្គុទ្ទេសក៍ផ្លូវការយានយន្ត' : 'CAMBODIA MOTOR VEHICLE REGULATION' }}
                             </div>
                             <h1 class="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
@@ -36,10 +36,10 @@
                         </div>
 
                         <!-- Current Season Status HUD Box -->
-                        <div class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 space-y-2 lg:w-80 shrink-0">
+                        <div class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 rounded-xl space-y-2 lg:w-80 shrink-0">
                             <div class="flex items-center justify-between">
                                 <span class="text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">{{ isKhmer ? 'រដូវកាលបង់ពន្ធផ្លូវ' : 'Road Tax Season' }}</span>
-                                <span class="px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider"
+                                <span class="px-2.5 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider rounded-md"
                                     :class="isTaxSeasonActive ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800' : 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 border border-amber-300 dark:border-amber-800'">
                                     {{ isTaxSeasonActive ? (isKhmer ? 'កំពុងប្រមូលពន្ធ' : 'Active Period') : (isKhmer ? 'រដូវកាលបិទ' : 'Off Season') }}
                                 </span>
@@ -55,11 +55,11 @@
                         </div>
                     </div>
 
-                    <!-- Navigation Sub-tabs (Sharp Rectangles) -->
+                    <!-- Navigation Sub-tabs (Subtle Rounded Buttons) -->
                     <div class="mt-6 pt-5 border-t border-slate-200 dark:border-slate-800 flex flex-wrap gap-2">
                         <button v-for="tab in tabs" :key="tab.id"
                             @click="activeTab = tab.id"
-                            class="px-3.5 py-2 text-xs font-mono uppercase font-bold tracking-wider border transition-all flex items-center gap-2"
+                            class="px-3.5 py-2 text-xs font-mono uppercase font-bold tracking-wider border rounded-lg transition-all flex items-center gap-2"
                             :class="activeTab === tab.id 
                                 ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 border-slate-900 dark:border-white' 
                                 : 'bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800 hover:border-slate-400'">

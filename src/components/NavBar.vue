@@ -11,7 +11,7 @@
                         <img 
                             src="../assets/logo.png" 
                             alt="Ngoytry Lyhuor Logo"
-                            class="h-7 w-7 mr-3 transition-transform duration-200 hover:scale-105 border border-slate-200 dark:border-slate-700 p-0.5 rounded-none"
+                            class="h-7 w-7 mr-3 transition-transform duration-200 hover:scale-105 border border-slate-200 dark:border-slate-700 p-0.5 rounded-md"
                             width="28"
                             height="28"
                             loading="eager"
@@ -26,7 +26,7 @@
                         v-for="link in standardNavLinks" 
                         :key="link.path" 
                         :to="link.path"
-                        class="hover:text-blue-600 dark:hover:text-blue-400 text-xs uppercase tracking-wider font-bold transition-all duration-200 px-3 py-1.5 rounded-none focus:outline-none border-b-2 border-transparent"
+                        class="hover:text-blue-600 dark:hover:text-blue-400 text-xs uppercase tracking-wider font-bold transition-all duration-200 px-3 py-1.5 rounded-md focus:outline-none border-b-2 border-transparent"
                         :class="{ 'text-blue-600 dark:text-blue-400 border-blue-600 dark:border-blue-400 font-black': $route.path === link.path }"
                         :aria-label="`Navigate to ${link.label}`"
                         :aria-current="$route.path === link.path ? 'page' : undefined"
@@ -37,7 +37,7 @@
                     <!-- Other Features Dropdown (Desktop) -->
                     <div class="relative" ref="featuresDropdown">
                         <button @click.stop="toggleFeaturesMenu"
-                            class="flex items-center hover:text-blue-600 dark:hover:text-blue-400 text-xs uppercase tracking-wider font-bold transition-all duration-200 px-3 py-1.5 rounded-none border-b-2 border-transparent"
+                            class="flex items-center hover:text-blue-600 dark:hover:text-blue-400 text-xs uppercase tracking-wider font-bold transition-all duration-200 px-3 py-1.5 rounded-md border-b-2 border-transparent"
                             :class="{ 'text-blue-600 dark:text-blue-400 border-blue-600 dark:border-blue-400 font-black': isFeatureActive }"
                             aria-label="Other Features" aria-haspopup="true" :aria-expanded="isFeaturesMenuOpen">
                             {{ isKhmer ? 'មុខងារផ្សេងៗ' : 'Other Features' }}
@@ -59,9 +59,9 @@
                             leave-to-class="transform opacity-0 -translate-y-2"
                         >
                             <div v-if="isFeaturesMenuOpen"
-                                class="absolute left-0 w-60 rounded-none dark:bg-slate-900 mt-2 shadow-2xl z-50 border border-slate-300 dark:border-slate-700 bg-white backdrop-blur-xl p-1 divide-y divide-slate-100 dark:divide-slate-800">
+                                class="absolute left-0 w-60 rounded-xl dark:bg-slate-900 mt-2 shadow-2xl z-50 border border-slate-300 dark:border-slate-700 bg-white backdrop-blur-xl p-1.5 space-y-0.5">
                                 <router-link v-for="feature in featureLinks" :key="feature.path" :to="feature.path"
-                                    class="flex items-center px-3.5 py-2.5 text-xs rounded-none text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 w-full text-left transition-all duration-150 cursor-pointer"
+                                    class="flex items-center px-3.5 py-2.5 text-xs rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 w-full text-left transition-all duration-150 cursor-pointer"
                                     :class="{ 'bg-slate-100 dark:bg-slate-800 font-bold text-blue-600 dark:text-blue-400': $route.path === feature.path }"
                                     @click="selectFeature(feature.path, $event)">
                                     <component :is="feature.icon" class="h-4 w-4 mr-3 shrink-0 text-slate-500 dark:text-slate-400" />
@@ -81,7 +81,7 @@
                 <!-- Theme Toggle Button -->
                 <div class="relative" ref="themeDropdown">
                     <button @click.stop="toggleThemeMenu"
-                        class="flex items-center justify-center w-8 h-8 rounded-none border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors focus:outline-none"
+                        class="flex items-center justify-center w-8 h-8 rounded-lg border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors focus:outline-none"
                         aria-label="Toggle theme menu" aria-haspopup="true" :aria-expanded="isThemeMenuOpen">
                         <!-- Sun icon for light mode -->
                         <SunIcon v-if="currentTheme === 'light'" class="h-4 w-4 text-amber-500" />
@@ -101,21 +101,21 @@
                         leave-to-class="transform opacity-0 -translate-y-2"
                     >
                         <div v-if="isThemeMenuOpen"
-                            class="absolute right-0 w-36 rounded-none dark:bg-slate-900 mt-2 shadow-2xl z-50 border border-slate-300 dark:border-slate-700 bg-white backdrop-blur-xl p-1 space-y-0.5">
+                            class="absolute right-0 w-36 rounded-xl dark:bg-slate-900 mt-2 shadow-2xl z-50 border border-slate-300 dark:border-slate-700 bg-white backdrop-blur-xl p-1.5 space-y-0.5">
                             <button @click="setTheme('light')"
-                                class="flex items-center px-3 py-2 text-xs rounded-none text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 w-full text-left transition-all"
+                                class="flex items-center px-3 py-2 text-xs rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 w-full text-left transition-all"
                                 :class="{ 'bg-slate-100 dark:bg-slate-800 font-bold text-blue-600 dark:text-blue-400': currentTheme === 'light' }">
                                 <SunIcon class="h-4 w-4 mr-2 text-amber-500" />
                                 {{ isKhmer ? 'ពន្លឺ' : 'Light' }}
                             </button>
                             <button @click="setTheme('dark')"
-                                class="flex items-center px-3 py-2 text-xs rounded-none text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 w-full text-left transition-all"
+                                class="flex items-center px-3 py-2 text-xs rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 w-full text-left transition-all"
                                 :class="{ 'bg-slate-100 dark:bg-slate-800 font-bold text-blue-600 dark:text-blue-400': currentTheme === 'dark' }">
                                 <MoonIcon class="h-4 w-4 mr-2 text-indigo-400" />
                                 {{ isKhmer ? 'ងងឹត' : 'Dark' }}
                             </button>
                             <button @click="setTheme('system')"
-                                class="flex items-center px-3 py-2 text-xs rounded-none text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 w-full text-left transition-all"
+                                class="flex items-center px-3 py-2 text-xs rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 w-full text-left transition-all"
                                 :class="{ 'bg-slate-100 dark:bg-slate-800 font-bold text-blue-600 dark:text-blue-400': currentTheme === 'system' }">
                                 <ComputerDesktopIcon class="h-4 w-4 mr-2 text-slate-500 dark:text-slate-400" />
                                 {{ isKhmer ? 'ប្រព័ន្ធ' : 'System' }}
@@ -126,7 +126,7 @@
 
                 <!-- Clean Mobile Hamburger Button -->
                 <button @click.stop="toggleMobileMenu"
-                    class="md:hidden flex items-center justify-center w-8 h-8 rounded-none border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 transition-colors focus:outline-none"
+                    class="md:hidden flex items-center justify-center w-8 h-8 rounded-lg border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 transition-colors focus:outline-none"
                     aria-label="Toggle navigation menu"
                     :aria-expanded="isMobileMenuOpen">
                     <component :is="isMobileMenuOpen ? XMarkIcon : Bars3Icon" class="h-5 w-5 transition-transform duration-150" />
@@ -159,12 +159,12 @@
             leave-to-class="opacity-0 -translate-y-3 scale-[0.98]"
         >
             <div v-if="isMobileMenuOpen"
-                class="md:hidden absolute left-0 right-0 top-full w-full bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-2xl z-50 max-h-[calc(100vh-4rem)] overflow-y-auto rounded-none">
+                class="md:hidden absolute left-0 right-0 top-full w-full bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-2xl z-50 max-h-[calc(100vh-4rem)] overflow-y-auto">
                 <div class="px-4 py-3 space-y-2">
                     <!-- Main Navigation Links -->
                     <div class="space-y-1">
                         <router-link v-for="link in standardNavLinks" :key="link.path" :to="link.path"
-                            class="flex items-center space-x-3 px-3 py-2.5 rounded-none text-xs uppercase tracking-wider font-bold transition-colors cursor-pointer border-l-2"
+                            class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-xs uppercase tracking-wider font-bold transition-colors cursor-pointer border-l-2"
                             :class="[
                                 $route.path === link.path
                                     ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-600 dark:border-blue-400'
@@ -183,14 +183,14 @@
                         </div>
                         <div class="space-y-1">
                             <router-link v-for="feature in featureLinks" :key="feature.path" :to="feature.path"
-                                class="flex items-center space-x-3 px-3 py-2.5 rounded-none text-xs font-semibold transition-colors cursor-pointer border-l-2"
+                                class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer border-l-2"
                                 :class="[
                                     $route.path === feature.path
                                         ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-600 dark:border-blue-400'
                                         : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 border-transparent'
                                 ]"
                                 @click="navigateAndClose(feature.path)">
-                                <div class="w-6 h-6 rounded-none flex items-center justify-center shrink-0 border border-slate-200 dark:border-slate-700" :class="feature.badgeBg">
+                                <div class="w-6 h-6 rounded-md flex items-center justify-center shrink-0 border border-slate-200 dark:border-slate-700" :class="feature.badgeBg">
                                     <component :is="feature.icon" class="h-3.5 w-3.5" :class="feature.badgeText" />
                                 </div>
                                 <span>{{ feature.label }}</span>

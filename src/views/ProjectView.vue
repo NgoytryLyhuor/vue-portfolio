@@ -2,12 +2,12 @@
     <div class="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 transition-colors duration-300 py-10 px-4 sm:px-6 lg:px-8">
         <div class="max-w-7xl mx-auto space-y-10">
 
-            <!-- Header Section (Modern Architectural HUD) -->
-            <section class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-10 relative overflow-hidden">
+            <!-- Header Section (Modern Architectural HUD with subtle rounded corners) -->
+            <section class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-10 relative overflow-hidden shadow-sm">
                 <!-- Meta HUD Bar -->
                 <div class="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-slate-200 dark:border-slate-800 text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">
                     <div class="flex items-center gap-2">
-                        <span class="w-2 h-2 bg-blue-500 animate-pulse"></span>
+                        <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
                         <span class="font-bold text-slate-700 dark:text-slate-200">
                             {{ isKhmer ? 'បណ្តុំស្នាដៃ & គម្រោងកម្មវិធី' : 'PROJECT SHOWCASE & ARCHIVE' }}
                         </span>
@@ -23,7 +23,7 @@
 
                 <!-- Main Title & Bio -->
                 <div class="py-6 space-y-3 max-w-3xl">
-                    <div class="inline-block px-2.5 py-1 text-[10px] font-mono uppercase tracking-widest font-bold bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800">
+                    <div class="inline-block px-3 py-1 text-[11px] font-mono uppercase tracking-widest font-bold bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 rounded-md">
                         {{ isKhmer ? 'ស្នាដៃអភិវឌ្ឍន៍ផ្ទាល់ខ្លួន' : 'ENGINEERING & PRODUCTION BUILDS' }}
                     </div>
                     <h1 class="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
@@ -43,7 +43,7 @@
                             v-model="searchQuery" 
                             type="text" 
                             :placeholder="isKhmer ? 'ស្វែងរកគម្រោងតាមឈ្មោះ បច្ចេកវិទ្យា ឬការពិពណ៌នា...' : 'Search projects by title, stack, or keywords...'"
-                            class="w-full px-4 py-2.5 pl-10 pr-10 border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 text-xs font-mono focus:outline-none focus:border-blue-500 focus:bg-white dark:focus:bg-slate-900 transition-colors"
+                            class="w-full px-4 py-2.5 pl-10 pr-10 border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 text-xs font-mono rounded-xl focus:outline-none focus:border-blue-500 focus:bg-white dark:focus:bg-slate-900 transition-colors"
                             aria-label="Search projects"
                         />
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 absolute left-3 top-3 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -58,7 +58,7 @@
                         </button>
                     </div>
 
-                    <!-- Category Filter Chips (Sharp Rectangles) -->
+                    <!-- Category Filter Chips (Subtle Rounded) -->
                     <div class="flex flex-wrap items-center gap-2 pt-2">
                         <span class="text-[11px] font-mono text-slate-400 uppercase mr-1">
                             {{ isKhmer ? 'ប្រភេទ៖' : 'CATEGORY:' }}
@@ -66,7 +66,7 @@
                         <button 
                             @click="activeCategory = 'all'" 
                             :class="[
-                                'px-3 py-1.5 text-xs font-mono uppercase tracking-wider border transition-all',
+                                'px-3 py-1.5 text-xs font-mono uppercase tracking-wider border rounded-lg transition-all',
                                 activeCategory.toLowerCase() === 'all'
                                     ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 border-slate-900 dark:border-white font-bold'
                                     : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:border-slate-400'
@@ -78,7 +78,7 @@
                             :key="category"
                             @click="activeCategory = category" 
                             :class="[
-                                'px-3 py-1.5 text-xs font-mono uppercase tracking-wider border transition-all',
+                                'px-3 py-1.5 text-xs font-mono uppercase tracking-wider border rounded-lg transition-all',
                                 activeCategory.toLowerCase() === category.toLowerCase()
                                     ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 border-slate-900 dark:border-white font-bold'
                                     : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:border-slate-400'
@@ -95,7 +95,7 @@
             </div>
 
             <!-- Error State -->
-            <div v-else-if="error" class="border border-red-300 dark:border-red-900 bg-red-50 dark:bg-red-950/30 p-8 text-center space-y-4">
+            <div v-else-if="error" class="border border-red-300 dark:border-red-900 bg-red-50 dark:bg-red-950/30 p-8 text-center space-y-4 rounded-2xl">
                 <div class="w-12 h-12 mx-auto text-red-500">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -108,7 +108,7 @@
                 <p class="text-xs font-mono text-slate-600 dark:text-slate-400">{{ error }}</p>
                 <button 
                     @click="fetchProjects"
-                    class="px-4 py-2 bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-xs font-mono uppercase font-bold border border-slate-900 dark:border-white hover:bg-blue-600 transition-colors">
+                    class="px-4 py-2 bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-xs font-mono uppercase font-bold border border-slate-900 dark:border-white rounded-lg hover:bg-blue-600 transition-colors">
                     {{ isKhmer ? 'ព្យាយាមម្តងទៀត' : 'Retry Connection' }}
                 </button>
             </div>
@@ -119,11 +119,11 @@
                     <article 
                         v-for="project in filteredProjects" 
                         :key="project.id"
-                        class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col hover:border-blue-500 dark:hover:border-blue-500 transition-all duration-200 group">
+                        class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl overflow-hidden flex flex-col hover:border-blue-500 dark:hover:border-blue-500 shadow-sm hover:shadow-lg transition-all duration-200 group">
 
                         <!-- Image Preview Box -->
                         <div class="h-48 bg-slate-100 dark:bg-slate-800 relative overflow-hidden border-b border-slate-200 dark:border-slate-800">
-                            <span v-if="project.status" class="absolute top-3 left-3 px-2 py-0.5 text-[10px] font-mono font-bold bg-blue-600 text-white uppercase tracking-wider z-10">
+                            <span v-if="project.status" class="absolute top-3 left-3 px-2 py-0.5 text-[10px] font-mono font-bold bg-blue-600 text-white uppercase tracking-wider rounded-md z-10">
                                 {{ formatCategory(project.status) }}
                             </span>
                             <img 
@@ -134,7 +134,7 @@
                                 loading="lazy"
                             >
                             <div class="absolute bottom-3 left-3 z-10">
-                                <span class="px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider bg-slate-900/90 text-white border border-slate-700">
+                                <span class="px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider bg-slate-900/90 text-white border border-slate-700 rounded-md">
                                     {{ project.category }}
                                 </span>
                             </div>
@@ -149,25 +149,25 @@
                                 <p class="text-xs text-slate-600 dark:text-slate-400 line-clamp-3 leading-relaxed" v-html="project.description"></p>
                             </div>
 
-                            <!-- Technologies Badges (Sharp) -->
+                            <!-- Technologies Badges -->
                             <div class="space-y-4">
                                 <div class="flex flex-wrap gap-1.5">
                                     <span 
                                         v-for="tech in project.technologies" 
                                         :key="tech"
-                                        class="px-2 py-0.5 text-[10px] font-mono font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                                        class="px-2 py-0.5 text-[10px] font-mono font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 rounded-md">
                                         {{ tech }}
                                     </span>
                                 </div>
 
-                                <!-- Action Buttons (Sharp Rectangles) -->
+                                <!-- Action Buttons -->
                                 <div class="pt-3 border-t border-slate-200 dark:border-slate-800 flex items-center gap-2">
                                     <a 
                                         v-if="project.demo_url"
                                         :href="project.demo_url" 
                                         target="_blank" 
                                         rel="noopener noreferrer"
-                                        class="flex-1 text-center py-2 px-3 bg-blue-600 hover:bg-blue-700 text-white text-xs font-mono font-bold uppercase tracking-wider border border-blue-600 transition-all">
+                                        class="flex-1 text-center py-2 px-3 bg-blue-600 hover:bg-blue-700 text-white text-xs font-mono font-bold uppercase tracking-wider border border-blue-600 rounded-lg transition-all">
                                         {{ isKhmer ? 'ចូលមើលគេហទំព័រ →' : 'Visit Live Site →' }}
                                     </a>
                                     <a 
@@ -175,7 +175,7 @@
                                         :href="project.github" 
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        class="py-2 px-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-mono font-bold uppercase border border-slate-300 dark:border-slate-700 transition-all">
+                                        class="py-2 px-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-mono font-bold uppercase border border-slate-300 dark:border-slate-700 rounded-lg transition-all">
                                         GitHub
                                     </a>
                                 </div>
@@ -185,7 +185,7 @@
                 </div>
 
                 <!-- Empty State -->
-                <div v-else class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-12 text-center space-y-3">
+                <div v-else class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-12 text-center space-y-3 rounded-2xl">
                     <div class="text-3xl text-slate-400">🔍</div>
                     <h3 class="text-base font-bold text-slate-800 dark:text-slate-200">
                         {{ isKhmer ? 'រកមិនឃើញគម្រោងដែលត្រូវគ្នា' : 'No matching projects found' }}
@@ -195,7 +195,7 @@
                     </p>
                     <button 
                         @click="searchQuery = ''; activeCategory = 'all'"
-                        class="px-4 py-2 bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-xs font-mono uppercase font-bold border border-slate-900 dark:border-white hover:bg-blue-600 transition-colors">
+                        class="px-4 py-2 bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-xs font-mono uppercase font-bold border border-slate-900 dark:border-white rounded-lg hover:bg-blue-600 transition-colors">
                         {{ isKhmer ? 'កំណត់ឡើងវិញ' : 'Reset Filters' }}
                     </button>
                 </div>
