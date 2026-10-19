@@ -438,6 +438,67 @@
                                     : 'Pure Electric Vehicles (EV) enjoy a 50% road tax discount from the Royal Government! Motorcycles under 125cc are 100% tax-exempt.' }}
                             </p>
                         </div>
+
+                        <!-- Official GDT Road Tax Table Reference Collapsible -->
+                        <details class="group rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/80 p-4 transition-all">
+                            <summary class="flex items-center justify-between cursor-pointer list-none font-bold text-xs text-slate-800 dark:text-slate-200 select-none">
+                                <span class="flex items-center gap-2">
+                                    <span>📜</span>
+                                    <span>{{ isKhmer ? 'តារាងអត្រាពន្ធផ្លូវផ្លូវការ (រថយន្តទេសចរណ៍)' : 'Official GDT Road Tax Brackets (Passenger Cars)' }}</span>
+                                </span>
+                                <span class="text-xs text-blue-600 dark:text-blue-400 group-open:rotate-180 transition-transform">▼</span>
+                            </summary>
+                            <div class="mt-3 pt-3 border-t border-slate-200 dark:border-slate-700 text-xs overflow-x-auto">
+                                <table class="w-full text-left border-collapse">
+                                    <thead>
+                                        <tr class="text-[11px] font-bold text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700">
+                                            <th class="py-2 pr-2">{{ isKhmer ? 'ទំហំស៊ីឡាំង (CC)' : 'Engine (CC)' }}</th>
+                                            <th class="py-2 px-2 text-right">{{ isKhmer ? '≤ ៥ ឆ្នាំ' : '≤ 5 Yrs' }}</th>
+                                            <th class="py-2 px-2 text-right">{{ isKhmer ? '៥-១០ ឆ្នាំ' : '5-10 Yrs' }}</th>
+                                            <th class="py-2 pl-2 text-right text-emerald-600 dark:text-emerald-400 font-black">{{ isKhmer ? '> ១០ ឆ្នាំ' : '> 10 Yrs' }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-[11px]">
+                                        <tr>
+                                            <td class="py-2 pr-2 font-medium">{{ isKhmer ? 'ដល់ ១,៥០០ cc (Prius Gen 2, Vios)' : '≤ 1,500 cc (Prius Gen 2, Vios)' }}</td>
+                                            <td class="py-2 px-2 text-right">{{ isKhmer ? '១៥០k ៛' : '150k KHR' }}</td>
+                                            <td class="py-2 px-2 text-right">{{ isKhmer ? '១០០k ៛' : '100k KHR' }}</td>
+                                            <td class="py-2 pl-2 text-right font-bold text-emerald-600 dark:text-emerald-400">{{ isKhmer ? '៨០k ៛' : '80k KHR' }}</td>
+                                        </tr>
+                                        <tr class="bg-blue-50/60 dark:bg-blue-950/20 font-bold">
+                                            <td class="py-2 pr-2 text-blue-700 dark:text-blue-400 flex items-center gap-1">
+                                                <span>{{ isKhmer ? '១,៥០១ - ២,០០០ cc' : '1,501 - 2,000 cc' }}</span>
+                                                <span class="text-[9px] px-1 rounded bg-blue-600 text-white font-normal">Prius 011</span>
+                                            </td>
+                                            <td class="py-2 px-2 text-right">{{ isKhmer ? '២០០k ៛' : '200k KHR' }}</td>
+                                            <td class="py-2 px-2 text-right">{{ isKhmer ? '១៥០k ៛' : '150k KHR' }}</td>
+                                            <td class="py-2 pl-2 text-right font-black text-amber-600 dark:text-amber-400">{{ isKhmer ? '១០០k ៛' : '100k KHR' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 pr-2 font-medium">{{ isKhmer ? '២,០០១ - ២,៩០០ cc (Camry 2.4, Highlander)' : '2,001 - 2,900 cc (Camry 2.4, Highlander)' }}</td>
+                                            <td class="py-2 px-2 text-right">{{ isKhmer ? '៦០០k ៛' : '600k KHR' }}</td>
+                                            <td class="py-2 px-2 text-right">{{ isKhmer ? '៤០០k ៛' : '400k KHR' }}</td>
+                                            <td class="py-2 pl-2 text-right font-bold text-emerald-600 dark:text-emerald-400">{{ isKhmer ? '២៥០k ៛' : '250k KHR' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 pr-2 font-medium">{{ isKhmer ? '២,៩០១ - ៤,០០០ cc (RX330, RX350)' : '2,901 - 4,000 cc (RX330, RX350)' }}</td>
+                                            <td class="py-2 px-2 text-right">{{ isKhmer ? '១,០០០k ៛' : '1,000k KHR' }}</td>
+                                            <td class="py-2 px-2 text-right">{{ isKhmer ? '៧០០k ៛' : '700k KHR' }}</td>
+                                            <td class="py-2 pl-2 text-right font-bold text-emerald-600 dark:text-emerald-400">{{ isKhmer ? '៦០០k ៛' : '600k KHR' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 pr-2 font-medium">{{ isKhmer ? 'លើស ៤,០០០ cc (LX570, LC200 V8)' : '> 4,000 cc (LX570, LC200 V8)' }}</td>
+                                            <td class="py-2 px-2 text-right">{{ isKhmer ? '២,០០០k ៛' : '2,000k KHR' }}</td>
+                                            <td class="py-2 px-2 text-right">{{ isKhmer ? '១,៥០០k ៛' : '1,500k KHR' }}</td>
+                                            <td class="py-2 pl-2 text-right font-bold text-emerald-600 dark:text-emerald-400">{{ isKhmer ? '១,០០០k ៛' : '1,000k KHR' }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p class="mt-2 text-[10px] text-slate-500 dark:text-slate-400 italic">
+                                    {{ isKhmer ? 'ប្រភព៖ ប្រកាសស្តីពីការប្រមូលពន្ធលើមធ្យោបាយដឹកជញ្ជូន ក្រសួងសេដ្ឋកិច្ចនិងហិរញ្ញវត្ថុ & អគ្គនាយកដ្ឋានពន្ធដារ (GDT)' : 'Source: Official Prakas on Means of Transportation, MEF & General Department of Taxation (GDT).' }}
+                                </p>
+                            </div>
+                        </details>
                     </div>
 
                 </div>
@@ -877,11 +938,11 @@ export default {
                 age: 'over10',
                 ageLabelKhmer: 'អាយុកាល > ១០ ឆ្នាំ (ផលិត ២០១១)',
                 ageLabelEn: '> 10 Years Old (Mfg. 2011)',
-                roadTaxKhr: 150000,
+                roadTaxKhr: 100000,
                 inspectionFeeKhr: 54000,
                 estimatedPriceUsd: 11500,
-                taxExplanationKhmer: 'ម៉ូដែល Toyota Prius ឆ្នាំ 2010–2015 (រួមទាំងម៉ូដែលឆ្នាំ 2011 របស់អ្នក) បំពាក់ម៉ាស៊ីន 1.8L (1,798 cc) Dual VVT-i បូកម៉ូទ័រអគ្គិសនី Hybrid។ ទំហំស៊ីឡាំងនេះស្ថិតក្នុងកម្រិត 1,501–2,000 cc។ ដោយសាររថយន្តមានអាយុកាលលើសពី ១០ ឆ្នាំ យោងតាមតារាងពន្ធផ្លូវការរបស់អគ្គនាយកដ្ឋានពន្ធដារ (GDT) ត្រូវបង់ពន្ធផ្លូវ ១៥០,០០០ រៀល ជារៀងរាល់ឆ្នាំ។ (ចំណាំ៖ បើប្រៀបធៀបជាមួយ Prius 2004–2009 Gen 2 ម៉ាស៊ីន 1.5L បង់ត្រឹមតែ ១០០,០០០ រៀល)',
-                taxExplanationEn: 'Toyota Prius 2010–2015 (including your 2011 model) has a 1.8L (1,798 cc) 2ZR-FXE Dual VVT-i hybrid powertrain. It falls into the 1,501–2,000 cc cylinder capacity bracket. As an over-10-year-old vehicle, the official GDT annual road tax is 150,000 KHR (~$37.50). (Note: Gen 2 2004–2009 with 1.5L pays 100,000 KHR).'
+                taxExplanationKhmer: 'ម៉ូដែល Toyota Prius ឆ្នាំ 2010–2015 (រួមទាំងម៉ូដែលឆ្នាំ 2011 ជាក់ស្តែងរបស់អ្នក) បំពាក់ម៉ាស៊ីន 1.8L (1,798 cc) Dual VVT-i បូកម៉ូទ័រអគ្គិសនី Hybrid ស្ថិតក្នុងកម្រិត 1,501–2,000 cc។ ដោយសាររថយន្តផលិតនៅឆ្នាំ ២០១១ (អាយុកាលលើសពី ១០ ឆ្នាំ) យោងតាមតារាងពន្ធផ្លូវការរបស់អគ្គនាយកដ្ឋានពន្ធដារ (GDT) អត្រាពន្ធផ្លូវប្រចាំឆ្នាំធ្លាក់មកត្រឹមកម្រិត លើសពី ១០ ឆ្នាំ គឺត្រឹមតែ ១០០,០០០ រៀល ប៉ុណ្ណោះ (ពន្ធ ១៥០,០០០ រៀល គឺសម្រាប់តែរថយន្តអាយុ ៥ ដល់ ១០ ឆ្នាំប៉ុណ្ណោះ)។ ដូចនេះក្នុងកម្មវិធី GDT Taxpayer App ជាក់ស្តែង គឺចេញ ១០០,០០០ រៀល ត្រឹមត្រូវ ១០០%។',
+                taxExplanationEn: 'Toyota Prius 2010–2015 (including your 2011 model) has a 1.8L (1,798 cc) 2ZR-FXE Dual VVT-i hybrid powertrain. It falls into the 1,501–2,000 cc cylinder capacity bracket. Because it was manufactured in 2011 (now over 10 years old), under official GDT regulations it qualifies for the over-10-years reduced tier of exactly 100,000 KHR (~$25), matching the official GDT Taxpayer App invoice. (The 150,000 KHR tier only applies to cars aged 5–10 years).'
             },
             {
                 id: 'prius_gen2',
@@ -905,11 +966,11 @@ export default {
                 age: 'over10',
                 ageLabelKhmer: 'អាយុកាល > ១០ ឆ្នាំ',
                 ageLabelEn: '> 10 Years Old',
-                roadTaxKhr: 100000,
+                roadTaxKhr: 80000,
                 inspectionFeeKhr: 54000,
                 estimatedPriceUsd: 7500,
-                taxExplanationKhmer: 'Prius Gen 2 មានម៉ាស៊ីនទំហំ 1.5L (1,497 cc) ស្ថិតក្នុងកម្រិត 1,000–1,500 cc។ ដោយសារអាយុកាលលើស ១០ ឆ្នាំ ពន្ធផ្លូវប្រចាំឆ្នាំគឺត្រឹមតែ ១០០,០០០ រៀល (~$25) ប៉ុណ្ណោះ។',
-                taxExplanationEn: 'Prius Gen 2 features a 1.5L (1,497 cc) hybrid engine in the 1,000–1,500 cc bracket. With age > 10 years, annual road tax is only 100,000 KHR (~$25).'
+                taxExplanationKhmer: 'Prius Gen 2 មានម៉ាស៊ីនទំហំ 1.5L (1,497 cc) ស្ថិតក្នុងកម្រិតដល់ 1,500 cc។ ដោយសារអាយុកាលលើស ១០ ឆ្នាំ ពន្ធផ្លូវប្រចាំឆ្នាំគឺត្រឹមតែ ៨០,០០០ រៀល (~$20) ប៉ុណ្ណោះ។',
+                taxExplanationEn: 'Prius Gen 2 features a 1.5L (1,497 cc) hybrid engine in the up-to-1,500 cc bracket. With age > 10 years, annual road tax is only 80,000 KHR (~$20).'
             },
             {
                 id: 'prius_gen4',
@@ -933,11 +994,11 @@ export default {
                 age: '5to10',
                 ageLabelKhmer: 'អាយុកាល ៥–១០ ឆ្នាំ',
                 ageLabelEn: '5–10 Years Old',
-                roadTaxKhr: 200000,
+                roadTaxKhr: 150000,
                 inspectionFeeKhr: 54000,
                 estimatedPriceUsd: 22000,
-                taxExplanationKhmer: 'Prius Gen 4 មានទំហំស៊ីឡាំង 1.8L និងអាយុកាលរវាង ៥ ទៅ ១០ ឆ្នាំ ត្រូវបង់ពន្ធផ្លូវ ២០០,០០០ រៀល ជារៀងរាល់ឆ្នាំ។',
-                taxExplanationEn: 'Prius Gen 4 has a 1.8L engine aged 5–10 years, placing it in the 200,000 KHR (~$50) tax tier.'
+                taxExplanationKhmer: 'Prius Gen 4 មានទំហំស៊ីឡាំង 1.8L និងអាយុកាលរវាង ៥ ទៅ ១០ ឆ្នាំ ត្រូវបង់ពន្ធផ្លូវ ១៥០,០០០ រៀល ជារៀងរាល់ឆ្នាំ។',
+                taxExplanationEn: 'Prius Gen 4 has a 1.8L engine aged 5–10 years, placing it in the 150,000 KHR (~$37.50) tax tier.'
             },
             {
                 id: 'prius_gen5',
@@ -961,11 +1022,11 @@ export default {
                 age: 'under5',
                 ageLabelKhmer: 'រថយន្តថ្មី < ៥ ឆ្នាំ',
                 ageLabelEn: '< 5 Years Old',
-                roadTaxKhr: 250000,
+                roadTaxKhr: 200000,
                 inspectionFeeKhr: 54000,
                 estimatedPriceUsd: 42000,
-                taxExplanationKhmer: 'Prius Gen 5 ជំនាន់ចុងក្រោយម៉ាស៊ីន 2.0L អាយុកាលក្រោម ៥ ឆ្នាំ ត្រូវបង់ពន្ធផ្លូវ ២៥០,០០០ រៀល។',
-                taxExplanationEn: 'Latest Gen 5 Prius with 2.0L engine aged under 5 years pays 250,000 KHR (~$62.50).'
+                taxExplanationKhmer: 'Prius Gen 5 ជំនាន់ចុងក្រោយម៉ាស៊ីន 2.0L អាយុកាលក្រោម ៥ ឆ្នាំ ត្រូវបង់ពន្ធផ្លូវ ២០០,០០០ រៀល។',
+                taxExplanationEn: 'Latest Gen 5 Prius with 2.0L engine aged under 5 years pays 200,000 KHR (~$50).'
             },
 
             // --- TOYOTA CAMRY ---
@@ -1163,11 +1224,11 @@ export default {
                 age: 'under5',
                 ageLabelKhmer: 'រថយន្ត < ៥ ឆ្នាំ',
                 ageLabelEn: '< 5 Years Old',
-                roadTaxKhr: 250000,
+                roadTaxKhr: 200000,
                 inspectionFeeKhr: 54000,
                 estimatedPriceUsd: 32000,
-                taxExplanationKhmer: 'Corolla Cross ម៉ាស៊ីន 1.8L ស្ថិតក្នុងកម្រិត 1,501–2,000 cc អាយុក្រោម ៥ ឆ្នាំ ពន្ធផ្លូវ ២៥០,០០០ រៀល (~$62.50)។',
-                taxExplanationEn: 'Corolla Cross 1.8L in 1,501–2,000 cc bracket, < 5 yrs: 250,000 KHR (~$62.50).'
+                taxExplanationKhmer: 'Corolla Cross ម៉ាស៊ីន 1.8L ស្ថិតក្នុងកម្រិត 1,501–2,000 cc អាយុក្រោម ៥ ឆ្នាំ ពន្ធផ្លូវ ២០០,០០០ រៀល (~$50)។',
+                taxExplanationEn: 'Corolla Cross 1.8L in 1,501–2,000 cc bracket, < 5 yrs: 200,000 KHR (~$50).'
             },
             {
                 id: 'raize',
@@ -1277,11 +1338,11 @@ export default {
                 age: 'over10',
                 ageLabelKhmer: 'អាយុកាល > ១០ ឆ្នាំ',
                 ageLabelEn: '> 10 Years Old',
-                roadTaxKhr: 400000,
+                roadTaxKhr: 600000,
                 inspectionFeeKhr: 54000,
                 estimatedPriceUsd: 14500,
-                taxExplanationKhmer: 'Lexus RX330 ម៉ាស៊ីន 3.3L V6 ស្ថិតក្នុងកម្រិត 3,001–4,000 cc អាយុលើស ១០ ឆ្នាំ ពន្ធផ្លូវ ៤០០,០០០ រៀល (~$100)។',
-                taxExplanationEn: 'Lexus RX330 3.3L V6 in 3,001–4,000 cc bracket, > 10 yrs: 400,000 KHR (~$100).'
+                taxExplanationKhmer: 'Lexus RX330 ម៉ាស៊ីន 3.3L V6 ស្ថិតក្នុងកម្រិត 3,001–4,000 cc អាយុលើស ១០ ឆ្នាំ ពន្ធផ្លូវ ៦០០,០០០ រៀល (~$150)។',
+                taxExplanationEn: 'Lexus RX330 3.3L V6 in 3,001–4,000 cc bracket, > 10 yrs: 600,000 KHR (~$150).'
             },
             {
                 id: 'rx350_07',
@@ -1305,11 +1366,11 @@ export default {
                 age: 'over10',
                 ageLabelKhmer: 'អាយុកាល > ១០ ឆ្នាំ',
                 ageLabelEn: '> 10 Years Old',
-                roadTaxKhr: 400000,
+                roadTaxKhr: 600000,
                 inspectionFeeKhr: 54000,
                 estimatedPriceUsd: 24000,
-                taxExplanationKhmer: 'Lexus RX350 ម៉ាស៊ីន 3.5L V6 ស្ថិតក្នុងកម្រិត 3,001–4,000 cc អាយុលើស ១០ ឆ្នាំ ពន្ធផ្លូវ ៤០០,០០០ រៀល (~$100)។',
-                taxExplanationEn: 'Lexus RX350 3.5L V6 in 3,001–4,000 cc bracket, > 10 yrs: 400,000 KHR (~$100).'
+                taxExplanationKhmer: 'Lexus RX350 ម៉ាស៊ីន 3.5L V6 ស្ថិតក្នុងកម្រិត 3,001–4,000 cc អាយុលើស ១០ ឆ្នាំ ពន្ធផ្លូវ ៦០០,០០០ រៀល (~$150)។',
+                taxExplanationEn: 'Lexus RX350 3.5L V6 in 3,001–4,000 cc bracket, > 10 yrs: 600,000 KHR (~$150).'
             },
             {
                 id: 'lx570_08',
@@ -1615,11 +1676,11 @@ export default {
                 age: 'under5',
                 ageLabelKhmer: 'រថយន្ត < ៥ ឆ្នាំ',
                 ageLabelEn: '< 5 Years Old',
-                roadTaxKhr: 250000,
+                roadTaxKhr: 200000,
                 inspectionFeeKhr: 54000,
                 estimatedPriceUsd: 45000,
-                taxExplanationKhmer: 'Geely Monjaro បំពាក់ម៉ាស៊ីន 2.0L Turbo (1,969 cc) កម្រិត 1,501–2,000 cc អាយុក្រោម ៥ ឆ្នាំ ពន្ធផ្លូវ ២៥០,០០០ រៀល (~$62.50)។',
-                taxExplanationEn: 'Geely Monjaro 2.0L Turbo (1,969 cc) under 5 years old pays 250,000 KHR (~$62.50).'
+                taxExplanationKhmer: 'Geely Monjaro បំពាក់ម៉ាស៊ីន 2.0L Turbo (1,969 cc) កម្រិត 1,501–2,000 cc អាយុក្រោម ៥ ឆ្នាំ ពន្ធផ្លូវ ២០០,០០០ រៀល (~$50)។',
+                taxExplanationEn: 'Geely Monjaro 2.0L Turbo (1,969 cc) under 5 years old pays 200,000 KHR (~$50).'
             },
             {
                 id: 'geely_coolray',
@@ -1699,11 +1760,11 @@ export default {
                 age: 'under5',
                 ageLabelKhmer: 'រថយន្ត < ៥ ឆ្នាំ',
                 ageLabelEn: '< 5 Years Old',
-                roadTaxKhr: 250000,
+                roadTaxKhr: 200000,
                 inspectionFeeKhr: 54000,
                 estimatedPriceUsd: 46000,
-                taxExplanationKhmer: 'Tank 300 រថយន្ត Off-Road ដ៏ពេញនិយម ម៉ាស៊ីន 2.0L Turbo (1,998 cc) អាយុក្រោម ៥ ឆ្នាំ ពន្ធផ្លូវ ២៥០,០០០ រៀល (~$62.50)។',
-                taxExplanationEn: 'Tank 300 popular off-roader with 2.0L Turbo under 5 years old pays 250,000 KHR (~$62.50).'
+                taxExplanationKhmer: 'Tank 300 រថយន្ត Off-Road ដ៏ពេញនិយម ម៉ាស៊ីន 2.0L Turbo (1,998 cc) កម្រិត 1,501–2,000 cc អាយុក្រោម ៥ ឆ្នាំ ពន្ធផ្លូវ ២០០,០០០ រៀល (~$50)។',
+                taxExplanationEn: 'Tank 300 popular off-roader with 2.0L Turbo (1,998 cc) under 5 years old pays 200,000 KHR (~$50).'
             },
             {
                 id: 'jetour_dashing',
@@ -1785,11 +1846,11 @@ export default {
                 age: 'under5',
                 ageLabelKhmer: 'រថយន្ត < ៥ ឆ្នាំ',
                 ageLabelEn: '< 5 Years Old',
-                roadTaxKhr: 250000,
+                roadTaxKhr: 200000,
                 inspectionFeeKhr: 63000,
                 estimatedPriceUsd: 39000,
-                taxExplanationKhmer: 'Ford Ranger Wildtrak 2.0L Bi-Turbo ស្ថិតក្នុងកម្រិត 1,501–2,000 cc អាយុក្រោម ៥ ឆ្នាំ ពន្ធផ្លូវ ២៥០,០០០ រៀល (~$62.50) និងថ្លៃឆៀកភីកអាប់ ៦៣,០០០ រៀល។',
-                taxExplanationEn: 'Ford Ranger Wildtrak 2.0L Bi-Turbo in 1,501–2,000 cc bracket, < 5 yrs: 250,000 KHR (~$62.50) road tax and 63,000 KHR pickup inspection fee.'
+                taxExplanationKhmer: 'Ford Ranger Wildtrak 2.0L Bi-Turbo ស្ថិតក្នុងកម្រិត 1,501–2,000 cc អាយុក្រោម ៥ ឆ្នាំ ពន្ធផ្លូវ ២០០,០០០ រៀល (~$50) និងថ្លៃឆៀកភីកអាប់ ៦៣,០០០ រៀល។',
+                taxExplanationEn: 'Ford Ranger Wildtrak 2.0L Bi-Turbo in 1,501–2,000 cc bracket, < 5 yrs: 200,000 KHR (~$50) road tax and 63,000 KHR pickup inspection fee.'
             },
             {
                 id: 'ford_ranger_32',
@@ -1897,11 +1958,11 @@ export default {
                 age: 'under5',
                 ageLabelKhmer: 'រថយន្ត < ៥ ឆ្នាំ ឬ ៥–១០ ឆ្នាំ',
                 ageLabelEn: '< 5 yrs / 5–10 yrs',
-                roadTaxKhr: 250000,
+                roadTaxKhr: 200000,
                 inspectionFeeKhr: 54000,
                 estimatedPriceUsd: 28000,
-                taxExplanationKhmer: 'Mazda CX-5 2.0L Skyactiv កម្រិត 1,501–2,000 cc អាយុក្រោម ៥ ឆ្នាំ ពន្ធផ្លូវ ២៥០,០០០ រៀល (~$62.50)។',
-                taxExplanationEn: 'Mazda CX-5 2.0L in 1,501–2,000 cc bracket pays 250,000 KHR (~$62.50).'
+                taxExplanationKhmer: 'Mazda CX-5 2.0L Skyactiv កម្រិត 1,501–2,000 cc អាយុក្រោម ៥ ឆ្នាំ ពន្ធផ្លូវ ២០០,០០០ រៀល (~$50)។',
+                taxExplanationEn: 'Mazda CX-5 2.0L in 1,501–2,000 cc bracket pays 200,000 KHR (~$50).'
             }
         ];
 
@@ -2040,19 +2101,19 @@ export default {
                     base = selectedAge.value === 'under5' ? 100000 : selectedAge.value === '5to10' ? 80000 : 60000;
                     break;
                 case '1500':
-                    base = selectedAge.value === 'under5' ? 150000 : selectedAge.value === '5to10' ? 120000 : 100000;
+                    base = selectedAge.value === 'under5' ? 150000 : selectedAge.value === '5to10' ? 100000 : 80000;
                     break;
                 case '2000':
-                    base = selectedAge.value === 'under5' ? 250000 : selectedAge.value === '5to10' ? 200000 : 150000;
+                    base = selectedAge.value === 'under5' ? 200000 : selectedAge.value === '5to10' ? 150000 : 100000;
                     break;
                 case '3000':
-                    base = selectedAge.value === 'under5' ? 450000 : selectedAge.value === '5to10' ? 350000 : 250000;
+                    base = selectedAge.value === 'under5' ? 600000 : selectedAge.value === '5to10' ? 400000 : 250000;
                     break;
                 case '4000':
-                    base = selectedAge.value === 'under5' ? 800000 : selectedAge.value === '5to10' ? 600000 : 400000;
+                    base = selectedAge.value === 'under5' ? 1000000 : selectedAge.value === '5to10' ? 700000 : 500000;
                     break;
                 case 'over4000':
-                    base = selectedAge.value === 'under5' ? 2000000 : selectedAge.value === '5to10' ? 1600000 : 1200000;
+                    base = selectedAge.value === 'under5' ? 2000000 : selectedAge.value === '5to10' ? 1500000 : 1000000;
                     break;
             }
 
