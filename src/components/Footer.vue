@@ -46,17 +46,17 @@
                     </div>
                     <ul class="space-y-2 text-xs font-mono">
                         <li>
-                            <router-link to="/" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5">
+                            <router-link to="/" @click="scrollToTop" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5">
                                 <span class="text-slate-400">/</span> {{ isKhmer ? 'ទំព័រដើម (Home)' : 'Home' }}
                             </router-link>
                         </li>
                         <li>
-                            <router-link to="/projects" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5">
+                            <router-link to="/projects" @click="scrollToTop" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5">
                                 <span class="text-slate-400">/</span> {{ isKhmer ? 'គម្រោងការងារ (Projects)' : 'Projects' }}
                             </router-link>
                         </li>
                         <li>
-                            <router-link to="/about" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5">
+                            <router-link to="/about" @click="scrollToTop" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5">
                                 <span class="text-slate-400">/</span> {{ isKhmer ? 'ប្រវត្តិរូប & បទពិសោធន៍ (About)' : 'About & Experience' }}
                             </router-link>
                         </li>
@@ -70,37 +70,37 @@
                     </div>
                     <ul class="space-y-2 text-xs font-mono">
                         <li>
-                            <router-link to="/vehicle-tax" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5">
+                            <router-link to="/vehicle-tax" @click="scrollToTop" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5">
                                 <span class="text-slate-400">🚗</span> {{ isKhmer ? 'ពន្ធផ្លូវ & ឆៀកឡាន' : 'Vehicle Tax Calculator' }}
                             </router-link>
                         </li>
                         <li>
-                            <router-link to="/fuel-prices" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5">
+                            <router-link to="/fuel-prices" @click="scrollToTop" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5">
                                 <span class="text-slate-400">⛽</span> {{ isKhmer ? 'តាមដានតម្លៃប្រេងសាំង' : 'Fuel Price Tracker' }}
                             </router-link>
                         </li>
                         <li>
-                            <router-link to="/traffic-fines" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5">
+                            <router-link to="/traffic-fines" @click="scrollToTop" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5">
                                 <span class="text-slate-400">⚖️</span> {{ isKhmer ? 'ផាកពិន័យចរាចរណ៍' : 'Traffic Fines Lookup' }}
                             </router-link>
                         </li>
                         <li>
-                            <router-link to="/khmer-calendar" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5">
+                            <router-link to="/khmer-calendar" @click="scrollToTop" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5">
                                 <span class="text-slate-400">📅</span> {{ isKhmer ? 'ប្រតិទិនចន្ទគតិខ្មែរ' : 'Khmer Lunar Calendar' }}
                             </router-link>
                         </li>
                         <li>
-                            <router-link to="/weather-app" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5">
+                            <router-link to="/weather-app" @click="scrollToTop" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5">
                                 <span class="text-slate-400">⛅</span> {{ isKhmer ? 'ព្យាករណ៍ធាតុអាកាស' : 'Live Weather' }}
                             </router-link>
                         </li>
                         <li>
-                            <router-link to="/air-quality" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5">
+                            <router-link to="/air-quality" @click="scrollToTop" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5">
                                 <span class="text-slate-400">🍃</span> {{ isKhmer ? 'គុណភាពខ្យល់ AQI' : 'Air Quality Index' }}
                             </router-link>
                         </li>
                         <li>
-                            <router-link to="/currency-converter" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5">
+                            <router-link to="/currency-converter" @click="scrollToTop" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5">
                                 <span class="text-slate-400">💱</span> {{ isKhmer ? 'កម្មវិធីប្តូរប្រាក់ NBC' : 'Currency Converter' }}
                             </router-link>
                         </li>
@@ -128,4 +128,10 @@ import { useLanguage } from '@/composables/useLanguage';
 
 const { isKhmer } = useLanguage();
 const currentYear = computed(() => new Date().getFullYear());
+
+const scrollToTop = () => {
+    if (typeof window !== 'undefined') {
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    }
+};
 </script>

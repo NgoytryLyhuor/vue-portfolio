@@ -5,7 +5,7 @@
       <NavBar v-if="route.meta.showNavBar" />
       <main class="container mx-auto px-4 py-8 flex-grow">
         <router-view v-slot="{ Component, route: currentRoute }">
-          <transition name="ios-page" mode="out-in">
+          <transition name="ios-page" mode="out-in" @before-enter="onPageBeforeEnter">
             <component :is="Component" :key="currentRoute.path" />
           </transition>
         </router-view>
@@ -24,6 +24,12 @@ import { useMetaTags } from './composables/useMetaTags';
 
 const route = useRoute();
 useMetaTags(); // Initialize meta tags management
+
+const onPageBeforeEnter = () => {
+  if (typeof window !== 'undefined') {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }
+};
 </script>
 
 <style>

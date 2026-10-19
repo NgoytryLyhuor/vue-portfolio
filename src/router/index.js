@@ -271,7 +271,20 @@ const routes = [
 
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
-    routes
+    routes,
+    scrollBehavior(to, from, savedPosition) {
+        if (savedPosition) {
+            return savedPosition
+        }
+        if (to.hash) {
+            return {
+                el: to.hash,
+                behavior: 'smooth'
+            }
+        }
+        // Always scroll to top on page navigation
+        return { top: 0, left: 0 }
+    }
 })
 
 // Function to validate token
@@ -350,5 +363,12 @@ router.beforeEach(async (to, from, next) => {
         next()
     }
 })
+
+// Ensure window scrolls to top on every route completion
+router.afterEach(() => {
+    if (typeof window !== 'undefined') {
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    }
+});
 
 export default router

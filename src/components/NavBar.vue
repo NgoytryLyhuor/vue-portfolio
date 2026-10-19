@@ -6,7 +6,8 @@
             <div class="flex items-center">
                 <router-link to="/"
                     class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 focus:outline-none"
-                    aria-label="Home - Ngoytry Lyhuor Portfolio">
+                    aria-label="Home - Ngoytry Lyhuor Portfolio"
+                    @click="selectStandardLink('/', $event)">
                     <div class="flex items-center">
                         <img 
                             src="../assets/logo.png" 
@@ -30,6 +31,7 @@
                         :class="{ 'text-blue-600 dark:text-blue-400 border-blue-600 dark:border-blue-400 font-black': $route.path === link.path }"
                         :aria-label="`Navigate to ${link.label}`"
                         :aria-current="$route.path === link.path ? 'page' : undefined"
+                        @click="selectStandardLink(link.path, $event)"
                     >
                         {{ link.label }}
                     </router-link>
@@ -349,14 +351,23 @@ const isFeatureActive = computed(() => {
     return featureLinks.value.some(link => route.path === link.path || route.path === '/crypto-tracker');
 });
 
-// Single unified navigation handler that closes menus reliably
+// Single unified navigation handler that closes menus reliably and scrolls to top
 const navigateAndClose = (path) => {
     isFeaturesMenuOpen.value = false;
     isMobileMenuOpen.value = false;
     isThemeMenuOpen.value = false;
 
     if (route.path !== path) {
-        router.push(path);
+        router.push(path).then(() => {
+            if (typeof window !== 'undefined') {
+                window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+            }
+        }).catch(() => {});
+    } else {
+        // Clicking menu of current page -> smooth scroll to top!
+        if (typeof window !== 'undefined') {
+            window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+        }
     }
 };
 
