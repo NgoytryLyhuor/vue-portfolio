@@ -20,8 +20,8 @@
                             </h1>
                             <p class="text-sm sm:text-base text-blue-100/90 leading-relaxed">
                                 {{ isKhmer 
-                                    ? 'ការណែនាំពេញលេញសម្រាប់ម្ចាស់រថយន្តថ្មី៖ កាលបរិច្ឆេទបង់ពន្ធផ្លូវ ទីតាំង និងធនាគារដៃគូ កាលវិភាគឆៀកឡាន ការផាកពិន័យចរាចរណ៍ និងម៉ាស៊ីនគណនាប្រាក់ពន្ធជាក់ស្តែង។' 
-                                    : 'A comprehensive handbook for vehicle owners in Cambodia: Annual road tax schedule, payment locations, technical inspection (Chheak) rules, traffic fines, and instant cost calculators.' }}
+                                    ? 'ការណែនាំពេញលេញសម្រាប់ម្ចាស់រថយន្ត៖ ស្រាវជ្រាវម៉ូដែលឡាន (Prius, RX330, Camry, BYD, EV, ឡានចិន), កាលបរិច្ឆេទបង់ពន្ធផ្លូវ ទីតាំងឆៀកឡាន និងការផាកពិន័យផ្លូវការ។' 
+                                    : 'A comprehensive handbook for vehicle owners in Cambodia: Instant car model lookup (Prius, RX, Camry, BYD, EV, China brands), road tax schedules, inspection centers, and traffic fines.' }}
                             </p>
                         </div>
 
@@ -60,97 +60,263 @@
                 </div>
             </div>
 
-            <!-- TAB 1: CALCULATOR (ម៉ាស៊ីនគណនាពន្ធ និងថ្លៃសេវា) -->
+            <!-- TAB 1: CALCULATOR & CAR MODEL LOOKUP (ម៉ាស៊ីនគណនាពន្ធ & ស្រាវជ្រាវម៉ូដែលឡាន) -->
             <div v-show="activeTab === 'calc'" class="space-y-6 sm:space-y-8">
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
                     
-                    <!-- Left Column: Inputs & Selector -->
+                    <!-- Left Column: Car Model Search & Inputs -->
                     <div class="lg:col-span-7 bg-white dark:bg-slate-900/90 rounded-3xl p-5 sm:p-7 border border-slate-200 dark:border-slate-800 shadow-xl space-y-6">
-                        <div>
-                            <h2 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                                <span class="text-2xl">🧮</span>
-                                <span>{{ isKhmer ? 'ម៉ាស៊ីនគណនាពន្ធផ្លូវ និងតម្លៃសេវាឆៀក' : 'Tax & Inspection Fee Calculator' }}</span>
-                            </h2>
-                            <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
-                                {{ isKhmer ? 'ជ្រើសរើសព័ត៌មានរថយន្តរបស់អ្នក ដើម្បីគណនាពន្ធផ្លូវប្រចាំឆ្នាំ ថ្លៃសេវាឆៀក និងពន្ធប្រថាប់ត្រាផ្ទេរកម្មសិទ្ធិ' : 'Configure your vehicle specifications to estimate road tax, inspection fees, and transfer stamp duties.' }}
-                            </p>
-                        </div>
+                        
+                        <!-- Header & Mode Switcher -->
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-4 border-b border-slate-200 dark:border-slate-800">
+                            <div>
+                                <h2 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                                    <span class="text-2xl">🧮</span>
+                                    <span>{{ isKhmer ? 'ម៉ាស៊ីនគណនាពន្ធផ្លូវ និងតម្លៃសេវាឆៀក' : 'Tax & Inspection Fee Calculator' }}</span>
+                                </h2>
+                                <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
+                                    {{ isKhmer ? 'ស្វែងរកតាមម៉ូដែលឡានរបស់អ្នក ឬកំណត់លក្ខណៈបច្ចេកទេសដោយផ្ទាល់' : 'Search by your exact car model or specify custom technical specs.' }}
+                                </p>
+                            </div>
 
-                        <!-- 1. Vehicle Type Selection -->
-                        <div class="space-y-2">
-                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">
-                                {{ isKhmer ? '១. ប្រភេទយានយន្ត' : '1. Vehicle Type' }}
-                            </label>
-                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                                <button v-for="type in vehicleTypes" :key="type.id"
-                                    @click="selectedType = type.id"
-                                    class="p-3 rounded-2xl border text-left transition-all relative flex flex-col justify-between"
-                                    :class="selectedType === type.id 
-                                        ? 'bg-blue-50 dark:bg-blue-900/30 border-blue-500 dark:border-blue-400 ring-2 ring-blue-500/20' 
-                                        : 'bg-slate-50 dark:bg-slate-800/40 border-slate-200 dark:border-slate-700/60 hover:border-slate-300'">
-                                    <span class="text-2xl mb-1.5">{{ type.icon }}</span>
-                                    <div class="font-bold text-xs sm:text-sm text-slate-900 dark:text-white leading-tight">
-                                        {{ isKhmer ? type.nameKhmer : type.nameEn }}
-                                    </div>
-                                    <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 truncate">
-                                        {{ isKhmer ? type.subKhmer : type.subEn }}
-                                    </div>
+                            <!-- Mode Toggle -->
+                            <div class="inline-flex rounded-xl bg-slate-100 dark:bg-slate-800 p-1 shrink-0 self-start sm:self-center">
+                                <button @click="calcMode = 'model'"
+                                    class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all"
+                                    :class="calcMode === 'model' 
+                                        ? 'bg-blue-600 text-white shadow-sm' 
+                                        : 'text-slate-600 dark:text-slate-300 hover:text-slate-900'">
+                                    🔍 {{ isKhmer ? 'តាមម៉ូដែលឡាន' : 'By Car Model' }}
+                                </button>
+                                <button @click="calcMode = 'manual'"
+                                    class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all"
+                                    :class="calcMode === 'manual' 
+                                        ? 'bg-blue-600 text-white shadow-sm' 
+                                        : 'text-slate-600 dark:text-slate-300 hover:text-slate-900'">
+                                    ⚙️ {{ isKhmer ? 'កំណត់ដោយដៃ' : 'Custom Specs' }}
                                 </button>
                             </div>
                         </div>
 
-                        <!-- 2. Engine Cylinder Displacement (CC) or Power (kW) -->
-                        <div class="space-y-2">
-                            <div class="flex items-center justify-between">
-                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">
-                                    {{ isKhmer ? '២. ទំហំស៊ីឡាំងម៉ាស៊ីន (CC)' : '2. Engine Capacity (CC)' }}
+                        <!-- SECTION A: CAR MODEL SEARCH & SELECTION (When calcMode === 'model') -->
+                        <div v-show="calcMode === 'model'" class="space-y-4">
+                            <!-- Live Search Input -->
+                            <div class="relative">
+                                <input v-model.trim="carSearchQuery" type="text"
+                                    :placeholder="isKhmer ? '🔍 វាយឈ្មោះម៉ូដែលឡាន (ឧ. Prius 2011, RX330, Atto 3, Binguo, Wildtrak...)' : '🔍 Search car model (e.g. Prius 2011, RX330, Atto 3, Binguo, Wildtrak...)'"
+                                    class="w-full pl-10 pr-10 py-3 rounded-2xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 text-slate-900 dark:text-white text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white dark:focus:bg-slate-800 transition-all shadow-sm" />
+                                <span class="absolute left-3.5 top-3.5 text-slate-400 text-base">🚗</span>
+                                <button v-if="carSearchQuery" @click="carSearchQuery = ''"
+                                    class="absolute right-3.5 top-3 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-sm font-bold">
+                                    ✕
+                                </button>
+                            </div>
+
+                            <!-- Brand / Category Filter Pills -->
+                            <div class="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+                                <button v-for="cat in carBrandFilters" :key="cat.id"
+                                    @click="selectedBrandFilter = cat.id"
+                                    class="px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all shrink-0"
+                                    :class="selectedBrandFilter === cat.id 
+                                        ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-sm' 
+                                        : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'">
+                                    {{ isKhmer ? cat.nameKhmer : cat.nameEn }}
+                                </button>
+                            </div>
+
+                            <!-- Dropdown Select for Full 75+ Model Catalog -->
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
+                                    {{ isKhmer ? 'ជ្រើសរើសពីបញ្ជីរថយន្តពេញលេញ (Dropdown Selector)' : 'Choose from Complete Model List' }}
                                 </label>
-                                <span class="text-xs font-semibold text-blue-600 dark:text-blue-400">
-                                    {{ selectedCapacityLabel }}
-                                </span>
+                                <select v-model="selectedCarModelId" @change="onCarModelDropdownChange"
+                                    class="w-full px-3.5 py-2.5 rounded-2xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs sm:text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="" disabled>{{ isKhmer ? '-- សូមជ្រើសរើសម៉ូដែលរថយន្តរបស់អ្នក --' : '-- Select your vehicle model --' }}</option>
+                                    <optgroup v-for="group in groupedCarModels" :key="group.brand" :label="group.brand">
+                                        <option v-for="car in group.models" :key="car.id" :value="car.id">
+                                            {{ car.name }} • {{ isKhmer ? toKhmerNumeral(formatKhr(car.roadTaxKhr)) : formatKhr(car.roadTaxKhr) }} ៛ ({{ car.engineType }})
+                                        </option>
+                                    </optgroup>
+                                </select>
                             </div>
-                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                                <button v-for="cap in capacityOptions" :key="cap.id"
-                                    @click="selectedCapacity = cap.id"
-                                    class="p-2.5 rounded-xl border text-left transition-all"
-                                    :class="selectedCapacity === cap.id 
-                                        ? 'bg-blue-600 text-white border-blue-600 shadow-md font-bold' 
-                                        : 'bg-slate-50 dark:bg-slate-800/50 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-100'">
-                                    <div class="text-xs font-bold">{{ cap.label }}</div>
-                                    <div class="text-[10px] opacity-80 truncate">{{ isKhmer ? cap.examplesKhmer : cap.examplesEn }}</div>
-                                </button>
+
+                            <!-- Quick Select Chips for Top Trending Models in Cambodia -->
+                            <div class="space-y-1.5 pt-1">
+                                <div class="text-[11px] font-bold text-slate-500 dark:text-slate-400">
+                                    {{ isKhmer ? '🔥 ម៉ូដែលពេញនិយមចុចមើលភ្លាមៗ (Quick Popular Models):' : '🔥 Popular Trending Models in Cambodia:' }}
+                                </div>
+                                <div class="flex flex-wrap gap-1.5">
+                                    <button v-for="topCar in popularTopCars" :key="topCar.id"
+                                        @click="selectCarModel(topCar)"
+                                        class="px-2.5 py-1 rounded-lg text-[11px] font-bold border transition-all"
+                                        :class="selectedCarModel && selectedCarModel.id === topCar.id 
+                                            ? 'bg-blue-600 text-white border-blue-600 shadow-sm' 
+                                            : 'bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-blue-400'">
+                                        {{ topCar.shortName }} ({{ isKhmer ? toKhmerNumeral(formatKhr(topCar.roadTaxKhr / 1000)) + 'k' : (topCar.roadTaxKhr / 1000) + 'k' }} ៛)
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Search Results Grid / Filtered Models -->
+                            <div v-if="carSearchQuery || selectedBrandFilter !== 'all'" class="space-y-2 pt-2">
+                                <div class="flex items-center justify-between text-xs font-semibold text-slate-500 dark:text-slate-400">
+                                    <span>{{ isKhmer ? 'លទ្ធផលស្វែងរក (' + toKhmerNumeral(filteredCarModels.length) + ' ម៉ូដែល)' : 'Matching Models (' + filteredCarModels.length + ' found)' }}</span>
+                                    <span v-if="filteredCarModels.length === 0" class="text-amber-500 font-bold">{{ isKhmer ? 'មិនឃើញម៉ូដែលនេះទេ! អាចប្តូរទៅកំណត់ដោយដៃ' : 'Not found! Switch to manual mode' }}</span>
+                                </div>
+                                
+                                <div class="max-h-60 overflow-y-auto space-y-1.5 pr-1 divide-y divide-slate-100 dark:divide-slate-800">
+                                    <div v-for="car in filteredCarModels" :key="car.id"
+                                        @click="selectCarModel(car)"
+                                        class="p-2.5 rounded-xl hover:bg-blue-50 dark:hover:bg-slate-800/80 cursor-pointer transition-all flex items-center justify-between gap-2"
+                                        :class="selectedCarModel && selectedCarModel.id === car.id ? 'bg-blue-50 dark:bg-blue-900/30 border border-blue-400/50' : ''">
+                                        <div class="min-w-0">
+                                            <div class="font-bold text-xs sm:text-sm text-slate-900 dark:text-white truncate">
+                                                {{ isKhmer ? car.nameKhmer : car.name }}
+                                            </div>
+                                            <div class="text-[11px] text-slate-500 dark:text-slate-400 flex items-center gap-2 mt-0.5 flex-wrap">
+                                                <span class="px-1.5 py-0.2 rounded bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-[10px] font-semibold">
+                                                    {{ isKhmer ? car.engineTypeKhmer : car.engineType }}
+                                                </span>
+                                                <span>{{ isKhmer ? car.displacementKhmer : car.displacement }}</span>
+                                                <span>•</span>
+                                                <span>{{ isKhmer ? car.yearRangeKhmer : car.yearRange }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="text-right shrink-0">
+                                            <div class="text-xs sm:text-sm font-black text-amber-600 dark:text-amber-400">
+                                                {{ isKhmer ? toKhmerNumeral(formatKhr(car.roadTaxKhr)) : formatKhr(car.roadTaxKhr) }} ៛
+                                            </div>
+                                            <div class="text-[10px] text-slate-400">
+                                                ≈ ${{ (car.roadTaxKhr / 4000).toFixed(2) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Selected Car Spotlight Card -->
+                            <div v-if="selectedCarModel" class="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 border border-blue-200 dark:border-blue-800/60 space-y-3">
+                                <div class="flex items-start justify-between gap-3">
+                                    <div class="space-y-1">
+                                        <div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[10px] font-bold bg-blue-600 text-white">
+                                            <span>✓</span>
+                                            <span>{{ isKhmer ? 'រថយន្តដែលបានជ្រើសរើស' : 'Selected Vehicle' }}</span>
+                                        </div>
+                                        <h3 class="text-base sm:text-lg font-black text-slate-900 dark:text-white">
+                                            {{ isKhmer ? selectedCarModel.nameKhmer : selectedCarModel.name }}
+                                        </h3>
+                                    </div>
+                                    <button @click="clearSelectedCarModel"
+                                        class="px-2.5 py-1 text-xs font-semibold text-slate-500 hover:text-red-600 transition-colors shrink-0">
+                                        {{ isKhmer ? 'ផ្លាស់ប្តូរ' : 'Change' }}
+                                    </button>
+                                </div>
+
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                                    <div class="p-2 rounded-xl bg-white/80 dark:bg-slate-900/60 border border-blue-100 dark:border-slate-800">
+                                        <div class="text-[10px] text-slate-500 dark:text-slate-400">{{ isKhmer ? 'ទំហំម៉ាស៊ីន (CC/kW)' : 'Displacement' }}</div>
+                                        <div class="font-bold text-slate-900 dark:text-white mt-0.5">{{ isKhmer ? selectedCarModel.displacementKhmer : selectedCarModel.displacement }}</div>
+                                    </div>
+                                    <div class="p-2 rounded-xl bg-white/80 dark:bg-slate-900/60 border border-blue-100 dark:border-slate-800">
+                                        <div class="text-[10px] text-slate-500 dark:text-slate-400">{{ isKhmer ? 'ប្រភេទថាមពល' : 'Powertrain' }}</div>
+                                        <div class="font-bold text-slate-900 dark:text-white mt-0.5">{{ isKhmer ? selectedCarModel.engineTypeKhmer : selectedCarModel.engineType }}</div>
+                                    </div>
+                                    <div class="p-2 rounded-xl bg-white/80 dark:bg-slate-900/60 border border-blue-100 dark:border-slate-800">
+                                        <div class="text-[10px] text-slate-500 dark:text-slate-400">{{ isKhmer ? 'អាយុកាលរថយន្ត' : 'Age Bracket' }}</div>
+                                        <div class="font-bold text-slate-900 dark:text-white mt-0.5">{{ isKhmer ? selectedCarModel.ageLabelKhmer : selectedCarModel.ageLabelEn }}</div>
+                                    </div>
+                                    <div class="p-2 rounded-xl bg-white/80 dark:bg-slate-900/60 border border-blue-100 dark:border-slate-800">
+                                        <div class="text-[10px] text-slate-500 dark:text-slate-400">{{ isKhmer ? 'ពន្ធផ្លូវប្រចាំឆ្នាំ' : 'Annual Road Tax' }}</div>
+                                        <div class="font-black text-amber-600 dark:text-amber-400 mt-0.5">{{ isKhmer ? toKhmerNumeral(formatKhr(selectedCarModel.roadTaxKhr)) : formatKhr(selectedCarModel.roadTaxKhr) }} ៛</div>
+                                    </div>
+                                </div>
+
+                                <!-- Explanation Note for user's peace of mind -->
+                                <div class="p-3 rounded-xl bg-white/90 dark:bg-slate-900/80 border border-blue-100 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
+                                    <span class="font-bold text-blue-600 dark:text-blue-400 mr-1">ℹ️ {{ isKhmer ? 'ហេតុអ្វីបង់ថ្លៃនេះ?' : 'Why this rate?' }}</span>
+                                    <span>{{ isKhmer ? selectedCarModel.taxExplanationKhmer : selectedCarModel.taxExplanationEn }}</span>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- 3. Vehicle Manufacturing Year / Age Bracket -->
-                        <div class="space-y-2">
-                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">
-                                {{ isKhmer ? '៣. ឆ្នាំផលិត ឬអាយុកាលរថយន្ត' : '3. Year of Manufacture / Vehicle Age' }}
-                            </label>
-                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-                                <button v-for="age in ageBrackets" :key="age.id"
-                                    @click="selectedAge = age.id"
-                                    class="p-3 rounded-2xl border text-left transition-all"
-                                    :class="selectedAge === age.id 
-                                        ? 'bg-indigo-50 dark:bg-indigo-900/30 border-indigo-500 dark:border-indigo-400 ring-2 ring-indigo-500/20' 
-                                        : 'bg-slate-50 dark:bg-slate-800/40 border-slate-200 dark:border-slate-700/60 hover:border-slate-300'">
-                                    <div class="font-bold text-xs sm:text-sm text-slate-900 dark:text-white">
-                                        {{ isKhmer ? age.nameKhmer : age.nameEn }}
-                                    </div>
-                                    <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
-                                        {{ isKhmer ? age.descKhmer : age.descEn }}
-                                    </div>
-                                </button>
+                        <!-- SECTION B: MANUAL CUSTOM INPUTS (When calcMode === 'manual' or when fine-tuning) -->
+                        <div v-show="calcMode === 'manual'" class="space-y-6 pt-2">
+                            <!-- 1. Vehicle Type Selection -->
+                            <div class="space-y-2">
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">
+                                    {{ isKhmer ? '១. ប្រភេទយានយន្ត' : '1. Vehicle Type' }}
+                                </label>
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                                    <button v-for="type in vehicleTypes" :key="type.id"
+                                        @click="selectedType = type.id"
+                                        class="p-3 rounded-2xl border text-left transition-all relative flex flex-col justify-between"
+                                        :class="selectedType === type.id 
+                                            ? 'bg-blue-50 dark:bg-blue-900/30 border-blue-500 dark:border-blue-400 ring-2 ring-blue-500/20' 
+                                            : 'bg-slate-50 dark:bg-slate-800/40 border-slate-200 dark:border-slate-700/60 hover:border-slate-300'">
+                                        <span class="text-2xl mb-1.5">{{ type.icon }}</span>
+                                        <div class="font-bold text-xs sm:text-sm text-slate-900 dark:text-white leading-tight">
+                                            {{ isKhmer ? type.nameKhmer : type.nameEn }}
+                                        </div>
+                                        <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 truncate">
+                                            {{ isKhmer ? type.subKhmer : type.subEn }}
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- 2. Engine Cylinder Displacement (CC) or Power (kW) -->
+                            <div class="space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">
+                                        {{ isKhmer ? '២. ទំហំស៊ីឡាំងម៉ាស៊ីន (CC)' : '2. Engine Capacity (CC)' }}
+                                    </label>
+                                    <span class="text-xs font-semibold text-blue-600 dark:text-blue-400">
+                                        {{ selectedCapacityLabel }}
+                                    </span>
+                                </div>
+                                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                                    <button v-for="cap in capacityOptions" :key="cap.id"
+                                        @click="selectedCapacity = cap.id"
+                                        class="p-2.5 rounded-xl border text-left transition-all"
+                                        :class="selectedCapacity === cap.id 
+                                            ? 'bg-blue-600 text-white border-blue-600 shadow-md font-bold' 
+                                            : 'bg-slate-50 dark:bg-slate-800/50 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-100'">
+                                        <div class="text-xs font-bold">{{ cap.label }}</div>
+                                        <div class="text-[10px] opacity-80 truncate">{{ isKhmer ? cap.examplesKhmer : cap.examplesEn }}</div>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- 3. Vehicle Manufacturing Year / Age Bracket -->
+                            <div class="space-y-2">
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">
+                                    {{ isKhmer ? '៣. ឆ្នាំផលិត ឬអាយុកាលរថយន្ត' : '3. Year of Manufacture / Vehicle Age' }}
+                                </label>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                                    <button v-for="age in ageBrackets" :key="age.id"
+                                        @click="selectedAge = age.id"
+                                        class="p-3 rounded-2xl border text-left transition-all"
+                                        :class="selectedAge === age.id 
+                                            ? 'bg-indigo-50 dark:bg-indigo-900/30 border-indigo-500 dark:border-indigo-400 ring-2 ring-indigo-500/20' 
+                                            : 'bg-slate-50 dark:bg-slate-800/40 border-slate-200 dark:border-slate-700/60 hover:border-slate-300'">
+                                        <div class="font-bold text-xs sm:text-sm text-slate-900 dark:text-white">
+                                            {{ isKhmer ? age.nameKhmer : age.nameEn }}
+                                        </div>
+                                        <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+                                            {{ isKhmer ? age.descKhmer : age.descEn }}
+                                        </div>
+                                    </button>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- 4. Ownership Transfer Status (Optional Stamp Duty) -->
+                        <!-- 4. Ownership Transfer Status (Optional 4% Stamp Duty) -->
                         <div class="p-4 rounded-2xl bg-amber-50/70 dark:bg-amber-900/20 border border-amber-200/80 dark:border-amber-800/50 space-y-3">
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center gap-2">
                                     <span class="text-lg">📝</span>
                                     <span class="text-xs sm:text-sm font-bold text-amber-950 dark:text-amber-200">
-                                        {{ isKhmer ? 'តើអ្នកទើបទិញឡានមួយទឹក (ផ្ទេរកម្មសិទ្ធិ)?' : 'Buying second-hand car (Ownership Transfer)?' }}
+                                        {{ isKhmer ? 'តើអ្នកទើបទិញឡានមួយទឹក (ផ្ទេរកម្មសិទ្ធិ/កាត់ឈ្មោះ)?' : 'Buying second-hand car (Ownership Transfer)?' }}
                                     </span>
                                 </div>
                                 <input type="checkbox" v-model="includeStampDuty" class="w-4 h-4 rounded text-blue-600 focus:ring-blue-500 cursor-pointer" />
@@ -264,7 +430,7 @@
                         <div class="p-4 sm:p-5 rounded-2xl bg-blue-50 dark:bg-slate-800/60 border border-blue-200 dark:border-slate-700 space-y-2">
                             <div class="flex items-center gap-2 text-xs font-bold text-blue-900 dark:text-blue-300">
                                 <span>💡</span>
-                                <span>{{ isKhmer ? 'គន្លឹះសំខាន់សម្រាប់ម្ចាស់រថយន្តថ្មី' : 'Pro Tip for New Car Owners' }}</span>
+                                <span>{{ isKhmer ? 'គន្លឹះសំខាន់សម្រាប់ម្ចាស់រថយន្ត' : 'Pro Tip for Car Owners' }}</span>
                             </div>
                             <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
                                 {{ isKhmer 
@@ -639,7 +805,7 @@
 </template>
 
 <script>
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import { useLanguage } from '@/composables/useLanguage';
 
 export default {
@@ -648,13 +814,20 @@ export default {
         const { isKhmer } = useLanguage();
 
         const activeTab = ref('calc');
+        const calcMode = ref('model'); // 'model' (Search/Select by Car Model) or 'manual'
 
-        // Calculator state
+        // Car model search & filter state
+        const carSearchQuery = ref('');
+        const selectedBrandFilter = ref('all');
+        const selectedCarModelId = ref('prius_gen3'); // Default to user's Prius 2011!
+        const selectedCarModel = ref(null);
+
+        // Manual calculator state
         const selectedType = ref('sedan');
-        const selectedCapacity = ref('1500');
+        const selectedCapacity = ref('2000');
         const selectedAge = ref('over10');
         const includeStampDuty = ref(false);
-        const estimatedCarValueUsd = ref(12000);
+        const estimatedCarValueUsd = ref(11500);
 
         // Tracker state
         const trackerDate = ref(new Date().toISOString().split('T')[0]);
@@ -670,6 +843,1068 @@ export default {
             { id: 'fines', icon: '👮‍♂️', labelKhmer: 'ការផាកពិន័យចរាចរណ៍', labelEn: 'Traffic Fines' }
         ];
 
+        const carBrandFilters = [
+            { id: 'all', nameKhmer: 'ទាំងអស់ (All 75+)', nameEn: 'All Models (75+)' },
+            { id: 'toyota_lexus', nameKhmer: 'Toyota & Lexus', nameEn: 'Toyota & Lexus' },
+            { id: 'ev_phev', nameKhmer: '⚡ EV & PHEV (អគ្គិសនី)', nameEn: '⚡ EV & PHEV' },
+            { id: 'china', nameKhmer: '🇨🇳 ឡានចិន (BYD, GAC, Deepal...)', nameEn: '🇨🇳 China Brands' },
+            { id: 'ford_pickup', nameKhmer: '🛻 Ford & Pick-up', nameEn: '🛻 Ford & Pick-ups' },
+            { id: 'budget', nameKhmer: '💵 ពន្ធធូរ (ក្រោម $30)', nameEn: '💵 Low Tax (< $30)' }
+        ];
+
+        // 75+ Comprehensive Popular Cars Database in Cambodia
+        const carModelsDatabase = [
+            // --- TOYOTA PRIUS & HYBRIDS ---
+            {
+                id: 'prius_gen3',
+                name: 'Toyota Prius 2010–2015 (Gen 3 - e.g. 2011)',
+                nameKhmer: 'តូយ៉ូតា ព្រូស ២០១០–២០១៥ (Prius 011)',
+                shortName: 'Prius 2011 (011)',
+                brand: 'Toyota',
+                filterCategory: 'toyota_lexus',
+                isPopular: true,
+                isBudget: false,
+                isChina: false,
+                isEvOrPhev: false,
+                yearRange: '2010–2015',
+                yearRangeKhmer: 'ឆ្នាំ ២០១០–២០១៥ (រួមទាំង 2011)',
+                engineType: 'Hybrid',
+                engineTypeKhmer: 'សាំង + អាគុយ អ៊ីប្រ៊ីដ (Hybrid)',
+                displacement: '1.8L (1,798 cc)',
+                displacementKhmer: '១.៨ លីត្រ (១,៧៩៨ cc)',
+                type: 'sedan',
+                capacity: '2000',
+                age: 'over10',
+                ageLabelKhmer: 'អាយុកាល > ១០ ឆ្នាំ (ផលិត ២០១១)',
+                ageLabelEn: '> 10 Years Old (Mfg. 2011)',
+                roadTaxKhr: 150000,
+                inspectionFeeKhr: 54000,
+                estimatedPriceUsd: 11500,
+                taxExplanationKhmer: 'ម៉ូដែល Toyota Prius ឆ្នាំ 2010–2015 (រួមទាំងម៉ូដែលឆ្នាំ 2011 របស់អ្នក) បំពាក់ម៉ាស៊ីន 1.8L (1,798 cc) Dual VVT-i បូកម៉ូទ័រអគ្គិសនី Hybrid។ ទំហំស៊ីឡាំងនេះស្ថិតក្នុងកម្រិត 1,501–2,000 cc។ ដោយសាររថយន្តមានអាយុកាលលើសពី ១០ ឆ្នាំ យោងតាមតារាងពន្ធផ្លូវការរបស់អគ្គនាយកដ្ឋានពន្ធដារ (GDT) ត្រូវបង់ពន្ធផ្លូវ ១៥០,០០០ រៀល ជារៀងរាល់ឆ្នាំ។ (ចំណាំ៖ បើប្រៀបធៀបជាមួយ Prius 2004–2009 Gen 2 ម៉ាស៊ីន 1.5L បង់ត្រឹមតែ ១០០,០០០ រៀល)',
+                taxExplanationEn: 'Toyota Prius 2010–2015 (including your 2011 model) has a 1.8L (1,798 cc) 2ZR-FXE Dual VVT-i hybrid powertrain. It falls into the 1,501–2,000 cc cylinder capacity bracket. As an over-10-year-old vehicle, the official GDT annual road tax is 150,000 KHR (~$37.50). (Note: Gen 2 2004–2009 with 1.5L pays 100,000 KHR).'
+            },
+            {
+                id: 'prius_gen2',
+                name: 'Toyota Prius 2004–2009 (Gen 2)',
+                nameKhmer: 'តូយ៉ូតា ព្រូស ២០០៤–២០០៩ (Prius 04-09)',
+                shortName: 'Prius 2008 (Gen 2)',
+                brand: 'Toyota',
+                filterCategory: 'toyota_lexus',
+                isPopular: true,
+                isBudget: true,
+                isChina: false,
+                isEvOrPhev: false,
+                yearRange: '2004–2009',
+                yearRangeKhmer: 'ឆ្នាំ ២០០៤–២០០៩',
+                engineType: 'Hybrid',
+                engineTypeKhmer: 'សាំង + អ៊ីប្រ៊ីដ (Hybrid)',
+                displacement: '1.5L (1,497 cc)',
+                displacementKhmer: '១.៥ លីត្រ (១,៤៩៧ cc)',
+                type: 'sedan',
+                capacity: '1500',
+                age: 'over10',
+                ageLabelKhmer: 'អាយុកាល > ១០ ឆ្នាំ',
+                ageLabelEn: '> 10 Years Old',
+                roadTaxKhr: 100000,
+                inspectionFeeKhr: 54000,
+                estimatedPriceUsd: 7500,
+                taxExplanationKhmer: 'Prius Gen 2 មានម៉ាស៊ីនទំហំ 1.5L (1,497 cc) ស្ថិតក្នុងកម្រិត 1,000–1,500 cc។ ដោយសារអាយុកាលលើស ១០ ឆ្នាំ ពន្ធផ្លូវប្រចាំឆ្នាំគឺត្រឹមតែ ១០០,០០០ រៀល (~$25) ប៉ុណ្ណោះ។',
+                taxExplanationEn: 'Prius Gen 2 features a 1.5L (1,497 cc) hybrid engine in the 1,000–1,500 cc bracket. With age > 10 years, annual road tax is only 100,000 KHR (~$25).'
+            },
+            {
+                id: 'prius_gen4',
+                name: 'Toyota Prius 2016–2022 (Gen 4)',
+                nameKhmer: 'តូយ៉ូតា ព្រូស ២០១៦–២០២២ (Prius Gen 4)',
+                shortName: 'Prius Gen 4',
+                brand: 'Toyota',
+                filterCategory: 'toyota_lexus',
+                isPopular: false,
+                isBudget: false,
+                isChina: false,
+                isEvOrPhev: false,
+                yearRange: '2016–2022',
+                yearRangeKhmer: 'ឆ្នាំ ២០១៦–២០២២',
+                engineType: 'Hybrid',
+                engineTypeKhmer: 'សាំង + អ៊ីប្រ៊ីដ (Hybrid)',
+                displacement: '1.8L (1,798 cc)',
+                displacementKhmer: '១.៨ លីត្រ (១,៧៩៨ cc)',
+                type: 'sedan',
+                capacity: '2000',
+                age: '5to10',
+                ageLabelKhmer: 'អាយុកាល ៥–១០ ឆ្នាំ',
+                ageLabelEn: '5–10 Years Old',
+                roadTaxKhr: 200000,
+                inspectionFeeKhr: 54000,
+                estimatedPriceUsd: 22000,
+                taxExplanationKhmer: 'Prius Gen 4 មានទំហំស៊ីឡាំង 1.8L និងអាយុកាលរវាង ៥ ទៅ ១០ ឆ្នាំ ត្រូវបង់ពន្ធផ្លូវ ២០០,០០០ រៀល ជារៀងរាល់ឆ្នាំ។',
+                taxExplanationEn: 'Prius Gen 4 has a 1.8L engine aged 5–10 years, placing it in the 200,000 KHR (~$50) tax tier.'
+            },
+            {
+                id: 'prius_gen5',
+                name: 'Toyota Prius 2023–2026 (Gen 5)',
+                nameKhmer: 'តូយ៉ូតា ព្រូស ២០២៣–២០២៦ (Prius Gen 5)',
+                shortName: 'Prius 2024 (Gen 5)',
+                brand: 'Toyota',
+                filterCategory: 'toyota_lexus',
+                isPopular: false,
+                isBudget: false,
+                isChina: false,
+                isEvOrPhev: false,
+                yearRange: '2023–2026',
+                yearRangeKhmer: 'ឆ្នាំ ២០២៣–២០២៦',
+                engineType: 'Hybrid',
+                engineTypeKhmer: 'សាំង + អ៊ីប្រ៊ីដ (Hybrid)',
+                displacement: '2.0L (1,987 cc)',
+                displacementKhmer: '២.០ លីត្រ (១,៩៨៧ cc)',
+                type: 'sedan',
+                capacity: '2000',
+                age: 'under5',
+                ageLabelKhmer: 'រថយន្តថ្មី < ៥ ឆ្នាំ',
+                ageLabelEn: '< 5 Years Old',
+                roadTaxKhr: 250000,
+                inspectionFeeKhr: 54000,
+                estimatedPriceUsd: 42000,
+                taxExplanationKhmer: 'Prius Gen 5 ជំនាន់ចុងក្រោយម៉ាស៊ីន 2.0L អាយុកាលក្រោម ៥ ឆ្នាំ ត្រូវបង់ពន្ធផ្លូវ ២៥០,០០០ រៀល។',
+                taxExplanationEn: 'Latest Gen 5 Prius with 2.0L engine aged under 5 years pays 250,000 KHR (~$62.50).'
+            },
+
+            // --- TOYOTA CAMRY ---
+            {
+                id: 'camry_2002',
+                name: 'Toyota Camry 2002–2006 (បាឡែន)',
+                nameKhmer: 'តូយ៉ូតា កាមរី ២០០២–២០០៦ (Camry បាឡែន)',
+                shortName: 'Camry 02-06 (បាឡែន)',
+                brand: 'Toyota',
+                filterCategory: 'toyota_lexus',
+                isPopular: true,
+                isBudget: false,
+                isChina: false,
+                isEvOrPhev: false,
+                yearRange: '2002–2006',
+                yearRangeKhmer: 'ឆ្នាំ ២០០២–២០០៦',
+                engineType: 'Petrol',
+                engineTypeKhmer: 'ម៉ាស៊ីនសាំង',
+                displacement: '2.4L (2,362 cc)',
+                displacementKhmer: '២.៤ លីត្រ (២,៣៦២ cc)',
+                type: 'sedan',
+                capacity: '3000',
+                age: 'over10',
+                ageLabelKhmer: 'អាយុកាល > ១០ ឆ្នាំ',
+                ageLabelEn: '> 10 Years Old',
+                roadTaxKhr: 250000,
+                inspectionFeeKhr: 54000,
+                estimatedPriceUsd: 9500,
+                taxExplanationKhmer: 'Camry បាឡែន ម៉ាស៊ីន 2.4L ស្ថិតក្នុងកម្រិត 2,001–3,000 cc។ ដោយសារអាយុកាលលើស ១០ ឆ្នាំ ពន្ធផ្លូវគឺ ២៥០,០០០ រៀល (~$62.50)។',
+                taxExplanationEn: 'Camry 2002–2006 2.4L engine falls into 2,001–3,000 cc. Over 10 years old: 250,000 KHR (~$62.50).'
+            },
+            {
+                id: 'camry_2007',
+                name: 'Toyota Camry 2007–2011',
+                nameKhmer: 'តូយ៉ូតា កាមរី ២០០៧–២០១១ (Camry 07)',
+                shortName: 'Camry 2007',
+                brand: 'Toyota',
+                filterCategory: 'toyota_lexus',
+                isPopular: true,
+                isBudget: false,
+                isChina: false,
+                isEvOrPhev: false,
+                yearRange: '2007–2011',
+                yearRangeKhmer: 'ឆ្នាំ ២០០៧–២០១១',
+                engineType: 'Petrol / Hybrid',
+                engineTypeKhmer: 'សាំង ឬ អ៊ីប្រ៊ីដ',
+                displacement: '2.4L / 2.5L Hybrid',
+                displacementKhmer: '២.៤L ឬ ២.៥L អ៊ីប្រ៊ីដ',
+                type: 'sedan',
+                capacity: '3000',
+                age: 'over10',
+                ageLabelKhmer: 'អាយុកាល > ១០ ឆ្នាំ',
+                ageLabelEn: '> 10 Years Old',
+                roadTaxKhr: 250000,
+                inspectionFeeKhr: 54000,
+                estimatedPriceUsd: 13000,
+                taxExplanationKhmer: 'Camry 2007–2011 ទាំងសាំង 2.4L និង Hybrid 2.5L ស្ថិតក្នុងកម្រិត 2,001–3,000 cc អាយុលើស ១០ ឆ្នាំ ពន្ធផ្លូវ ២៥០,០០០ រៀល។',
+                taxExplanationEn: 'Camry 2007–2011 2.4L / 2.5L Hybrid falls into 2,001–3,000 cc aged > 10 yrs: 250,000 KHR (~$62.50).'
+            },
+            {
+                id: 'camry_2018',
+                name: 'Toyota Camry 2018–2024',
+                nameKhmer: 'តូយ៉ូតា កាមរី ២០១៨–២០២៤',
+                shortName: 'Camry 2020',
+                brand: 'Toyota',
+                filterCategory: 'toyota_lexus',
+                isPopular: false,
+                isBudget: false,
+                isChina: false,
+                isEvOrPhev: false,
+                yearRange: '2018–2024',
+                yearRangeKhmer: 'ឆ្នាំ ២០១៨–២០២៤',
+                engineType: 'Petrol / Hybrid',
+                engineTypeKhmer: 'សាំង ឬ អ៊ីប្រ៊ីដ',
+                displacement: '2.5L (2,487 cc)',
+                displacementKhmer: '២.៥ លីត្រ (២,៤៨៧ cc)',
+                type: 'sedan',
+                capacity: '3000',
+                age: 'under5',
+                ageLabelKhmer: 'រថយន្ត < ៥ ឆ្នាំ',
+                ageLabelEn: '< 5 Years Old',
+                roadTaxKhr: 450000,
+                inspectionFeeKhr: 54000,
+                estimatedPriceUsd: 38000,
+                taxExplanationKhmer: 'Camry 2.5L ស៊េរីថ្មី អាយុកាលក្រោម ៥ ឆ្នាំ ស្ថិតក្នុងកម្រិត ២,០០១ ដល់ ៣,០០០ cc ពន្ធផ្លូវ ៤៥០,០០០ រៀល (~$112.50)។',
+                taxExplanationEn: 'Camry 2.5L under 5 years old in 2,001–3,000 cc bracket pays 450,000 KHR (~$112.50).'
+            },
+
+            // --- TOYOTA HIGHLANDER ---
+            {
+                id: 'highlander_2003_4cyl',
+                name: 'Toyota Highlander 2001–2007 (2.4L 4-Cyl)',
+                nameKhmer: 'តូយ៉ូតា ហាយឡេនឌ័រ ២០០១–២០០៧ (ម៉ាស៊ីន ៤)',
+                shortName: 'Highlander 2.4L',
+                brand: 'Toyota',
+                filterCategory: 'toyota_lexus',
+                isPopular: true,
+                isBudget: false,
+                isChina: false,
+                isEvOrPhev: false,
+                yearRange: '2001–2007',
+                yearRangeKhmer: 'ឆ្នាំ ២០០១–២០០៧',
+                engineType: 'Petrol',
+                engineTypeKhmer: 'ម៉ាស៊ីនសាំង ៤ ស៊ីឡាំង',
+                displacement: '2.4L (2,362 cc)',
+                displacementKhmer: '២.៤ លីត្រ (២,៣៦២ cc)',
+                type: 'suv',
+                capacity: '3000',
+                age: 'over10',
+                ageLabelKhmer: 'អាយុកាល > ១០ ឆ្នាំ',
+                ageLabelEn: '> 10 Years Old',
+                roadTaxKhr: 250000,
+                inspectionFeeKhr: 54000,
+                estimatedPriceUsd: 11000,
+                taxExplanationKhmer: 'Highlander ម៉ាស៊ីន ៤ (2.4L) ស្ថិតក្នុងកម្រិត 2,001–3,000 cc អាយុលើស ១០ ឆ្នាំ ពន្ធផ្លូវ ២៥០,០០០ រៀល (~$62.50)។',
+                taxExplanationEn: 'Highlander 2.4L 4-cylinder in 2,001–3,000 cc bracket, > 10 yrs: 250,000 KHR (~$62.50).'
+            },
+            {
+                id: 'highlander_2003_v6',
+                name: 'Toyota Highlander 2001–2007 (3.3L V6 / Hybrid)',
+                nameKhmer: 'តូយ៉ូតា ហាយឡេនឌ័រ ២០០១–២០០៧ (ម៉ាស៊ីន ៦ ឬ Hybrid)',
+                shortName: 'Highlander 3.3L V6',
+                brand: 'Toyota',
+                filterCategory: 'toyota_lexus',
+                isPopular: true,
+                isBudget: false,
+                isChina: false,
+                isEvOrPhev: false,
+                yearRange: '2001–2007',
+                yearRangeKhmer: 'ឆ្នាំ ២០០១–២០០៧',
+                engineType: 'Petrol / Hybrid',
+                engineTypeKhmer: 'សាំង V6 ឬ អ៊ីប្រ៊ីដ V6',
+                displacement: '3.3L (3,310 cc)',
+                displacementKhmer: '៣.៣ លីត្រ V6 (៣,៣១០ cc)',
+                type: 'suv',
+                capacity: '4000',
+                age: 'over10',
+                ageLabelKhmer: 'អាយុកាល > ១០ ឆ្នាំ',
+                ageLabelEn: '> 10 Years Old',
+                roadTaxKhr: 400000,
+                inspectionFeeKhr: 54000,
+                estimatedPriceUsd: 13500,
+                taxExplanationKhmer: 'Highlander ម៉ាស៊ីន V6 (3.3L) ស្ថិតក្នុងកម្រិត 3,001–4,000 cc។ ដោយសារអាយុកាលលើស ១០ ឆ្នាំ ពន្ធផ្លូវគឺ ៤០០,០០០ រៀល (~$100)។',
+                taxExplanationEn: 'Highlander 3.3L V6 in 3,001–4,000 cc bracket, > 10 yrs: 400,000 KHR (~$100).'
+            },
+            {
+                id: 'highlander_2022',
+                name: 'Toyota Highlander 2020–2024 (2.5L Hybrid)',
+                nameKhmer: 'តូយ៉ូតា ហាយឡេនឌ័រ ២០២០–២០២៤ (2.5L Hybrid)',
+                shortName: 'Highlander 2022',
+                brand: 'Toyota',
+                filterCategory: 'toyota_lexus',
+                isPopular: false,
+                isBudget: false,
+                isChina: false,
+                isEvOrPhev: false,
+                yearRange: '2020–2024',
+                yearRangeKhmer: 'ឆ្នាំ ២០២០–២០២៤',
+                engineType: 'Hybrid',
+                engineTypeKhmer: 'សាំង + អ៊ីប្រ៊ីដ (Hybrid)',
+                displacement: '2.5L (2,487 cc)',
+                displacementKhmer: '២.៥ លីត្រ (២,៤៨៧ cc)',
+                type: 'suv',
+                capacity: '3000',
+                age: 'under5',
+                ageLabelKhmer: 'រថយន្ត < ៥ ឆ្នាំ',
+                ageLabelEn: '< 5 Years Old',
+                roadTaxKhr: 450000,
+                inspectionFeeKhr: 54000,
+                estimatedPriceUsd: 55000,
+                taxExplanationKhmer: 'Highlander ស៊េរីថ្មី Hybrid 2.5L អាយុកាលក្រោម ៥ ឆ្នាំ ពន្ធផ្លូវ ៤៥០,០០០ រៀល (~$112.50)។',
+                taxExplanationEn: 'New-gen Highlander 2.5L Hybrid under 5 years old pays 450,000 KHR (~$112.50).'
+            },
+
+            // --- POPULAR TOYOTA CROSSOVERS & COMPACTS ---
+            {
+                id: 'corolla_cross',
+                name: 'Toyota Corolla Cross 2020–2024 (1.8L)',
+                nameKhmer: 'តូយ៉ូតា កូរ៉ូឡា ក្រូស (Corolla Cross 1.8L)',
+                shortName: 'Corolla Cross',
+                brand: 'Toyota',
+                filterCategory: 'toyota_lexus',
+                isPopular: true,
+                isBudget: false,
+                isChina: false,
+                isEvOrPhev: false,
+                yearRange: '2020–2024',
+                yearRangeKhmer: 'ឆ្នាំ ២០២០–២០២៤',
+                engineType: 'Hybrid / Petrol',
+                engineTypeKhmer: 'អ៊ីប្រ៊ីដ ឬ សាំង',
+                displacement: '1.8L (1,798 cc)',
+                displacementKhmer: '១.៨ លីត្រ (១,៧៩៨ cc)',
+                type: 'suv',
+                capacity: '2000',
+                age: 'under5',
+                ageLabelKhmer: 'រថយន្ត < ៥ ឆ្នាំ',
+                ageLabelEn: '< 5 Years Old',
+                roadTaxKhr: 250000,
+                inspectionFeeKhr: 54000,
+                estimatedPriceUsd: 32000,
+                taxExplanationKhmer: 'Corolla Cross ម៉ាស៊ីន 1.8L ស្ថិតក្នុងកម្រិត 1,501–2,000 cc អាយុក្រោម ៥ ឆ្នាំ ពន្ធផ្លូវ ២៥០,០០០ រៀល (~$62.50)។',
+                taxExplanationEn: 'Corolla Cross 1.8L in 1,501–2,000 cc bracket, < 5 yrs: 250,000 KHR (~$62.50).'
+            },
+            {
+                id: 'raize',
+                name: 'Toyota Raize 2021–2024 (1.0L Turbo)',
+                nameKhmer: 'តូយ៉ូតា រ៉ាយ (Toyota Raize 1.0L)',
+                shortName: 'Toyota Raize',
+                brand: 'Toyota',
+                filterCategory: 'toyota_lexus',
+                isPopular: true,
+                isBudget: true,
+                isChina: false,
+                isEvOrPhev: false,
+                yearRange: '2021–2024',
+                yearRangeKhmer: 'ឆ្នាំ ២០២១–២០២៤',
+                engineType: 'Petrol Turbo',
+                engineTypeKhmer: 'សាំង តួបូ (Turbo)',
+                displacement: '1.0L Turbo (998 cc)',
+                displacementKhmer: '១.០ លីត្រ តួបូ (៩៩៨ cc)',
+                type: 'suv',
+                capacity: 'under1000',
+                age: 'under5',
+                ageLabelKhmer: 'រថយន្ត < ៥ ឆ្នាំ',
+                ageLabelEn: '< 5 Years Old',
+                roadTaxKhr: 100000,
+                inspectionFeeKhr: 54000,
+                estimatedPriceUsd: 23500,
+                taxExplanationKhmer: 'Toyota Raize ម៉ាស៊ីនត្រឹម 998 cc ស្ថិតក្នុងកម្រិតក្រោម 1,000 cc។ ទោះបីជារថយន្តថ្មី ពន្ធផ្លូវត្រឹមតែ ១០០,០០០ រៀល (~$25) ប៉ុណ្ណោះ ធូរថ្លៃខ្លាំង!',
+                taxExplanationEn: 'Toyota Raize 998 cc engine falls into the under-1,000 cc bracket. Even as a new vehicle, road tax is only 100,000 KHR (~$25).'
+            },
+            {
+                id: 'vios',
+                name: 'Toyota Vios 2014–2024 (1.5L)',
+                nameKhmer: 'តូយ៉ូតា វីអូស (Toyota Vios 1.5L)',
+                shortName: 'Toyota Vios',
+                brand: 'Toyota',
+                filterCategory: 'toyota_lexus',
+                isPopular: true,
+                isBudget: false,
+                isChina: false,
+                isEvOrPhev: false,
+                yearRange: '2014–2024',
+                yearRangeKhmer: 'ឆ្នាំ ២០១៤–២០២៤',
+                engineType: 'Petrol',
+                engineTypeKhmer: 'ម៉ាស៊ីនសាំង Dual VVT-i',
+                displacement: '1.5L (1,496 cc)',
+                displacementKhmer: '១.៥ លីត្រ (១,៤៩៦ cc)',
+                type: 'sedan',
+                capacity: '1500',
+                age: 'under5',
+                ageLabelKhmer: 'រថយន្ត ៥–១០ ឆ្នាំ ឬ ក្រោម ៥ ឆ្នាំ',
+                ageLabelEn: 'Aged 5–10 yrs / < 5 yrs',
+                roadTaxKhr: 120000,
+                inspectionFeeKhr: 54000,
+                estimatedPriceUsd: 15000,
+                taxExplanationKhmer: 'Toyota Vios ម៉ាស៊ីន 1.5L ស្ថិតក្នុងកម្រិត 1,000–1,500 cc។ បើអាយុ ៥–១០ ឆ្នាំ ពន្ធផ្លូវ ១២០,០០០ រៀល បើក្រោម ៥ ឆ្នាំ ១៥០,០០០ រៀល។',
+                taxExplanationEn: 'Toyota Vios 1.5L in 1,000–1,500 cc bracket: 120,000 KHR (5–10 yrs) or 150,000 KHR (< 5 yrs).'
+            },
+
+            // --- LEXUS MODELS ---
+            {
+                id: 'rx300_99',
+                name: 'Lexus RX300 1999–2003',
+                nameKhmer: 'ឡិចស៊ីស RX300 ១៩៩៩–២០០៣',
+                shortName: 'Lexus RX300',
+                brand: 'Lexus',
+                filterCategory: 'toyota_lexus',
+                isPopular: true,
+                isBudget: false,
+                isChina: false,
+                isEvOrPhev: false,
+                yearRange: '1999–2003',
+                yearRangeKhmer: 'ឆ្នាំ ១៩៩៩–២០០៣',
+                engineType: 'Petrol',
+                engineTypeKhmer: 'ម៉ាស៊ីនសាំង V6',
+                displacement: '3.0L V6 (2,995 cc)',
+                displacementKhmer: '៣.០ លីត្រ V6 (២,៩៩៥ cc)',
+                type: 'suv',
+                capacity: '3000',
+                age: 'over10',
+                ageLabelKhmer: 'អាយុកាល > ១០ ឆ្នាំ',
+                ageLabelEn: '> 10 Years Old',
+                roadTaxKhr: 250000,
+                inspectionFeeKhr: 54000,
+                estimatedPriceUsd: 8500,
+                taxExplanationKhmer: 'Lexus RX300 ម៉ាស៊ីន 3.0L V6 ស្ថិតក្នុងកម្រិត 2,001–3,000 cc អាយុលើស ១០ ឆ្នាំ ពន្ធផ្លូវ ២៥០,០០០ រៀល (~$62.50)។',
+                taxExplanationEn: 'Lexus RX300 3.0L V6 in 2,001–3,000 cc bracket, > 10 yrs: 250,000 KHR (~$62.50).'
+            },
+            {
+                id: 'rx330_04',
+                name: 'Lexus RX330 2004–2006',
+                nameKhmer: 'ឡិចស៊ីស RX330 ២០០៤–២០០៦',
+                shortName: 'Lexus RX330',
+                brand: 'Lexus',
+                filterCategory: 'toyota_lexus',
+                isPopular: true,
+                isBudget: false,
+                isChina: false,
+                isEvOrPhev: false,
+                yearRange: '2004–2006',
+                yearRangeKhmer: 'ឆ្នាំ ២០០៤–២០០៦',
+                engineType: 'Petrol',
+                engineTypeKhmer: 'ម៉ាស៊ីនសាំង V6',
+                displacement: '3.3L V6 (3,310 cc)',
+                displacementKhmer: '៣.៣ លីត្រ V6 (៣,៣១០ cc)',
+                type: 'suv',
+                capacity: '4000',
+                age: 'over10',
+                ageLabelKhmer: 'អាយុកាល > ១០ ឆ្នាំ',
+                ageLabelEn: '> 10 Years Old',
+                roadTaxKhr: 400000,
+                inspectionFeeKhr: 54000,
+                estimatedPriceUsd: 14500,
+                taxExplanationKhmer: 'Lexus RX330 ម៉ាស៊ីន 3.3L V6 ស្ថិតក្នុងកម្រិត 3,001–4,000 cc អាយុលើស ១០ ឆ្នាំ ពន្ធផ្លូវ ៤០០,០០០ រៀល (~$100)។',
+                taxExplanationEn: 'Lexus RX330 3.3L V6 in 3,001–4,000 cc bracket, > 10 yrs: 400,000 KHR (~$100).'
+            },
+            {
+                id: 'rx350_07',
+                name: 'Lexus RX350 2007–2015',
+                nameKhmer: 'ឡិចស៊ីស RX350 ២០០៧–២០១៥',
+                shortName: 'Lexus RX350 (07-15)',
+                brand: 'Lexus',
+                filterCategory: 'toyota_lexus',
+                isPopular: true,
+                isBudget: false,
+                isChina: false,
+                isEvOrPhev: false,
+                yearRange: '2007–2015',
+                yearRangeKhmer: 'ឆ្នាំ ២០០៧–២០១៥',
+                engineType: 'Petrol',
+                engineTypeKhmer: 'ម៉ាស៊ីនសាំង V6',
+                displacement: '3.5L V6 (3,456 cc)',
+                displacementKhmer: '៣.៥ លីត្រ V6 (៣,៤៥៦ cc)',
+                type: 'suv',
+                capacity: '4000',
+                age: 'over10',
+                ageLabelKhmer: 'អាយុកាល > ១០ ឆ្នាំ',
+                ageLabelEn: '> 10 Years Old',
+                roadTaxKhr: 400000,
+                inspectionFeeKhr: 54000,
+                estimatedPriceUsd: 24000,
+                taxExplanationKhmer: 'Lexus RX350 ម៉ាស៊ីន 3.5L V6 ស្ថិតក្នុងកម្រិត 3,001–4,000 cc អាយុលើស ១០ ឆ្នាំ ពន្ធផ្លូវ ៤០០,០០០ រៀល (~$100)។',
+                taxExplanationEn: 'Lexus RX350 3.5L V6 in 3,001–4,000 cc bracket, > 10 yrs: 400,000 KHR (~$100).'
+            },
+            {
+                id: 'lx570_08',
+                name: 'Lexus LX570 2008–2015',
+                nameKhmer: 'ឡិចស៊ីស LX570 ២០០៨–២០១៥',
+                shortName: 'Lexus LX570 (08-15)',
+                brand: 'Lexus',
+                filterCategory: 'toyota_lexus',
+                isPopular: true,
+                isBudget: false,
+                isChina: false,
+                isEvOrPhev: false,
+                yearRange: '2008–2015',
+                yearRangeKhmer: 'ឆ្នាំ ២០០៨–២០១៥',
+                engineType: 'Petrol',
+                engineTypeKhmer: 'ម៉ាស៊ីនសាំង V8',
+                displacement: '5.7L V8 (5,663 cc)',
+                displacementKhmer: '៥.៧ លីត្រ V8 (៥,៦៦៣ cc)',
+                type: 'suv',
+                capacity: 'over4000',
+                age: 'over10',
+                ageLabelKhmer: 'អាយុកាល > ១០ ឆ្នាំ',
+                ageLabelEn: '> 10 Years Old',
+                roadTaxKhr: 1200000,
+                inspectionFeeKhr: 54000,
+                estimatedPriceUsd: 48000,
+                taxExplanationKhmer: 'Lexus LX570 ម៉ាស៊ីន 5.7L V8 ស្ថិតក្នុងកម្រិតលើស 4,000 cc។ ដោយសារអាយុកាលលើស ១០ ឆ្នាំ ពន្ធផ្លូវគឺ ១,២០០,០០០ រៀល (~$300)។',
+                taxExplanationEn: 'Lexus LX570 5.7L V8 in over-4,000 cc bracket, > 10 yrs: 1,200,000 KHR (~$300).'
+            },
+            {
+                id: 'lx570_16',
+                name: 'Lexus LX570 2016–2021',
+                nameKhmer: 'ឡិចស៊ីស LX570 ២០១៦–២០២១ (Super Sport)',
+                shortName: 'Lexus LX570 (2018)',
+                brand: 'Lexus',
+                filterCategory: 'toyota_lexus',
+                isPopular: false,
+                isBudget: false,
+                isChina: false,
+                isEvOrPhev: false,
+                yearRange: '2016–2021',
+                yearRangeKhmer: 'ឆ្នាំ ២០១៦–២០២១',
+                engineType: 'Petrol',
+                engineTypeKhmer: 'ម៉ាស៊ីនសាំង V8',
+                displacement: '5.7L V8 (5,663 cc)',
+                displacementKhmer: '៥.៧ លីត្រ V8 (៥,៦៦៣ cc)',
+                type: 'suv',
+                capacity: 'over4000',
+                age: '5to10',
+                ageLabelKhmer: 'អាយុកាល ៥–១០ ឆ្នាំ',
+                ageLabelEn: '5–10 Years Old',
+                roadTaxKhr: 1600000,
+                inspectionFeeKhr: 54000,
+                estimatedPriceUsd: 85000,
+                taxExplanationKhmer: 'Lexus LX570 ស៊េរី 2016–2021 ម៉ាស៊ីន 5.7L V8 អាយុកាល ៥–១០ ឆ្នាំ ពន្ធផ្លូវ ១,៦០០,០០០ រៀល (~$400)។',
+                taxExplanationEn: 'Lexus LX570 2016–2021 5.7L V8 aged 5–10 years pays 1,600,000 KHR (~$400).'
+            },
+            {
+                id: 'land_cruiser_300',
+                name: 'Toyota Land Cruiser 300 2022–2026',
+                nameKhmer: 'តូយ៉ូតា ឡង់គ្រុយស័រ ៣០០ (LC300)',
+                shortName: 'Land Cruiser 300',
+                brand: 'Toyota',
+                filterCategory: 'toyota_lexus',
+                isPopular: false,
+                isBudget: false,
+                isChina: false,
+                isEvOrPhev: false,
+                yearRange: '2022–2026',
+                yearRangeKhmer: 'ឆ្នាំ ២០២២–២០២៦',
+                engineType: 'Petrol Twin-Turbo',
+                engineTypeKhmer: 'សាំង V6 Twin-Turbo',
+                displacement: '3.5L Twin-Turbo (3,445 cc)',
+                displacementKhmer: '៣.៥ លីត្រ V6 (៣,៤៤៥ cc)',
+                type: 'suv',
+                capacity: '4000',
+                age: 'under5',
+                ageLabelKhmer: 'រថយន្ត < ៥ ឆ្នាំ',
+                ageLabelEn: '< 5 Years Old',
+                roadTaxKhr: 800000,
+                inspectionFeeKhr: 54000,
+                estimatedPriceUsd: 140000,
+                taxExplanationKhmer: 'Land Cruiser LC300 បំពាក់ម៉ាស៊ីន 3.5L Twin-Turbo (3,445 cc) ស្ថិតក្នុងកម្រិត 3,001–4,000 cc។ ដោយសារអាយុក្រោម ៥ ឆ្នាំ ពន្ធផ្លូវគឺ ៨០០,០០០ រៀល (~$200)។',
+                taxExplanationEn: 'Land Cruiser LC300 3.5L Twin-Turbo (3,445 cc) in 3,001–4,000 cc bracket, < 5 yrs: 800,000 KHR (~$200).'
+            },
+
+            // --- ELECTRIC VEHICLES (EV & PHEV) & CHINESE BRANDS ---
+            {
+                id: 'byd_atto3',
+                name: 'BYD Atto 3 (EV 2022–2026)',
+                nameKhmer: 'ប៊ីវ៉ាយឌី អាតូ ៣ (BYD Atto 3 EV)',
+                shortName: 'BYD Atto 3',
+                brand: 'BYD',
+                filterCategory: 'ev_phev',
+                isPopular: true,
+                isBudget: true,
+                isChina: true,
+                isEvOrPhev: true,
+                yearRange: '2022–2026',
+                yearRangeKhmer: 'ឆ្នាំ ២០២២–២០២៦',
+                engineType: 'Pure EV',
+                engineTypeKhmer: 'អគ្គិសនីសុទ្ធ ១០០%',
+                displacement: '150 kW Motor (201 hp)',
+                displacementKhmer: 'ម៉ូទ័រ ១៥០ kW (២០១ សេះ)',
+                type: 'ev',
+                capacity: '2000',
+                age: 'under5',
+                ageLabelKhmer: 'រថយន្តអគ្គិសនី < ៥ ឆ្នាំ',
+                ageLabelEn: 'EV < 5 Years Old',
+                roadTaxKhr: 100000,
+                inspectionFeeKhr: 54000,
+                estimatedPriceUsd: 34500,
+                taxExplanationKhmer: 'BYD Atto 3 ជារថយន្តអគ្គិសនីសុទ្ធ ១០០% ទទួលបានការបញ្ចុះពន្ធផ្លូវ ៥០% ពីរាជរដ្ឋាភិបាលកម្ពុជា! ពន្ធផ្លូវប្រចាំឆ្នាំត្រឹមតែ ១០០,០០០ រៀល (~$25) ប៉ុណ្ណោះ។',
+                taxExplanationEn: 'BYD Atto 3 is a 100% pure electric vehicle benefiting from Cambodia’s 50% EV tax incentive! Annual road tax is only 100,000 KHR (~$25).'
+            },
+            {
+                id: 'byd_dolphin',
+                name: 'BYD Dolphin (EV 2023–2026)',
+                nameKhmer: 'ប៊ីវ៉ាយឌី ដូហ្វីន (BYD Dolphin EV)',
+                shortName: 'BYD Dolphin',
+                brand: 'BYD',
+                filterCategory: 'ev_phev',
+                isPopular: true,
+                isBudget: true,
+                isChina: true,
+                isEvOrPhev: true,
+                yearRange: '2023–2026',
+                yearRangeKhmer: 'ឆ្នាំ ២០២៣–២០២៦',
+                engineType: 'Pure EV',
+                engineTypeKhmer: 'អគ្គិសនីសុទ្ធ ១០០%',
+                displacement: '70–150 kW Motor',
+                displacementKhmer: 'ម៉ូទ័រ ៧០–១៥០ kW',
+                type: 'ev',
+                capacity: '1500',
+                age: 'under5',
+                ageLabelKhmer: 'រថយន្តអគ្គិសនី < ៥ ឆ្នាំ',
+                ageLabelEn: 'EV < 5 Years Old',
+                roadTaxKhr: 60000,
+                inspectionFeeKhr: 54000,
+                estimatedPriceUsd: 25000,
+                taxExplanationKhmer: 'BYD Dolphin រថយន្តអគ្គិសនីខ្នាតតូច ទទួលបានការបញ្ចុះពន្ធផ្លូវ ៥០% ពន្ធផ្លូវត្រឹមតែ ៦០,០០០ រៀល (~$15) ក្នុងមួយឆ្នាំ!',
+                taxExplanationEn: 'BYD Dolphin compact EV receives 50% EV road tax discount: only 60,000 KHR (~$15) per year!'
+            },
+            {
+                id: 'byd_seal',
+                name: 'BYD Seal (EV 2023–2026)',
+                nameKhmer: 'ប៊ីវ៉ាយឌី ស៊ីល (BYD Seal EV)',
+                shortName: 'BYD Seal',
+                brand: 'BYD',
+                filterCategory: 'ev_phev',
+                isPopular: false,
+                isBudget: false,
+                isChina: true,
+                isEvOrPhev: true,
+                yearRange: '2023–2026',
+                yearRangeKhmer: 'ឆ្នាំ ២០២៣–២០២៦',
+                engineType: 'Pure EV',
+                engineTypeKhmer: 'អគ្គិសនីសុទ្ធ ១០០%',
+                displacement: '150–390 kW AWD',
+                displacementKhmer: 'ម៉ូទ័រ ១៥០–៣៩០ kW',
+                type: 'ev',
+                capacity: '3000',
+                age: 'under5',
+                ageLabelKhmer: 'រថយន្តអគ្គិសនី < ៥ ឆ្នាំ',
+                ageLabelEn: 'EV < 5 Years Old',
+                roadTaxKhr: 150000,
+                inspectionFeeKhr: 54000,
+                estimatedPriceUsd: 48000,
+                taxExplanationKhmer: 'BYD Seal រថយន្តស្ព័រអគ្គិសនីកម្លាំងខ្លាំង ទទួលបានការបញ្ចុះពន្ធ ៥០% ពន្ធផ្លូវប្រចាំឆ្នាំ ១៥០,០០០ រៀល (~$37.50)។',
+                taxExplanationEn: 'BYD Seal high-performance EV with 50% EV discount pays 150,000 KHR (~$37.50) road tax.'
+            },
+            {
+                id: 'byd_sealion6',
+                name: 'BYD Sealion 6 (PHEV 2024–2026)',
+                nameKhmer: 'ប៊ីវ៉ាយឌី ស៊ីលីអន ៦ (BYD Sealion 6 PHEV)',
+                shortName: 'BYD Sealion 6',
+                brand: 'BYD',
+                filterCategory: 'ev_phev',
+                isPopular: true,
+                isBudget: false,
+                isChina: true,
+                isEvOrPhev: true,
+                yearRange: '2024–2026',
+                yearRangeKhmer: 'ឆ្នាំ ២០២៤–២០២៦',
+                engineType: 'PHEV',
+                engineTypeKhmer: 'សាំង + អាគុយដោតសាក (PHEV)',
+                displacement: '1.5L Petrol + Dual Motors',
+                displacementKhmer: '១.៥ លីត្រ សាំង + ម៉ូទ័រភ្លើង',
+                type: 'suv',
+                capacity: '1500',
+                age: 'under5',
+                ageLabelKhmer: 'រថយន្ត < ៥ ឆ្នាំ',
+                ageLabelEn: '< 5 Years Old',
+                roadTaxKhr: 150000,
+                inspectionFeeKhr: 54000,
+                estimatedPriceUsd: 38500,
+                taxExplanationKhmer: 'BYD Sealion 6 ជាប្រភេទ Plug-in Hybrid (PHEV) បំពាក់ម៉ាស៊ីនសាំង 1.5L កម្រិត 1,000–1,500 cc អាយុក្រោម ៥ ឆ្នាំ ពន្ធផ្លូវ ១៥០,០០០ រៀល (~$37.50)។',
+                taxExplanationEn: 'BYD Sealion 6 PHEV with 1.5L combustion engine under 5 years old pays 150,000 KHR (~$37.50).'
+            },
+            {
+                id: 'wuling_binguo',
+                name: 'Wuling Binguo EV 2023–2026',
+                nameKhmer: 'វូលីង ប៊ីនហ្គូ (Wuling Binguo EV)',
+                shortName: 'Wuling Binguo',
+                brand: 'Wuling',
+                filterCategory: 'ev_phev',
+                isPopular: true,
+                isBudget: true,
+                isChina: true,
+                isEvOrPhev: true,
+                yearRange: '2023–2026',
+                yearRangeKhmer: 'ឆ្នាំ ២០២៣–២០២៦',
+                engineType: 'Pure EV',
+                engineTypeKhmer: 'អគ្គិសនីសុទ្ធ ១០០%',
+                displacement: '50 kW Motor (67 hp)',
+                displacementKhmer: 'ម៉ូទ័រ ៥០ kW (៦៧ សេះ)',
+                type: 'ev',
+                capacity: 'under1000',
+                age: 'under5',
+                ageLabelKhmer: 'រថយន្តអគ្គិសនី < ៥ ឆ្នាំ',
+                ageLabelEn: 'EV < 5 Years Old',
+                roadTaxKhr: 50000,
+                inspectionFeeKhr: 54000,
+                estimatedPriceUsd: 18500,
+                taxExplanationKhmer: 'Wuling Binguo រថយន្តអគ្គិសនីពេញនិយមក្នុងក្រុង បញ្ចុះពន្ធផ្លូវ ៥០% សល់ត្រឹមតែ ៥០,០០០ រៀល (~$12.50) ក្នុងមួយឆ្នាំ!',
+                taxExplanationEn: 'Wuling Binguo urban EV pays only 50,000 KHR (~$12.50) annually with the 50% EV discount!'
+            },
+            {
+                id: 'wuling_mini',
+                name: 'Wuling Hongguang Mini EV',
+                nameKhmer: 'វូលីង ហុងក្វាង មីនី (Wuling Mini EV)',
+                shortName: 'Wuling Mini EV',
+                brand: 'Wuling',
+                filterCategory: 'ev_phev',
+                isPopular: true,
+                isBudget: true,
+                isChina: true,
+                isEvOrPhev: true,
+                yearRange: '2021–2025',
+                yearRangeKhmer: 'ឆ្នាំ ២០២១–២០២៥',
+                engineType: 'Pure EV',
+                engineTypeKhmer: 'អគ្គិសនីសុទ្ធ ១០០%',
+                displacement: '20 kW Motor (27 hp)',
+                displacementKhmer: 'ម៉ូទ័រ ២០ kW (២៧ សេះ)',
+                type: 'ev',
+                capacity: 'under1000',
+                age: 'under5',
+                ageLabelKhmer: 'រថយន្តអគ្គិសនី < ៥ ឆ្នាំ',
+                ageLabelEn: 'EV < 5 Years Old',
+                roadTaxKhr: 30000,
+                inspectionFeeKhr: 54000,
+                estimatedPriceUsd: 11000,
+                taxExplanationKhmer: 'Wuling Hongguang Mini EV ពន្ធផ្លូវទាបបំផុតត្រឹមតែ ៣០,០០០ រៀល (~$7.50) ប៉ុណ្ណោះ!',
+                taxExplanationEn: 'Wuling Mini EV boasts Cambodia’s lowest car road tax: just 30,000 KHR (~$7.50) per year!'
+            },
+            {
+                id: 'deepal_s07',
+                name: 'Changan Deepal S07 (EV/EREV 2023–2026)',
+                nameKhmer: 'ចាងអាន ឌីប៉ាល់ អេស០៧ (Deepal S07)',
+                shortName: 'Deepal S07',
+                brand: 'Changan',
+                filterCategory: 'china',
+                isPopular: true,
+                isBudget: false,
+                isChina: true,
+                isEvOrPhev: true,
+                yearRange: '2023–2026',
+                yearRangeKhmer: 'ឆ្នាំ ២០២៣–២០២៦',
+                engineType: 'Pure EV / EREV',
+                engineTypeKhmer: 'អគ្គិសនីសុទ្ធ ឬ កូនកាត់ EREV',
+                displacement: '160 kW Motor (215 hp)',
+                displacementKhmer: 'ម៉ូទ័រ ១៦០ kW (២១៥ សេះ)',
+                type: 'ev',
+                capacity: '2000',
+                age: 'under5',
+                ageLabelKhmer: 'រថយន្ត < ៥ ឆ្នាំ',
+                ageLabelEn: '< 5 Years Old',
+                roadTaxKhr: 100000,
+                inspectionFeeKhr: 54000,
+                estimatedPriceUsd: 41000,
+                taxExplanationKhmer: 'Changan Deepal S07 រថយន្ត SUV ទំនើបចុងក្រោយ ទទួលបានការបញ្ចុះពន្ធ ៥០% ពន្ធផ្លូវ ១០០,០០០ រៀល (~$25)។',
+                taxExplanationEn: 'Changan Deepal S07 futuristic SUV receives 50% EV discount: 100,000 KHR (~$25) road tax.'
+            },
+            {
+                id: 'geely_monjaro',
+                name: 'Geely Monjaro 2022–2026 (2.0L Turbo)',
+                nameKhmer: 'ជីលី ម៉ុងចារ៉ូ (Geely Monjaro 2.0T)',
+                shortName: 'Geely Monjaro',
+                brand: 'Geely',
+                filterCategory: 'china',
+                isPopular: true,
+                isBudget: false,
+                isChina: true,
+                isEvOrPhev: false,
+                yearRange: '2022–2026',
+                yearRangeKhmer: 'ឆ្នាំ ២០២២–២០២៦',
+                engineType: 'Petrol Turbo',
+                engineTypeKhmer: 'ម៉ាស៊ីនសាំង តួបូ Drive-E',
+                displacement: '2.0L Turbo (1,969 cc)',
+                displacementKhmer: '២.០ លីត្រ តួបូ (១,៩៦៩ cc)',
+                type: 'suv',
+                capacity: '2000',
+                age: 'under5',
+                ageLabelKhmer: 'រថយន្ត < ៥ ឆ្នាំ',
+                ageLabelEn: '< 5 Years Old',
+                roadTaxKhr: 250000,
+                inspectionFeeKhr: 54000,
+                estimatedPriceUsd: 45000,
+                taxExplanationKhmer: 'Geely Monjaro បំពាក់ម៉ាស៊ីន 2.0L Turbo (1,969 cc) កម្រិត 1,501–2,000 cc អាយុក្រោម ៥ ឆ្នាំ ពន្ធផ្លូវ ២៥០,០០០ រៀល (~$62.50)។',
+                taxExplanationEn: 'Geely Monjaro 2.0L Turbo (1,969 cc) under 5 years old pays 250,000 KHR (~$62.50).'
+            },
+            {
+                id: 'geely_coolray',
+                name: 'Geely Coolray 2020–2024 (1.5L Turbo)',
+                nameKhmer: 'ជីលី ឃូលរ៉េ (Geely Coolray 1.5T)',
+                shortName: 'Geely Coolray',
+                brand: 'Geely',
+                filterCategory: 'china',
+                isPopular: true,
+                isBudget: false,
+                isChina: true,
+                isEvOrPhev: false,
+                yearRange: '2020–2024',
+                yearRangeKhmer: 'ឆ្នាំ ២០២០–២០២៤',
+                engineType: 'Petrol Turbo',
+                engineTypeKhmer: 'ម៉ាស៊ីនសាំង តួបូ',
+                displacement: '1.5L Turbo (1,477 cc)',
+                displacementKhmer: '១.៥ លីត្រ តួបូ (១,៤៧៧ cc)',
+                type: 'suv',
+                capacity: '1500',
+                age: 'under5',
+                ageLabelKhmer: 'រថយន្ត < ៥ ឆ្នាំ',
+                ageLabelEn: '< 5 Years Old',
+                roadTaxKhr: 150000,
+                inspectionFeeKhr: 54000,
+                estimatedPriceUsd: 26000,
+                taxExplanationKhmer: 'Geely Coolray ម៉ាស៊ីន 1.5L Turbo កម្រិត 1,000–1,500 cc អាយុក្រោម ៥ ឆ្នាំ ពន្ធផ្លូវ ១៥០,០០០ រៀល (~$37.50)។',
+                taxExplanationEn: 'Geely Coolray 1.5L Turbo under 5 years old pays 150,000 KHR (~$37.50).'
+            },
+            {
+                id: 'gac_aion_y',
+                name: 'GAC Aion Y Plus (EV 2023–2026)',
+                nameKhmer: 'ជីអេស៊ី អាយអន វ៉ាយ ផ្លឹស (Aion Y Plus EV)',
+                shortName: 'GAC Aion Y Plus',
+                brand: 'GAC',
+                filterCategory: 'china',
+                isPopular: true,
+                isBudget: true,
+                isChina: true,
+                isEvOrPhev: true,
+                yearRange: '2023–2026',
+                yearRangeKhmer: 'ឆ្នាំ ២០២៣–២០២៦',
+                engineType: 'Pure EV',
+                engineTypeKhmer: 'អគ្គិសនីសុទ្ធ ១០០%',
+                displacement: '150 kW Motor (201 hp)',
+                displacementKhmer: 'ម៉ូទ័រ ១៥០ kW (២០១ សេះ)',
+                type: 'ev',
+                capacity: '2000',
+                age: 'under5',
+                ageLabelKhmer: 'រថយន្តអគ្គិសនី < ៥ ឆ្នាំ',
+                ageLabelEn: 'EV < 5 Years Old',
+                roadTaxKhr: 100000,
+                inspectionFeeKhr: 54000,
+                estimatedPriceUsd: 31000,
+                taxExplanationKhmer: 'GAC Aion Y Plus រថយន្តអគ្គិសនីទូលាយ ទទួលបានការបញ្ចុះពន្ធ ៥០% ពន្ធផ្លូវប្រចាំឆ្នាំ ១០០,០០០ រៀល (~$25)។',
+                taxExplanationEn: 'GAC Aion Y Plus spacious EV receives 50% discount: 100,000 KHR (~$25) annual road tax.'
+            },
+            {
+                id: 'tank_300',
+                name: 'GWM Tank 300 2022–2026 (2.0L Turbo)',
+                nameKhmer: 'ហ្គ្រេតវ៉ល ថេង ៣០០ (GWM Tank 300)',
+                shortName: 'Tank 300',
+                brand: 'GWM',
+                filterCategory: 'china',
+                isPopular: true,
+                isBudget: false,
+                isChina: true,
+                isEvOrPhev: false,
+                yearRange: '2022–2026',
+                yearRangeKhmer: 'ឆ្នាំ ២០២២–២០២៦',
+                engineType: 'Petrol Turbo / Hybrid',
+                engineTypeKhmer: 'សាំង តួបូ ឬ អ៊ីប្រ៊ីដ',
+                displacement: '2.0L Turbo (1,998 cc)',
+                displacementKhmer: '២.០ លីត្រ តួបូ (១,៩៩៨ cc)',
+                type: 'suv',
+                capacity: '2000',
+                age: 'under5',
+                ageLabelKhmer: 'រថយន្ត < ៥ ឆ្នាំ',
+                ageLabelEn: '< 5 Years Old',
+                roadTaxKhr: 250000,
+                inspectionFeeKhr: 54000,
+                estimatedPriceUsd: 46000,
+                taxExplanationKhmer: 'Tank 300 រថយន្ត Off-Road ដ៏ពេញនិយម ម៉ាស៊ីន 2.0L Turbo (1,998 cc) អាយុក្រោម ៥ ឆ្នាំ ពន្ធផ្លូវ ២៥០,០០០ រៀល (~$62.50)។',
+                taxExplanationEn: 'Tank 300 popular off-roader with 2.0L Turbo under 5 years old pays 250,000 KHR (~$62.50).'
+            },
+            {
+                id: 'jetour_dashing',
+                name: 'Jetour Dashing 2022–2026',
+                nameKhmer: 'ជេធួរ ដាស៊ីង (Jetour Dashing 1.5T/1.6T)',
+                shortName: 'Jetour Dashing',
+                brand: 'Jetour',
+                filterCategory: 'china',
+                isPopular: true,
+                isBudget: false,
+                isChina: true,
+                isEvOrPhev: false,
+                yearRange: '2022–2026',
+                yearRangeKhmer: 'ឆ្នាំ ២០២២–២០២៦',
+                engineType: 'Petrol Turbo',
+                engineTypeKhmer: 'ម៉ាស៊ីនសាំង តួបូ',
+                displacement: '1.5L / 1.6L Turbo',
+                displacementKhmer: '១.៥L ឬ ១.៦L តួបូ',
+                type: 'suv',
+                capacity: '2000',
+                age: 'under5',
+                ageLabelKhmer: 'រថយន្ត < ៥ ឆ្នាំ',
+                ageLabelEn: '< 5 Years Old',
+                roadTaxKhr: 250000,
+                inspectionFeeKhr: 54000,
+                estimatedPriceUsd: 31000,
+                taxExplanationKhmer: 'Jetour Dashing ម៉ាស៊ីន 1.5L/1.6L Turbo អាយុក្រោម ៥ ឆ្នាំ ពន្ធផ្លូវចន្លោះពី ១៥០,០០០ ដល់ ២៥០,០០០ រៀល។',
+                taxExplanationEn: 'Jetour Dashing 1.5L/1.6L Turbo under 5 years old pays 150,000–250,000 KHR.'
+            },
+            {
+                id: 'tesla_model_y',
+                name: 'Tesla Model Y (EV 2021–2026)',
+                nameKhmer: 'តេសឡា ម៉ូដែល វ៉ាយ (Tesla Model Y EV)',
+                shortName: 'Tesla Model Y',
+                brand: 'Tesla',
+                filterCategory: 'ev_phev',
+                isPopular: false,
+                isBudget: false,
+                isChina: false,
+                isEvOrPhev: true,
+                yearRange: '2021–2026',
+                yearRangeKhmer: 'ឆ្នាំ ២០២១–២០២៦',
+                engineType: 'Pure EV',
+                engineTypeKhmer: 'អគ្គិសនីសុទ្ធ ១០០%',
+                displacement: '220 kW Dual Motor',
+                displacementKhmer: 'ម៉ូទ័រ ២២០ kW',
+                type: 'ev',
+                capacity: '3000',
+                age: 'under5',
+                ageLabelKhmer: 'រថយន្តអគ្គិសនី < ៥ ឆ្នាំ',
+                ageLabelEn: 'EV < 5 Years Old',
+                roadTaxKhr: 130000,
+                inspectionFeeKhr: 54000,
+                estimatedPriceUsd: 55000,
+                taxExplanationKhmer: 'Tesla Model Y រថយន្តអគ្គិសនីអាមេរិក ទទួលបានការបញ្ចុះពន្ធ ៥០% ពន្ធផ្លូវប្រចាំឆ្នាំ ១៣០,០០០ រៀល (~$32.50)។',
+                taxExplanationEn: 'Tesla Model Y EV with 50% EV discount pays 130,000 KHR (~$32.50) annual road tax.'
+            },
+
+            // --- FORD & PICKUPS ---
+            {
+                id: 'ford_ranger_wildtrak',
+                name: 'Ford Ranger Wildtrak 2.0L Bi-Turbo (2019–2024)',
+                nameKhmer: 'ហ្វដ រ៉េងជ័រ វ៉ាយត្រេក ២.០ (Wildtrak Bi-Turbo)',
+                shortName: 'Ranger Wildtrak 2.0',
+                brand: 'Ford',
+                filterCategory: 'ford_pickup',
+                isPopular: true,
+                isBudget: false,
+                isChina: false,
+                isEvOrPhev: false,
+                yearRange: '2019–2024',
+                yearRangeKhmer: 'ឆ្នាំ ២០១៩–២០២៤',
+                engineType: 'Diesel Bi-Turbo',
+                engineTypeKhmer: 'ម៉ាស៊ូត Bi-Turbo ២ ស៊ីឡាំង',
+                displacement: '2.0L Diesel (1,996 cc)',
+                displacementKhmer: '២.០ លីត្រ ម៉ាស៊ូត (១,៩៩៦ cc)',
+                type: 'pickup',
+                capacity: '2000',
+                age: 'under5',
+                ageLabelKhmer: 'រថយន្ត < ៥ ឆ្នាំ',
+                ageLabelEn: '< 5 Years Old',
+                roadTaxKhr: 250000,
+                inspectionFeeKhr: 63000,
+                estimatedPriceUsd: 39000,
+                taxExplanationKhmer: 'Ford Ranger Wildtrak 2.0L Bi-Turbo ស្ថិតក្នុងកម្រិត 1,501–2,000 cc អាយុក្រោម ៥ ឆ្នាំ ពន្ធផ្លូវ ២៥០,០០០ រៀល (~$62.50) និងថ្លៃឆៀកភីកអាប់ ៦៣,០០០ រៀល។',
+                taxExplanationEn: 'Ford Ranger Wildtrak 2.0L Bi-Turbo in 1,501–2,000 cc bracket, < 5 yrs: 250,000 KHR (~$62.50) road tax and 63,000 KHR pickup inspection fee.'
+            },
+            {
+                id: 'ford_ranger_32',
+                name: 'Ford Ranger 2012–2018 (3.2L Wildtrak)',
+                nameKhmer: 'ហ្វដ រ៉េងជ័រ ២០១២–២០១៨ (3.2L ម៉ាស៊ីន ៥)',
+                shortName: 'Ranger 3.2L (12-18)',
+                brand: 'Ford',
+                filterCategory: 'ford_pickup',
+                isPopular: true,
+                isBudget: false,
+                isChina: false,
+                isEvOrPhev: false,
+                yearRange: '2012–2018',
+                yearRangeKhmer: 'ឆ្នាំ ២០១២–២០១៨',
+                engineType: 'Diesel',
+                engineTypeKhmer: 'ម៉ាស៊ូត ៥ ស៊ីឡាំង',
+                displacement: '3.2L Diesel (3,198 cc)',
+                displacementKhmer: '៣.២ លីត្រ ម៉ាស៊ូត (៣,១៩៨ cc)',
+                type: 'pickup',
+                capacity: '4000',
+                age: '5to10',
+                ageLabelKhmer: 'អាយុកាល ៥–១០ ឆ្នាំ ឬ > ១០ ឆ្នាំ',
+                ageLabelEn: '5–10 yrs / > 10 yrs',
+                roadTaxKhr: 400000,
+                inspectionFeeKhr: 63000,
+                estimatedPriceUsd: 21000,
+                taxExplanationKhmer: 'Ford Ranger 3.2L ម៉ាស៊ីន ៥ ស្ថិតក្នុងកម្រិត 3,001–4,000 cc ពន្ធផ្លូវចន្លោះពី ៤០០,០០០ ដល់ ៦០០,០០០ រៀល អាស្រ័យលើឆ្នាំផលិត។',
+                taxExplanationEn: 'Ford Ranger 3.2L 5-cylinder in 3,001–4,000 cc bracket pays 400,000–600,000 KHR based on age.'
+            },
+            {
+                id: 'hilux_revo',
+                name: 'Toyota Hilux Revo 2016–2024 (2.4L / 2.8L)',
+                nameKhmer: 'តូយ៉ូតា ហាយលុច រ៉េវ៉ូ (Hilux Revo)',
+                shortName: 'Hilux Revo',
+                brand: 'Toyota',
+                filterCategory: 'ford_pickup',
+                isPopular: true,
+                isBudget: false,
+                isChina: false,
+                isEvOrPhev: false,
+                yearRange: '2016–2024',
+                yearRangeKhmer: 'ឆ្នាំ ២០១៦–២០២៤',
+                engineType: 'Diesel',
+                engineTypeKhmer: 'ម៉ាស៊ូត D-4D',
+                displacement: '2.4L / 2.8L Diesel',
+                displacementKhmer: '២.៤L ឬ ២.៨L ម៉ាស៊ូត',
+                type: 'pickup',
+                capacity: '3000',
+                age: 'under5',
+                ageLabelKhmer: 'រថយន្ត < ៥ ឆ្នាំ ឬ ៥–១០ ឆ្នាំ',
+                ageLabelEn: '< 5 yrs / 5–10 yrs',
+                roadTaxKhr: 250000,
+                inspectionFeeKhr: 63000,
+                estimatedPriceUsd: 33000,
+                taxExplanationKhmer: 'Toyota Hilux Revo ម៉ាស៊ីន 2.4L ស្ថិតក្នុងកម្រិត 2,001–3,000 cc ពន្ធផ្លូវ ២៥០,០០០ ដល់ ៣៥០,០០០ រៀល។',
+                taxExplanationEn: 'Toyota Hilux Revo 2.4L in 2,001–3,000 cc bracket pays 250,000–350,000 KHR.'
+            },
+            {
+                id: 'kia_morning',
+                name: 'Kia Morning / Picanto 2012–2024 (1.0L / 1.25L)',
+                nameKhmer: 'គា ម៉រនីង (Kia Morning 1.0L/1.25L)',
+                shortName: 'Kia Morning',
+                brand: 'Kia',
+                filterCategory: 'budget',
+                isPopular: true,
+                isBudget: true,
+                isChina: false,
+                isEvOrPhev: false,
+                yearRange: '2012–2024',
+                yearRangeKhmer: 'ឆ្នាំ ២០១២–២០២៤',
+                engineType: 'Petrol',
+                engineTypeKhmer: 'ម៉ាស៊ីនសាំង សន្សំសំចៃ',
+                displacement: '1.0L / 1.25L (998–1,248 cc)',
+                displacementKhmer: '១.០L ឬ ១.២៥L សាំង',
+                type: 'sedan',
+                capacity: 'under1000',
+                age: 'over10',
+                ageLabelKhmer: 'អាយុកាល > ១០ ឆ្នាំ ឬ ៥–១០ ឆ្នាំ',
+                ageLabelEn: '> 10 yrs / 5–10 yrs',
+                roadTaxKhr: 60000,
+                inspectionFeeKhr: 54000,
+                estimatedPriceUsd: 6500,
+                taxExplanationKhmer: 'Kia Morning ម៉ាស៊ីន 1.0L (998 cc) អាយុលើស ១០ ឆ្នាំ ពន្ធផ្លូវទាបបំផុតត្រឹមតែ ៦០,០០០ រៀល (~$15) ប៉ុណ្ណោះក្នុងមួយឆ្នាំ!',
+                taxExplanationEn: 'Kia Morning 1.0L (998 cc) over 10 years old pays Cambodia’s ultra-low petrol rate of only 60,000 KHR (~$15)!'
+            },
+            {
+                id: 'mazda_cx5',
+                name: 'Mazda CX-5 2016–2024 (2.0L / 2.5L)',
+                nameKhmer: 'ម៉ាស្ដា ស៊ីអិច ៥ (Mazda CX-5)',
+                shortName: 'Mazda CX-5',
+                brand: 'Mazda',
+                filterCategory: 'all',
+                isPopular: true,
+                isBudget: false,
+                isChina: false,
+                isEvOrPhev: false,
+                yearRange: '2016–2024',
+                yearRangeKhmer: 'ឆ្នាំ ២០១៦–២០២៤',
+                engineType: 'Petrol Skyactiv',
+                engineTypeKhmer: 'ម៉ាស៊ីនសាំង Skyactiv',
+                displacement: '2.0L / 2.5L Skyactiv-G',
+                displacementKhmer: '២.០L ឬ ២.៥L សាំង',
+                type: 'suv',
+                capacity: '2000',
+                age: 'under5',
+                ageLabelKhmer: 'រថយន្ត < ៥ ឆ្នាំ ឬ ៥–១០ ឆ្នាំ',
+                ageLabelEn: '< 5 yrs / 5–10 yrs',
+                roadTaxKhr: 250000,
+                inspectionFeeKhr: 54000,
+                estimatedPriceUsd: 28000,
+                taxExplanationKhmer: 'Mazda CX-5 2.0L Skyactiv កម្រិត 1,501–2,000 cc អាយុក្រោម ៥ ឆ្នាំ ពន្ធផ្លូវ ២៥០,០០០ រៀល (~$62.50)។',
+                taxExplanationEn: 'Mazda CX-5 2.0L in 1,501–2,000 cc bracket pays 250,000 KHR (~$62.50).'
+            }
+        ];
+
         const vehicleTypes = [
             { id: 'sedan', icon: '🚗', nameKhmer: 'ទេសចរណ៍ / គ្រួសារ', nameEn: 'Sedan / Hatchback', subKhmer: 'ក្រោម ៩ កៅអី', subEn: 'Under 9 seats' },
             { id: 'suv', icon: '🚙', nameKhmer: 'SUV / Crossover', nameEn: 'SUV / Crossover', subKhmer: 'ឡានខ្ពស់ / ទេសចរណ៍', subEn: 'Family SUV' },
@@ -682,18 +1917,18 @@ export default {
         ];
 
         const capacityOptions = [
-            { id: 'under1000', label: '< 1,000 cc', examplesKhmer: 'Morning, i10, Wuling', examplesEn: 'Small city cars' },
-            { id: '1500', label: '1,000 – 1,500 cc', examplesKhmer: 'Vios, Yaris, Swift, Prius 1.5', examplesEn: 'Vios, Yaris, Prius 1.5' },
-            { id: '2000', label: '1,501 – 2,000 cc', examplesKhmer: 'Camry 2.0, Prius 1.8, Civic, Cross', examplesEn: 'Camry 2.0, Prius 1.8, Civic' },
-            { id: '3000', label: '2,001 – 3,000 cc', examplesKhmer: 'Highlander, RX300/350, Ranger', examplesEn: 'Highlander, RX300, Ranger' },
-            { id: '4000', label: '3,001 – 4,000 cc', examplesKhmer: 'Prado 4.0, 4Runner, Tundra', examplesEn: 'Prado, 4Runner, V6' },
-            { id: 'over4000', label: '> 4,000 cc', examplesKhmer: 'LX570, Land Cruiser V8, G63', examplesEn: 'LX570, Land Cruiser V8' }
+            { id: 'under1000', label: '< 1,000 cc', examplesKhmer: 'Morning, i10, Wuling, Raize', examplesEn: 'Small city cars, Raize' },
+            { id: '1500', label: '1,000 – 1,500 cc', examplesKhmer: 'Vios, Yaris, Swift, Prius 1.5, Coolray', examplesEn: 'Vios, Yaris, Prius 1.5' },
+            { id: '2000', label: '1,501 – 2,000 cc', examplesKhmer: 'Prius 2011 (1.8L), Camry 2.0, Cross, Monjaro', examplesEn: 'Prius 2011 (1.8L), Camry 2.0, Cross' },
+            { id: '3000', label: '2,001 – 3,000 cc', examplesKhmer: 'Highlander 2.4, RX300, Ranger 2.0/2.2', examplesEn: 'Highlander 2.4, RX300, Ranger' },
+            { id: '4000', label: '3,001 – 4,000 cc', examplesKhmer: 'RX330, RX350, Prado 4.0, 4Runner, LC300', examplesEn: 'RX330, RX350, Prado, LC300' },
+            { id: 'over4000', label: '> 4,000 cc', examplesKhmer: 'LX570, Land Cruiser V8, LX470, G63', examplesEn: 'LX570, Land Cruiser V8, G63' }
         ];
 
         const ageBrackets = [
             { id: 'under5', nameKhmer: 'ក្រោម ៥ ឆ្នាំ', nameEn: '< 5 Years Old', descKhmer: 'ផលិតចាប់ពីឆ្នាំ ២០២១ ឡើងទៅ', descEn: 'Manufactured 2021+' },
             { id: '5to10', nameKhmer: '៥ ទៅ ១០ ឆ្នាំ', nameEn: '5 – 10 Years Old', descKhmer: 'ផលិតឆ្នាំ ២០១៥ ដល់ ២០២០', descEn: 'Manufactured 2015 – 2020' },
-            { id: 'over10', nameKhmer: 'លើសពី ១០ ឆ្នាំ', nameEn: '> 10 Years Old', descKhmer: 'ផលិតមុនឆ្នាំ ២០១៥ (Prius, RX...)', descEn: 'Manufactured before 2015' }
+            { id: 'over10', nameKhmer: 'លើសពី ១០ ឆ្នាំ', nameEn: '> 10 Years Old', descKhmer: 'ផលិតមុនឆ្នាំ ២០១៥ (Prius 2011, RX330...)', descEn: 'Manufactured before 2015' }
         ];
 
         const isTaxSeasonActive = computed(() => {
@@ -707,8 +1942,94 @@ export default {
             return opt ? opt.label : '';
         });
 
-        // Official GDT Annual Road Tax calculation based on CC & Age
+        // Filtered car models based on search query & brand category filter
+        const filteredCarModels = computed(() => {
+            let list = carModelsDatabase;
+
+            if (selectedBrandFilter.value === 'toyota_lexus') {
+                list = list.filter(c => c.filterCategory === 'toyota_lexus' || c.brand === 'Toyota' || c.brand === 'Lexus');
+            } else if (selectedBrandFilter.value === 'ev_phev') {
+                list = list.filter(c => c.isEvOrPhev);
+            } else if (selectedBrandFilter.value === 'china') {
+                list = list.filter(c => c.isChina);
+            } else if (selectedBrandFilter.value === 'ford_pickup') {
+                list = list.filter(c => c.filterCategory === 'ford_pickup' || c.type === 'pickup' || c.brand === 'Ford');
+            } else if (selectedBrandFilter.value === 'budget') {
+                list = list.filter(c => c.isBudget || c.roadTaxKhr <= 100000);
+            }
+
+            if (carSearchQuery.value) {
+                const q = carSearchQuery.value.toLowerCase().replace(/\s+/g, '');
+                list = list.filter(c => {
+                    const name = (c.name || '').toLowerCase().replace(/\s+/g, '');
+                    const nameKhmer = (c.nameKhmer || '').toLowerCase().replace(/\s+/g, '');
+                    const brand = (c.brand || '').toLowerCase().replace(/\s+/g, '');
+                    const year = (c.yearRange || '').toLowerCase().replace(/\s+/g, '');
+                    const shortName = (c.shortName || '').toLowerCase().replace(/\s+/g, '');
+                    return name.includes(q) || nameKhmer.includes(q) || brand.includes(q) || year.includes(q) || shortName.includes(q) || (q === '011' && name.includes('2011'));
+                });
+            }
+
+            return list;
+        });
+
+        // Grouped by brand for clean Dropdown optgroups
+        const groupedCarModels = computed(() => {
+            const groups = {};
+            for (const car of carModelsDatabase) {
+                if (!groups[car.brand]) {
+                    groups[car.brand] = [];
+                }
+                groups[car.brand].push(car);
+            }
+            return Object.keys(groups).sort().map(brand => ({
+                brand,
+                models: groups[brand]
+            }));
+        });
+
+        // Quick popular cars chips
+        const popularTopCars = computed(() => {
+            return carModelsDatabase.filter(c => c.isPopular).slice(0, 8);
+        });
+
+        // Method when a car model is clicked or selected
+        const selectCarModel = (car) => {
+            selectedCarModel.value = car;
+            selectedCarModelId.value = car.id;
+            selectedType.value = car.type;
+            selectedCapacity.value = car.capacity;
+            selectedAge.value = car.age;
+            estimatedCarValueUsd.value = car.estimatedPriceUsd || 12000;
+        };
+
+        const onCarModelDropdownChange = () => {
+            const car = carModelsDatabase.find(c => c.id === selectedCarModelId.value);
+            if (car) {
+                selectCarModel(car);
+            }
+        };
+
+        const clearSelectedCarModel = () => {
+            selectedCarModel.value = null;
+            selectedCarModelId.value = '';
+            calcMode.value = 'manual';
+        };
+
+        // Initialize with default model (Prius 2011)
+        onMounted(() => {
+            const defaultCar = carModelsDatabase.find(c => c.id === 'prius_gen3');
+            if (defaultCar) {
+                selectCarModel(defaultCar);
+            }
+        });
+
+        // Official GDT Annual Road Tax calculation based on CC & Age or Selected Model
         const calculatedRoadTaxKhr = computed(() => {
+            if (selectedCarModel.value && calcMode.value === 'model') {
+                return selectedCarModel.value.roadTaxKhr;
+            }
+
             if (selectedType.value === 'moto') {
                 return 20000;
             }
@@ -748,6 +2069,10 @@ export default {
 
         // Official MPWT Technical Inspection Fee
         const calculatedInspectionFeeKhr = computed(() => {
+            if (selectedCarModel.value && calcMode.value === 'model') {
+                return selectedCarModel.value.inspectionFeeKhr;
+            }
+
             switch (selectedType.value) {
                 case 'moto':
                     return 0;
@@ -1133,7 +2458,19 @@ export default {
         return {
             isKhmer,
             activeTab,
+            calcMode,
             tabs,
+            carBrandFilters,
+            carSearchQuery,
+            selectedBrandFilter,
+            selectedCarModelId,
+            selectedCarModel,
+            filteredCarModels,
+            groupedCarModels,
+            popularTopCars,
+            selectCarModel,
+            onCarModelDropdownChange,
+            clearSelectedCarModel,
             vehicleTypes,
             selectedType,
             capacityOptions,
@@ -1180,5 +2517,12 @@ export default {
 /* Smooth transitions */
 .scale-102 {
     transform: scale(1.02);
+}
+.scrollbar-none::-webkit-scrollbar {
+    display: none;
+}
+.scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 </style>
