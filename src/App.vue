@@ -27,7 +27,15 @@ useMetaTags(); // Initialize meta tags management
 </script>
 
 <style>
-/* Modern Refined Aesthetic with subtle ~10px rounded corners */
+/* Subtle micro-radius (~4px) for crisp modern finish without excessive rounding */
+.rounded-3xl, .rounded-2xl, .rounded-xl, .rounded-lg, .rounded-md, .rounded {
+  border-radius: 4px !important;
+}
+
+button:not(.rounded-full),
+input, select, textarea {
+  border-radius: 4px;
+}
 
 /* Custom Clean Minimalist Scrollbars */
 ::-webkit-scrollbar {
