@@ -53,7 +53,7 @@
                     <div class="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-3">
                         {{ isKhmer ? 'ឧបករណ៍ និងមុខងារពិសេសៗប្រចាំគេហទំព័រ' : 'Featured Interactive Tools' }}
                     </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                         <router-link to="/vehicle-tax"
                             class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 rounded-xl hover:border-blue-500 dark:hover:border-blue-500 transition-all group block">
                             <div class="text-xl mb-1 group-hover:scale-105 transition-transform">🚗</div>
@@ -62,6 +62,28 @@
                             </div>
                             <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">
                                 {{ isKhmer ? 'គណនាពន្ធ ៧៥+ ម៉ូដែល (Prius, EV, Lexus)' : '75+ Car Models database, Prius 011, EV discount' }}
+                            </p>
+                        </router-link>
+
+                        <router-link to="/fuel-prices"
+                            class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 rounded-xl hover:border-orange-500 dark:hover:border-orange-500 transition-all group block">
+                            <div class="text-xl mb-1 group-hover:scale-105 transition-transform">⛽</div>
+                            <div class="font-bold text-xs text-slate-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-400">
+                                {{ isKhmer ? 'តាមដានតម្លៃប្រេងសាំង' : 'Official Fuel Prices' }}
+                            </div>
+                            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">
+                                {{ isKhmer ? 'តម្លៃសាំងក្រសួងពាណិជ្ជកម្ម & គណនាថ្លៃធ្វើដំណើរ' : 'MoC retail fuel tariff & highway trip calculator' }}
+                            </p>
+                        </router-link>
+
+                        <router-link to="/traffic-fines"
+                            class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 rounded-xl hover:border-rose-500 dark:hover:border-rose-500 transition-all group block">
+                            <div class="text-xl mb-1 group-hover:scale-105 transition-transform">⚖️</div>
+                            <div class="font-bold text-xs text-slate-900 dark:text-white group-hover:text-rose-600 dark:group-hover:text-rose-400">
+                                {{ isKhmer ? 'ផាកពិន័យចរាចរណ៍ផ្លូវគោក' : 'Traffic Fines & Penalties' }}
+                            </div>
+                            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">
+                                {{ isKhmer ? 'អនុក្រឹត្យ ៣៩ កម្រិតផាកពិន័យ & ដកពិន្ទុប័ណ្ណបើកបរ' : 'Sub-Decree 39 fines matrix & license demerit points' }}
                             </p>
                         </router-link>
 

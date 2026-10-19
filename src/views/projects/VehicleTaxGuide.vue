@@ -56,7 +56,7 @@
                     </div>
 
                     <!-- Navigation Sub-tabs (Subtle Rounded Buttons) -->
-                    <div class="mt-6 pt-5 border-t border-slate-200 dark:border-slate-800 flex flex-wrap gap-2">
+                    <div class="mt-6 pt-5 border-t border-slate-200 dark:border-slate-800 flex flex-wrap items-center gap-2">
                         <button v-for="tab in tabs" :key="tab.id"
                             @click="activeTab = tab.id"
                             class="px-3.5 py-2 text-xs font-mono uppercase font-bold tracking-wider border rounded-lg transition-all flex items-center gap-2"
@@ -66,6 +66,18 @@
                             <span>{{ tab.icon }}</span>
                             <span>{{ isKhmer ? tab.labelKhmer : tab.labelEn }}</span>
                         </button>
+
+                        <!-- Quick Utility Cross-Links -->
+                        <router-link to="/fuel-prices"
+                            class="px-3.5 py-2 text-xs font-mono uppercase font-bold tracking-wider border border-orange-300 dark:border-orange-800/80 bg-orange-50 dark:bg-orange-950/30 text-orange-700 dark:text-orange-300 rounded-lg hover:bg-orange-100 dark:hover:bg-orange-900/40 transition-all flex items-center gap-1.5 sm:ml-auto">
+                            <span>⛽</span>
+                            <span>{{ isKhmer ? 'តម្លៃប្រេងសាំង' : 'Fuel Prices' }}</span>
+                        </router-link>
+                        <router-link to="/traffic-fines"
+                            class="px-3.5 py-2 text-xs font-mono uppercase font-bold tracking-wider border border-rose-300 dark:border-rose-800/80 bg-rose-50 dark:bg-rose-950/30 text-rose-700 dark:text-rose-300 rounded-lg hover:bg-rose-100 dark:hover:bg-rose-900/40 transition-all flex items-center gap-1.5">
+                            <span>⚖️</span>
+                            <span>{{ isKhmer ? 'ផាកពិន័យចរាចរណ៍' : 'Traffic Fines' }}</span>
+                        </router-link>
                     </div>
                 </div>
             </div>
@@ -837,6 +849,23 @@
                                 ? 'កម្រិតប្រាក់ពិន័យផ្លូវការរបស់នគរបាលចរាចរណ៍ផ្លូវគោក ដែលម្ចាស់រថយន្តគ្រប់រូបត្រូវដឹង ដើម្បីការពារសិទ្ធិ និងគោរពច្បាប់' 
                                 : 'Official monetary fines enforced by traffic police under Cambodian traffic regulations.' }}
                         </p>
+                    </div>
+
+                    <!-- Link Banner to Full Dedicated Traffic Fines Tool -->
+                    <div class="p-4 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div class="space-y-0.5">
+                            <div class="text-xs font-bold text-rose-900 dark:text-rose-200 flex items-center gap-1.5">
+                                <span>⚖️</span>
+                                <span>{{ isKhmer ? 'ចង់ស្រាវជ្រាវគ្រប់បទល្មើសទាំងអស់ ៣៥+ និងការកាត់ពិន្ទុប័ណ្ណបើកបរ?' : 'Explore complete 35+ traffic violations & demerit points lookup?' }}</span>
+                            </div>
+                            <p class="text-[11px] text-rose-700 dark:text-rose-300">
+                                {{ isKhmer ? 'ចូលមើលទំព័រស្វែងរកការផាកពិន័យចរាចរណ៍ផ្លូវគោកពេញលេញ (ឡាន ម៉ូតូ ឡានដឹក) ជាមួយតារាងជាតិស្រវឹង និងល្បឿន។' : 'Open the dedicated Traffic Fines portal with search, vehicle filter, and DUI alcohol matrix.' }}
+                            </p>
+                        </div>
+                        <router-link to="/traffic-fines"
+                            class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-lg text-xs font-bold shrink-0 text-center transition-colors shadow-sm">
+                            {{ isKhmer ? 'ស្វែងរកការផាកពិន័យពេញលេញ →' : 'Open Fines Portal →' }}
+                        </router-link>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

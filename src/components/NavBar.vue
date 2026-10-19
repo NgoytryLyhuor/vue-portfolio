@@ -59,7 +59,7 @@
                             leave-to-class="transform opacity-0 -translate-y-2"
                         >
                             <div v-if="isFeaturesMenuOpen"
-                                class="absolute left-0 w-60 rounded-xl dark:bg-slate-900 mt-2 shadow-2xl z-50 border border-slate-300 dark:border-slate-700 bg-white backdrop-blur-xl p-1.5 space-y-0.5">
+                                class="absolute left-0 w-72 rounded-xl dark:bg-slate-900 mt-2 shadow-2xl z-50 border border-slate-300 dark:border-slate-700 bg-white backdrop-blur-xl p-1.5 space-y-0.5">
                                 <router-link v-for="feature in featureLinks" :key="feature.path" :to="feature.path"
                                     class="flex items-center px-3.5 py-2.5 text-xs rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 w-full text-left transition-all duration-150 cursor-pointer"
                                     :class="{ 'bg-slate-100 dark:bg-slate-800 font-bold text-blue-600 dark:text-blue-400': $route.path === feature.path }"
@@ -257,7 +257,9 @@ import {
     UserIcon,
     Bars3Icon,
     XMarkIcon,
-    TruckIcon
+    TruckIcon,
+    FireIcon,
+    ShieldExclamationIcon
 } from '@heroicons/vue/24/outline';
 
 const route = useRoute();
@@ -310,6 +312,20 @@ const featureLinks = computed(() => [
         icon: TruckIcon,
         badgeBg: 'bg-blue-500/10 dark:bg-blue-500/20',
         badgeText: 'text-blue-500 dark:text-blue-400'
+    },
+    {
+        path: '/fuel-prices',
+        label: isKhmer.value ? 'តាមដានតម្លៃប្រេងសាំង' : 'Fuel Price Tracker',
+        icon: FireIcon,
+        badgeBg: 'bg-orange-500/10 dark:bg-orange-500/20',
+        badgeText: 'text-orange-500 dark:text-orange-400'
+    },
+    {
+        path: '/traffic-fines',
+        label: isKhmer.value ? 'ផាកពិន័យចរាចរណ៍' : 'Traffic Fines Lookup',
+        icon: ShieldExclamationIcon,
+        badgeBg: 'bg-rose-500/10 dark:bg-rose-500/20',
+        badgeText: 'text-rose-500 dark:text-rose-400'
     },
     {
         path: '/crypto-tracker-password',

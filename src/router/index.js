@@ -13,6 +13,8 @@ const AirQuality = () => import('@/views/projects/AirQuality.vue')
 const KhmerCalendar = () => import('@/views/projects/KhmerCalendar.vue')
 const CurrencyConverter = () => import('@/views/projects/CurrencyConverter.vue')
 const VehicleTaxGuide = () => import('@/views/projects/VehicleTaxGuide.vue')
+const FuelPriceTracker = () => import('@/views/projects/FuelPriceTracker.vue')
+const TrafficFines = () => import('@/views/projects/TrafficFines.vue')
 const CryptoPassword = () => import('@/views/projects/CryptoPassword.vue')
 const CryptoPriceTracker = () => import('@/views/projects/CryptoPriceTracker.vue')
 const GarageAccess = () => import('@/views/projects/GarageAccess.vue')
@@ -135,6 +137,32 @@ const routes = [
     {
         path: '/cambodia-tax',
         redirect: '/vehicle-tax'
+    },
+    {
+        path: '/fuel-prices',
+        name: 'fuel-prices',
+        component: FuelPriceTracker,
+        meta: {
+            showNavBar: true,
+            title: 'Cambodia Fuel Price Tracker & Road Trip Cost Calculator - តម្លៃប្រេងឥន្ធនៈផ្លូវការ',
+            description: 'Ministry of Commerce official fuel prices in Cambodia, historical price trends, station network comparisons, and road trip fuel cost calculator.',
+            robots: 'index, follow'
+        }
+    },
+    {
+        path: '/cambodia-fuel',
+        redirect: '/fuel-prices'
+    },
+    {
+        path: '/traffic-fines',
+        name: 'traffic-fines',
+        component: TrafficFines,
+        meta: {
+            showNavBar: true,
+            title: 'Cambodia Traffic Fines & Violations Lookup - ផាកពិន័យចរាចរណ៍ផ្លូវគោក (អនុក្រឹត្យ ៣៩)',
+            description: 'Comprehensive Cambodia traffic violations and fine lookup based on Sub-Decree 39 for passenger cars, motorcycles, and heavy trucks with driver license demerit points.',
+            robots: 'index, follow'
+        }
     },
     {
         path: '/crypto-tracker-password',

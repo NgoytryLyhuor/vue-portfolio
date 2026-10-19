@@ -75,6 +75,16 @@
                             </router-link>
                         </li>
                         <li>
+                            <router-link to="/fuel-prices" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5">
+                                <span class="text-slate-400">⛽</span> {{ isKhmer ? 'តាមដានតម្លៃប្រេងសាំង' : 'Fuel Price Tracker' }}
+                            </router-link>
+                        </li>
+                        <li>
+                            <router-link to="/traffic-fines" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5">
+                                <span class="text-slate-400">⚖️</span> {{ isKhmer ? 'ផាកពិន័យចរាចរណ៍' : 'Traffic Fines Lookup' }}
+                            </router-link>
+                        </li>
+                        <li>
                             <router-link to="/khmer-calendar" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5">
                                 <span class="text-slate-400">📅</span> {{ isKhmer ? 'ប្រតិទិនចន្ទគតិខ្មែរ' : 'Khmer Lunar Calendar' }}
                             </router-link>
