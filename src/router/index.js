@@ -15,6 +15,7 @@ const CurrencyConverter = () => import('@/views/projects/CurrencyConverter.vue')
 const VehicleTaxGuide = () => import('@/views/projects/VehicleTaxGuide.vue')
 const FuelPriceTracker = () => import('@/views/projects/FuelPriceTracker.vue')
 const TrafficFines = () => import('@/views/projects/TrafficFines.vue')
+const PublicServices = () => import('@/views/projects/PublicServices.vue')
 const CryptoPassword = () => import('@/views/projects/CryptoPassword.vue')
 const CryptoPriceTracker = () => import('@/views/projects/CryptoPriceTracker.vue')
 const GarageAccess = () => import('@/views/projects/GarageAccess.vue')
@@ -163,6 +164,21 @@ const routes = [
             description: 'Comprehensive Cambodia traffic violations and fine lookup based on Sub-Decree 39 for passenger cars, motorcycles, and heavy trucks with driver license demerit points.',
             robots: 'index, follow'
         }
+    },
+    {
+        path: '/public-services',
+        name: 'public-services',
+        component: PublicServices,
+        meta: {
+            showNavBar: true,
+            title: 'Cambodia Public Services Guide: Passport, Driver License & ID Card - សេវាសាធារណៈកម្ពុជា',
+            description: 'Official fees, processing days, required documents, and locations for Cambodian passports, driver license renewals, and national ID cards.',
+            robots: 'index, follow'
+        }
+    },
+    {
+        path: '/citizen-services',
+        redirect: '/public-services'
     },
     {
         path: '/crypto-tracker-password',

@@ -53,7 +53,7 @@
                     <div class="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-3">
                         {{ isKhmer ? 'ឧបករណ៍ និងមុខងារពិសេសៗប្រចាំគេហទំព័រ' : 'Featured Interactive Tools' }}
                     </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
                         <router-link to="/vehicle-tax"
                             class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 rounded-xl hover:border-blue-500 dark:hover:border-blue-500 transition-all group block">
                             <div class="text-xl mb-1 group-hover:scale-105 transition-transform">🚗</div>
@@ -84,6 +84,17 @@
                             </div>
                             <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">
                                 {{ isKhmer ? 'អនុក្រឹត្យ ៣៩ កម្រិតផាកពិន័យ & ដកពិន្ទុប័ណ្ណបើកបរ' : 'Sub-Decree 39 fines matrix & license demerit points' }}
+                            </p>
+                        </router-link>
+
+                        <router-link to="/public-services"
+                            class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 rounded-xl hover:border-teal-500 dark:hover:border-teal-500 transition-all group block">
+                            <div class="text-xl mb-1 group-hover:scale-105 transition-transform">🪪</div>
+                            <div class="font-bold text-xs text-slate-900 dark:text-white group-hover:text-teal-600 dark:group-hover:text-teal-400">
+                                {{ isKhmer ? 'សេវាសាធារណៈ & Passport' : 'Public Services & Passport' }}
+                            </div>
+                            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">
+                                {{ isKhmer ? 'តម្លៃ Passport, ប្តូរប័ណ្ណបើកបរ Aeon & អត្តសញ្ញាណប័ណ្ណ' : 'Passport fees, Aeon license renewals & ID card guide' }}
                             </p>
                         </router-link>
 

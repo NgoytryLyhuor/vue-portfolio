@@ -261,7 +261,8 @@ import {
     XMarkIcon,
     TruckIcon,
     FireIcon,
-    ShieldExclamationIcon
+    ShieldExclamationIcon,
+    IdentificationIcon
 } from '@heroicons/vue/24/outline';
 
 const route = useRoute();
@@ -328,6 +329,13 @@ const featureLinks = computed(() => [
         icon: ShieldExclamationIcon,
         badgeBg: 'bg-rose-500/10 dark:bg-rose-500/20',
         badgeText: 'text-rose-500 dark:text-rose-400'
+    },
+    {
+        path: '/public-services',
+        label: isKhmer.value ? 'សេវាសាធារណៈ & Passport' : 'Public Services & Passport',
+        icon: IdentificationIcon,
+        badgeBg: 'bg-teal-500/10 dark:bg-teal-500/20',
+        badgeText: 'text-teal-500 dark:text-teal-400'
     },
     {
         path: '/crypto-tracker-password',
