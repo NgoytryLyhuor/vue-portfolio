@@ -538,7 +538,7 @@
                                     <span class="w-2 h-5 rounded-full bg-amber-500 shrink-0"></span>
                                     <span class="truncate">{{ isKhmer ? 'មគ្គុទ្ទេសក៍ក្រដាសប្រាក់រៀល' : 'Khmer Riel Banknote Guide' }}</span>
                                 </h3>
-                                <span class="font-khmer text-xs font-bold text-amber-600 dark:text-amber-400 shrink-0">{{ isKhmer ? 'រូបិយវត្ថុជាតិ' : 'ប្រាក់រៀលខ្មែរ' }}</span>
+                                <span class="text-xs font-bold text-amber-600 dark:text-amber-400 shrink-0">{{ isKhmer ? 'រូបិយវត្ថុជាតិ' : 'National Currency' }}</span>
                             </div>
                             <p class="text-xs text-slate-500 dark:text-slate-400 mb-4">
                                 {{ isKhmer ? 'ចុចលើក្រដាសប្រាក់ណាមួយដើម្បីគណនាប្តូរប្រាក់រៀលនោះភ្លាមៗ' : 'Tap any banknote to convert that Riel denomination' }}
@@ -561,7 +561,7 @@
                                         <div class="min-w-0">
                                             <div class="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white flex items-center gap-1.5 flex-wrap">
                                                 <span>{{ formatInteger(note.value) }} ៛</span>
-                                                <span class="font-khmer text-[11px] font-normal text-slate-500 dark:text-slate-400">({{ note.khmer }})</span>
+                                                <span class="text-[11px] font-normal text-slate-500 dark:text-slate-400">({{ isKhmer ? note.khmer : note.english }})</span>
                                             </div>
                                             <div class="text-[11px] text-slate-500 dark:text-slate-400 truncate">{{ note.motif }}</div>
                                         </div>
@@ -667,15 +667,15 @@ const currencies = ref([
 ]);
 
 const khrBanknotes = computed(() => [
-    { value: 100, shortLabel: '100 ៛', khmer: 'មួយរយរៀល', motif: isKhmer.value ? 'វិមានឯករាជ្យ & ប្រាសាទព្រះវិហារ' : 'Independence Monument & Preah Vihear', badgeColor: 'bg-orange-500' },
-    { value: 500, shortLabel: '500 ៛', khmer: 'ប្រាំរយរៀល', motif: isKhmer.value ? 'ស្ពានគីសូណា & ស្ពានត្សឹបាសា (អ្នកលឿង)' : 'Kizuna & Tsubasa Mekong Bridges', badgeColor: 'bg-rose-500' },
-    { value: 1000, shortLabel: '1K ៛', khmer: 'មួយពាន់រៀល', motif: isKhmer.value ? 'ព្រះបរមរាជវាំង & រូបបដិមាកិន្នរី' : 'Royal Palace Throne Hall & Kinnari', badgeColor: 'bg-sky-600' },
-    { value: 2000, shortLabel: '2K ៛', khmer: 'ពីរពាន់រៀល', motif: isKhmer.value ? 'ប្រាសាទព្រះវិហារ & រូបចម្លាក់តោអង្គរ' : 'Prasat Preah Vihear & Angkor Lion', badgeColor: 'bg-emerald-600' },
-    { value: 5000, shortLabel: '5K ៛', khmer: 'ប្រាំពាន់រៀល', motif: isKhmer.value ? 'ស្ពានបុរាណកំពង់ក្តី (សៀមរាប)' : 'Kampong Kdei Ancient Bridge', badgeColor: 'bg-purple-600' },
-    { value: 10000, shortLabel: '10K ៛', khmer: 'មួយម៉ឺនរៀល', motif: isKhmer.value ? 'ប្រាសាទនាគព័ន្ធ & កោះកេរ' : 'Neak Pean Island Temple', badgeColor: 'bg-blue-600' },
-    { value: 20000, shortLabel: '20K ៛', khmer: 'ពីរម៉ឺនរៀល', motif: isKhmer.value ? 'ប្រាសាទបន្ទាយស្រី' : 'Banteay Srei Temple Sanctuary', badgeColor: 'bg-pink-600' },
-    { value: 50000, shortLabel: '50K ៛', khmer: 'ប្រាំម៉ឺនរៀល', motif: isKhmer.value ? 'ប្រាសាទបាគង & កូនដំរីថ្ម' : 'Bakong Temple & Baby Elephant', badgeColor: 'bg-amber-600' },
-    { value: 100000, shortLabel: '100K ៛', khmer: 'មួយសែនរៀល', motif: isKhmer.value ? 'ព្រះរាជវង្សានុវង្ស & ចម្លាក់បាយ័ន' : 'Royal Family & Bayon Relief', badgeColor: 'bg-teal-700' }
+    { value: 100, shortLabel: '100 ៛', khmer: 'មួយរយរៀល', english: 'One Hundred Riel', motif: isKhmer.value ? 'វិមានឯករាជ្យ & ប្រាសាទព្រះវិហារ' : 'Independence Monument & Preah Vihear', badgeColor: 'bg-orange-500' },
+    { value: 500, shortLabel: '500 ៛', khmer: 'ប្រាំរយរៀល', english: 'Five Hundred Riel', motif: isKhmer.value ? 'ស្ពានគីសូណា & ស្ពានត្សឹបាសា (អ្នកលឿង)' : 'Kizuna & Tsubasa Mekong Bridges', badgeColor: 'bg-rose-500' },
+    { value: 1000, shortLabel: '1K ៛', khmer: 'មួយពាន់រៀល', english: 'One Thousand Riel', motif: isKhmer.value ? 'ព្រះបរមរាជវាំង & រូបបដិមាកិន្នរី' : 'Royal Palace Throne Hall & Kinnari', badgeColor: 'bg-sky-600' },
+    { value: 2000, shortLabel: '2K ៛', khmer: 'ពីរពាន់រៀល', english: 'Two Thousand Riel', motif: isKhmer.value ? 'ប្រាសាទព្រះវិហារ & រូបចម្លាក់តោអង្គរ' : 'Prasat Preah Vihear & Angkor Lion', badgeColor: 'bg-emerald-600' },
+    { value: 5000, shortLabel: '5K ៛', khmer: 'ប្រាំពាន់រៀល', english: 'Five Thousand Riel', motif: isKhmer.value ? 'ស្ពានបុរាណកំពង់ក្តី (សៀមរាប)' : 'Kampong Kdei Ancient Bridge', badgeColor: 'bg-purple-600' },
+    { value: 10000, shortLabel: '10K ៛', khmer: 'មួយម៉ឺនរៀល', english: 'Ten Thousand Riel', motif: isKhmer.value ? 'ប្រាសាទនាគព័ន្ធ & កោះកេរ' : 'Neak Pean Island Temple', badgeColor: 'bg-blue-600' },
+    { value: 20000, shortLabel: '20K ៛', khmer: 'ពីរម៉ឺនរៀល', english: 'Twenty Thousand Riel', motif: isKhmer.value ? 'ប្រាសាទបន្ទាយស្រី' : 'Banteay Srei Temple Sanctuary', badgeColor: 'bg-pink-600' },
+    { value: 50000, shortLabel: '50K ៛', khmer: 'ប្រាំម៉ឺនរៀល', english: 'Fifty Thousand Riel', motif: isKhmer.value ? 'ប្រាសាទបាគង & កូនដំរីថ្ម' : 'Bakong Temple & Baby Elephant', badgeColor: 'bg-amber-600' },
+    { value: 100000, shortLabel: '100K ៛', khmer: 'មួយសែនរៀល', english: 'One Hundred Thousand Riel', motif: isKhmer.value ? 'ព្រះរាជវង្សានុវង្ស & ចម្លាក់បាយ័ន' : 'Royal Family & Bayon Relief', badgeColor: 'bg-teal-700' }
 ]);
 
 const cambodiaPaymentTips = computed(() => [

@@ -179,20 +179,17 @@
                                         <div class="flex items-center gap-2 flex-wrap">
                                             <h2 class="text-xl sm:text-4xl font-extrabold tracking-tight flex items-center gap-1.5 sm:gap-2">
                                                 <MapPinIcon class="w-5 h-5 sm:w-7 sm:h-7 text-white/90 shrink-0" />
-                                                <span class="truncate">{{ selectedHub.name || cityInfo.city }}</span>
+                                                <span class="truncate">{{ isKhmer ? (selectedHub.khmer || selectedHub.name || cityInfo.city) : (selectedHub.name || cityInfo.city) }}</span>
                                             </h2>
-                                            <span v-if="selectedHub.khmer" class="font-khmer text-sm sm:text-xl font-semibold px-2.5 py-0.5 rounded-full bg-white/15 backdrop-blur-md">
-                                                {{ selectedHub.khmer }}
-                                            </span>
                                             <span class="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-black/25 backdrop-blur-md">
                                                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
                                                 <span>{{ isKhmer ? 'ឧបករណ៍វាស់ផ្ទាល់' : 'Live Sensor' }}</span>
                                             </span>
                                         </div>
                                         <p class="text-xs sm:text-sm text-white/85 mt-1.5 flex items-center gap-1.5 sm:gap-2 flex-wrap">
-                                            <span>{{ isKhmer ? 'ស្ថានីយ៖ ' : 'Station: ' }}{{ cityInfo.city }}, {{ cityInfo.country }}</span>
+                                            <span>{{ isKhmer ? ('ស្ថានីយ៖ ' + (selectedHub.khmer || cityInfo.city) + ', កម្ពុជា') : ('Station: ' + cityInfo.city + ', ' + cityInfo.country) }}</span>
                                             <span>•</span>
-                                            <span>{{ selectedHub.region }}</span>
+                                            <span>{{ isKhmer ? (selectedHub.regionKhmer || 'រាជធានីភ្នំពេញ') : selectedHub.region }}</span>
                                             <span>•</span>
                                             <span>{{ isKhmer ? 'បានធ្វើបច្ចុប្បន្នភាព ' : 'Updated ' }}{{ formattedTime }}</span>
                                         </p>
@@ -746,11 +743,11 @@
                             <div class="space-y-2.5 text-xs">
                                 <div class="flex items-center justify-between gap-2 py-2 border-b border-slate-100 dark:border-slate-800">
                                     <span class="text-slate-500 dark:text-slate-400 shrink-0">{{ isKhmer ? 'តំបន់ជ្រើសរើស' : 'Selected Hub' }}</span>
-                                    <span class="font-bold text-slate-900 dark:text-white text-right truncate">{{ selectedHub.name }} ({{ selectedHub.khmer || cityInfo.country }})</span>
+                                    <span class="font-bold text-slate-900 dark:text-white text-right truncate">{{ isKhmer ? (selectedHub.khmer || selectedHub.name) : selectedHub.name }}</span>
                                 </div>
                                 <div class="flex items-center justify-between gap-2 py-2 border-b border-slate-100 dark:border-slate-800">
                                     <span class="text-slate-500 dark:text-slate-400 shrink-0">{{ isKhmer ? 'ស្ថានីយរាយការណ៍' : 'Reporting Station' }}</span>
-                                    <span class="font-bold text-slate-900 dark:text-white text-right truncate">{{ cityInfo.city }}, {{ cityInfo.country }}</span>
+                                    <span class="font-bold text-slate-900 dark:text-white text-right truncate">{{ isKhmer ? ((selectedHub.khmer || cityInfo.city) + ', កម្ពុជា') : (cityInfo.city + ', ' + cityInfo.country) }}</span>
                                 </div>
                                 <div class="flex items-center justify-between gap-2 py-2 border-b border-slate-100 dark:border-slate-800">
                                     <span class="text-slate-500 dark:text-slate-400 shrink-0">{{ isKhmer ? 'ស្តង់ដារ US EPA' : 'US EPA Standard' }}</span>

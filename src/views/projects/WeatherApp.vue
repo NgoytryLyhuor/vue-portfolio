@@ -192,17 +192,14 @@
                                             <svg class="w-5 h-5 sm:w-7 sm:h-7 text-sky-200 shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                                 <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
                                             </svg>
-                                            <span class="truncate">{{ location.name }}</span>
+                                            <span class="truncate">{{ isKhmer ? (location.khmer || location.name) : location.name }}</span>
                                         </h2>
-                                        <span v-if="location.khmer" class="font-khmer text-base sm:text-xl font-semibold px-2.5 py-0.5 rounded-full bg-white/15 backdrop-blur-md">
-                                            {{ location.khmer }}
-                                        </span>
                                         <span class="text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-black/20 backdrop-blur-md">
-                                            {{ location.country || 'KH' }}
+                                            {{ isKhmer ? 'កម្ពុជា' : (location.country || 'KH') }}
                                         </span>
                                     </div>
                                     <p class="text-[11px] sm:text-sm text-white/80 mt-1 flex items-center gap-2 flex-wrap">
-                                        <span v-if="location.region">{{ location.region }}</span>
+                                        <span v-if="location.region">{{ isKhmer ? (location.regionKhmer || 'រាជធានី និងប្រសព្វទន្លេមេគង្គ') : location.region }}</span>
                                         <span>•</span>
                                         <span>{{ Number(location.lat).toFixed(2) }}°N, {{ Number(location.lon).toFixed(2) }}°E</span>
                                         <span v-if="lastUpdated">• {{ lastUpdated }}</span>
@@ -223,7 +220,7 @@
                                                 {{ formatTemp(currentWeather.temp) }}°<span class="text-2xl sm:text-4xl font-bold opacity-80">{{ unit }}</span>
                                             </div>
                                             <p class="text-base sm:text-xl font-bold capitalize mt-1 text-white/95 truncate">
-                                                {{ currentWeather.condition }}
+                                                {{ formatCondition(currentWeather.condition) }}
                                             </p>
                                         </div>
                                     </div>
@@ -232,10 +229,10 @@
                                     <div class="flex flex-wrap sm:flex-col gap-2 pl-0 sm:pl-6 sm:border-l border-white/20">
                                         <div class="flex items-center gap-2 text-xs sm:text-sm font-semibold">
                                             <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white/15 backdrop-blur-sm">
-                                                <span class="text-amber-200">↑</span> H: {{ formatTemp(todayMaxTemp) }}°
+                                                <span class="text-amber-200">↑</span> {{ isKhmer ? 'ខ្ពស់: ' : 'H: ' }}{{ formatTemp(todayMaxTemp) }}°
                                             </span>
                                             <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white/15 backdrop-blur-sm">
-                                                <span class="text-sky-200">↓</span> L: {{ formatTemp(todayMinTemp) }}°
+                                                <span class="text-sky-200">↓</span> {{ isKhmer ? 'ទាប: ' : 'L: ' }}{{ formatTemp(todayMinTemp) }}°
                                             </span>
                                         </div>
                                         <div class="inline-flex flex-wrap items-center gap-1.5 px-3 py-1.5 rounded-xl bg-black/20 backdrop-blur-sm text-xs sm:text-sm font-medium">
@@ -459,7 +456,7 @@
                                                     {{ index === 0 ? (isKhmer ? 'ថ្ងៃនេះ' : 'Today') : formatDayFull(day.dt) }}
                                                 </div>
                                                 <div class="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 capitalize truncate">
-                                                    {{ day.condition }}
+                                                    {{ formatCondition(day.condition) }}
                                                 </div>
                                             </div>
                                         </div>
@@ -1366,7 +1363,9 @@ export default {
         windDirectionCardinal() {
             const deg = this.currentWeather.wind_deg || 0;
             const dirs = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
-            return dirs[Math.round(deg / 45) % 8];
+            const dirsKm = ['ជើង', 'ឦសាន', 'កើត', 'អាគ្នេយ៍', 'ត្បូង', 'និរតី', 'លិច', 'ពាយព្យ'];
+            const idx = Math.round(deg / 45) % 8;
+            return this.isKhmer ? dirsKm[idx] : dirs[idx];
         },
         todayMaxTemp() {
             if (this.forecast.length > 0) {
@@ -1519,6 +1518,58 @@ export default {
         }
     },
     methods: {
+        formatCondition(condition) {
+            if (!condition) return '';
+            if (!this.isKhmer) return condition;
+            const cond = String(condition).toLowerCase().trim();
+            const map = {
+                'clear sky': 'មេឃស្រឡះ',
+                'few clouds': 'មានពពកតិចតួច',
+                'scattered clouds': 'ពពករាយប៉ាយ',
+                'broken clouds': 'ពពកច្រើនកម្រិតមធ្យម',
+                'overcast clouds': 'មេឃមីរដោយពពក',
+                'light rain': 'ភ្លៀងរលឹមតិចតួច',
+                'moderate rain': 'ភ្លៀងមធ្យម',
+                'heavy intensity rain': 'ភ្លៀងធ្លាក់ខ្លាំង',
+                'very heavy rain': 'ភ្លៀងខ្លាំងណាស់',
+                'extreme rain': 'ភ្លៀងខ្លាំងកម្រិតធ្ងន់ធ្ងរ',
+                'freezing rain': 'ភ្លៀងទឹកកក',
+                'light intensity shower rain': 'ភ្លៀងកន្ត្រាក់តិចតួច',
+                'shower rain': 'ភ្លៀងកន្ត្រាក់',
+                'heavy intensity shower rain': 'ភ្លៀងកន្ត្រាក់ខ្លាំង',
+                'ragged shower rain': 'ភ្លៀងកន្ត្រាក់រាយប៉ាយ',
+                'thunderstorm with light rain': 'ផ្គររន្ទះ និងភ្លៀងតិច',
+                'thunderstorm with rain': 'ផ្គររន្ទះ និងភ្លៀង',
+                'thunderstorm with heavy rain': 'ផ្គររន្ទះ និងភ្លៀងខ្លាំង',
+                'light thunderstorm': 'ផ្គររន្ទះស្រាល',
+                'thunderstorm': 'មានផ្គររន្ទះ',
+                'heavy thunderstorm': 'ផ្គររន្ទះខ្លាំង',
+                'ragged thunderstorm': 'ផ្គររន្ទះរាយប៉ាយ',
+                'thunderstorm with light drizzle': 'ផ្គររន្ទះ និងរលឹមតិច',
+                'thunderstorm with drizzle': 'ផ្គររន្ទះ និងរលឹម',
+                'thunderstorm with heavy drizzle': 'ផ្គររន្ទះ និងរលឹមខ្លាំង',
+                'light intensity drizzle': 'រលឹមតិចៗ',
+                'drizzle': 'ភ្លៀងរលឹម',
+                'heavy intensity drizzle': 'ភ្លៀងរលឹមខ្លាំង',
+                'light intensity drizzle rain': 'ភ្លៀងរលឹមស្រាល',
+                'drizzle rain': 'ភ្លៀងរលឹម',
+                'heavy intensity drizzle rain': 'ភ្លៀងរលឹមខ្លាំង',
+                'shower rain and drizzle': 'ភ្លៀងកន្ត្រាក់ និងរលឹម',
+                'heavy shower rain and drizzle': 'ភ្លៀងកន្ត្រាក់ខ្លាំង និងរលឹម',
+                'shower drizzle': 'រលឹមកន្ត្រាក់',
+                'mist': 'អ័ព្ទស្រាល',
+                'smoke': 'ផ្សែងអ័ព្ទ',
+                'haze': 'អ័ព្ទស្រអាប់',
+                'sand/dust whirls': 'ខ្យល់កួចធូលី',
+                'fog': 'ចុះអ័ព្ទ',
+                'sand': 'ធូលីខ្សាច់',
+                'dust': 'ធូលីហុយ',
+                'volcanic ash': 'ផេះភ្នំភ្លើង',
+                'squalls': 'ខ្យល់ព្យុះខ្លាំង',
+                'tornado': 'ខ្យល់កំបុតត្បូង'
+            };
+            return map[cond] || condition;
+        },
         formatTemp(celsius) {
             if (celsius === undefined || celsius === null || Number.isNaN(celsius)) return 0;
             if (this.unit === 'F') {

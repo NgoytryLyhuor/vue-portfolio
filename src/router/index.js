@@ -12,6 +12,7 @@ const WeatherApp = () => import('@/views/projects/WeatherApp.vue')
 const AirQuality = () => import('@/views/projects/AirQuality.vue')
 const KhmerCalendar = () => import('@/views/projects/KhmerCalendar.vue')
 const CurrencyConverter = () => import('@/views/projects/CurrencyConverter.vue')
+const VehicleTaxGuide = () => import('@/views/projects/VehicleTaxGuide.vue')
 const CryptoPassword = () => import('@/views/projects/CryptoPassword.vue')
 const CryptoPriceTracker = () => import('@/views/projects/CryptoPriceTracker.vue')
 const GarageAccess = () => import('@/views/projects/GarageAccess.vue')
@@ -119,6 +120,21 @@ const routes = [
             description: 'Convert between currencies with real-time exchange rates. Support for USD, KHR, CNY, and VND.',
             robots: 'index, follow'
         }
+    },
+    {
+        path: '/vehicle-tax',
+        name: 'vehicle-tax',
+        component: VehicleTaxGuide,
+        meta: {
+            showNavBar: true,
+            title: 'Cambodia Vehicle Tax & Technical Inspection Guide - ពន្ធយានយន្ត និងឆៀក',
+            description: 'Comprehensive guide to Cambodian vehicle road tax, MPWT technical inspection deadlines, payment channels, and traffic fines.',
+            robots: 'index, follow'
+        }
+    },
+    {
+        path: '/cambodia-tax',
+        redirect: '/vehicle-tax'
     },
     {
         path: '/crypto-tracker-password',

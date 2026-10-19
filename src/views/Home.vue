@@ -4,9 +4,9 @@
         <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-10">
             <!-- Page Header -->
             <div class="mb-10 text-center">
-                <h1 class="text-4xl font-extrabold text-gray-900 dark:text-white mb-4">Blog Articles</h1>
+                <h1 class="text-4xl font-extrabold text-gray-900 dark:text-white mb-4">{{ isKhmer ? 'អត្ថបទប្លុក' : 'Blog Articles' }}</h1>
                 <p class="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-                    Thoughts, tutorials, and discoveries on technology, data science, and more.
+                    {{ isKhmer ? 'គំនិត មេរៀន និងរបកគំហើញថ្មីៗលើបច្ចេកវិទ្យា វិទ្យាសាស្ត្រទិន្នន័យ និងការអភិវឌ្ឍគេហទំព័រ។' : 'Thoughts, tutorials, and discoveries on technology, data science, and more.' }}
                 </p>
             </div>
 
@@ -18,7 +18,7 @@
                         'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300': selectedTags.length > 0
                     }"
                         class="px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 hover:bg-blue-600 hover:text-white">
-                        All Articles
+                        {{ isKhmer ? 'អត្ថបទទាំងអស់' : 'All Articles' }}
                     </button>
 
                     <button v-for="tag in popularTags" :key="tag" @click="toggleTag(tag)" :class="{
@@ -32,7 +32,7 @@
 
                 <div class="text-center">
                     <div class="relative max-w-md mx-auto">
-                        <input v-model="searchQuery" type="text" placeholder="Search articles..."
+                        <input v-model="searchQuery" type="text" :placeholder="isKhmer ? 'ស្វែងរកអត្ថបទ...' : 'Search articles...'"
                             class="w-full px-4 py-2 rounded-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500" />
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 absolute right-3 top-2.5 text-gray-400"
                             fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -50,21 +50,21 @@
 
             <!-- Error state -->
             <div v-if="error" class="text-center py-10">
-                <div class="text-red-500 mb-2">⚠️ Error loading articles</div>
+                <div class="text-red-500 mb-2">{{ isKhmer ? '⚠️ មានបញ្ហាក្នុងការទាញយកអត្ថបទ' : '⚠️ Error loading articles' }}</div>
                 <p class="text-gray-600 dark:text-gray-300">{{ error }}</p>
                 <button @click="fetchArticles"
                     class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">
-                    Retry
+                    {{ isKhmer ? 'ព្យាយាមម្តងទៀត' : 'Retry' }}
                 </button>
             </div>
 
             <!-- Articles grid -->
             <div v-if="!loading && !error">
                 <div v-if="filteredArticles.length === 0" class="text-center py-10">
-                    <p class="text-gray-600 dark:text-gray-300">No articles found matching your criteria</p>
+                    <p class="text-gray-600 dark:text-gray-300">{{ isKhmer ? 'មិនមានអត្ថបទដែលត្រូវនឹងលក្ខខណ្ឌស្វែងរករបស់អ្នកឡើយ' : 'No articles found matching your criteria' }}</p>
                     <button @click="resetFilters"
                         class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">
-                        Reset filters
+                        {{ isKhmer ? 'កំណត់តម្រងឡើងវិញ' : 'Reset filters' }}
                     </button>
                 </div>
 
@@ -110,7 +110,7 @@
                                     </span>
                                     <a :href="article.url" target="_blank"
                                         class="text-green-500 hover:text-green-600 font-medium">
-                                        Read more →
+                                        {{ isKhmer ? 'អានបន្ថែម →' : 'Read more →' }}
                                     </a>
                                 </div>
                             </div>
@@ -126,10 +126,10 @@
                             class="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                             aria-label="Previous page"
                         >
-                            Previous
+                            {{ isKhmer ? 'ថយក្រោយ' : 'Previous' }}
                         </button>
                         <span class="px-4 py-2 text-gray-700 dark:text-gray-300">
-                            Page {{ currentPage }} of {{ totalPages }}
+                            {{ isKhmer ? ('ទំព័រទី ' + currentPage + ' នៃ ' + totalPages) : ('Page ' + currentPage + ' of ' + totalPages) }}
                         </span>
                         <button 
                             @click="currentPage = Math.min(totalPages, currentPage + 1)"
@@ -137,7 +137,7 @@
                             class="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                             aria-label="Next page"
                         >
-                            Next
+                            {{ isKhmer ? 'បន្ទាប់' : 'Next' }}
                         </button>
                     </div>
                 </div>
@@ -150,12 +150,17 @@
 // Home Page - Dev.to Blog Articles Feed
 import logger from '@/utils/logger'
 import LoadingSkeleton from '@/components/LoadingSkeleton.vue'
+import { useLanguage } from '@/composables/useLanguage'
 
 export default {
     components: {
         LoadingSkeleton
     },
     name: 'BlogView',
+    setup() {
+        const { isKhmer } = useLanguage();
+        return { isKhmer };
+    },
     data() {
         return {
             articles: [],

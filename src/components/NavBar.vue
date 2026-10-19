@@ -256,7 +256,8 @@ import {
     BriefcaseIcon,
     UserIcon,
     Bars3Icon,
-    XMarkIcon
+    XMarkIcon,
+    TruckIcon
 } from '@heroicons/vue/24/outline';
 
 const route = useRoute();
@@ -302,6 +303,13 @@ const featureLinks = computed(() => [
         icon: CurrencyDollarIcon,
         badgeBg: 'bg-emerald-500/10 dark:bg-emerald-500/20',
         badgeText: 'text-emerald-500 dark:text-emerald-400'
+    },
+    {
+        path: '/vehicle-tax',
+        label: isKhmer.value ? 'ពន្ធយានយន្ត & ឆៀក' : 'Cambodia Vehicle Tax',
+        icon: TruckIcon,
+        badgeBg: 'bg-blue-500/10 dark:bg-blue-500/20',
+        badgeText: 'text-blue-500 dark:text-blue-400'
     },
     {
         path: '/crypto-tracker-password',

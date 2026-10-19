@@ -110,6 +110,14 @@
                                 {{ isKhmer ? 'ប្រតិទិនខ្មែរ' : 'Khmer Calendar' }}
                             </router-link>
                         </li>
+                        <li>
+                            <router-link 
+                                to="/vehicle-tax" 
+                                class="text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors duration-200 text-sm"
+                            >
+                                {{ isKhmer ? 'ពន្ធយានយន្ត & ឆៀកឡាន' : 'Cambodia Vehicle Tax' }}
+                            </router-link>
+                        </li>
                     </ul>
                 </div>
             </div>
