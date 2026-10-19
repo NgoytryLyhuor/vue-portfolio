@@ -1,179 +1,220 @@
 <template>
-    <div class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-10">
-            <!-- Header Section -->
-            <div class="text-center mb-16">
-                <h1 class="text-4xl font-extrabold mb-4 bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400 bg-clip-text text-transparent">
-                    My Projects
-                </h1>
-                <p class="max-w-2xl mx-auto text-lg text-gray-500 dark:text-gray-400">
-                    A collection of my work across different technologies and domains
-                </p>
-            </div>
+    <div class="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 transition-colors duration-300 py-10 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto space-y-10">
 
-            <!-- Loading State -->
-            <div v-if="isLoading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                <LoadingSkeleton v-for="i in 6" :key="i" type="project" />
-            </div>
-
-            <!-- Error State -->
-            <div v-else-if="error" class="text-center py-12 bg-red-50 dark:bg-red-900/20 rounded-lg">
-                <div class="w-24 h-24 mx-auto mb-6 text-red-500 dark:text-red-400">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                    </svg>
+            <!-- Header Section (Modern Architectural HUD) -->
+            <section class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-10 relative overflow-hidden">
+                <!-- Meta HUD Bar -->
+                <div class="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-slate-200 dark:border-slate-800 text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2 h-2 bg-blue-500 animate-pulse"></span>
+                        <span class="font-bold text-slate-700 dark:text-slate-200">
+                            {{ isKhmer ? 'បណ្តុំស្នាដៃ & គម្រោងកម្មវិធី' : 'PROJECT SHOWCASE & ARCHIVE' }}
+                        </span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="font-mono text-blue-600 dark:text-blue-400 font-bold">
+                            {{ filteredProjects.length }} {{ isKhmer ? 'គម្រោងបង្ហាញ' : 'PROJECTS LISTED' }}
+                        </span>
+                        <span class="hidden sm:inline">|</span>
+                        <span class="hidden sm:inline">INDEX // 2026</span>
+                    </div>
                 </div>
-                <h3 class="text-xl font-medium text-red-600 dark:text-red-400 mb-2">Error loading projects</h3>
-                <p class="text-gray-600 dark:text-gray-400 mb-4">{{ error }}</p>
-                <button @click="fetchProjects"
-                    class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
-                    Retry
-                </button>
-            </div>
 
-            <!-- Content -->
-            <div v-else>
-                <!-- Search Bar -->
-                <div class="mb-8">
-                    <div class="relative max-w-md mx-auto">
+                <!-- Main Title & Bio -->
+                <div class="py-6 space-y-3 max-w-3xl">
+                    <div class="inline-block px-2.5 py-1 text-[10px] font-mono uppercase tracking-widest font-bold bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800">
+                        {{ isKhmer ? 'ស្នាដៃអភិវឌ្ឍន៍ផ្ទាល់ខ្លួន' : 'ENGINEERING & PRODUCTION BUILDS' }}
+                    </div>
+                    <h1 class="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
+                        {{ isKhmer ? 'គម្រោង និងស្នាដៃរបស់ខ្ញុំ' : 'FEATURED PROJECTS' }}
+                    </h1>
+                    <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                        {{ isKhmer 
+                            ? 'ការប្រមូលផ្តុំនៃគម្រោងគេហទំព័រ កម្មវិធីជំនួយការ និងឧបករណ៍ជាក់ស្តែងដែលខ្ញុំបានអភិវឌ្ឍដោយប្រើ Vue.js, Java, Spring Boot, PHP Laravel និងបច្ចេកវិទ្យាទំនើបៗ។' 
+                            : 'A curated catalog of production web applications, utility services, and open-source software built across modern stacks.' }}
+                    </p>
+                </div>
+
+                <!-- Search Bar & Filters -->
+                <div class="pt-6 border-t border-slate-200 dark:border-slate-800 space-y-4">
+                    <div class="relative max-w-xl">
                         <input 
                             v-model="searchQuery" 
                             type="text" 
-                            placeholder="Search projects by name, technology, or description..."
-                            class="w-full px-4 py-3 pl-10 pr-4 rounded-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 shadow-sm focus:shadow-lg focus:shadow-glow-blue focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
+                            :placeholder="isKhmer ? 'ស្វែងរកគម្រោងតាមឈ្មោះ បច្ចេកវិទ្យា ឬការពិពណ៌នា...' : 'Search projects by title, stack, or keywords...'"
+                            class="w-full px-4 py-2.5 pl-10 pr-10 border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 text-xs font-mono focus:outline-none focus:border-blue-500 focus:bg-white dark:focus:bg-slate-900 transition-colors"
                             aria-label="Search projects"
                         />
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 absolute left-3 top-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 absolute left-3 top-3 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
                         <button 
                             v-if="searchQuery" 
                             @click="searchQuery = ''"
-                            class="absolute right-3 top-3.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-                            aria-label="Clear search"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
+                            class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-0.5"
+                            aria-label="Clear search">
+                            ✕
                         </button>
                     </div>
-                </div>
 
-                <!-- Category Filters -->
-                <div class="mb-16">
-                    <div class="mb-8 flex flex-wrap justify-center gap-3">
-                        <button @click="activeCategory = 'all'" :class="[
-                            'px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 transform active:scale-95',
-                            activeCategory.toLowerCase() === 'all'
-                                ? 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-md shadow-blue-500/30 scale-105'
-                                : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 hover:scale-105 shadow-sm',
-                            { 'animate-pulse-click': activeCategory.toLowerCase() === 'all' }
-                        ]">
-                            All
+                    <!-- Category Filter Chips (Sharp Rectangles) -->
+                    <div class="flex flex-wrap items-center gap-2 pt-2">
+                        <span class="text-[11px] font-mono text-slate-400 uppercase mr-1">
+                            {{ isKhmer ? 'ប្រភេទ៖' : 'CATEGORY:' }}
+                        </span>
+                        <button 
+                            @click="activeCategory = 'all'" 
+                            :class="[
+                                'px-3 py-1.5 text-xs font-mono uppercase tracking-wider border transition-all',
+                                activeCategory.toLowerCase() === 'all'
+                                    ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 border-slate-900 dark:border-white font-bold'
+                                    : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:border-slate-400'
+                            ]">
+                            {{ isKhmer ? 'ទាំងអស់ (ALL)' : 'ALL' }}
                         </button>
-                        <button v-for="category in categories.filter(c => c !== 'All')" :key="category"
-                            @click="activeCategory = category" :class="[
-                                'px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 transform active:scale-95',
+                        <button 
+                            v-for="category in categories.filter(c => c !== 'All')" 
+                            :key="category"
+                            @click="activeCategory = category" 
+                            :class="[
+                                'px-3 py-1.5 text-xs font-mono uppercase tracking-wider border transition-all',
                                 activeCategory.toLowerCase() === category.toLowerCase()
-                                    ? 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-md shadow-blue-500/30 scale-105'
-                                    : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 hover:scale-105 shadow-sm',
-                                { 'animate-pulse-click': activeCategory.toLowerCase() === category.toLowerCase() }
+                                    ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 border-slate-900 dark:border-white font-bold'
+                                    : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:border-slate-400'
                             ]">
                             {{ category }}
                         </button>
                     </div>
                 </div>
+            </section>
 
-                <!-- Projects Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <article v-for="(project, index) in filteredProjects" :key="project.id"
-                        class="flex flex-col rounded-xl overflow-hidden bg-white dark:bg-gray-800 shadow-md hover:shadow-card-hover border border-gray-200 dark:border-gray-700 hover:-translate-y-1 hover:border-t-2 hover:border-t-blue-500 transition-all duration-300 animate-fade-in-up"
-                        :style="{ animationDelay: `${index * 50}ms` }">
+            <!-- Loading State -->
+            <div v-if="isLoading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <LoadingSkeleton v-for="i in 6" :key="i" type="project" />
+            </div>
 
-                        <div class="h-48 bg-gray-100 dark:bg-gray-700 relative overflow-hidden">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent">
-                            </div>
-                            <span v-if="project.status" class="absolute font-bold top-4 left-4 inline-flex items-center px-3 py-1 rounded-full text-xs bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 z-10">
+            <!-- Error State -->
+            <div v-else-if="error" class="border border-red-300 dark:border-red-900 bg-red-50 dark:bg-red-950/30 p-8 text-center space-y-4">
+                <div class="w-12 h-12 mx-auto text-red-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                </div>
+                <h3 class="text-base font-bold text-red-600 dark:text-red-400">
+                    {{ isKhmer ? 'មានបញ្ហាក្នុងការទាញទិន្នន័យគម្រោង' : 'Error loading projects' }}
+                </h3>
+                <p class="text-xs font-mono text-slate-600 dark:text-slate-400">{{ error }}</p>
+                <button 
+                    @click="fetchProjects"
+                    class="px-4 py-2 bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-xs font-mono uppercase font-bold border border-slate-900 dark:border-white hover:bg-blue-600 transition-colors">
+                    {{ isKhmer ? 'ព្យាយាមម្តងទៀត' : 'Retry Connection' }}
+                </button>
+            </div>
+
+            <!-- Projects Grid -->
+            <div v-else>
+                <div v-if="filteredProjects.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <article 
+                        v-for="project in filteredProjects" 
+                        :key="project.id"
+                        class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col hover:border-blue-500 dark:hover:border-blue-500 transition-all duration-200 group">
+
+                        <!-- Image Preview Box -->
+                        <div class="h-48 bg-slate-100 dark:bg-slate-800 relative overflow-hidden border-b border-slate-200 dark:border-slate-800">
+                            <span v-if="project.status" class="absolute top-3 left-3 px-2 py-0.5 text-[10px] font-mono font-bold bg-blue-600 text-white uppercase tracking-wider z-10">
                                 {{ formatCategory(project.status) }}
                             </span>
                             <img 
                                 :src="getProjectImage(project.image)" 
                                 :alt="project.title"
-                                class="w-full h-full object-cover" 
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
                                 @error="handleImageError"
                                 loading="lazy"
-                                :aria-label="`${project.title} project image`"
                             >
-                            <div class="absolute bottom-4 left-4">
-                                <span
-                                    class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 shadow-sm">
+                            <div class="absolute bottom-3 left-3 z-10">
+                                <span class="px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider bg-slate-900/90 text-white border border-slate-700">
                                     {{ project.category }}
                                 </span>
                             </div>
                         </div>
 
-                        <div class="p-6 flex-1 flex flex-col">
-                            <div class="flex-1">
-                                <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-3 line-clamp-2">
+                        <!-- Card Body -->
+                        <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
+                            <div>
+                                <h2 class="text-base font-bold text-slate-900 dark:text-white mb-2 line-clamp-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                                     {{ project.title }}
                                 </h2>
-                                <p class="text-gray-600 dark:text-gray-300 mb-4 text-sm" v-html="project.description"></p>
+                                <p class="text-xs text-slate-600 dark:text-slate-400 line-clamp-3 leading-relaxed" v-html="project.description"></p>
                             </div>
 
-                            <div class="flex flex-wrap gap-2 mb-5">
-                                <span v-for="tech in project.technologies" :key="tech"
-                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30 text-blue-800 dark:text-blue-200 hover:from-blue-100 hover:to-indigo-100 dark:hover:from-blue-800/40 dark:hover:to-indigo-800/40 transition-colors duration-300 cursor-default">
-                                    {{ tech }}
-                                </span>
-                            </div>
+                            <!-- Technologies Badges (Sharp) -->
+                            <div class="space-y-4">
+                                <div class="flex flex-wrap gap-1.5">
+                                    <span 
+                                        v-for="tech in project.technologies" 
+                                        :key="tech"
+                                        class="px-2 py-0.5 text-[10px] font-mono font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                                        {{ tech }}
+                                    </span>
+                                </div>
 
-                            <div
-                                class="mt-auto pt-4 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between gap-4">
-                                <a :href="project.demo_url" target="_blank" rel="noopener noreferrer"
-                                    class="flex-1 text-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-300 text-sm">
-                                    Visit Site
-                                </a>
-                                <a v-if="shouldShowGithub(project)" :href="project.github" target="_blank"
-                                    rel="noopener noreferrer"
-                                    class="flex-1 text-center px-4 py-2 bg-gray-800 hover:bg-gray-900 text-white font-medium rounded-lg transition-colors duration-300 text-sm dark:bg-gray-700 dark:hover:bg-gray-600">
-                                    GitHub
-                                </a>
+                                <!-- Action Buttons (Sharp Rectangles) -->
+                                <div class="pt-3 border-t border-slate-200 dark:border-slate-800 flex items-center gap-2">
+                                    <a 
+                                        v-if="project.demo_url"
+                                        :href="project.demo_url" 
+                                        target="_blank" 
+                                        rel="noopener noreferrer"
+                                        class="flex-1 text-center py-2 px-3 bg-blue-600 hover:bg-blue-700 text-white text-xs font-mono font-bold uppercase tracking-wider border border-blue-600 transition-all">
+                                        {{ isKhmer ? 'ចូលមើលគេហទំព័រ →' : 'Visit Live Site →' }}
+                                    </a>
+                                    <a 
+                                        v-if="shouldShowGithub(project)" 
+                                        :href="project.github" 
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="py-2 px-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-mono font-bold uppercase border border-slate-300 dark:border-slate-700 transition-all">
+                                        GitHub
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </article>
                 </div>
 
                 <!-- Empty State -->
-                <div v-if="!isLoading && filteredProjects.length === 0" class="text-center py-12">
-                    <div class="mx-auto max-w-md animate-fade-in-up">
-                        <div class="relative w-28 h-28 mx-auto mb-6">
-                            <div class="absolute inset-0 bg-blue-100 dark:bg-blue-900/30 rounded-full opacity-50 blur-2xl"></div>
-                            <div class="relative w-28 h-28 mx-auto text-blue-400 dark:text-blue-500">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor" stroke-width="1.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM9 10h6m-3-3v6" />
-                                </svg>
-                            </div>
-                        </div>
-                        <h3 class="text-2xl font-bold text-gray-700 dark:text-gray-300 mb-2">No projects found</h3>
-                        <p class="text-gray-500 dark:text-gray-500">We couldn't find any projects matching this
-                            category. Try adjusting your search or filters.</p>
-                    </div>
+                <div v-else class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-12 text-center space-y-3">
+                    <div class="text-3xl text-slate-400">🔍</div>
+                    <h3 class="text-base font-bold text-slate-800 dark:text-slate-200">
+                        {{ isKhmer ? 'រកមិនឃើញគម្រោងដែលត្រូវគ្នា' : 'No matching projects found' }}
+                    </h3>
+                    <p class="text-xs font-mono text-slate-500 max-w-sm mx-auto">
+                        {{ isKhmer ? 'សូមសាកល្បងផ្លាស់ប្តូរពាក្យស្វែងរក ឬជ្រើសរើសប្រភេទផ្សេងទៀត។' : 'Try adjusting your search query or reset the category filter.' }}
+                    </p>
+                    <button 
+                        @click="searchQuery = ''; activeCategory = 'all'"
+                        class="px-4 py-2 bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-xs font-mono uppercase font-bold border border-slate-900 dark:border-white hover:bg-blue-600 transition-colors">
+                        {{ isKhmer ? 'កំណត់ឡើងវិញ' : 'Reset Filters' }}
+                    </button>
                 </div>
             </div>
+
         </div>
     </div>
 </template>
 
 <script setup>
-// Projects Page - Portfolio Showcase Gallery
+// Projects Page - Architectural Sharp Tech Minimalist
 import api from '@/service/api'
 import { ref, computed, onMounted } from 'vue'
 import logger from '@/utils/logger'
 import LoadingSkeleton from '@/components/LoadingSkeleton.vue'
 import { useStructuredData } from '@/composables/useStructuredData'
+import { useLanguage } from '@/composables/useLanguage'
+
+const { isKhmer } = useLanguage()
 
 // Reactive state
 const activeCategory = ref('all')

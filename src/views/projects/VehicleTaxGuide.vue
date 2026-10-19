@@ -2,42 +2,52 @@
     <div class="min-h-screen bg-gradient-to-b from-slate-50 via-gray-50 to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-800 dark:text-slate-100 py-6 sm:py-10 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
         <div class="max-w-7xl mx-auto space-y-6 sm:space-y-8">
 
-            <!-- Hero Section -->
-            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-700 via-indigo-800 to-slate-900 text-white shadow-2xl border border-blue-500/20">
-                <!-- Background decorative elements -->
-                <div class="absolute -right-16 -top-16 w-80 h-80 rounded-full bg-blue-500/20 blur-3xl pointer-events-none"></div>
-                <div class="absolute -left-16 -bottom-16 w-80 h-80 rounded-full bg-indigo-500/20 blur-3xl pointer-events-none"></div>
+            <!-- Hero HUD Section (Architectural Sharp Tech) -->
+            <div class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-8 relative overflow-hidden">
+                <!-- Meta HUD Bar -->
+                <div class="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-slate-200 dark:border-slate-800 text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2 h-2 bg-emerald-500 animate-pulse"></span>
+                        <span class="font-bold text-slate-700 dark:text-slate-200">
+                            {{ isKhmer ? 'ក្រសួងសាធារណការ (MPWT) & អគ្គនាយកដ្ឋានពន្ធដារ (GDT)' : 'CAMBODIA MPWT & GDT VEHICLE COMPLIANCE' }}
+                        </span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="font-mono text-blue-600 dark:text-blue-400 font-bold">DATABASE: 75+ CAR MODELS</span>
+                        <span class="hidden sm:inline">|</span>
+                        <span class="hidden sm:inline">OFFICIAL 2026 TARIFF</span>
+                    </div>
+                </div>
 
-                <div class="relative z-10 p-5 sm:p-8 lg:p-10">
-                    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+                <div class="pt-6">
+                    <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
                         <div class="max-w-3xl space-y-3">
-                            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/15 backdrop-blur-md text-xs sm:text-sm font-semibold border border-white/20">
-                                <span>🇰🇭</span>
-                                <span>{{ isKhmer ? 'ក្រសួងសាធារណការ (MPWT) & អគ្គនាយកដ្ឋានពន្ធដារ (GDT)' : 'Cambodia MPWT & GDT Vehicle Compliance' }}</span>
+                            <div class="inline-block px-2.5 py-1 text-[10px] font-mono uppercase tracking-widest font-bold bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800">
+                                {{ isKhmer ? 'មគ្គុទ្ទេសក៍ផ្លូវការយានយន្ត' : 'CAMBODIA MOTOR VEHICLE REGULATION' }}
                             </div>
-                            <h1 class="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight">
+                            <h1 class="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
                                 {{ isKhmer ? 'មគ្គុទ្ទេសក៍ពន្ធយានយន្ត និងឆៀកឡាននៅកម្ពុជា' : 'Cambodia Vehicle Tax & Technical Inspection Guide' }}
                             </h1>
-                            <p class="text-sm sm:text-base text-blue-100/90 leading-relaxed">
+                            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                                 {{ isKhmer 
                                     ? 'ការណែនាំពេញលេញសម្រាប់ម្ចាស់រថយន្ត៖ ស្រាវជ្រាវម៉ូដែលឡាន (Prius, RX330, Camry, BYD, EV, ឡានចិន), កាលបរិច្ឆេទបង់ពន្ធផ្លូវ ទីតាំងឆៀកឡាន និងការផាកពិន័យផ្លូវការ។' 
                                     : 'A comprehensive handbook for vehicle owners in Cambodia: Instant car model lookup (Prius, RX, Camry, BYD, EV, China brands), road tax schedules, inspection centers, and traffic fines.' }}
                             </p>
                         </div>
 
-                        <!-- Current Season Status Pill -->
-                        <div class="p-4 sm:p-5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 space-y-2 lg:w-80 shrink-0">
+                        <!-- Current Season Status HUD Box -->
+                        <div class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 space-y-2 lg:w-80 shrink-0">
                             <div class="flex items-center justify-between">
-                                <span class="text-xs font-semibold text-blue-200">{{ isKhmer ? 'រដូវកាលបង់ពន្ធផ្លូវ' : 'Road Tax Season' }}</span>
-                                <span class="px-2 py-0.5 rounded-full text-[11px] font-bold"
-                                    :class="isTaxSeasonActive ? 'bg-emerald-400/30 text-emerald-200 border border-emerald-400/40' : 'bg-amber-400/30 text-amber-200 border border-amber-400/40'">
+                                <span class="text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">{{ isKhmer ? 'រដូវកាលបង់ពន្ធផ្លូវ' : 'Road Tax Season' }}</span>
+                                <span class="px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider"
+                                    :class="isTaxSeasonActive ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800' : 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 border border-amber-300 dark:border-amber-800'">
                                     {{ isTaxSeasonActive ? (isKhmer ? 'កំពុងប្រមូលពន្ធ' : 'Active Period') : (isKhmer ? 'រដូវកាលបិទ' : 'Off Season') }}
                                 </span>
                             </div>
-                            <div class="text-lg font-bold text-white">
+                            <div class="text-base font-black text-slate-900 dark:text-white font-mono">
                                 {{ isKhmer ? '០១ មិថុនា - ៣០ វិច្ឆិកា' : 'June 1 – November 30' }}
                             </div>
-                            <p class="text-xs text-blue-100/80">
+                            <p class="text-xs text-slate-500 dark:text-slate-400">
                                 {{ isTaxSeasonActive 
                                     ? (isKhmer ? 'កំពុងបើកដំណើរការបង់ពន្ធតាមធនាគារ និង GDT Taxpayer App!' : 'Tax collection is open online and at partner banks!') 
                                     : (isKhmer ? 'ក្រោយថ្ងៃ ៣០ វិច្ឆិកា នគរបាលចរាចរណ៍ត្រួតពិនិត្យ និងផាកពិន័យទ្វេដងលើផ្លូវ!' : 'Post-deadline traffic police inspections incur a 100% fine on unpaid tax.') }}
@@ -45,14 +55,14 @@
                         </div>
                     </div>
 
-                    <!-- Navigation Sub-tabs -->
-                    <div class="mt-8 pt-6 border-t border-white/15 flex flex-wrap gap-2">
+                    <!-- Navigation Sub-tabs (Sharp Rectangles) -->
+                    <div class="mt-6 pt-5 border-t border-slate-200 dark:border-slate-800 flex flex-wrap gap-2">
                         <button v-for="tab in tabs" :key="tab.id"
                             @click="activeTab = tab.id"
-                            class="px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 flex items-center gap-2"
+                            class="px-3.5 py-2 text-xs font-mono uppercase font-bold tracking-wider border transition-all flex items-center gap-2"
                             :class="activeTab === tab.id 
-                                ? 'bg-white text-blue-900 shadow-lg scale-102' 
-                                : 'bg-white/10 text-white/90 hover:bg-white/20'">
+                                ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 border-slate-900 dark:border-white' 
+                                : 'bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800 hover:border-slate-400'">
                             <span>{{ tab.icon }}</span>
                             <span>{{ isKhmer ? tab.labelKhmer : tab.labelEn }}</span>
                         </button>

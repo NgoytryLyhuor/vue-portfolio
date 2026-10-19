@@ -1,33 +1,33 @@
 <template>
     <nav
-        class="fixed w-full bg-white/90 dark:bg-gray-900/90 text-gray-800 dark:text-gray-100 py-3.5 px-4 sm:px-6 lg:px-40 shadow-sm backdrop-blur-md z-50 transition-colors duration-300">
+        class="fixed w-full bg-white/95 dark:bg-slate-900/95 text-slate-800 dark:text-slate-100 py-3 px-4 sm:px-6 lg:px-40 shadow-sm border-b border-slate-200 dark:border-slate-800 backdrop-blur-md z-50 transition-colors duration-300">
         <div class="container mx-auto flex justify-between items-center">
             <!-- Brand / Logo -->
             <div class="flex items-center">
                 <router-link to="/"
-                    class="hover:text-green-500 dark:hover:text-green-400 transition-colors duration-200 focus:outline-none"
+                    class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 focus:outline-none"
                     aria-label="Home - Ngoytry Lyhuor Portfolio">
                     <div class="flex items-center">
                         <img 
                             src="../assets/logo.png" 
                             alt="Ngoytry Lyhuor Logo"
-                            class="h-7 w-7 mr-3 transition-transform duration-200 hover:scale-105"
+                            class="h-7 w-7 mr-3 transition-transform duration-200 hover:scale-105 border border-slate-200 dark:border-slate-700 p-0.5 rounded-none"
                             width="28"
                             height="28"
                             loading="eager"
                         >
-                        <h1 class="text-[16px] font-bold tracking-tight dark:text-white">Ngoytry Lyhuor</h1>
+                        <h1 class="text-[15px] font-black tracking-tight dark:text-white uppercase">Ngoytry Lyhuor</h1>
                     </div>
                 </router-link>
 
                 <!-- Desktop Navigation -->
-                <div class="hidden md:flex space-x-6 ml-10">
+                <div class="hidden md:flex space-x-2 ml-10">
                     <router-link 
                         v-for="link in standardNavLinks" 
                         :key="link.path" 
                         :to="link.path"
-                        class="hover:text-green-500 dark:hover:text-green-400 text-[14px] transition-colors duration-200 px-2 py-1 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-                        :class="{ 'text-green-500 dark:text-green-400 font-semibold': $route.path === link.path }"
+                        class="hover:text-blue-600 dark:hover:text-blue-400 text-xs uppercase tracking-wider font-bold transition-all duration-200 px-3 py-1.5 rounded-none focus:outline-none border-b-2 border-transparent"
+                        :class="{ 'text-blue-600 dark:text-blue-400 border-blue-600 dark:border-blue-400 font-black': $route.path === link.path }"
                         :aria-label="`Navigate to ${link.label}`"
                         :aria-current="$route.path === link.path ? 'page' : undefined"
                     >
@@ -37,11 +37,11 @@
                     <!-- Other Features Dropdown (Desktop) -->
                     <div class="relative" ref="featuresDropdown">
                         <button @click.stop="toggleFeaturesMenu"
-                            class="flex items-center hover:text-green-500 dark:hover:text-green-400 text-[14px] transition-colors duration-200 px-2 py-1 rounded-md"
-                            :class="{ 'text-green-500 dark:text-green-400 font-semibold': isFeatureActive }"
+                            class="flex items-center hover:text-blue-600 dark:hover:text-blue-400 text-xs uppercase tracking-wider font-bold transition-all duration-200 px-3 py-1.5 rounded-none border-b-2 border-transparent"
+                            :class="{ 'text-blue-600 dark:text-blue-400 border-blue-600 dark:border-blue-400 font-black': isFeatureActive }"
                             aria-label="Other Features" aria-haspopup="true" :aria-expanded="isFeaturesMenuOpen">
                             {{ isKhmer ? 'មុខងារផ្សេងៗ' : 'Other Features' }}
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 transition-transform duration-200" viewBox="0 0 20 20"
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 ml-1 transition-transform duration-200" viewBox="0 0 20 20"
                                 fill="currentColor" :class="{ 'transform rotate-180': isFeaturesMenuOpen }">
                                 <path fill-rule="evenodd"
                                     d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
@@ -51,20 +51,20 @@
 
                         <!-- Features dropdown menu -->
                         <transition
-                            enter-active-class="transition duration-200 ease-[cubic-bezier(0.34,1.3,0.64,1)]"
-                            enter-from-class="transform opacity-0 scale-95 -translate-y-2"
-                            enter-to-class="transform opacity-100 scale-100 translate-y-0"
-                            leave-active-class="transition duration-150 ease-[cubic-bezier(0.25,1,0.5,1)]"
-                            leave-from-class="transform opacity-100 scale-100 translate-y-0"
-                            leave-to-class="transform opacity-0 scale-95 -translate-y-2"
+                            enter-active-class="transition duration-200 ease-out"
+                            enter-from-class="transform opacity-0 -translate-y-2"
+                            enter-to-class="transform opacity-100 translate-y-0"
+                            leave-active-class="transition duration-150 ease-in"
+                            leave-from-class="transform opacity-100 translate-y-0"
+                            leave-to-class="transform opacity-0 -translate-y-2"
                         >
                             <div v-if="isFeaturesMenuOpen"
-                                class="absolute left-0 w-56 rounded-2xl dark:bg-gray-800/95 mt-2 shadow-2xl z-50 border border-gray-200/80 dark:border-gray-700/80 bg-white/95 backdrop-blur-xl overflow-hidden p-1">
+                                class="absolute left-0 w-60 rounded-none dark:bg-slate-900 mt-2 shadow-2xl z-50 border border-slate-300 dark:border-slate-700 bg-white backdrop-blur-xl p-1 divide-y divide-slate-100 dark:divide-slate-800">
                                 <router-link v-for="feature in featureLinks" :key="feature.path" :to="feature.path"
-                                    class="flex items-center px-3.5 py-2.5 text-sm rounded-xl text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700/70 w-full text-left transition-all duration-150 cursor-pointer active:scale-95"
-                                    :class="{ 'bg-gray-100 dark:bg-gray-700 font-semibold text-green-600 dark:text-green-400': $route.path === feature.path }"
+                                    class="flex items-center px-3.5 py-2.5 text-xs rounded-none text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 w-full text-left transition-all duration-150 cursor-pointer"
+                                    :class="{ 'bg-slate-100 dark:bg-slate-800 font-bold text-blue-600 dark:text-blue-400': $route.path === feature.path }"
                                     @click="selectFeature(feature.path, $event)">
-                                    <component :is="feature.icon" class="h-5 w-5 mr-3 shrink-0 text-gray-500 dark:text-gray-400" />
+                                    <component :is="feature.icon" class="h-4 w-4 mr-3 shrink-0 text-slate-500 dark:text-slate-400" />
                                     <span>{{ feature.label }}</span>
                                 </router-link>
                             </div>
@@ -81,43 +81,43 @@
                 <!-- Theme Toggle Button -->
                 <div class="relative" ref="themeDropdown">
                     <button @click.stop="toggleThemeMenu"
-                        class="flex items-center justify-center w-9 h-9 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 transition-colors focus:outline-none"
+                        class="flex items-center justify-center w-8 h-8 rounded-none border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors focus:outline-none"
                         aria-label="Toggle theme menu" aria-haspopup="true" :aria-expanded="isThemeMenuOpen">
                         <!-- Sun icon for light mode -->
-                        <SunIcon v-if="currentTheme === 'light'" class="h-5 w-5 text-amber-500" />
+                        <SunIcon v-if="currentTheme === 'light'" class="h-4 w-4 text-amber-500" />
                         <!-- Moon icon for dark mode -->
-                        <MoonIcon v-else-if="currentTheme === 'dark'" class="h-5 w-5 text-indigo-400" />
+                        <MoonIcon v-else-if="currentTheme === 'dark'" class="h-4 w-4 text-indigo-400" />
                         <!-- ComputerDesktopIcon for system -->
-                        <ComputerDesktopIcon v-else-if="currentTheme === 'system'" class="h-5 w-5 text-gray-600 dark:text-gray-300" />
+                        <ComputerDesktopIcon v-else-if="currentTheme === 'system'" class="h-4 w-4 text-slate-600 dark:text-slate-300" />
                     </button>
 
                     <!-- Theme dropdown menu -->
                     <transition
-                        enter-active-class="transition duration-200 ease-[cubic-bezier(0.34,1.3,0.64,1)]"
-                        enter-from-class="transform opacity-0 scale-95 -translate-y-2"
-                        enter-to-class="transform opacity-100 scale-100 translate-y-0"
-                        leave-active-class="transition duration-150 ease-[cubic-bezier(0.25,1,0.5,1)]"
-                        leave-from-class="transform opacity-100 scale-100 translate-y-0"
-                        leave-to-class="transform opacity-0 scale-95 -translate-y-2"
+                        enter-active-class="transition duration-200 ease-out"
+                        enter-from-class="transform opacity-0 -translate-y-2"
+                        enter-to-class="transform opacity-100 translate-y-0"
+                        leave-active-class="transition duration-150 ease-in"
+                        leave-from-class="transform opacity-100 translate-y-0"
+                        leave-to-class="transform opacity-0 -translate-y-2"
                     >
                         <div v-if="isThemeMenuOpen"
-                            class="absolute right-0 w-40 rounded-2xl dark:bg-gray-800/95 mt-2 shadow-2xl z-50 border border-gray-200/80 dark:border-gray-700/80 bg-white/95 backdrop-blur-xl overflow-hidden p-1.5">
+                            class="absolute right-0 w-36 rounded-none dark:bg-slate-900 mt-2 shadow-2xl z-50 border border-slate-300 dark:border-slate-700 bg-white backdrop-blur-xl p-1 space-y-0.5">
                             <button @click="setTheme('light')"
-                                class="flex items-center px-3 py-2 text-xs rounded-xl text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700/70 w-full text-left transition-all duration-150 active:scale-95"
-                                :class="{ 'bg-gray-100 dark:bg-gray-700 font-semibold text-green-600 dark:text-green-400': currentTheme === 'light' }">
+                                class="flex items-center px-3 py-2 text-xs rounded-none text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 w-full text-left transition-all"
+                                :class="{ 'bg-slate-100 dark:bg-slate-800 font-bold text-blue-600 dark:text-blue-400': currentTheme === 'light' }">
                                 <SunIcon class="h-4 w-4 mr-2 text-amber-500" />
                                 {{ isKhmer ? 'ពន្លឺ' : 'Light' }}
                             </button>
                             <button @click="setTheme('dark')"
-                                class="flex items-center px-3 py-2 text-xs rounded-xl text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700/70 w-full text-left transition-all duration-150 active:scale-95"
-                                :class="{ 'bg-gray-100 dark:bg-gray-700 font-semibold text-green-600 dark:text-green-400': currentTheme === 'dark' }">
+                                class="flex items-center px-3 py-2 text-xs rounded-none text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 w-full text-left transition-all"
+                                :class="{ 'bg-slate-100 dark:bg-slate-800 font-bold text-blue-600 dark:text-blue-400': currentTheme === 'dark' }">
                                 <MoonIcon class="h-4 w-4 mr-2 text-indigo-400" />
                                 {{ isKhmer ? 'ងងឹត' : 'Dark' }}
                             </button>
                             <button @click="setTheme('system')"
-                                class="flex items-center px-3 py-2 text-xs rounded-xl text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700/70 w-full text-left transition-all duration-150 active:scale-95"
-                                :class="{ 'bg-gray-100 dark:bg-gray-700 font-semibold text-green-600 dark:text-green-400': currentTheme === 'system' }">
-                                <ComputerDesktopIcon class="h-4 w-4 mr-2 text-gray-500 dark:text-gray-400" />
+                                class="flex items-center px-3 py-2 text-xs rounded-none text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 w-full text-left transition-all"
+                                :class="{ 'bg-slate-100 dark:bg-slate-800 font-bold text-blue-600 dark:text-blue-400': currentTheme === 'system' }">
+                                <ComputerDesktopIcon class="h-4 w-4 mr-2 text-slate-500 dark:text-slate-400" />
                                 {{ isKhmer ? 'ប្រព័ន្ធ' : 'System' }}
                             </button>
                         </div>
@@ -126,10 +126,10 @@
 
                 <!-- Clean Mobile Hamburger Button -->
                 <button @click.stop="toggleMobileMenu"
-                    class="md:hidden flex items-center justify-center w-9 h-9 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition-colors focus:outline-none"
+                    class="md:hidden flex items-center justify-center w-8 h-8 rounded-none border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 transition-colors focus:outline-none"
                     aria-label="Toggle navigation menu"
                     :aria-expanded="isMobileMenuOpen">
-                    <component :is="isMobileMenuOpen ? XMarkIcon : Bars3Icon" class="h-6 w-6 transition-transform duration-150" />
+                    <component :is="isMobileMenuOpen ? XMarkIcon : Bars3Icon" class="h-5 w-5 transition-transform duration-150" />
                 </button>
             </div>
         </div>
@@ -159,39 +159,39 @@
             leave-to-class="opacity-0 -translate-y-3 scale-[0.98]"
         >
             <div v-if="isMobileMenuOpen"
-                class="md:hidden absolute left-0 right-0 top-full w-full bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border-b border-gray-200 dark:border-gray-800 shadow-2xl z-50 max-h-[calc(100vh-4rem)] overflow-y-auto">
+                class="md:hidden absolute left-0 right-0 top-full w-full bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-2xl z-50 max-h-[calc(100vh-4rem)] overflow-y-auto rounded-none">
                 <div class="px-4 py-3 space-y-2">
                     <!-- Main Navigation Links -->
-                    <div class="space-y-0.5">
+                    <div class="space-y-1">
                         <router-link v-for="link in standardNavLinks" :key="link.path" :to="link.path"
-                            class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-[15px] font-medium transition-colors cursor-pointer"
+                            class="flex items-center space-x-3 px-3 py-2.5 rounded-none text-xs uppercase tracking-wider font-bold transition-colors cursor-pointer border-l-2"
                             :class="[
                                 $route.path === link.path
-                                    ? 'bg-green-500/10 text-green-600 dark:text-green-400 font-semibold'
-                                    : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800/60'
+                                    ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-600 dark:border-blue-400'
+                                    : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 border-transparent'
                             ]"
                             @click="navigateAndClose(link.path)">
-                            <component :is="link.icon" class="h-5 w-5" :class="$route.path === link.path ? 'text-green-500' : 'text-gray-400 dark:text-gray-500'" />
+                            <component :is="link.icon" class="h-4 w-4" :class="$route.path === link.path ? 'text-blue-500' : 'text-slate-400 dark:text-slate-500'" />
                             <span>{{ link.label }}</span>
                         </router-link>
                     </div>
 
                     <!-- Other Features Section -->
-                    <div class="pt-2 border-t border-gray-100 dark:border-gray-800 space-y-1">
-                        <div class="px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500">
+                    <div class="pt-2 border-t border-slate-200 dark:border-slate-800 space-y-1">
+                        <div class="px-3 py-1 text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
                             {{ isKhmer ? 'មុខងារផ្សេងៗ' : 'Other Features' }}
                         </div>
-                        <div class="space-y-0.5">
+                        <div class="space-y-1">
                             <router-link v-for="feature in featureLinks" :key="feature.path" :to="feature.path"
-                                class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-[14px] font-medium transition-colors cursor-pointer"
+                                class="flex items-center space-x-3 px-3 py-2.5 rounded-none text-xs font-semibold transition-colors cursor-pointer border-l-2"
                                 :class="[
                                     $route.path === feature.path
-                                        ? 'bg-green-500/10 text-green-600 dark:text-green-400 font-semibold'
-                                        : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800/60'
+                                        ? 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-600 dark:border-blue-400'
+                                        : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 border-transparent'
                                 ]"
                                 @click="navigateAndClose(feature.path)">
-                                <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0" :class="feature.badgeBg">
-                                    <component :is="feature.icon" class="h-4 w-4" :class="feature.badgeText" />
+                                <div class="w-6 h-6 rounded-none flex items-center justify-center shrink-0 border border-slate-200 dark:border-slate-700" :class="feature.badgeBg">
+                                    <component :is="feature.icon" class="h-3.5 w-3.5" :class="feature.badgeText" />
                                 </div>
                                 <span>{{ feature.label }}</span>
                             </router-link>
@@ -199,35 +199,35 @@
                     </div>
 
                     <!-- Language Switcher Row in Mobile Menu -->
-                    <div class="pt-2 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between px-3 py-2">
-                        <span class="text-xs font-medium text-gray-500 dark:text-gray-400">{{ isKhmer ? 'ភាសា' : 'Language' }}</span>
+                    <div class="pt-2 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between px-3 py-2">
+                        <span class="text-xs font-mono uppercase text-slate-500 dark:text-slate-400">{{ isKhmer ? 'ភាសា' : 'Language' }}</span>
                         <LanguageToggle />
                     </div>
 
                     <!-- Theme Switcher Row -->
-                    <div class="pt-2 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between px-3 py-2">
-                        <span class="text-xs font-medium text-gray-500 dark:text-gray-400">{{ isKhmer ? 'ស្បែករចនា' : 'Theme' }}</span>
-                        <div class="flex items-center bg-gray-100 dark:bg-gray-800 p-1 rounded-xl space-x-1">
+                    <div class="pt-2 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between px-3 py-2">
+                        <span class="text-xs font-mono uppercase text-slate-500 dark:text-slate-400">{{ isKhmer ? 'ស្បែករចនា' : 'Theme' }}</span>
+                        <div class="flex items-center bg-slate-100 dark:bg-slate-800 p-0.5 border border-slate-300 dark:border-slate-700 rounded-none space-x-1">
                             <button @click="setTheme('light')"
-                                class="px-2.5 py-1 rounded-lg text-xs font-medium flex items-center space-x-1 transition-all"
-                                :class="currentTheme === 'light' ? 'bg-white dark:bg-gray-700 text-amber-500 shadow-sm font-semibold' : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'"
+                                class="px-2.5 py-1 rounded-none text-xs font-medium flex items-center space-x-1 transition-all"
+                                :class="currentTheme === 'light' ? 'bg-white dark:bg-slate-700 text-amber-500 shadow-sm font-bold' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200'"
                                 aria-label="Light theme">
                                 <SunIcon class="h-3.5 w-3.5" />
                                 <span>{{ isKhmer ? 'ពន្លឺ' : 'Light' }}</span>
                             </button>
                             <button @click="setTheme('dark')"
-                                class="px-2.5 py-1 rounded-lg text-xs font-medium flex items-center space-x-1 transition-all"
-                                :class="currentTheme === 'dark' ? 'bg-white dark:bg-gray-700 text-indigo-400 shadow-sm font-semibold' : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'"
+                                class="px-2.5 py-1 rounded-none text-xs font-medium flex items-center space-x-1 transition-all"
+                                :class="currentTheme === 'dark' ? 'bg-white dark:bg-slate-700 text-indigo-400 shadow-sm font-bold' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200'"
                                 aria-label="Dark theme">
                                 <MoonIcon class="h-3.5 w-3.5" />
                                 <span>{{ isKhmer ? 'ងងឹត' : 'Dark' }}</span>
                             </button>
                             <button @click="setTheme('system')"
-                                class="px-2.5 py-1 rounded-lg text-xs font-medium flex items-center space-x-1 transition-all"
-                                :class="currentTheme === 'system' ? 'bg-white dark:bg-gray-700 text-green-500 shadow-sm font-semibold' : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'"
+                                class="px-2.5 py-1 rounded-none text-xs font-medium flex items-center space-x-1 transition-all"
+                                :class="currentTheme === 'system' ? 'bg-white dark:bg-slate-700 text-blue-500 shadow-sm font-bold' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200'"
                                 aria-label="System theme">
                                 <ComputerDesktopIcon class="h-3.5 w-3.5" />
-                                <span>{{ isKhmer ? 'ស្វ័យប្រវត្តិ' : 'Auto' }}</span>
+                                <span>{{ isKhmer ? 'ប្រព័ន្ធ' : 'System' }}</span>
                             </button>
                         </div>
                     </div>

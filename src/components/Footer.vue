@@ -1,171 +1,165 @@
-<!-- AppFooter Component - Site Footer -->
+<!-- AppFooter Component - Modern Architectural Tech Minimalist Footer -->
 <template>
-    <footer class="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 mt-auto">
+    <footer class="bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 mt-auto transition-colors duration-300">
+        <!-- Top HUD System Status Strip -->
+        <div class="border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex flex-wrap items-center justify-between gap-3">
+                <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 bg-emerald-500 animate-pulse"></span>
+                    <span class="font-bold text-slate-700 dark:text-slate-200">
+                        {{ isKhmer ? 'ប្រព័ន្ធដំណើរការធម្មតា • ភ្នំពេញ កម្ពុជា' : 'SYSTEM STATUS: OPERATIONAL • PHNOM PENH, KH' }}
+                    </span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span>PORT: 443 / HTTPS</span>
+                    <span class="hidden sm:inline">|</span>
+                    <span class="hidden sm:inline font-mono">LAT: 11.5564° N, LONG: 104.9282° E</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Footer Directory Grid -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- About Section -->
-                <div>
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Ngoytry Lyhuor</h3>
-                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-4 leading-relaxed">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Col 1: Identity & Bio -->
+                <div class="space-y-4 md:col-span-1">
+                    <div class="inline-block px-2 py-0.5 text-[10px] font-mono uppercase tracking-widest font-bold bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800">
+                        DEVELOPER PORTFOLIO
+                    </div>
+                    <h3 class="text-base font-black uppercase text-slate-900 dark:text-white tracking-wider">
+                        NGOYTRY LYHUOR
+                    </h3>
+                    <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
                         {{ isKhmer 
-                            ? 'អ្នកអភិវឌ្ឍន៍គេហទំព័រអាជីព ជំនាញលើការអភិវឌ្ឍ Frontend, JavaScript, Vue.js, PHP, Laravel, Java និង Spring Boot។' 
-                            : 'Professional web developer specializing in frontend development, JavaScript, Vue.js, PHP, Laravel, Java, and Spring Boot.' 
+                            ? 'អ្នកអភិវឌ្ឍន៍គេហទំព័រអាជីព ជំនាញលើការអភិវឌ្ឍ Frontend & Backend ជាមួយ Vue.js, JavaScript, PHP Laravel, Java និង Spring Boot។' 
+                            : 'Full-stack software engineer specialized in building robust web applications, high-performance APIs, and interactive tools.' 
                         }}
                     </p>
-                    <div class="flex space-x-4">
+                    <!-- Social Link Buttons (Sharp) -->
+                    <div class="flex items-center gap-2 pt-2">
                         <a 
                             href="https://www.linkedin.com/in/ngoytry-lyhuor-506a46280/" 
                             target="_blank" 
                             rel="noopener noreferrer"
-                            class="text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
-                            aria-label="LinkedIn Profile"
-                        >
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                            </svg>
+                            class="p-2 border border-slate-300 dark:border-slate-700 hover:border-blue-500 hover:text-blue-500 text-slate-600 dark:text-slate-300 transition-colors"
+                            aria-label="LinkedIn Profile">
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                         </a>
                         <a 
-                            v-if="githubUrl"
-                            :href="githubUrl" 
+                            href="https://github.com/NgoytryLyhuor" 
                             target="_blank" 
                             rel="noopener noreferrer"
-                            class="text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
-                            aria-label="GitHub Profile"
-                        >
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                                <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"/>
-                            </svg>
+                            class="p-2 border border-slate-300 dark:border-slate-700 hover:border-slate-900 dark:hover:border-white text-slate-600 dark:text-slate-300 transition-colors"
+                            aria-label="GitHub Profile">
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"/></svg>
                         </a>
                     </div>
                 </div>
 
-                <!-- Quick Links -->
+                <!-- Col 2: Navigation Links -->
                 <div>
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                        {{ isKhmer ? 'តំណភ្ជាប់រហ័ស' : 'Quick Links' }}
-                    </h3>
-                    <ul class="space-y-2">
+                    <div class="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-3 pb-2 border-b border-slate-200 dark:border-slate-800">
+                        {{ isKhmer ? 'ទំព័រចម្បង' : 'NAVIGATION' }}
+                    </div>
+                    <ul class="space-y-2 text-xs font-mono">
                         <li>
-                            <router-link 
-                                to="/" 
-                                class="text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors duration-200 text-sm"
-                            >
-                                {{ isKhmer ? 'ទំព័រដើម' : 'Home' }}
+                            <router-link to="/" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5">
+                                <span class="text-slate-400">/</span> {{ isKhmer ? 'ទំព័រដើម (Home)' : 'Home' }}
                             </router-link>
                         </li>
                         <li>
-                            <router-link 
-                                to="/projects" 
-                                class="text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors duration-200 text-sm"
-                            >
-                                {{ isKhmer ? 'គម្រោង' : 'Projects' }}
+                            <router-link to="/projects" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5">
+                                <span class="text-slate-400">/</span> {{ isKhmer ? 'គម្រោងការងារ (Projects)' : 'Projects' }}
                             </router-link>
                         </li>
                         <li>
-                            <router-link 
-                                to="/about" 
-                                class="text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors duration-200 text-sm"
-                            >
-                                {{ isKhmer ? 'អំពីខ្ញុំ' : 'About' }}
+                            <router-link to="/about" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5">
+                                <span class="text-slate-400">/</span> {{ isKhmer ? 'ប្រវត្តិរូប & បទពិសោធន៍ (About)' : 'About & Experience' }}
                             </router-link>
                         </li>
                     </ul>
                 </div>
 
-                <!-- Tools & Features -->
+                <!-- Col 3: Interactive Tools -->
                 <div>
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                        {{ isKhmer ? 'ឧបករណ៍ & មុខងារ' : 'Tools & Features' }}
-                    </h3>
-                    <ul class="space-y-2">
+                    <div class="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-3 pb-2 border-b border-slate-200 dark:border-slate-800">
+                        {{ isKhmer ? 'ឧបករណ៍ & មុខងារ' : 'UTILITIES & TOOLS' }}
+                    </div>
+                    <ul class="space-y-2 text-xs font-mono">
                         <li>
-                            <router-link 
-                                to="/weather-app" 
-                                class="text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors duration-200 text-sm"
-                            >
-                                {{ isKhmer ? 'ព្យាករណ៍ធាតុអាកាស' : 'Weather App' }}
+                            <router-link to="/vehicle-tax" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5">
+                                <span class="text-slate-400">🚗</span> {{ isKhmer ? 'ពន្ធផ្លូវ & ឆៀកឡាន' : 'Vehicle Tax Calculator' }}
                             </router-link>
                         </li>
                         <li>
-                            <router-link 
-                                to="/air-quality" 
-                                class="text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors duration-200 text-sm"
-                            >
-                                {{ isKhmer ? 'គុណភាពខ្យល់' : 'Air Quality' }}
+                            <router-link to="/khmer-calendar" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5">
+                                <span class="text-slate-400">📅</span> {{ isKhmer ? 'ប្រតិទិនចន្ទគតិខ្មែរ' : 'Khmer Lunar Calendar' }}
                             </router-link>
                         </li>
                         <li>
-                            <router-link 
-                                to="/currency-converter" 
-                                class="text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors duration-200 text-sm"
-                            >
-                                {{ isKhmer ? 'កម្មវិធីប្តូរប្រាក់' : 'Currency Converter' }}
+                            <router-link to="/weather-app" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5">
+                                <span class="text-slate-400">⛅</span> {{ isKhmer ? 'ព្យាករណ៍ធាតុអាកាស' : 'Live Weather' }}
                             </router-link>
                         </li>
                         <li>
-                            <router-link 
-                                to="/khmer-calendar" 
-                                class="text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors duration-200 text-sm"
-                            >
-                                {{ isKhmer ? 'ប្រតិទិនខ្មែរ' : 'Khmer Calendar' }}
+                            <router-link to="/air-quality" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5">
+                                <span class="text-slate-400">🍃</span> {{ isKhmer ? 'គុណភាពខ្យល់ AQI' : 'Air Quality Index' }}
                             </router-link>
                         </li>
                         <li>
-                            <router-link 
-                                to="/vehicle-tax" 
-                                class="text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 transition-colors duration-200 text-sm"
-                            >
-                                {{ isKhmer ? 'ពន្ធយានយន្ត & ឆៀកឡាន' : 'Cambodia Vehicle Tax' }}
+                            <router-link to="/currency-converter" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5">
+                                <span class="text-slate-400">💱</span> {{ isKhmer ? 'កម្មវិធីប្តូរប្រាក់ NBC' : 'Currency Converter' }}
                             </router-link>
                         </li>
                     </ul>
+                </div>
+
+                <!-- Col 4: Tech Stack Specs -->
+                <div>
+                    <div class="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-3 pb-2 border-b border-slate-200 dark:border-slate-800">
+                        {{ isKhmer ? 'លក្ខណៈបច្ចេកវិទ្យា' : 'SPECIFICATIONS' }}
+                    </div>
+                    <div class="space-y-2 text-xs font-mono text-slate-600 dark:text-slate-400">
+                        <div class="flex justify-between py-1 border-b border-slate-100 dark:border-slate-900">
+                            <span>FRAMEWORK</span>
+                            <span class="text-slate-900 dark:text-white font-bold">Vue 3.x</span>
+                        </div>
+                        <div class="flex justify-between py-1 border-b border-slate-100 dark:border-slate-900">
+                            <span>STYLING</span>
+                            <span class="text-slate-900 dark:text-white font-bold">Tailwind CSS (0px)</span>
+                        </div>
+                        <div class="flex justify-between py-1 border-b border-slate-100 dark:border-slate-900">
+                            <span>AESTHETIC</span>
+                            <span class="text-blue-600 dark:text-blue-400 font-bold">Sharp Architectural</span>
+                        </div>
+                        <div class="flex justify-between py-1 border-b border-slate-100 dark:border-slate-900">
+                            <span>HOSTING</span>
+                            <span class="text-slate-900 dark:text-white font-bold">Vercel Edge</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Bottom Bar -->
-            <div class="mt-8 pt-8 border-t border-gray-200 dark:border-gray-800">
-                <div class="flex flex-col md:flex-row justify-between items-center">
-                    <p class="text-gray-600 dark:text-gray-400 text-sm">
-                        © {{ currentYear }} Ngoytry Lyhuor. {{ isKhmer ? 'រក្សាសិទ្ធិគ្រប់យ៉ាង។' : 'All rights reserved.' }}
-                    </p>
-                    <div class="flex items-center space-x-4 mt-4 md:mt-0">
-                        <span class="text-gray-600 dark:text-gray-400 text-sm">
-                            {{ isKhmer ? 'បង្កើតឡើងដោយ' : 'Built with' }} 
-                            <span class="text-red-500">❤️</span> 
-                            {{ isKhmer ? 'ប្រើប្រាស់ Vue.js & Tailwind CSS' : 'using Vue.js & Tailwind CSS' }}
-                        </span>
-                    </div>
+            <!-- Bottom Bar (1px hairline) -->
+            <div class="mt-12 pt-6 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-500">
+                <div>
+                    © {{ currentYear }} NGOYTRY LYHUOR. {{ isKhmer ? 'រក្សាសិទ្ធិគ្រប់យ៉ាង។' : 'ALL RIGHTS RESERVED.' }}
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 text-[10px] uppercase tracking-wider bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 font-bold text-slate-700 dark:text-slate-300">
+                        EDITION 2026 // ZERO-RADIUS
+                    </span>
                 </div>
             </div>
         </div>
     </footer>
 </template>
 
-<script>
-// AppFooter Component - Site Footer with Links and Copyright
+<script setup>
+// Modern Architectural Tech Footer
 import { computed } from 'vue';
 import { useLanguage } from '@/composables/useLanguage';
 
-export default {
-  name: 'AppFooter',
-  setup() {
-    const { isKhmer } = useLanguage();
-    const currentYear = computed(() => new Date().getFullYear());
-    const githubUrl = 'https://github.com/NgoytryLyhuor';
-    
-    return {
-      isKhmer,
-      currentYear,
-      githubUrl
-    };
-  }
-};
+const { isKhmer } = useLanguage();
+const currentYear = computed(() => new Date().getFullYear());
 </script>
-
-<style scoped>
-/* Smooth transitions for footer links */
-a {
-    transition: color 0.2s ease-in-out;
-}
-</style>
-

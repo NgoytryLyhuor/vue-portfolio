@@ -2,49 +2,62 @@
     <div class="min-h-screen pt-12 sm:pt-16 pb-12 px-0 sm:px-4 lg:px-6 bg-gradient-to-br from-slate-50 via-red-50/20 to-blue-50/30 dark:from-gray-900 dark:via-gray-900 dark:to-slate-900 overflow-x-hidden">
         <div class="max-w-7xl mx-auto">
 
-            <!-- Top Hero & Live Today Banner -->
-            <div class="relative rounded-2xl sm:rounded-3xl bg-gradient-to-r from-red-600 via-rose-600 to-blue-700 p-4 sm:p-7 lg:p-8 text-white shadow-xl mb-4 sm:mb-8 overflow-hidden">
-                <!-- Decorative subtle background circles -->
-                <div class="absolute -top-20 -right-20 w-72 h-72 rounded-full bg-white/10 blur-2xl pointer-events-none"></div>
-                <div class="absolute -bottom-24 -left-20 w-72 h-72 rounded-full bg-blue-400/20 blur-2xl pointer-events-none"></div>
+            <!-- Top Hero & Live Today HUD Banner -->
+            <div class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 sm:p-7 mb-6 relative overflow-hidden">
+                <!-- Meta HUD Bar -->
+                <div class="flex flex-wrap items-center justify-between gap-3 pb-5 border-b border-slate-200 dark:border-slate-800 text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2 h-2 bg-rose-500 animate-pulse"></span>
+                        <span class="font-bold text-slate-700 dark:text-slate-200">
+                            {{ isKhmer ? 'ប្រតិទិនច័ន្ទគតិ-សុរិយគតិខ្មែរផ្លូវការ' : 'OFFICIAL KHMER CHHANKITEK CALENDAR' }}
+                        </span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="font-mono text-rose-600 dark:text-rose-400 font-bold">BUDDHIST ERA 2568 - 2569</span>
+                        <span class="hidden sm:inline">|</span>
+                        <span class="hidden sm:inline">SOLAR // LUNAR</span>
+                    </div>
+                </div>
 
-                <div class="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 sm:gap-5">
+                <div class="pt-5 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
                     <div class="min-w-0">
-                        <div class="inline-flex flex-wrap items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full bg-white/15 backdrop-blur-md text-[11px] sm:text-sm font-medium border border-white/20 mb-2.5">
-                            <span>🇰🇭</span>
-                            <span>{{ isKhmer ? 'ប្រតិទិនច័ន្ទគតិ-សុរិយគតិខ្មែរ' : 'Official Khmer Chhankitek Calendar' }}</span>
+                        <div class="inline-block px-2.5 py-1 text-[10px] font-mono uppercase tracking-widest font-bold bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800 mb-2">
+                            {{ isKhmer ? 'កាលបរិច្ឆេទ & ថ្ងៃសីល' : 'CAMBODIA HOLY DAYS & FESTIVALS' }}
                         </div>
-                        <h1 class="text-xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight mb-1.5 leading-tight">
+                        <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tight mb-2">
                             {{ isKhmer ? 'ប្រតិទិនខ្មែរ' : 'Khmer Calendar' }}
                         </h1>
-                        <p class="text-white/90 text-xs sm:text-base font-medium leading-relaxed break-words">
-                            {{ isKhmer ? 'ថ្ងៃនេះ៖ ' : 'Today: ' }}{{ isKhmer ? todayBannerInfo.khmerLunarFullDate : todayBannerInfo.englishLunarFullDate }} • {{ isKhmer ? todayBannerInfo.khmerSolarFullDate : todayBannerInfo.englishSolarFullDate }}
+                        <p class="text-slate-600 dark:text-slate-300 text-xs sm:text-sm font-medium leading-relaxed">
+                            <span class="font-bold text-rose-600 dark:text-rose-400">{{ isKhmer ? 'ថ្ងៃនេះ៖ ' : 'Today: ' }}</span>
+                            {{ isKhmer ? todayBannerInfo.khmerLunarFullDate : todayBannerInfo.englishLunarFullDate }} • {{ isKhmer ? todayBannerInfo.khmerSolarFullDate : todayBannerInfo.englishSolarFullDate }}
                         </p>
                     </div>
 
-                    <!-- Today Quick Status & Next Holiday Pill -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:flex items-stretch gap-2.5 sm:gap-3 w-full lg:w-auto">
-                        <div class="min-w-0 bg-white/15 backdrop-blur-md border border-white/20 rounded-2xl px-3.5 py-2.5 sm:px-4 sm:py-3 flex items-center gap-3">
-                            <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-white text-red-600 font-extrabold text-lg sm:text-xl flex flex-col items-center justify-center shadow shrink-0">
+                    <!-- Today Quick Status & Next Holiday (Sharp Boxes) -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:flex items-stretch gap-3 w-full lg:w-auto">
+                        <div class="border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-4 py-3 flex items-center gap-3">
+                            <div class="w-10 h-10 border border-rose-300 dark:border-rose-800 bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 font-mono font-black text-lg flex items-center justify-center shrink-0">
                                 <span>{{ isKhmer ? toKhmerNumeral(todayBannerInfo.day) : todayBannerInfo.day }}</span>
                             </div>
                             <div class="min-w-0">
-                                <div class="text-[11px] sm:text-xs text-white/80 truncate">{{ isKhmer ? 'ស្ថានភាពថ្ងៃនេះ' : 'Today\'s Status' }}</div>
-                                <div class="text-xs sm:text-sm font-bold flex items-center gap-1.5 mt-0.5 truncate">
-                                    <span v-if="todayBannerInfo.isPublicHoliday" class="truncate">🔴 {{ isKhmer ? 'ថ្ងៃឈប់សម្រាកផ្លូវការ' : 'Public Holiday' }}</span>
+                                <div class="text-[10px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">{{ isKhmer ? 'ស្ថានភាពថ្ងៃនេះ' : 'Today\'s Status' }}</div>
+                                <div class="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5 mt-0.5 truncate">
+                                    <span v-if="todayBannerInfo.isPublicHoliday" class="truncate">🔴 {{ isKhmer ? 'ថ្ងៃឈប់សម្រាក' : 'Public Holiday' }}</span>
                                     <span v-else-if="todayBannerInfo.isWeekend" class="truncate">🟠 {{ isKhmer ? 'ថ្ងៃចុងសប្តាហ៍' : 'Weekend' }}</span>
-                                    <span v-else class="truncate">🟢 {{ isKhmer ? 'ថ្ងៃធ្វើការធម្មតា' : 'Working Day' }}</span>
+                                    <span v-else class="truncate">🟢 {{ isKhmer ? 'ថ្ងៃធ្វើការ' : 'Working Day' }}</span>
                                 </div>
                             </div>
                         </div>
 
                         <div v-if="nextUpcomingHoliday" 
                             @click="jumpToHoliday(nextUpcomingHoliday)"
-                            class="min-w-0 bg-black/20 hover:bg-black/30 cursor-pointer transition-all backdrop-blur-md border border-white/15 rounded-2xl px-3.5 py-2.5 sm:px-4 sm:py-3 flex items-center gap-3">
-                            <div class="text-xl sm:text-2xl shrink-0">🎉</div>
+                            class="border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 hover:border-rose-500 dark:hover:border-rose-500 cursor-pointer transition-colors px-4 py-3 flex items-center gap-3">
+                            <div class="text-2xl shrink-0">🎉</div>
                             <div class="min-w-0 flex-1">
-                                <div class="text-[11px] sm:text-xs text-white/75 truncate">{{ isKhmer ? 'ថ្ងៃឈប់សម្រាកបន្ទាប់' : 'Next Holiday' }} ({{ nextUpcomingHoliday.daysUntil === 0 ? (isKhmer ? 'ថ្ងៃនេះ' : 'Today') : (isKhmer ? toKhmerNumeral(nextUpcomingHoliday.daysUntil) + ' ថ្ងៃទៀត' : 'In ' + nextUpcomingHoliday.daysUntil + ' days') }})</div>
-                                <div class="text-xs sm:text-sm font-bold truncate">{{ isKhmer ? nextUpcomingHoliday.khmer : nextUpcomingHoliday.english }}</div>
+                                <div class="text-[10px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 truncate">
+                                    {{ isKhmer ? 'ឈប់សម្រាកបន្ទាប់' : 'Next Holiday' }} ({{ nextUpcomingHoliday.daysUntil === 0 ? (isKhmer ? 'ថ្ងៃនេះ' : 'Today') : (isKhmer ? toKhmerNumeral(nextUpcomingHoliday.daysUntil) + ' ថ្ងៃទៀត' : 'In ' + nextUpcomingHoliday.daysUntil + 'd') }})
+                                </div>
+                                <div class="text-xs font-bold text-slate-900 dark:text-white truncate">{{ isKhmer ? nextUpcomingHoliday.khmer : nextUpcomingHoliday.english }}</div>
                             </div>
                         </div>
                     </div>

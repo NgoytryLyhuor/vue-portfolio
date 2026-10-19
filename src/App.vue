@@ -27,6 +27,27 @@ useMetaTags(); // Initialize meta tags management
 </script>
 
 <style>
+/* Global Sharp Architecture Aesthetic (Strictly No Rounded Corners) */
+*, *::before, *::after {
+  border-radius: 0px !important;
+}
+
+/* Custom Sharp Minimalist Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.35);
+  border-radius: 0px !important;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.6);
+}
+
 /* iOS 27 / Apple Fluid Page Transitions */
 .ios-page-enter-active {
   transition: opacity 0.32s cubic-bezier(0.25, 1, 0.5, 1),
