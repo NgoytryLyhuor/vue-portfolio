@@ -1,13 +1,20 @@
 // Service Worker for Portfolio - Clean Cache & Fast Updates
-const CACHE_NAME = 'portfolio-v4.0-20261020';
-const RUNTIME_CACHE = 'portfolio-runtime-v4.0-20261020';
+const CACHE_NAME = 'portfolio-v4.1-20261020';
+const RUNTIME_CACHE = 'portfolio-runtime-v4.1-20261020';
 
 // Assets to cache immediately
 const STATIC_ASSETS = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/favicon.ico'
+  '/favicon.ico',
+  '/favicon-32x32.png',
+  '/favicon-16x16.png',
+  '/pwa-192x192.png',
+  '/pwa-512x512.png',
+  '/pwa-maskable-192x192.png',
+  '/pwa-maskable-512x512.png',
+  '/apple-touch-icon.png'
 ];
 
 // Helper function to handle cache errors gracefully

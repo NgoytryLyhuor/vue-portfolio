@@ -77,6 +77,16 @@
 
             <!-- Right Controls: Language Toggle, Theme Toggle & Mobile Hamburger -->
             <div class="flex items-center space-x-1.5 sm:space-x-2 shrink-0">
+                <!-- Desktop Install App Button -->
+                <button 
+                    v-if="canInstall && !isInstalled"
+                    @click="installApp"
+                    class="hidden lg:inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 rounded-md hover:bg-blue-100 dark:hover:bg-blue-900/60 transition-colors cursor-pointer"
+                    :title="isKhmer ? 'ដំឡើងជា App លើទូរស័ព្ទ ឬកុំព្យូទ័រ' : 'Install as Desktop / Mobile App'">
+                    <ArrowDownTrayIcon class="w-3.5 h-3.5" />
+                    <span>{{ isKhmer ? 'ដំឡើង App' : 'Install App' }}</span>
+                </button>
+
                 <!-- Language Toggle Button (KM / EN) -->
                 <LanguageToggle class="inline-flex" />
 
@@ -200,6 +210,19 @@
                         </div>
                     </div>
 
+                    <!-- Install Mobile App Action in Mobile Drawer -->
+                    <div v-if="canInstall && !isInstalled" class="pt-2 border-t border-slate-200 dark:border-slate-800">
+                        <button 
+                            @click="handleMobileInstall"
+                            class="w-full flex items-center justify-between px-3 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg shadow-sm text-xs font-bold uppercase tracking-wider transition-all active:scale-[0.99] cursor-pointer">
+                            <div class="flex items-center gap-2.5">
+                                <ArrowDownTrayIcon class="w-4 h-4" />
+                                <span>{{ isKhmer ? 'ដំឡើងជា App (Install App)' : 'Install as Mobile App' }}</span>
+                            </div>
+                            <span class="text-[10px] bg-white/20 px-2 py-0.5 rounded font-mono">PWA</span>
+                        </button>
+                    </div>
+
                     <!-- Language Switcher Row in Mobile Menu -->
                     <div class="pt-2 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between px-3 py-2">
                         <span class="text-xs font-mono uppercase text-slate-500 dark:text-slate-400">{{ isKhmer ? 'ភាសា' : 'Language' }}</span>
@@ -246,6 +269,7 @@ import { useRoute, useRouter } from 'vue-router';
 import analytics from '@/utils/analytics';
 import LanguageToggle from '@/components/LanguageToggle.vue';
 import { useLanguage } from '@/composables/useLanguage';
+import { usePwaInstall } from '@/composables/usePwaInstall';
 import {
     SunIcon,
     MoonIcon,
@@ -262,12 +286,19 @@ import {
     TruckIcon,
     FireIcon,
     ShieldExclamationIcon,
-    IdentificationIcon
+    IdentificationIcon,
+    ArrowDownTrayIcon
 } from '@heroicons/vue/24/outline';
 
 const route = useRoute();
 const router = useRouter();
 const { isKhmer } = useLanguage();
+const { canInstall, isInstalled, installApp } = usePwaInstall();
+
+const handleMobileInstall = () => {
+    isMobileMenuOpen.value = false;
+    installApp();
+};
 
 // Refs
 const currentTheme = ref('system');

@@ -11,6 +11,7 @@
         </router-view>
       </main>
       <AppFooter />
+      <InstallAppBanner />
     </div>
   </ErrorBoundary>
 </template>
@@ -20,6 +21,7 @@ import { useRoute } from 'vue-router';
 import NavBar from './components/NavBar.vue';
 import ErrorBoundary from './components/ErrorBoundary.vue';
 import AppFooter from './components/Footer.vue';
+import InstallAppBanner from './components/InstallAppBanner.vue';
 import { useMetaTags } from './composables/useMetaTags';
 
 const route = useRoute();

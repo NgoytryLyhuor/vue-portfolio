@@ -1,21 +1,81 @@
 {
-  "name": "Ngoytry Lyhuor Portfolio",
-  "short_name": "NL Portfolio",
-  "description": "Professional web developer portfolio showcasing projects in frontend development, JavaScript, and modern frameworks",
-  "start_url": "/",
+  "name": "NGOYTRY LYHUOR • Tools & Portfolio",
+  "short_name": "Lyhuor App",
+  "description": "Cambodia Citizen Utilities & Developer Portfolio: Vehicle Road Tax, Fuel Price Tracker, Traffic Fines Lookup, Public Services, Khmer Calendar, and NBC Exchange Rates.",
+  "id": "/",
+  "start_url": "/?source=pwa",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#3b82f6",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "background_color": "#0f172a",
+  "theme_color": "#2563eb",
   "orientation": "portrait-primary",
+  "lang": "km",
+  "categories": ["utilities", "productivity", "travel"],
   "icons": [
     {
-      "src": "/favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "src": "/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-maskable-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
-  "categories": ["portfolio", "developer", "web"],
-  "lang": "en",
-  "dir": "ltr"
+  "shortcuts": [
+    {
+      "name": "Vehicle Tax (ពន្ធយានយន្ត)",
+      "short_name": "Vehicle Tax",
+      "description": "Calculate Cambodia vehicle road tax & inspection fees",
+      "url": "/vehicle-tax?source=pwa",
+      "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Fuel Prices (តម្លៃប្រេងសាំង)",
+      "short_name": "Fuel Prices",
+      "description": "Ministry of Commerce official fuel prices & highway trip calculator",
+      "url": "/fuel-prices?source=pwa",
+      "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Traffic Fines (ផាកពិន័យចរាចរណ៍)",
+      "short_name": "Traffic Fines",
+      "description": "Sub-Decree 39 violations lookup & license demerit points",
+      "url": "/traffic-fines?source=pwa",
+      "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Public Services (សេវាសាធារណៈ)",
+      "short_name": "Public Services",
+      "description": "Passport tariffs, driver license renewals at malls, and ID card guide",
+      "url": "/public-services?source=pwa",
+      "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192" }]
+    }
+  ]
 }
-

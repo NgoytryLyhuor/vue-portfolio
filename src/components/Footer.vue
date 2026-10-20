@@ -121,6 +121,20 @@
                 <div class="flex flex-wrap items-center gap-3">
                     <span>{{ isKhmer ? 'បង្កើតឡើងដោយ' : 'Built with' }} Vue.js & Tailwind CSS</span>
                     <span class="text-slate-300 dark:text-slate-700">|</span>
+                    <!-- Install App Button -->
+                    <button 
+                        v-if="!isInstalled"
+                        @click="installApp" 
+                        class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5 focus:outline-none cursor-pointer"
+                        :title="isKhmer ? 'ដំឡើងជា App លើទូរស័ព្ទ / កុំព្យូទ័រ' : 'Install as Mobile / Desktop App'">
+                        <span>📲</span>
+                        <span>{{ isKhmer ? 'ដំឡើងជា App' : 'Install App' }}</span>
+                    </button>
+                    <span v-else class="text-emerald-600 dark:text-emerald-400 flex items-center gap-1 font-semibold">
+                        <span>✓</span>
+                        <span>{{ isKhmer ? 'បានដំឡើងរួចរាល់' : 'Installed' }}</span>
+                    </span>
+                    <span class="text-slate-300 dark:text-slate-700">|</span>
                     <button 
                         @click="clearCacheAndRefresh" 
                         class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5 focus:outline-none cursor-pointer"
@@ -142,8 +156,10 @@
 // Modern Minimalist Footer
 import { ref, computed } from 'vue';
 import { useLanguage } from '@/composables/useLanguage';
+import { usePwaInstall } from '@/composables/usePwaInstall';
 
 const { isKhmer } = useLanguage();
+const { isInstalled, installApp } = usePwaInstall();
 const currentYear = computed(() => new Date().getFullYear());
 const isClearingCache = ref(false);
 
