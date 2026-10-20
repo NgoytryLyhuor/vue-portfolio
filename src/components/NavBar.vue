@@ -77,6 +77,16 @@
 
             <!-- Right Controls: Language Toggle, Theme Toggle & Mobile Hamburger -->
             <div class="flex items-center space-x-1.5 sm:space-x-2 shrink-0">
+                <!-- Desktop Update Available Button -->
+                <button 
+                    v-if="updateAvailable"
+                    @click="applyUpdate"
+                    class="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-white bg-gradient-to-r from-blue-600 to-indigo-600 rounded-md shadow-sm border border-blue-400/40 hover:brightness-110 active:scale-95 transition-all cursor-pointer animate-pulse"
+                    :title="isKhmer ? 'មានកំណែថ្មី! ចុចដើម្បី Update' : 'New version available! Click to update'">
+                    <span>🚀</span>
+                    <span class="hidden sm:inline">{{ isKhmer ? 'Update ថ្មី' : 'Update' }}</span>
+                </button>
+
                 <!-- Desktop Install App Button -->
                 <button 
                     v-if="canInstall && !isInstalled"
@@ -173,6 +183,19 @@
             <div v-if="isMobileMenuOpen"
                 class="md:hidden absolute left-0 right-0 top-full w-full bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-2xl z-50 max-h-[calc(100vh-3.5rem)] overflow-y-auto">
                 <div class="px-4 py-3 space-y-2">
+                    <!-- Top Update Alert in Mobile Menu -->
+                    <div v-if="updateAvailable" class="pb-1">
+                        <button 
+                            @click="handleApplyUpdate"
+                            class="w-full flex items-center justify-between px-3.5 py-2.5 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white rounded-lg shadow-md text-xs font-bold uppercase tracking-wider transition-all active:scale-[0.99] cursor-pointer animate-pulse">
+                            <div class="flex items-center gap-2">
+                                <span>🚀</span>
+                                <span>{{ isKhmer ? 'មានកំណែថ្មី! ចុចដើម្បី Update' : 'New Update! Tap to Update' }}</span>
+                            </div>
+                            <span class="text-[10px] bg-white/20 px-2 py-0.5 rounded font-mono font-bold">UPDATE</span>
+                        </button>
+                    </div>
+
                     <!-- Main Navigation Links -->
                     <div class="space-y-1">
                         <router-link v-for="link in standardNavLinks" :key="link.path" :to="link.path"
@@ -223,6 +246,29 @@
                         </button>
                     </div>
 
+                    <!-- Check Update Action in Mobile Drawer -->
+                    <div class="pt-2 border-t border-slate-200 dark:border-slate-800">
+                        <button 
+                            @click="handleMobileCheckUpdate"
+                            :disabled="isCheckingUpdate"
+                            class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-mono border border-slate-200 dark:border-slate-700/80 bg-slate-50 dark:bg-slate-800/60 text-slate-700 dark:text-slate-300 transition-colors cursor-pointer disabled:opacity-60">
+                            <div class="flex items-center gap-2">
+                                <svg :class="{ 'animate-spin': isCheckingUpdate }" class="w-3.5 h-3.5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                </svg>
+                                <span>
+                                    {{ isCheckingUpdate
+                                        ? (isKhmer ? 'កំពុងពិនិត្យ...' : 'Checking...')
+                                        : (updateStatus === 'up_to_date'
+                                            ? (isKhmer ? '✓ កំណែចុងក្រោយ' : '✓ App is up to date')
+                                            : (isKhmer ? 'ពិនិត្យកំណែអាប់ដេត' : 'Check for updates'))
+                                    }}
+                                </span>
+                            </div>
+                            <span class="text-[10px] text-slate-400 font-mono">{{ currentVersion }}</span>
+                        </button>
+                    </div>
+
                     <!-- Language Switcher Row in Mobile Menu -->
                     <div class="pt-2 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between px-3 py-2">
                         <span class="text-xs font-mono uppercase text-slate-500 dark:text-slate-400">{{ isKhmer ? 'ភាសា' : 'Language' }}</span>
@@ -270,6 +316,7 @@ import analytics from '@/utils/analytics';
 import LanguageToggle from '@/components/LanguageToggle.vue';
 import { useLanguage } from '@/composables/useLanguage';
 import { usePwaInstall } from '@/composables/usePwaInstall';
+import { useAppUpdate } from '@/composables/useAppUpdate';
 import {
     SunIcon,
     MoonIcon,
@@ -294,10 +341,27 @@ const route = useRoute();
 const router = useRouter();
 const { isKhmer } = useLanguage();
 const { canInstall, isInstalled, installApp } = usePwaInstall();
+const {
+    updateAvailable,
+    isCheckingUpdate,
+    updateStatus,
+    currentVersion,
+    checkForUpdate,
+    applyUpdate
+} = useAppUpdate();
 
 const handleMobileInstall = () => {
     isMobileMenuOpen.value = false;
     installApp();
+};
+
+const handleApplyUpdate = () => {
+    isMobileMenuOpen.value = false;
+    applyUpdate();
+};
+
+const handleMobileCheckUpdate = () => {
+    checkForUpdate();
 };
 
 // Refs

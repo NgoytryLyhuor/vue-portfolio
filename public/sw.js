@@ -27,7 +27,7 @@ function safeCacheAdd(cache, url) {
 
 // Install event - Cache static assets & skip waiting immediately
 self.addEventListener('install', (event) => {
-  console.log('[Service Worker] Installing v4.0 (cache refreshed)...');
+  console.log('[Service Worker] Installing v4.1 (cache refreshed)...');
   self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME)
