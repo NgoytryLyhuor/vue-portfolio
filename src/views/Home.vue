@@ -1,11 +1,11 @@
 <template>
     <div class="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
         <!-- Main Content -->
-        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-6 space-y-12">
+        <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8 space-y-8 sm:space-y-12">
             <!-- Hero HUD Section (Modern Tech with subtle rounded corners) -->
-            <section class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-10 relative overflow-hidden shadow-sm">
+            <section class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-10 relative overflow-hidden shadow-sm">
                 <!-- Top HUD Meta Bar -->
-                <div class="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-slate-200 dark:border-slate-800 text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                <div class="flex flex-wrap items-center justify-between gap-2 pb-4 sm:pb-6 border-b border-slate-200 dark:border-slate-800 text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">
                     <div class="flex items-center gap-2">
                         <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
                         <span class="font-bold text-slate-700 dark:text-slate-200">
@@ -18,31 +18,31 @@
                 </div>
 
                 <!-- Main Hero Headline -->
-                <div class="py-8 space-y-4 max-w-4xl">
+                <div class="py-4 sm:py-8 space-y-3 sm:space-y-4 max-w-4xl">
                     <div class="inline-block px-3 py-1 text-[11px] font-mono uppercase tracking-widest font-bold bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 rounded-md">
                         {{ isKhmer ? 'អ្នកអភិវឌ្ឍន៍គេហទំព័រ & ប្រព័ន្ធកម្មវិធី FULL-STACK' : 'FULL-STACK WEB & SOFTWARE ENGINEER' }}
                     </div>
-                    <h1 class="text-3xl sm:text-5xl font-black text-slate-900 dark:text-white tracking-tight uppercase">
+                    <h1 class="text-2xl sm:text-5xl font-black text-slate-900 dark:text-white tracking-tight uppercase">
                         NGOYTRY LYHUOR
                     </h1>
-                    <p class="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-3xl">
+                    <p class="text-xs sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-3xl">
                         {{ isKhmer 
                             ? 'សូមស្វាគមន៍មកកាន់គេហទំព័រផ្ទាល់ខ្លួន! ខ្ញុំជាអ្នកបង្កើតកម្មវិធីដែលផ្តោតលើភាពជាក់ស្តែង ទំនើប និងប្រសិទ្ធភាពខ្ពស់ ជាមួយបទពិសោធន៍លើ Vue.js 3, JavaScript, PHP, Laravel, Java និង Spring Boot។' 
                             : 'Welcome to my digital workspace. Building resilient web systems, interactive tools, and data-driven solutions with Vue.js 3, modern JavaScript, Java, Spring Boot, and Laravel.' }}
                     </p>
 
                     <!-- Call-to-action Action Buttons -->
-                    <div class="flex flex-wrap items-center gap-3 pt-3">
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 pt-3">
                         <router-link to="/projects"
-                            class="px-5 py-2.5 bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-xs font-mono font-bold uppercase tracking-wider border border-slate-900 dark:border-white hover:bg-blue-600 hover:border-blue-600 dark:hover:bg-blue-500 dark:hover:text-white dark:hover:border-blue-500 rounded-lg transition-all">
+                            class="px-4 sm:px-5 py-2.5 text-center bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-xs font-mono font-bold uppercase tracking-wider border border-slate-900 dark:border-white hover:bg-blue-600 hover:border-blue-600 dark:hover:bg-blue-500 dark:hover:text-white dark:hover:border-blue-500 rounded-lg transition-all">
                             {{ isKhmer ? 'ពិនិត្យមើលគម្រោង →' : 'Explore Projects →' }}
                         </router-link>
                         <router-link to="/about"
-                            class="px-5 py-2.5 bg-transparent text-slate-800 dark:text-slate-200 text-xs font-mono font-bold uppercase tracking-wider border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all">
+                            class="px-4 sm:px-5 py-2.5 text-center bg-transparent text-slate-800 dark:text-slate-200 text-xs font-mono font-bold uppercase tracking-wider border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all">
                             {{ isKhmer ? 'ប្រវត្តិរូប & បទពិសោធន៍' : 'About & Experience' }}
                         </router-link>
                         <router-link to="/vehicle-tax"
-                            class="px-5 py-2.5 bg-blue-50 dark:bg-blue-950/30 text-blue-700 dark:text-blue-300 text-xs font-mono font-bold uppercase tracking-wider border border-blue-300 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-900/40 rounded-lg transition-all">
+                            class="px-4 sm:px-5 py-2.5 text-center bg-blue-50 dark:bg-blue-950/30 text-blue-700 dark:text-blue-300 text-xs font-mono font-bold uppercase tracking-wider border border-blue-300 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-900/40 rounded-lg transition-all">
                             {{ isKhmer ? '🧮 ម៉ាស៊ីនគណនាពន្ធឡាន' : '🧮 Cambodia Vehicle Tax' }}
                         </router-link>
                     </div>

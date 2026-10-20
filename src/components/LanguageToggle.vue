@@ -18,7 +18,7 @@
         <button
             type="button"
             @click="setLanguage('km')"
-            class="relative z-10 inline-flex items-center justify-center gap-1.5 px-3 py-1 rounded-md text-xs font-bold transition-all duration-200 outline-none focus:outline-none"
+            class="relative z-10 inline-flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1 rounded-md text-[11px] sm:text-xs font-bold transition-all duration-200 outline-none focus:outline-none"
             :class="[
                 currentLang === 'km'
                     ? 'text-white'
@@ -95,7 +95,7 @@
         <button
             type="button"
             @click="setLanguage('en')"
-            class="relative z-10 inline-flex items-center justify-center gap-1.5 px-3 py-1 rounded-md text-xs font-bold transition-all duration-200 outline-none focus:outline-none"
+            class="relative z-10 inline-flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1 rounded-md text-[11px] sm:text-xs font-bold transition-all duration-200 outline-none focus:outline-none"
             :class="[
                 currentLang === 'en'
                     ? 'text-white'

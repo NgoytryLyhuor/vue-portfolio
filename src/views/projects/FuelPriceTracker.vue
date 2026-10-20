@@ -1,11 +1,11 @@
 <template>
-    <div class="min-h-screen bg-gradient-to-b from-slate-50 via-gray-50 to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-800 dark:text-slate-100 py-6 sm:py-10 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
-        <div class="max-w-7xl mx-auto space-y-6 sm:space-y-8">
+    <div class="min-h-screen bg-gradient-to-b from-slate-50 via-gray-50 to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-800 dark:text-slate-100 py-4 sm:py-10 px-3 sm:px-6 lg:px-8 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto space-y-5 sm:space-y-8">
 
             <!-- Hero HUD Section (Modern Tech Architectural with subtle rounded corners) -->
-            <div class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-8 relative overflow-hidden shadow-sm">
+            <div class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-8 relative overflow-hidden shadow-sm">
                 <!-- Meta HUD Bar -->
-                <div class="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-slate-200 dark:border-slate-800 text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                <div class="flex flex-wrap items-center justify-between gap-2 pb-4 sm:pb-6 border-b border-slate-200 dark:border-slate-800 text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">
                     <div class="flex items-center gap-2">
                         <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
                         <span class="font-bold text-slate-700 dark:text-slate-200">
@@ -21,13 +21,13 @@
                     </div>
                 </div>
 
-                <div class="pt-6">
-                    <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+                <div class="pt-5 sm:pt-6">
+                    <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5 sm:gap-6">
                         <div class="max-w-3xl space-y-3">
-                            <div class="inline-block px-3 py-1 text-[11px] font-mono uppercase tracking-widest font-bold bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 rounded-md">
+                            <div class="inline-block px-3 py-1 text-[10px] sm:text-[11px] font-mono uppercase tracking-widest font-bold bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 rounded-md">
                                 {{ isKhmer ? 'តម្លៃប្រេងឥន្ធនៈលក់រាយនៅកម្ពុជា' : 'CAMBODIA RETAIL FUEL CEILING' }}
                             </div>
-                            <h1 class="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
+                            <h1 class="text-xl sm:text-3xl lg:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
                                 {{ isKhmer ? 'តាមដានតម្លៃប្រេងសាំងផ្លូវការ & គណនាថ្លៃធ្វើដំណើរ' : 'Cambodia Fuel Price Tracker & Road Trip Calculator' }}
                             </h1>
                             <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
@@ -38,7 +38,7 @@
                         </div>
 
                         <!-- Current Cycle Status Card -->
-                        <div class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 rounded-xl space-y-2 lg:w-80 shrink-0">
+                        <div class="p-3.5 sm:p-4 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 rounded-xl space-y-2 lg:w-80 shrink-0">
                             <div class="flex items-center justify-between">
                                 <span class="text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                     {{ isKhmer ? 'វដ្តតម្លៃបច្ចុប្បន្ន' : 'Current Tariff Cycle' }}
@@ -47,10 +47,10 @@
                                     {{ isKhmer ? 'មានសុពលភាព' : 'Active' }}
                                 </span>
                             </div>
-                            <div class="text-base font-black text-slate-900 dark:text-white font-mono">
+                            <div class="text-sm sm:text-base font-black text-slate-900 dark:text-white font-mono">
                                 {{ currentCycleDates }}
                             </div>
-                            <div class="text-xs text-slate-500 dark:text-slate-400 flex items-center justify-between pt-1 border-t border-slate-200 dark:border-slate-800">
+                            <div class="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 flex items-center justify-between pt-1 border-t border-slate-200 dark:border-slate-800">
                                 <span>{{ isKhmer ? 'កាលបរិច្ឆេទប្រកាសបន្ទាប់៖' : 'Next Revision Date:' }}</span>
                                 <span class="font-bold font-mono text-blue-600 dark:text-blue-400">{{ nextRevisionDate }}</span>
                             </div>
@@ -58,10 +58,10 @@
                     </div>
 
                     <!-- Navigation Sub-tabs -->
-                    <div class="mt-6 pt-5 border-t border-slate-200 dark:border-slate-800 flex flex-wrap gap-2">
+                    <div class="mt-6 pt-5 border-t border-slate-200 dark:border-slate-800 flex overflow-x-auto no-scrollbar sm:flex-wrap gap-2 pb-1.5 -mx-1 px-1">
                         <button v-for="tab in tabs" :key="tab.id"
                             @click="activeTab = tab.id"
-                            class="px-3.5 py-2 text-xs font-mono uppercase font-bold tracking-wider border rounded-lg transition-all flex items-center gap-2"
+                            class="px-3 py-1.5 sm:px-3.5 sm:py-2 text-[11px] sm:text-xs font-mono uppercase font-bold tracking-wider border rounded-lg transition-all flex items-center gap-1.5 whitespace-nowrap shrink-0"
                             :class="activeTab === tab.id 
                                 ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 border-slate-900 dark:border-white' 
                                 : 'bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800 hover:border-slate-400'">
@@ -75,9 +75,9 @@
             <!-- TAB 1: OFFICIAL CURRENT FUEL PRICES & TREND (តម្លៃផ្លូវការបច្ចុប្បន្ន) -->
             <div v-show="activeTab === 'prices'" class="space-y-6 sm:space-y-8">
                 <!-- 3 Top Fuel Price Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
                     <!-- Regular Gasoline (EA92) -->
-                    <div class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl p-5 sm:p-6 shadow-sm space-y-4 hover:border-blue-500 dark:hover:border-blue-500 transition-all">
+                    <div class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-6 shadow-sm space-y-3 sm:space-y-4 hover:border-blue-500 dark:hover:border-blue-500 transition-all">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-2">
                                 <span class="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-sm">

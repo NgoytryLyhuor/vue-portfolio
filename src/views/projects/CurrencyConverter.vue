@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen bg-slate-50/80 dark:bg-[#030816] text-slate-900 dark:text-slate-100 pb-12 pt-12 sm:pt-16 md:pt-20 relative overflow-x-hidden">
+    <div class="min-h-screen bg-slate-50/80 dark:bg-[#030816] text-slate-900 dark:text-slate-100 pb-12 pt-3 sm:pt-6 relative overflow-x-hidden">
         <!-- Ambient Decorative Background Glows -->
         <div class="pointer-events-none fixed inset-0 overflow-hidden z-0">
             <div class="absolute -top-32 -right-32 w-[28rem] h-[28rem] bg-indigo-500/10 dark:bg-indigo-500/10 rounded-full blur-3xl"></div>
@@ -7,7 +7,7 @@
             <div class="absolute -bottom-32 right-1/4 w-[28rem] h-[28rem] bg-emerald-500/10 dark:bg-teal-500/10 rounded-full blur-3xl"></div>
         </div>
 
-        <div class="max-w-7xl mx-auto px-0 sm:px-4 lg:px-8 relative z-10">
+        <div class="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 relative z-10">
             <!-- Top Header & Controls -->
             <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 sm:gap-6 mb-5 sm:mb-6">
                 <div class="min-w-0">

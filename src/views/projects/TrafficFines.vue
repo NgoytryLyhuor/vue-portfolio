@@ -1,11 +1,11 @@
 <template>
-    <div class="min-h-screen bg-gradient-to-b from-slate-50 via-gray-50 to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-800 dark:text-slate-100 py-6 sm:py-10 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
-        <div class="max-w-7xl mx-auto space-y-6 sm:space-y-8">
+    <div class="min-h-screen bg-gradient-to-b from-slate-50 via-gray-50 to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-800 dark:text-slate-100 py-4 sm:py-10 px-3 sm:px-6 lg:px-8 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto space-y-5 sm:space-y-8">
 
             <!-- Hero HUD Section (Modern Tech Architectural with subtle rounded corners) -->
-            <div class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-8 relative overflow-hidden shadow-sm">
+            <div class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-8 relative overflow-hidden shadow-sm">
                 <!-- Meta HUD Bar -->
-                <div class="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-slate-200 dark:border-slate-800 text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                <div class="flex flex-wrap items-center justify-between gap-2 pb-4 sm:pb-6 border-b border-slate-200 dark:border-slate-800 text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">
                     <div class="flex items-center gap-2">
                         <span class="w-2 h-2 bg-rose-500 rounded-full animate-pulse"></span>
                         <span class="font-bold text-slate-700 dark:text-slate-200">
@@ -21,13 +21,13 @@
                     </div>
                 </div>
 
-                <div class="pt-6">
-                    <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+                <div class="pt-5 sm:pt-6">
+                    <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5 sm:gap-6">
                         <div class="max-w-3xl space-y-3">
-                            <div class="inline-block px-3 py-1 text-[11px] font-mono uppercase tracking-widest font-bold bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800 rounded-md">
+                            <div class="inline-block px-3 py-1 text-[10px] sm:text-[11px] font-mono uppercase tracking-widest font-bold bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800 rounded-md">
                                 {{ isKhmer ? 'តារាងផាកពិន័យផ្លូវការតាមច្បាប់' : 'OFFICIAL TRAFFIC PENALTY SCHEDULE' }}
                             </div>
-                            <h1 class="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
+                            <h1 class="text-xl sm:text-3xl lg:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
                                 {{ isKhmer ? 'ស្វែងរកការផាកពិន័យចរាចរណ៍ផ្លូវគោកនៅកម្ពុជា' : 'Cambodia Traffic Fines & Penalties Lookup' }}
                             </h1>
                             <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
@@ -38,7 +38,7 @@
                         </div>
 
                         <!-- 15-Day Payment Notice Box -->
-                        <div class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 rounded-xl space-y-2 lg:w-80 shrink-0">
+                        <div class="p-3.5 sm:p-4 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 rounded-xl space-y-2 lg:w-80 shrink-0">
                             <div class="flex items-center justify-between">
                                 <span class="text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                     {{ isKhmer ? 'កាលកំណត់បង់ប្រាក់ផាក' : 'Fine Payment Deadline' }}
@@ -47,10 +47,10 @@
                                     {{ isKhmer ? '១៥ ថ្ងៃ' : '15 Days' }}
                                 </span>
                             </div>
-                            <div class="text-base font-black text-slate-900 dark:text-white font-mono">
+                            <div class="text-sm sm:text-base font-black text-slate-900 dark:text-white font-mono">
                                 {{ isKhmer ? 'បង់ក្នុងរយៈពេល ១៥ ថ្ងៃ' : 'Pay within 15 Days' }}
                             </div>
-                            <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                            <p class="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                                 {{ isKhmer 
                                     ? 'លើសពី ១៥ ថ្ងៃ ប្រាក់ពិន័យនឹងកើនឡើងទ្វេដង (+១០០%), លើសពី ៣០ ថ្ងៃ កើន ៣ ដង (+២០០%), លើស ៦០ ថ្ងៃ បញ្ជូនទៅតុលាការ។' 
                                     : 'Overdue > 15 days doubles (+100%), > 30 days triples (+200%), and > 60 days results in municipal court prosecution.' }}
@@ -59,10 +59,10 @@
                     </div>
 
                     <!-- Navigation Sub-tabs -->
-                    <div class="mt-6 pt-5 border-t border-slate-200 dark:border-slate-800 flex flex-wrap gap-2">
+                    <div class="mt-6 pt-5 border-t border-slate-200 dark:border-slate-800 flex overflow-x-auto no-scrollbar sm:flex-wrap gap-2 pb-1.5 -mx-1 px-1">
                         <button v-for="tab in tabs" :key="tab.id"
                             @click="activeTab = tab.id"
-                            class="px-3.5 py-2 text-xs font-mono uppercase font-bold tracking-wider border rounded-lg transition-all flex items-center gap-2"
+                            class="px-3 py-1.5 sm:px-3.5 sm:py-2 text-[11px] sm:text-xs font-mono uppercase font-bold tracking-wider border rounded-lg transition-all flex items-center gap-1.5 whitespace-nowrap shrink-0"
                             :class="activeTab === tab.id 
                                 ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 border-slate-900 dark:border-white' 
                                 : 'bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800 hover:border-slate-400'">
@@ -76,29 +76,29 @@
             <!-- TAB 1: VIOLATIONS SEARCH & LOOKUP (ស្វែងរកការផាកពិន័យ) -->
             <div v-show="activeTab === 'lookup'" class="space-y-6 sm:space-y-8">
                 <!-- Search Bar & Vehicle Type Switcher Card -->
-                <div class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl p-5 sm:p-6 shadow-sm space-y-5">
+                <div class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-6 shadow-sm space-y-4 sm:space-y-5">
                     
                     <!-- Search Input -->
                     <div class="relative">
                         <input v-model="searchQuery" type="text"
                             :placeholder="isKhmer ? '🔍 វាយពាក្យស្វែងរក (ឧ. ស្តុប, មួក, ខ្សែក្រវាត់, ល្បឿន, ស្រវឹង, ទូរស័ព្ទ, ឆៀក, ប័ណ្ណបើកបរ...)' : '🔍 Search violation (e.g. red light, helmet, seatbelt, speeding, alcohol, phone, inspection, license...)'"
-                            class="w-full pl-11 pr-10 py-3.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white dark:focus:bg-slate-900 transition-all shadow-sm" />
-                        <span class="absolute left-4 top-4 text-slate-400 text-base">⚖️</span>
+                            class="w-full pl-11 pr-10 py-3 sm:py-3.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-rose-500 focus:bg-white dark:focus:bg-slate-900 transition-all shadow-sm" />
+                        <span class="absolute left-3.5 sm:left-4 top-3 sm:top-3.5 text-slate-400 text-base">⚖️</span>
                         <button v-if="searchQuery" @click="searchQuery = ''"
-                            class="absolute right-4 top-3.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-sm font-bold">
+                            class="absolute right-4 top-3 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-sm font-bold">
                             ✕
                         </button>
                     </div>
 
                     <!-- Vehicle Type Filter Radio Buttons -->
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-slate-100 dark:border-slate-800">
-                        <div class="text-xs font-mono uppercase font-bold text-slate-500 dark:text-slate-400">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pt-2 border-t border-slate-100 dark:border-slate-800">
+                        <div class="text-[11px] sm:text-xs font-mono uppercase font-bold text-slate-500 dark:text-slate-400">
                             {{ isKhmer ? 'ជ្រើសរើសប្រភេទមធ្យោបាយ៖' : 'Filter by Vehicle Type:' }}
                         </div>
-                        <div class="inline-flex rounded-xl bg-slate-100 dark:bg-slate-800 p-1">
+                        <div class="grid grid-cols-3 sm:flex rounded-xl bg-slate-100 dark:bg-slate-800 p-1 w-full sm:w-auto">
                             <button v-for="vType in vehicleTypes" :key="vType.id"
                                 @click="selectedVehicleType = vType.id"
-                                class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5"
+                                class="px-2 sm:px-3.5 py-1.5 rounded-lg text-[10px] sm:text-xs font-bold transition-all flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-1.5 text-center"
                                 :class="selectedVehicleType === vType.id
                                     ? 'bg-rose-600 text-white shadow-sm'
                                     : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'">
@@ -109,7 +109,7 @@
                     </div>
 
                     <!-- Category Pills -->
-                    <div class="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+                    <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1.5 -mx-1 px-1">
                         <button v-for="cat in categoryFilters" :key="cat.id"
                             @click="selectedCategory = cat.id"
                             class="px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all shrink-0 border"

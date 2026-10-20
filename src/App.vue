@@ -3,7 +3,7 @@
   <ErrorBoundary>
     <div class="min-h-screen bg-gray-50 dark:bg-dark-bg text-gray-900 dark:text-white transition-colors duration-500 ease-in-out flex flex-col">
       <NavBar v-if="route.meta.showNavBar" />
-      <main class="container mx-auto px-4 py-8 flex-grow">
+      <main class="w-full flex-grow pb-8" :class="{ 'pt-14 sm:pt-16': route.meta.showNavBar }">
         <router-view v-slot="{ Component, route: currentRoute }">
           <transition name="ios-page" mode="out-in" @before-enter="onPageBeforeEnter">
             <component :is="Component" :key="currentRoute.path" />
@@ -57,6 +57,15 @@ input, select, textarea {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(99, 102, 241, 0.6);
+}
+
+/* Hide scrollbar for Chrome, Safari, Opera and mobile browsers */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* iOS 27 / Apple Fluid Page Transitions */

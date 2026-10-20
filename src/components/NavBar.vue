@@ -1,23 +1,23 @@
 <template>
     <nav
-        class="fixed w-full bg-white/95 dark:bg-slate-900/95 text-slate-800 dark:text-slate-100 py-3 px-4 sm:px-6 lg:px-40 shadow-sm border-b border-slate-200 dark:border-slate-800 backdrop-blur-md z-50 transition-colors duration-300">
+        class="fixed w-full bg-white/95 dark:bg-slate-900/95 text-slate-800 dark:text-slate-100 py-2.5 sm:py-3 px-3 sm:px-6 lg:px-40 shadow-sm border-b border-slate-200 dark:border-slate-800 backdrop-blur-md z-50 transition-colors duration-300">
         <div class="container mx-auto flex justify-between items-center">
             <!-- Brand / Logo -->
-            <div class="flex items-center">
+            <div class="flex items-center min-w-0">
                 <router-link to="/"
-                    class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 focus:outline-none"
+                    class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 focus:outline-none flex items-center min-w-0"
                     aria-label="Home - Ngoytry Lyhuor Portfolio"
                     @click="selectStandardLink('/', $event)">
-                    <div class="flex items-center">
+                    <div class="flex items-center min-w-0">
                         <img 
                             src="../assets/logo.png" 
                             alt="Ngoytry Lyhuor Logo"
-                            class="h-7 w-7 mr-3 transition-transform duration-200 hover:scale-105 border border-slate-200 dark:border-slate-700 p-0.5 rounded-md"
+                            class="h-6 w-6 sm:h-7 sm:w-7 mr-2 sm:mr-3 shrink-0 transition-transform duration-200 hover:scale-105 border border-slate-200 dark:border-slate-700 p-0.5 rounded-md"
                             width="28"
                             height="28"
                             loading="eager"
                         >
-                        <h1 class="text-[15px] font-black tracking-tight dark:text-white uppercase">Ngoytry Lyhuor</h1>
+                        <h1 class="text-xs sm:text-[15px] font-black tracking-tight dark:text-white uppercase truncate">Ngoytry Lyhuor</h1>
                     </div>
                 </router-link>
 
@@ -76,14 +76,14 @@
             </div>
 
             <!-- Right Controls: Language Toggle, Theme Toggle & Mobile Hamburger -->
-            <div class="flex items-center space-x-2">
+            <div class="flex items-center space-x-1.5 sm:space-x-2 shrink-0">
                 <!-- Language Toggle Button (KM / EN) -->
                 <LanguageToggle class="inline-flex" />
 
                 <!-- Theme Toggle Button -->
                 <div class="relative" ref="themeDropdown">
                     <button @click.stop="toggleThemeMenu"
-                        class="flex items-center justify-center w-8 h-8 rounded-lg border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors focus:outline-none"
+                        class="flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-lg border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors focus:outline-none"
                         aria-label="Toggle theme menu" aria-haspopup="true" :aria-expanded="isThemeMenuOpen">
                         <!-- Sun icon for light mode -->
                         <SunIcon v-if="currentTheme === 'light'" class="h-4 w-4 text-amber-500" />
@@ -128,10 +128,10 @@
 
                 <!-- Clean Mobile Hamburger Button -->
                 <button @click.stop="toggleMobileMenu"
-                    class="md:hidden flex items-center justify-center w-8 h-8 rounded-lg border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 transition-colors focus:outline-none"
+                    class="md:hidden flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-lg border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 transition-colors focus:outline-none"
                     aria-label="Toggle navigation menu"
                     :aria-expanded="isMobileMenuOpen">
-                    <component :is="isMobileMenuOpen ? XMarkIcon : Bars3Icon" class="h-5 w-5 transition-transform duration-150" />
+                    <component :is="isMobileMenuOpen ? XMarkIcon : Bars3Icon" class="h-4 w-4 sm:h-5 sm:w-5 transition-transform duration-150" />
                 </button>
             </div>
         </div>
@@ -147,7 +147,7 @@
         >
             <div v-if="isMobileMenuOpen"
                 @click="isMobileMenuOpen = false"
-                class="md:hidden fixed inset-0 top-[57px] bg-black/40 dark:bg-black/60 backdrop-blur-sm z-40"
+                class="md:hidden fixed inset-0 top-[52px] sm:top-[57px] bg-black/40 dark:bg-black/60 backdrop-blur-sm z-40"
                 aria-hidden="true" />
         </transition>
 
@@ -161,7 +161,7 @@
             leave-to-class="opacity-0 -translate-y-3 scale-[0.98]"
         >
             <div v-if="isMobileMenuOpen"
-                class="md:hidden absolute left-0 right-0 top-full w-full bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-2xl z-50 max-h-[calc(100vh-4rem)] overflow-y-auto">
+                class="md:hidden absolute left-0 right-0 top-full w-full bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-2xl z-50 max-h-[calc(100vh-3.5rem)] overflow-y-auto">
                 <div class="px-4 py-3 space-y-2">
                     <!-- Main Navigation Links -->
                     <div class="space-y-1">
@@ -209,23 +209,23 @@
                     <!-- Theme Switcher Row -->
                     <div class="pt-2 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between px-3 py-2">
                         <span class="text-xs font-mono uppercase text-slate-500 dark:text-slate-400">{{ isKhmer ? 'ស្បែករចនា' : 'Theme' }}</span>
-                        <div class="flex items-center bg-slate-100 dark:bg-slate-800 p-0.5 border border-slate-300 dark:border-slate-700 rounded-none space-x-1">
+                        <div class="flex items-center bg-slate-100 dark:bg-slate-800 p-0.5 border border-slate-300 dark:border-slate-700 rounded-lg space-x-1">
                             <button @click="setTheme('light')"
-                                class="px-2.5 py-1 rounded-none text-xs font-medium flex items-center space-x-1 transition-all"
+                                class="px-2.5 py-1 rounded-md text-xs font-medium flex items-center space-x-1 transition-all"
                                 :class="currentTheme === 'light' ? 'bg-white dark:bg-slate-700 text-amber-500 shadow-sm font-bold' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200'"
                                 aria-label="Light theme">
                                 <SunIcon class="h-3.5 w-3.5" />
                                 <span>{{ isKhmer ? 'ពន្លឺ' : 'Light' }}</span>
                             </button>
                             <button @click="setTheme('dark')"
-                                class="px-2.5 py-1 rounded-none text-xs font-medium flex items-center space-x-1 transition-all"
+                                class="px-2.5 py-1 rounded-md text-xs font-medium flex items-center space-x-1 transition-all"
                                 :class="currentTheme === 'dark' ? 'bg-white dark:bg-slate-700 text-indigo-400 shadow-sm font-bold' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200'"
                                 aria-label="Dark theme">
                                 <MoonIcon class="h-3.5 w-3.5" />
                                 <span>{{ isKhmer ? 'ងងឹត' : 'Dark' }}</span>
                             </button>
                             <button @click="setTheme('system')"
-                                class="px-2.5 py-1 rounded-none text-xs font-medium flex items-center space-x-1 transition-all"
+                                class="px-2.5 py-1 rounded-md text-xs font-medium flex items-center space-x-1 transition-all"
                                 :class="currentTheme === 'system' ? 'bg-white dark:bg-slate-700 text-blue-500 shadow-sm font-bold' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200'"
                                 aria-label="System theme">
                                 <ComputerDesktopIcon class="h-3.5 w-3.5" />

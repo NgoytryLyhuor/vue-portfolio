@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen pt-12 sm:pt-16 pb-12 px-0 sm:px-4 lg:px-6 bg-gradient-to-br from-slate-50 via-red-50/20 to-blue-50/30 dark:from-gray-900 dark:via-gray-900 dark:to-slate-900 overflow-x-hidden">
+    <div class="min-h-screen pt-3 sm:pt-6 pb-12 px-3 sm:px-4 lg:px-6 bg-gradient-to-br from-slate-50 via-red-50/20 to-blue-50/30 dark:from-gray-900 dark:via-gray-900 dark:to-slate-900 overflow-x-hidden">
         <div class="max-w-7xl mx-auto">
 
             <!-- Top Hero & Live Today HUD Banner (Subtle Rounded Corners) -->

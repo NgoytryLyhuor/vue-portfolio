@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen text-slate-900 dark:text-slate-100 pt-12 sm:pt-16 pb-12 px-0 sm:px-4 lg:px-6 relative overflow-x-hidden">
+    <div class="min-h-screen text-slate-900 dark:text-slate-100 pt-3 sm:pt-6 pb-12 px-3 sm:px-4 lg:px-6 relative overflow-x-hidden">
         <!-- Ambient Decorative Background Glows -->
         <div class="pointer-events-none fixed inset-0 overflow-hidden z-0">
             <div class="absolute -top-32 -right-32 w-[28rem] h-[28rem] bg-sky-500/10 dark:bg-sky-500/10 rounded-full blur-3xl"></div>

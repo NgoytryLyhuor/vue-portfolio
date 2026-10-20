@@ -1,11 +1,11 @@
 <template>
-    <div class="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 transition-colors duration-300 py-10 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-7xl mx-auto space-y-10">
+    <div class="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 transition-colors duration-300 py-4 sm:py-10 px-3 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto space-y-6 sm:space-y-10">
 
             <!-- Header Section (Modern Architectural HUD with subtle rounded corners) -->
-            <section class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-10 relative overflow-hidden shadow-sm">
+            <section class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-10 relative overflow-hidden shadow-sm">
                 <!-- Meta HUD Bar -->
-                <div class="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-slate-200 dark:border-slate-800 text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                <div class="flex flex-wrap items-center justify-between gap-2 pb-4 sm:pb-6 border-b border-slate-200 dark:border-slate-800 text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">
                     <div class="flex items-center gap-2">
                         <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
                         <span class="font-bold text-slate-700 dark:text-slate-200">
@@ -22,14 +22,14 @@
                 </div>
 
                 <!-- Main Title & Bio -->
-                <div class="py-6 space-y-3 max-w-3xl">
-                    <div class="inline-block px-3 py-1 text-[11px] font-mono uppercase tracking-widest font-bold bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 rounded-md">
+                <div class="py-4 sm:py-6 space-y-3 max-w-3xl">
+                    <div class="inline-block px-3 py-1 text-[10px] sm:text-[11px] font-mono uppercase tracking-widest font-bold bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 rounded-md">
                         {{ isKhmer ? 'ស្នាដៃអភិវឌ្ឍន៍ផ្ទាល់ខ្លួន' : 'ENGINEERING & PRODUCTION BUILDS' }}
                     </div>
-                    <h1 class="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
+                    <h1 class="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
                         {{ isKhmer ? 'គម្រោង និងស្នាដៃរបស់ខ្ញុំ' : 'FEATURED PROJECTS' }}
                     </h1>
-                    <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                         {{ isKhmer 
                             ? 'ការប្រមូលផ្តុំនៃគម្រោងគេហទំព័រ កម្មវិធីជំនួយការ និងឧបករណ៍ជាក់ស្តែងដែលខ្ញុំបានអភិវឌ្ឍដោយប្រើ Vue.js, Java, Spring Boot, PHP Laravel និងបច្ចេកវិទ្យាទំនើបៗ។' 
                             : 'A curated catalog of production web applications, utility services, and open-source software built across modern stacks.' }}
@@ -37,7 +37,7 @@
                 </div>
 
                 <!-- Search Bar & Filters -->
-                <div class="pt-6 border-t border-slate-200 dark:border-slate-800 space-y-4">
+                <div class="pt-5 sm:pt-6 border-t border-slate-200 dark:border-slate-800 space-y-4">
                     <div class="relative max-w-xl">
                         <input 
                             v-model="searchQuery" 
@@ -59,14 +59,14 @@
                     </div>
 
                     <!-- Category Filter Chips (Subtle Rounded) -->
-                    <div class="flex flex-wrap items-center gap-2 pt-2">
-                        <span class="text-[11px] font-mono text-slate-400 uppercase mr-1">
+                    <div class="flex overflow-x-auto no-scrollbar sm:flex-wrap items-center gap-1.5 sm:gap-2 pt-2 pb-1.5 -mx-1 px-1">
+                        <span class="text-[11px] font-mono text-slate-400 uppercase mr-1 whitespace-nowrap shrink-0">
                             {{ isKhmer ? 'ប្រភេទ៖' : 'CATEGORY:' }}
                         </span>
                         <button 
                             @click="activeCategory = 'all'" 
                             :class="[
-                                'px-3 py-1.5 text-xs font-mono uppercase tracking-wider border rounded-lg transition-all',
+                                'px-2.5 sm:px-3 py-1 sm:py-1.5 text-[11px] sm:text-xs font-mono uppercase tracking-wider border rounded-lg transition-all whitespace-nowrap shrink-0',
                                 activeCategory.toLowerCase() === 'all'
                                     ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 border-slate-900 dark:border-white font-bold'
                                     : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:border-slate-400'
@@ -78,7 +78,7 @@
                             :key="category"
                             @click="activeCategory = category" 
                             :class="[
-                                'px-3 py-1.5 text-xs font-mono uppercase tracking-wider border rounded-lg transition-all',
+                                'px-2.5 sm:px-3 py-1 sm:py-1.5 text-[11px] sm:text-xs font-mono uppercase tracking-wider border rounded-lg transition-all whitespace-nowrap shrink-0',
                                 activeCategory.toLowerCase() === category.toLowerCase()
                                     ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 border-slate-900 dark:border-white font-bold'
                                     : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-200 dark:border-slate-800 hover:border-slate-400'

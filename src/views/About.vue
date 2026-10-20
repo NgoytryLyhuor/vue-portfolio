@@ -1,11 +1,11 @@
 <template>
-    <div class="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 transition-colors duration-300 py-10 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-5xl mx-auto space-y-8">
+    <div class="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 transition-colors duration-300 py-4 sm:py-10 px-3 sm:px-6 lg:px-8">
+        <div class="max-w-5xl mx-auto space-y-6 sm:space-y-8">
 
             <!-- Profile HUD Card (Clean Modern ~10px Rounded) -->
-            <section class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-10 relative overflow-hidden shadow-sm">
+            <section class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-10 relative overflow-hidden shadow-sm">
                 <!-- Top Status Header -->
-                <div class="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-slate-200 dark:border-slate-800 text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                <div class="flex flex-wrap items-center justify-between gap-2 pb-4 sm:pb-6 border-b border-slate-200 dark:border-slate-800 text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">
                     <div class="flex items-center gap-2">
                         <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
                         <span class="font-bold text-slate-700 dark:text-slate-200">
@@ -20,10 +20,10 @@
                 </div>
 
                 <!-- Main Identity Row -->
-                <div class="pt-8 flex flex-col md:flex-row items-center md:items-start gap-8">
+                <div class="pt-6 sm:pt-8 flex flex-col md:flex-row items-center md:items-start gap-6 sm:gap-8">
                     <!-- Modern Framed Portrait with subtle rounded corners -->
                     <div class="relative shrink-0">
-                        <div class="w-40 h-40 sm:w-48 sm:h-48 rounded-2xl border-2 border-slate-900 dark:border-white shadow-[6px_6px_0px_0px_rgba(37,99,235,1)] dark:shadow-[6px_6px_0px_0px_rgba(59,130,246,1)] bg-slate-200 dark:bg-slate-800 overflow-hidden">
+                        <div class="w-36 h-36 sm:w-48 sm:h-48 rounded-2xl border-2 border-slate-900 dark:border-white shadow-[4px_4px_0px_0px_rgba(37,99,235,1)] sm:shadow-[6px_6px_0px_0px_rgba(37,99,235,1)] dark:shadow-[4px_4px_0px_0px_rgba(59,130,246,1)] sm:dark:shadow-[6px_6px_0px_0px_rgba(59,130,246,1)] bg-slate-200 dark:bg-slate-800 overflow-hidden">
                             <img 
                                 src="@/assets/profile.jpg" 
                                 alt="Ngoytry Lyhuor portrait" 
@@ -36,13 +36,13 @@
                     </div>
 
                     <!-- Identity & Bio -->
-                    <div class="flex-1 space-y-4 text-center md:text-left">
-                        <div class="inline-block px-3 py-1 text-[11px] font-mono uppercase tracking-widest font-bold bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 rounded-md">
+                    <div class="flex-1 space-y-3 sm:space-y-4 text-center md:text-left">
+                        <div class="inline-block px-3 py-1 text-[10px] sm:text-[11px] font-mono uppercase tracking-widest font-bold bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 rounded-md">
                             {{ isKhmer ? 'អ្នកអភិវឌ្ឍន៍ JAVA & FULL-STACK' : 'JUNIOR JAVA & FULL-STACK DEVELOPER' }}
                         </div>
 
                         <div>
-                            <h1 class="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
+                            <h1 class="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
                                 NGOYTRY LYHUOR
                             </h1>
                             <p class="text-xs font-mono text-slate-500 dark:text-slate-400 mt-1">

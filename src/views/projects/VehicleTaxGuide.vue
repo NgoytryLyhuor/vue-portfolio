@@ -1,11 +1,11 @@
 <template>
-    <div class="min-h-screen bg-gradient-to-b from-slate-50 via-gray-50 to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-800 dark:text-slate-100 py-6 sm:py-10 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
-        <div class="max-w-7xl mx-auto space-y-6 sm:space-y-8">
+    <div class="min-h-screen bg-gradient-to-b from-slate-50 via-gray-50 to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-800 dark:text-slate-100 py-4 sm:py-10 px-3 sm:px-6 lg:px-8 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto space-y-5 sm:space-y-8">
 
             <!-- Hero HUD Section (Modern Tech with subtle ~10px rounded corners) -->
-            <div class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-8 relative overflow-hidden shadow-sm">
+            <div class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-8 relative overflow-hidden shadow-sm">
                 <!-- Meta HUD Bar -->
-                <div class="flex flex-wrap items-center justify-between gap-3 pb-6 border-b border-slate-200 dark:border-slate-800 text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                <div class="flex flex-wrap items-center justify-between gap-2 pb-4 sm:pb-6 border-b border-slate-200 dark:border-slate-800 text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">
                     <div class="flex items-center gap-2">
                         <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
                         <span class="font-bold text-slate-700 dark:text-slate-200">
@@ -19,13 +19,13 @@
                     </div>
                 </div>
 
-                <div class="pt-6">
-                    <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+                <div class="pt-5 sm:pt-6">
+                    <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5 sm:gap-6">
                         <div class="max-w-3xl space-y-3">
-                            <div class="inline-block px-3 py-1 text-[11px] font-mono uppercase tracking-widest font-bold bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 rounded-md">
+                            <div class="inline-block px-3 py-1 text-[10px] sm:text-[11px] font-mono uppercase tracking-widest font-bold bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 rounded-md">
                                 {{ isKhmer ? 'មគ្គុទ្ទេសក៍ផ្លូវការយានយន្ត' : 'CAMBODIA MOTOR VEHICLE REGULATION' }}
                             </div>
-                            <h1 class="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
+                            <h1 class="text-xl sm:text-3xl lg:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
                                 {{ isKhmer ? 'មគ្គុទ្ទេសក៍ពន្ធយានយន្ត និងឆៀកឡាននៅកម្ពុជា' : 'Cambodia Vehicle Tax & Technical Inspection Guide' }}
                             </h1>
                             <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
@@ -36,7 +36,7 @@
                         </div>
 
                         <!-- Current Season Status HUD Box -->
-                        <div class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 rounded-xl space-y-2 lg:w-80 shrink-0">
+                        <div class="p-3.5 sm:p-4 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 rounded-xl space-y-2 lg:w-80 shrink-0">
                             <div class="flex items-center justify-between">
                                 <span class="text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">{{ isKhmer ? 'រដូវកាលបង់ពន្ធផ្លូវ' : 'Road Tax Season' }}</span>
                                 <span class="px-2.5 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider rounded-md"
@@ -44,10 +44,10 @@
                                     {{ isTaxSeasonActive ? (isKhmer ? 'កំពុងប្រមូលពន្ធ' : 'Active Period') : (isKhmer ? 'រដូវកាលបិទ' : 'Off Season') }}
                                 </span>
                             </div>
-                            <div class="text-base font-black text-slate-900 dark:text-white font-mono">
+                            <div class="text-sm sm:text-base font-black text-slate-900 dark:text-white font-mono">
                                 {{ isKhmer ? '០១ មិថុនា - ៣០ វិច្ឆិកា' : 'June 1 – November 30' }}
                             </div>
-                            <p class="text-xs text-slate-500 dark:text-slate-400">
+                            <p class="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400">
                                 {{ isTaxSeasonActive 
                                     ? (isKhmer ? 'កំពុងបើកដំណើរការបង់ពន្ធតាមធនាគារ និង GDT Taxpayer App!' : 'Tax collection is open online and at partner banks!') 
                                     : (isKhmer ? 'ក្រោយថ្ងៃ ៣០ វិច្ឆិកា នគរបាលចរាចរណ៍ត្រួតពិនិត្យ និងផាកពិន័យទ្វេដងលើផ្លូវ!' : 'Post-deadline traffic police inspections incur a 100% fine on unpaid tax.') }}
@@ -56,10 +56,10 @@
                     </div>
 
                     <!-- Navigation Sub-tabs (Subtle Rounded Buttons) -->
-                    <div class="mt-6 pt-5 border-t border-slate-200 dark:border-slate-800 flex flex-wrap items-center gap-2">
+                    <div class="mt-6 pt-5 border-t border-slate-200 dark:border-slate-800 flex overflow-x-auto no-scrollbar sm:flex-wrap items-center gap-2 pb-1.5 -mx-1 px-1">
                         <button v-for="tab in tabs" :key="tab.id"
                             @click="activeTab = tab.id"
-                            class="px-3.5 py-2 text-xs font-mono uppercase font-bold tracking-wider border rounded-lg transition-all flex items-center gap-2"
+                            class="px-3 py-1.5 sm:px-3.5 sm:py-2 text-[11px] sm:text-xs font-mono uppercase font-bold tracking-wider border rounded-lg transition-all flex items-center gap-1.5 whitespace-nowrap shrink-0"
                             :class="activeTab === tab.id 
                                 ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 border-slate-900 dark:border-white' 
                                 : 'bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800 hover:border-slate-400'">
@@ -69,12 +69,12 @@
 
                         <!-- Quick Utility Cross-Links -->
                         <router-link to="/fuel-prices"
-                            class="px-3.5 py-2 text-xs font-mono uppercase font-bold tracking-wider border border-orange-300 dark:border-orange-800/80 bg-orange-50 dark:bg-orange-950/30 text-orange-700 dark:text-orange-300 rounded-lg hover:bg-orange-100 dark:hover:bg-orange-900/40 transition-all flex items-center gap-1.5 sm:ml-auto">
+                            class="px-3 py-1.5 sm:px-3.5 sm:py-2 text-[11px] sm:text-xs font-mono uppercase font-bold tracking-wider border border-orange-300 dark:border-orange-800/80 bg-orange-50 dark:bg-orange-950/30 text-orange-700 dark:text-orange-300 rounded-lg hover:bg-orange-100 dark:hover:bg-orange-900/40 transition-all flex items-center gap-1.5 whitespace-nowrap shrink-0 sm:ml-auto">
                             <span>⛽</span>
                             <span>{{ isKhmer ? 'តម្លៃប្រេងសាំង' : 'Fuel Prices' }}</span>
                         </router-link>
                         <router-link to="/traffic-fines"
-                            class="px-3.5 py-2 text-xs font-mono uppercase font-bold tracking-wider border border-rose-300 dark:border-rose-800/80 bg-rose-50 dark:bg-rose-950/30 text-rose-700 dark:text-rose-300 rounded-lg hover:bg-rose-100 dark:hover:bg-rose-900/40 transition-all flex items-center gap-1.5">
+                            class="px-3 py-1.5 sm:px-3.5 sm:py-2 text-[11px] sm:text-xs font-mono uppercase font-bold tracking-wider border border-rose-300 dark:border-rose-800/80 bg-rose-50 dark:bg-rose-950/30 text-rose-700 dark:text-rose-300 rounded-lg hover:bg-rose-100 dark:hover:bg-rose-900/40 transition-all flex items-center gap-1.5 whitespace-nowrap shrink-0">
                             <span>⚖️</span>
                             <span>{{ isKhmer ? 'ផាកពិន័យចរាចរណ៍' : 'Traffic Fines' }}</span>
                         </router-link>
@@ -84,10 +84,10 @@
 
             <!-- TAB 1: CALCULATOR & CAR MODEL LOOKUP (ម៉ាស៊ីនគណនាពន្ធ & ស្រាវជ្រាវម៉ូដែលឡាន) -->
             <div v-show="activeTab === 'calc'" class="space-y-6 sm:space-y-8">
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8 items-start">
                     
                     <!-- Left Column: Car Model Search & Inputs -->
-                    <div class="lg:col-span-7 bg-white dark:bg-slate-900/90 rounded-3xl p-5 sm:p-7 border border-slate-200 dark:border-slate-800 shadow-xl space-y-6">
+                    <div class="lg:col-span-7 bg-white dark:bg-slate-900/90 rounded-3xl p-4 sm:p-7 border border-slate-200 dark:border-slate-800 shadow-xl space-y-5 sm:space-y-6">
                         
                         <!-- Header & Mode Switcher -->
                         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-4 border-b border-slate-200 dark:border-slate-800">
