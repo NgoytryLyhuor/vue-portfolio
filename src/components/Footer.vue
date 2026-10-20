@@ -118,8 +118,20 @@
                 <div>
                     © {{ currentYear }} NGOYTRY LYHUOR. {{ isKhmer ? 'រក្សាសិទ្ធិគ្រប់យ៉ាង។' : 'ALL RIGHTS RESERVED.' }}
                 </div>
-                <div class="flex items-center gap-2">
+                <div class="flex flex-wrap items-center gap-3">
                     <span>{{ isKhmer ? 'បង្កើតឡើងដោយ' : 'Built with' }} Vue.js & Tailwind CSS</span>
+                    <span class="text-slate-300 dark:text-slate-700">|</span>
+                    <button 
+                        @click="clearCacheAndRefresh" 
+                        class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1.5 focus:outline-none cursor-pointer"
+                        :title="isKhmer ? 'ជម្រះទិន្នន័យចាស់ (Cache) និងទាញយកទិន្នន័យថ្មីចុងក្រោយ' : 'Purge browser cache and reload the latest deployment'">
+                        <span>🧹</span>
+                        <span :class="{ 'opacity-50': isClearingCache }">
+                            {{ isClearingCache 
+                                ? (isKhmer ? 'កំពុងជម្រះ Cache...' : 'Clearing Cache...') 
+                                : (isKhmer ? 'ជម្រះ Cache' : 'Clear Cache') }}
+                        </span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -128,11 +140,43 @@
 
 <script setup>
 // Modern Minimalist Footer
-import { computed } from 'vue';
+import { ref, computed } from 'vue';
 import { useLanguage } from '@/composables/useLanguage';
 
 const { isKhmer } = useLanguage();
 const currentYear = computed(() => new Date().getFullYear());
+const isClearingCache = ref(false);
+
+const clearCacheAndRefresh = async () => {
+    if (isClearingCache.value) return;
+    isClearingCache.value = true;
+    try {
+        // 1. Delete all CacheStorage caches
+        if (typeof window !== 'undefined' && 'caches' in window) {
+            const cacheNames = await caches.keys();
+            await Promise.all(cacheNames.map(name => caches.delete(name)));
+        }
+
+        // 2. Unregister all service workers
+        if (typeof navigator !== 'undefined' && 'serviceWorker' in navigator) {
+            const registrations = await navigator.serviceWorker.getRegistrations();
+            await Promise.all(registrations.map(reg => reg.unregister()));
+        }
+
+        // 3. Clear session storage
+        if (typeof window !== 'undefined' && window.sessionStorage) {
+            window.sessionStorage.clear();
+        }
+
+        // 4. Hard reload page with cache bypass
+        setTimeout(() => {
+            window.location.reload();
+        }, 350);
+    } catch (err) {
+        console.warn('Cache clearing error:', err);
+        window.location.reload();
+    }
+};
 
 const scrollToTop = () => {
     if (typeof window !== 'undefined') {

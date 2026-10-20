@@ -1,6 +1,6 @@
 // Service Worker for Portfolio - Clean Cache & Fast Updates
-const CACHE_NAME = 'portfolio-v3.0';
-const RUNTIME_CACHE = 'portfolio-runtime-v3.0';
+const CACHE_NAME = 'portfolio-v4.0-20261020';
+const RUNTIME_CACHE = 'portfolio-runtime-v4.0-20261020';
 
 // Assets to cache immediately
 const STATIC_ASSETS = [
@@ -20,7 +20,7 @@ function safeCacheAdd(cache, url) {
 
 // Install event - Cache static assets & skip waiting immediately
 self.addEventListener('install', (event) => {
-  console.log('[Service Worker] Installing v3.0...');
+  console.log('[Service Worker] Installing v4.0 (cache refreshed)...');
   self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME)
