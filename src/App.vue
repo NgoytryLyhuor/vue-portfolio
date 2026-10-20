@@ -1,16 +1,23 @@
 <!-- App.vue - Vue Portfolio Main Component -->
 <template>
   <ErrorBoundary>
-    <div class="min-h-screen bg-gray-50 dark:bg-dark-bg text-gray-900 dark:text-white transition-colors duration-500 ease-in-out flex flex-col">
-      <NavBar v-if="route.meta.showNavBar" />
-      <main class="w-full flex-grow pb-8" :class="{ 'pt-14 sm:pt-16': route.meta.showNavBar }">
+    <div class="min-h-screen bg-slate-50 dark:bg-[#030712] text-slate-900 dark:text-white transition-colors duration-500 ease-in-out flex flex-col relative overflow-x-hidden">
+      <!-- Ambient Liquid Light Caustics (Shines organically through liquid frosted glass) -->
+      <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
+        <div class="absolute -top-[15%] left-[10%] w-[50vw] h-[50vw] max-w-[550px] max-h-[550px] rounded-full bg-gradient-to-br from-blue-400/15 via-indigo-500/10 to-transparent dark:from-blue-600/12 dark:via-purple-600/10 blur-[100px] transform-gpu animate-float"></div>
+        <div class="absolute top-[35%] -right-[10%] w-[45vw] h-[45vw] max-w-[500px] max-h-[500px] rounded-full bg-gradient-to-bl from-indigo-400/12 via-sky-400/10 to-transparent dark:from-indigo-600/10 dark:via-cyan-600/8 blur-[110px] transform-gpu animate-float-delayed"></div>
+        <div class="absolute -bottom-[15%] left-[25%] w-[55vw] h-[55vw] max-w-[600px] max-h-[600px] rounded-full bg-gradient-to-tr from-purple-400/10 via-blue-500/10 to-transparent dark:from-purple-900/15 dark:via-blue-800/10 blur-[120px] transform-gpu"></div>
+      </div>
+
+      <NavBar v-if="route.meta.showNavBar" class="relative z-40" />
+      <main class="w-full flex-grow pb-8 relative z-10" :class="{ 'pt-14 sm:pt-16': route.meta.showNavBar }">
         <router-view v-slot="{ Component, route: currentRoute }">
           <transition name="ios-page" mode="out-in" @before-enter="onPageBeforeEnter">
             <component :is="Component" :key="currentRoute.path" />
           </transition>
         </router-view>
       </main>
-      <AppFooter />
+      <AppFooter class="relative z-10" />
       <InstallAppBanner />
       <AppUpdateBanner />
     </div>
@@ -184,5 +191,95 @@ a:active,
   outline: 2px solid rgba(59, 130, 246, 0.6) !important;
   outline-offset: 2px !important;
   transition: outline 0.15s ease;
+}
+
+/* ========================================================
+   7. iOS Liquid Glass & Apple VisionOS Refraction Engine
+   Frosted fluid refraction, specular highlights & chromatic edge luminescence
+   ======================================================== */
+
+.liquid-glass {
+  background: rgba(255, 255, 255, 0.72) !important;
+  backdrop-filter: blur(24px) saturate(190%) contrast(102%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(190%) contrast(102%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.65) !important;
+  box-shadow: 
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -1px 1px 0 rgba(0, 0, 0, 0.03),
+    0 8px 32px 0 rgba(31, 38, 135, 0.08) !important;
+}
+
+.dark .liquid-glass {
+  background: rgba(15, 23, 42, 0.72) !important;
+  backdrop-filter: blur(24px) saturate(190%) contrast(105%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(190%) contrast(105%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -1px 1px 0 rgba(0, 0, 0, 0.45),
+    0 12px 40px 0 rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Liquid Glass Cards */
+.liquid-glass-card {
+  background: rgba(255, 255, 255, 0.68) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.7) !important;
+  box-shadow: 
+    inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.9),
+    0 10px 25px -5px rgba(0, 0, 0, 0.04),
+    0 8px 10px -6px rgba(0, 0, 0, 0.02) !important;
+  transition: transform 0.32s cubic-bezier(0.34, 1.35, 0.64, 1),
+              box-shadow 0.32s cubic-bezier(0.2, 0.9, 0.1, 1),
+              border-color 0.25s ease,
+              background-color 0.25s ease !important;
+}
+
+.dark .liquid-glass-card {
+  background: rgba(15, 23, 42, 0.68) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 
+    inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.18),
+    inset 0 -1px 1px 0 rgba(0, 0, 0, 0.4),
+    0 12px 30px -8px rgba(0, 0, 0, 0.5) !important;
+}
+
+.liquid-glass-card:hover {
+  transform: translateY(-2.5px) scale(1.003) !important;
+  box-shadow: 
+    inset 0 1px 2px 0 rgba(255, 255, 255, 1),
+    0 20px 35px -8px rgba(37, 99, 235, 0.12),
+    0 8px 16px -4px rgba(0, 0, 0, 0.04) !important;
+}
+
+.dark .liquid-glass-card:hover {
+  box-shadow: 
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.28),
+    0 20px 40px -10px rgba(0, 0, 0, 0.7),
+    0 0 25px rgba(59, 130, 246, 0.15) !important;
+}
+
+/* Liquid Glass Buttons & Pills */
+.liquid-glass-btn {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.12) 100%) !important;
+  backdrop-filter: blur(16px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.55) !important;
+  box-shadow: 
+    inset 0 1px 1px rgba(255, 255, 255, 0.85),
+    0 4px 12px rgba(0, 0, 0, 0.05) !important;
+}
+
+.dark .liquid-glass-btn {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.03) 100%) !important;
+  backdrop-filter: blur(16px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  box-shadow: 
+    inset 0 1px 1px rgba(255, 255, 255, 0.22),
+    0 4px 16px rgba(0, 0, 0, 0.4) !important;
 }
 </style>

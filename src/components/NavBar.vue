@@ -1,6 +1,6 @@
 <template>
     <nav
-        class="fixed w-full bg-white/95 dark:bg-slate-900/95 text-slate-800 dark:text-slate-100 py-2.5 sm:py-3 px-3 sm:px-6 lg:px-40 shadow-sm border-b border-slate-200 dark:border-slate-800 backdrop-blur-md z-50 transition-colors duration-300">
+        class="fixed w-full liquid-glass text-slate-800 dark:text-slate-100 py-2.5 sm:py-3 px-3 sm:px-6 lg:px-40 z-50 transition-colors duration-300">
         <div class="container mx-auto flex justify-between items-center">
             <!-- Brand / Logo -->
             <div class="flex items-center min-w-0">
@@ -61,7 +61,7 @@
                             leave-to-class="opacity-0 -translate-y-2 scale-95 blur-[2px]"
                         >
                             <div v-if="isFeaturesMenuOpen"
-                                class="absolute left-0 w-72 rounded-xl dark:bg-slate-900 mt-2 shadow-2xl z-50 border border-slate-300 dark:border-slate-700 bg-white backdrop-blur-xl p-1.5 space-y-0.5">
+                                class="absolute left-0 w-72 rounded-2xl liquid-glass mt-2 shadow-2xl z-50 p-1.5 space-y-0.5">
                                 <router-link v-for="feature in featureLinks" :key="feature.path" :to="feature.path"
                                     class="flex items-center px-3.5 py-2.5 text-xs rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 w-full text-left transition-all duration-150 cursor-pointer"
                                     :class="{ 'bg-slate-100 dark:bg-slate-800 font-bold text-blue-600 dark:text-blue-400': $route.path === feature.path }"
@@ -123,7 +123,7 @@
                         leave-to-class="opacity-0 -translate-y-2 scale-95 blur-[2px]"
                     >
                         <div v-if="isThemeMenuOpen"
-                            class="absolute right-0 w-36 rounded-xl dark:bg-slate-900 mt-2 shadow-2xl z-50 border border-slate-300 dark:border-slate-700 bg-white backdrop-blur-xl p-1.5 space-y-0.5">
+                            class="absolute right-0 w-40 rounded-2xl liquid-glass mt-2 shadow-2xl z-50 p-1.5 space-y-0.5">
                             <button @click="setTheme('light')"
                                 class="flex items-center px-3 py-2 text-xs rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 w-full text-left transition-all"
                                 :class="{ 'bg-slate-100 dark:bg-slate-800 font-bold text-blue-600 dark:text-blue-400': currentTheme === 'light' }">
@@ -181,7 +181,7 @@
             leave-to-class="opacity-0 -translate-y-3 scale-[0.98] blur-[2px]"
         >
             <div v-if="isMobileMenuOpen"
-                class="md:hidden absolute left-0 right-0 top-full w-full bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-2xl z-50 max-h-[calc(100vh-3.5rem)] overflow-y-auto">
+                class="md:hidden absolute left-0 right-0 top-full w-full liquid-glass shadow-2xl z-50 max-h-[calc(100vh-3.5rem)] overflow-y-auto rounded-b-2xl border-t-0">
                 <div class="px-4 py-3 space-y-2">
                     <!-- Top Update Alert in Mobile Menu -->
                     <div v-if="updateAvailable" class="pb-1">

@@ -1,6 +1,6 @@
 <!-- AppFooter Component - High-Performance Responsive Architecture Footer -->
 <template>
-    <footer class="bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 mt-auto transition-colors duration-300">
+    <footer class="liquid-glass text-slate-800 dark:text-slate-200 mt-auto transition-colors duration-300 border-x-0 border-b-0">
         <!-- Main Footer Directory Grid -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
@@ -104,9 +104,9 @@
                         <router-link
                             to="/vehicle-tax"
                             @click="scrollToTop"
-                            class="group p-2.5 rounded-lg border border-slate-200 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-900/40 hover:bg-white dark:hover:bg-slate-800/80 hover:border-blue-500/50 dark:hover:border-blue-500/50 transition-all flex items-center gap-2.5"
+                            class="group p-2.5 rounded-xl liquid-glass-card hover:border-blue-500/60 dark:hover:border-blue-500/60 transition-all flex items-center gap-2.5"
                         >
-                            <span class="text-base shrink-0 p-1 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700">🚗</span>
+                            <span class="text-base shrink-0 p-1 bg-white/80 dark:bg-slate-800/80 rounded border border-slate-200/80 dark:border-slate-700/80 shadow-xs">🚗</span>
                             <div class="min-w-0 flex-1">
                                 <div class="font-bold text-slate-800 dark:text-slate-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate">
                                     {{ isKhmer ? 'ពន្ធផ្លូវ & ឆៀកឡាន' : 'Vehicle Tax' }}
@@ -120,9 +120,9 @@
                         <router-link
                             to="/fuel-prices"
                             @click="scrollToTop"
-                            class="group p-2.5 rounded-lg border border-slate-200 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-900/40 hover:bg-white dark:hover:bg-slate-800/80 hover:border-blue-500/50 dark:hover:border-blue-500/50 transition-all flex items-center gap-2.5"
+                            class="group p-2.5 rounded-xl liquid-glass-card hover:border-blue-500/60 dark:hover:border-blue-500/60 transition-all flex items-center gap-2.5"
                         >
-                            <span class="text-base shrink-0 p-1 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700">⛽</span>
+                            <span class="text-base shrink-0 p-1 bg-white/80 dark:bg-slate-800/80 rounded border border-slate-200/80 dark:border-slate-700/80 shadow-xs">⛽</span>
                             <div class="min-w-0 flex-1">
                                 <div class="font-bold text-slate-800 dark:text-slate-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate">
                                     {{ isKhmer ? 'តម្លៃប្រេងសាំង' : 'Fuel Prices' }}
@@ -136,9 +136,9 @@
                         <router-link
                             to="/traffic-fines"
                             @click="scrollToTop"
-                            class="group p-2.5 rounded-lg border border-slate-200 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-900/40 hover:bg-white dark:hover:bg-slate-800/80 hover:border-blue-500/50 dark:hover:border-blue-500/50 transition-all flex items-center gap-2.5"
+                            class="group p-2.5 rounded-xl liquid-glass-card hover:border-blue-500/60 dark:hover:border-blue-500/60 transition-all flex items-center gap-2.5"
                         >
-                            <span class="text-base shrink-0 p-1 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700">⚖️</span>
+                            <span class="text-base shrink-0 p-1 bg-white/80 dark:bg-slate-800/80 rounded border border-slate-200/80 dark:border-slate-700/80 shadow-xs">⚖️</span>
                             <div class="min-w-0 flex-1">
                                 <div class="font-bold text-slate-800 dark:text-slate-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate">
                                     {{ isKhmer ? 'ផាកពិន័យចរាចរណ៍' : 'Traffic Fines' }}
@@ -152,9 +152,9 @@
                         <router-link
                             to="/public-services"
                             @click="scrollToTop"
-                            class="group p-2.5 rounded-lg border border-slate-200 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-900/40 hover:bg-white dark:hover:bg-slate-800/80 hover:border-blue-500/50 dark:hover:border-blue-500/50 transition-all flex items-center gap-2.5"
+                            class="group p-2.5 rounded-xl liquid-glass-card hover:border-blue-500/60 dark:hover:border-blue-500/60 transition-all flex items-center gap-2.5"
                         >
-                            <span class="text-base shrink-0 p-1 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700">🛂</span>
+                            <span class="text-base shrink-0 p-1 bg-white/80 dark:bg-slate-800/80 rounded border border-slate-200/80 dark:border-slate-700/80 shadow-xs">🛂</span>
                             <div class="min-w-0 flex-1">
                                 <div class="font-bold text-slate-800 dark:text-slate-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate">
                                     {{ isKhmer ? 'សេវាសាធារណៈ & Passport' : 'Public Services' }}
@@ -168,9 +168,9 @@
                         <router-link
                             to="/khmer-calendar"
                             @click="scrollToTop"
-                            class="group p-2.5 rounded-lg border border-slate-200 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-900/40 hover:bg-white dark:hover:bg-slate-800/80 hover:border-blue-500/50 dark:hover:border-blue-500/50 transition-all flex items-center gap-2.5"
+                            class="group p-2.5 rounded-xl liquid-glass-card hover:border-blue-500/60 dark:hover:border-blue-500/60 transition-all flex items-center gap-2.5"
                         >
-                            <span class="text-base shrink-0 p-1 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700">📅</span>
+                            <span class="text-base shrink-0 p-1 bg-white/80 dark:bg-slate-800/80 rounded border border-slate-200/80 dark:border-slate-700/80 shadow-xs">📅</span>
                             <div class="min-w-0 flex-1">
                                 <div class="font-bold text-slate-800 dark:text-slate-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate">
                                     {{ isKhmer ? 'ប្រតិទិនខ្មែរ' : 'Khmer Calendar' }}
@@ -184,9 +184,9 @@
                         <router-link
                             to="/weather-app"
                             @click="scrollToTop"
-                            class="group p-2.5 rounded-lg border border-slate-200 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-900/40 hover:bg-white dark:hover:bg-slate-800/80 hover:border-blue-500/50 dark:hover:border-blue-500/50 transition-all flex items-center gap-2.5"
+                            class="group p-2.5 rounded-xl liquid-glass-card hover:border-blue-500/60 dark:hover:border-blue-500/60 transition-all flex items-center gap-2.5"
                         >
-                            <span class="text-base shrink-0 p-1 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700">⛅</span>
+                            <span class="text-base shrink-0 p-1 bg-white/80 dark:bg-slate-800/80 rounded border border-slate-200/80 dark:border-slate-700/80 shadow-xs">⛅</span>
                             <div class="min-w-0 flex-1">
                                 <div class="font-bold text-slate-800 dark:text-slate-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate">
                                     {{ isKhmer ? 'ធាតុអាកាស' : 'Weather' }}
@@ -200,9 +200,9 @@
                         <router-link
                             to="/air-quality"
                             @click="scrollToTop"
-                            class="group p-2.5 rounded-lg border border-slate-200 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-900/40 hover:bg-white dark:hover:bg-slate-800/80 hover:border-blue-500/50 dark:hover:border-blue-500/50 transition-all flex items-center gap-2.5"
+                            class="group p-2.5 rounded-xl liquid-glass-card hover:border-blue-500/60 dark:hover:border-blue-500/60 transition-all flex items-center gap-2.5"
                         >
-                            <span class="text-base shrink-0 p-1 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700">🍃</span>
+                            <span class="text-base shrink-0 p-1 bg-white/80 dark:bg-slate-800/80 rounded border border-slate-200/80 dark:border-slate-700/80 shadow-xs">🍃</span>
                             <div class="min-w-0 flex-1">
                                 <div class="font-bold text-slate-800 dark:text-slate-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate">
                                     {{ isKhmer ? 'គុណភាពខ្យល់' : 'Air Quality' }}
@@ -216,9 +216,9 @@
                         <router-link
                             to="/currency-converter"
                             @click="scrollToTop"
-                            class="group p-2.5 rounded-lg border border-slate-200 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-900/40 hover:bg-white dark:hover:bg-slate-800/80 hover:border-blue-500/50 dark:hover:border-blue-500/50 transition-all flex items-center gap-2.5"
+                            class="group p-2.5 rounded-xl liquid-glass-card hover:border-blue-500/60 dark:hover:border-blue-500/60 transition-all flex items-center gap-2.5"
                         >
-                            <span class="text-base shrink-0 p-1 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700">💱</span>
+                            <span class="text-base shrink-0 p-1 bg-white/80 dark:bg-slate-800/80 rounded border border-slate-200/80 dark:border-slate-700/80 shadow-xs">💱</span>
                             <div class="min-w-0 flex-1">
                                 <div class="font-bold text-slate-800 dark:text-slate-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate">
                                     {{ isKhmer ? 'ប្តូរប្រាក់ NBC' : 'Currency' }}
@@ -256,7 +256,7 @@
                         v-else
                         @click="checkForUpdate"
                         :disabled="isCheckingUpdate"
-                        class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400 bg-white dark:bg-slate-900 transition-colors text-slate-700 dark:text-slate-300 cursor-pointer disabled:opacity-60 shadow-sm"
+                        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl liquid-glass-btn hover:border-blue-500 dark:hover:border-blue-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-slate-700 dark:text-slate-300 cursor-pointer disabled:opacity-60 shadow-sm"
                         :title="isKhmer ? 'ពិនិត្យកំណែអាប់ដេតថ្មីនៃ App' : 'Check for new app updates'">
                         <svg :class="{ 'animate-spin': isCheckingUpdate }" class="w-3.5 h-3.5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
@@ -275,12 +275,12 @@
                     <button 
                         v-if="!isInstalled"
                         @click="installApp" 
-                        class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400 bg-white dark:bg-slate-900 transition-colors text-slate-700 dark:text-slate-300 cursor-pointer shadow-sm"
+                        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl liquid-glass-btn hover:border-blue-500 dark:hover:border-blue-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-slate-700 dark:text-slate-300 cursor-pointer shadow-sm"
                         :title="isKhmer ? 'ដំឡើងជា App លើទូរស័ព្ទ / កុំព្យូទ័រ' : 'Install as Mobile / Desktop App'">
                         <span>📲</span>
                         <span>{{ isKhmer ? 'ដំឡើង App' : 'Install App' }}</span>
                     </button>
-                    <span v-else class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-emerald-300 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400 font-semibold text-[11px]">
+                    <span v-else class="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl border border-emerald-300/80 dark:border-emerald-700/80 bg-emerald-50/80 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 font-semibold text-[11px] shadow-sm">
                         <span>✓</span>
                         <span>{{ isKhmer ? 'បានដំឡើង' : 'Installed' }}</span>
                     </span>
@@ -289,7 +289,7 @@
                     <button 
                         @click="clearCacheAndRefresh" 
                         :disabled="isClearingCache"
-                        class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-400 bg-white dark:bg-slate-900 transition-colors text-slate-700 dark:text-slate-300 cursor-pointer disabled:opacity-60 shadow-sm"
+                        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl liquid-glass-btn hover:border-blue-500 dark:hover:border-blue-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-slate-700 dark:text-slate-300 cursor-pointer disabled:opacity-60 shadow-sm"
                         :title="isKhmer ? 'ជម្រះទិន្នន័យចាស់ (Cache) និងទាញយកទិន្នន័យថ្មីចុងក្រោយ' : 'Purge browser cache and reload latest deployment'">
                         <span>🧹</span>
                         <span>
@@ -302,7 +302,7 @@
                     <!-- 4. Scroll to Top Button -->
                     <button
                         @click="scrollToTop"
-                        class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 hover:border-slate-500 dark:hover:border-slate-400 bg-white dark:bg-slate-900 transition-colors text-slate-600 dark:text-slate-400 cursor-pointer shadow-sm"
+                        class="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl liquid-glass-btn hover:border-blue-500 dark:hover:border-blue-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors text-slate-700 dark:text-slate-300 cursor-pointer shadow-sm"
                         :title="isKhmer ? 'រំកិលទៅលើគេហទំព័រវិញ' : 'Scroll to top'">
                         <span>↑</span>
                         <span>{{ isKhmer ? 'ទៅលើ' : 'Top' }}</span>
