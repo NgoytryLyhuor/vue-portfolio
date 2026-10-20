@@ -53,12 +53,12 @@
 
                         <!-- Features dropdown menu -->
                         <transition
-                            enter-active-class="transition duration-200 ease-out"
-                            enter-from-class="transform opacity-0 -translate-y-2"
-                            enter-to-class="transform opacity-100 translate-y-0"
-                            leave-active-class="transition duration-150 ease-in"
-                            leave-from-class="transform opacity-100 translate-y-0"
-                            leave-to-class="transform opacity-0 -translate-y-2"
+                            enter-active-class="transition duration-250 ease-[cubic-bezier(0.2,0.9,0.1,1)]"
+                            enter-from-class="opacity-0 -translate-y-2 scale-95 blur-[4px]"
+                            enter-to-class="opacity-100 translate-y-0 scale-100 blur-0"
+                            leave-active-class="transition duration-180 ease-[cubic-bezier(0.2,0.9,0.1,1)]"
+                            leave-from-class="opacity-100 translate-y-0 scale-100 blur-0"
+                            leave-to-class="opacity-0 -translate-y-2 scale-95 blur-[2px]"
                         >
                             <div v-if="isFeaturesMenuOpen"
                                 class="absolute left-0 w-72 rounded-xl dark:bg-slate-900 mt-2 shadow-2xl z-50 border border-slate-300 dark:border-slate-700 bg-white backdrop-blur-xl p-1.5 space-y-0.5">
@@ -115,12 +115,12 @@
 
                     <!-- Theme dropdown menu -->
                     <transition
-                        enter-active-class="transition duration-200 ease-out"
-                        enter-from-class="transform opacity-0 -translate-y-2"
-                        enter-to-class="transform opacity-100 translate-y-0"
-                        leave-active-class="transition duration-150 ease-in"
-                        leave-from-class="transform opacity-100 translate-y-0"
-                        leave-to-class="transform opacity-0 -translate-y-2"
+                        enter-active-class="transition duration-250 ease-[cubic-bezier(0.2,0.9,0.1,1)]"
+                        enter-from-class="opacity-0 -translate-y-2 scale-95 blur-[4px]"
+                        enter-to-class="opacity-100 translate-y-0 scale-100 blur-0"
+                        leave-active-class="transition duration-180 ease-[cubic-bezier(0.2,0.9,0.1,1)]"
+                        leave-from-class="opacity-100 translate-y-0 scale-100 blur-0"
+                        leave-to-class="opacity-0 -translate-y-2 scale-95 blur-[2px]"
                     >
                         <div v-if="isThemeMenuOpen"
                             class="absolute right-0 w-36 rounded-xl dark:bg-slate-900 mt-2 shadow-2xl z-50 border border-slate-300 dark:border-slate-700 bg-white backdrop-blur-xl p-1.5 space-y-0.5">
@@ -158,10 +158,10 @@
 
         <!-- Full-screen Mobile Backdrop (Tap outside to close) -->
         <transition
-            enter-active-class="transition-opacity duration-300 ease-[cubic-bezier(0.25,1,0.5,1)]"
+            enter-active-class="transition-opacity duration-300 ease-[cubic-bezier(0.2,0.9,0.1,1)]"
             enter-from-class="opacity-0"
             enter-to-class="opacity-100"
-            leave-active-class="transition-opacity duration-200 ease-[cubic-bezier(0.25,1,0.5,1)]"
+            leave-active-class="transition-opacity duration-200 ease-[cubic-bezier(0.2,0.9,0.1,1)]"
             leave-from-class="opacity-100"
             leave-to-class="opacity-0"
         >
@@ -173,12 +173,12 @@
 
         <!-- Clean Slide-down Mobile Navigation Menu -->
         <transition
-            enter-active-class="transition duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]"
-            enter-from-class="opacity-0 -translate-y-4 scale-[0.98]"
-            enter-to-class="opacity-100 translate-y-0 scale-100"
-            leave-active-class="transition duration-200 ease-[cubic-bezier(0.32,0.72,0,1)]"
-            leave-from-class="opacity-100 translate-y-0 scale-100"
-            leave-to-class="opacity-0 -translate-y-3 scale-[0.98]"
+            enter-active-class="transition duration-320 ease-[cubic-bezier(0.2,0.9,0.1,1)]"
+            enter-from-class="opacity-0 -translate-y-4 scale-[0.98] blur-[4px]"
+            enter-to-class="opacity-100 translate-y-0 scale-100 blur-0"
+            leave-active-class="transition duration-200 ease-[cubic-bezier(0.2,0.9,0.1,1)]"
+            leave-from-class="opacity-100 translate-y-0 scale-100 blur-0"
+            leave-to-class="opacity-0 -translate-y-3 scale-[0.98] blur-[2px]"
         >
             <div v-if="isMobileMenuOpen"
                 class="md:hidden absolute left-0 right-0 top-full w-full bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-2xl z-50 max-h-[calc(100vh-3.5rem)] overflow-y-auto">

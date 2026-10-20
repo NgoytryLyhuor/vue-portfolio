@@ -1,12 +1,12 @@
 <!-- AppUpdateBanner.vue - Floating Notification when a new App version is available -->
 <template>
   <transition
-    enter-active-class="transition duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]"
-    enter-from-class="opacity-0 -translate-y-4 scale-95"
-    enter-to-class="opacity-100 translate-y-0 scale-100"
-    leave-active-class="transition duration-200 ease-in"
-    leave-from-class="opacity-100 translate-y-0 scale-100"
-    leave-to-class="opacity-0 -translate-y-4 scale-95"
+    enter-active-class="transition duration-350 ease-[cubic-bezier(0.2,0.9,0.1,1)]"
+    enter-from-class="opacity-0 -translate-y-5 scale-95 blur-[4px]"
+    enter-to-class="opacity-100 translate-y-0 scale-100 blur-0"
+    leave-active-class="transition duration-220 ease-[cubic-bezier(0.2,0.9,0.1,1)]"
+    leave-from-class="opacity-100 translate-y-0 scale-100 blur-0"
+    leave-to-class="opacity-0 -translate-y-4 scale-95 blur-[2px]"
   >
     <div
       v-if="updateAvailable"
