@@ -16,6 +16,7 @@ const VehicleTaxGuide = () => import('@/views/projects/VehicleTaxGuide.vue')
 const FuelPriceTracker = () => import('@/views/projects/FuelPriceTracker.vue')
 const TrafficFines = () => import('@/views/projects/TrafficFines.vue')
 const PublicServices = () => import('@/views/projects/PublicServices.vue')
+const UtilityTariffCalculator = () => import('@/views/projects/UtilityTariffCalculator.vue')
 const CryptoPassword = () => import('@/views/projects/CryptoPassword.vue')
 const CryptoPriceTracker = () => import('@/views/projects/CryptoPriceTracker.vue')
 const GarageAccess = () => import('@/views/projects/GarageAccess.vue')
@@ -179,6 +180,25 @@ const routes = [
     {
         path: '/citizen-services',
         redirect: '/public-services'
+    },
+    {
+        path: '/utility-calculator',
+        name: 'utility-calculator',
+        component: UtilityTariffCalculator,
+        meta: {
+            showNavBar: true,
+            title: 'Cambodia EDC Electricity & PPWSA Water Bill Calculator - គណនាថ្លៃទឹក-ភ្លើង',
+            description: 'Official Electricité du Cambodge (EDC) & PPWSA tiered rates calculator, tenant rental overcharge verification, and home appliance energy estimator.',
+            robots: 'index, follow'
+        }
+    },
+    {
+        path: '/edc-calculator',
+        redirect: '/utility-calculator'
+    },
+    {
+        path: '/cambodia-electricity',
+        redirect: '/utility-calculator'
     },
     {
         path: '/crypto-tracker-password',
