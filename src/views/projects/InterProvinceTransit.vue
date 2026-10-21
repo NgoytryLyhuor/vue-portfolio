@@ -36,36 +36,34 @@
                         </div>
 
                         <!-- Mode Filter Selector -->
-                        <div class="p-3.5 sm:p-4 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 rounded-xl space-y-3 lg:w-80 shrink-0">
-                            <div class="text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                        <div class="p-3 sm:p-4 border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 rounded-xl space-y-2 lg:w-80 shrink-0 w-full">
+                            <div class="text-[11px] sm:text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">
                                 {{ isKhmer ? 'មធ្យោបាយធ្វើដំណើរ' : 'Transit Category' }}
                             </div>
-                            <div class="grid grid-cols-3 gap-1 p-1 rounded-xl bg-slate-200 dark:bg-slate-800 text-xs font-bold font-mono">
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-1 p-1 rounded-xl bg-slate-200 dark:bg-slate-800 text-xs font-bold font-mono">
                                 <button 
                                     @click="activeTransitMode = 'all'"
-                                    class="py-1.5 px-2 rounded-lg transition-all"
+                                    class="py-1.5 px-2 rounded-lg text-center transition-all touch-manipulation"
                                     :class="activeTransitMode === 'all' ? 'bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-xs' : 'text-slate-600 dark:text-slate-400'">
                                     {{ isKhmer ? 'ទាំងអស់' : 'All' }}
                                 </button>
                                 <button 
                                     @click="activeTransitMode = 'train'"
-                                    class="py-1.5 px-2 rounded-lg transition-all"
+                                    class="py-1.5 px-2 rounded-lg text-center transition-all touch-manipulation"
                                     :class="activeTransitMode === 'train' ? 'bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-xs' : 'text-slate-600 dark:text-slate-400'">
                                     {{ isKhmer ? '🚆 រថភ្លើង' : 'Train' }}
                                 </button>
                                 <button 
                                     @click="activeTransitMode = 'bus'"
-                                    class="py-1.5 px-2 rounded-lg transition-all"
+                                    class="py-1.5 px-2 rounded-lg text-center transition-all touch-manipulation"
                                     :class="activeTransitMode === 'bus' ? 'bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-xs' : 'text-slate-600 dark:text-slate-400'">
                                     {{ isKhmer ? '🚌 ឡានក្រុង' : 'Bus' }}
                                 </button>
-                            </div>
-                            <div class="flex items-center justify-between text-xs pt-1 border-t border-slate-200 dark:border-slate-800">
                                 <button 
                                     @click="activeTransitMode = 'ferry'"
-                                    class="w-full py-1.5 px-2 rounded-lg text-center font-bold font-mono transition-all"
-                                    :class="activeTransitMode === 'ferry' ? 'bg-blue-600 text-white shadow-xs' : 'bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300'">
-                                    🚤 {{ isKhmer ? 'ទូកល្បឿនលឿនកោះ (Island Ferry)' : 'Island Speed Ferry' }}
+                                    class="py-1.5 px-2 rounded-lg text-center transition-all touch-manipulation"
+                                    :class="activeTransitMode === 'ferry' ? 'bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-xs' : 'text-slate-600 dark:text-slate-400'">
+                                    {{ isKhmer ? '🚤 ទូកកោះ' : 'Ferry' }}
                                 </button>
                             </div>
                         </div>
@@ -75,7 +73,7 @@
 
             <!-- SECTION 1: ROYAL RAILWAY CAMBODIA -->
             <div v-if="activeTransitMode === 'all' || activeTransitMode === 'train'" class="space-y-4">
-                <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-slate-200 dark:border-slate-800 pb-3">
                     <div class="flex items-center gap-2">
                         <span class="text-2xl">🚆</span>
                         <div>
@@ -89,7 +87,7 @@
                     </div>
                     <a 
                         href="tel:078888582"
-                        class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-mono font-bold transition-colors">
+                        class="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-mono font-bold transition-colors shadow-xs active:scale-95 touch-manipulation w-full sm:w-auto">
                         📞 {{ isKhmer ? 'កក់សំបុត្ររថភ្លើង 078 888 582' : 'Call Booking 078 888 582' }}
                     </a>
                 </div>
@@ -121,18 +119,18 @@
                                 </div>
                             </div>
 
-                            <div class="grid grid-cols-3 gap-2 text-center text-[11px] font-mono">
-                                <div class="p-2 bg-slate-50 dark:bg-slate-950 rounded-lg border border-slate-100 dark:border-slate-800">
+                            <div class="grid grid-cols-3 gap-1 sm:gap-2 text-center text-[10px] sm:text-[11px] font-mono">
+                                <div class="p-1.5 sm:p-2 bg-slate-50 dark:bg-slate-950 rounded-lg border border-slate-100 dark:border-slate-800">
                                     <span class="text-slate-400 block text-[9px]">TAKEO</span>
-                                    <strong>$6 / 24,000៛</strong>
+                                    <strong class="text-[10px] sm:text-xs">$6 / 24k៛</strong>
                                 </div>
-                                <div class="p-2 bg-slate-50 dark:bg-slate-950 rounded-lg border border-slate-100 dark:border-slate-800">
+                                <div class="p-1.5 sm:p-2 bg-slate-50 dark:bg-slate-950 rounded-lg border border-slate-100 dark:border-slate-800">
                                     <span class="text-slate-400 block text-[9px]">KAMPOT</span>
-                                    <strong>$8 / 32,000៛</strong>
+                                    <strong class="text-[10px] sm:text-xs">$8 / 32k៛</strong>
                                 </div>
-                                <div class="p-2 bg-slate-50 dark:bg-slate-950 rounded-lg border border-slate-100 dark:border-slate-800">
-                                    <span class="text-slate-400 block text-[9px]">SIHANOUKVILLE</span>
-                                    <strong>$10 / 40,000៛</strong>
+                                <div class="p-1.5 sm:p-2 bg-slate-50 dark:bg-slate-950 rounded-lg border border-slate-100 dark:border-slate-800">
+                                    <span class="text-slate-400 block text-[9px]">SIHANOUK</span>
+                                    <strong class="text-[10px] sm:text-xs">$10 / 40k៛</strong>
                                 </div>
                             </div>
                         </div>
@@ -169,18 +167,18 @@
                                 </div>
                             </div>
 
-                            <div class="grid grid-cols-3 gap-2 text-center text-[11px] font-mono">
-                                <div class="p-2 bg-slate-50 dark:bg-slate-950 rounded-lg border border-slate-100 dark:border-slate-800">
+                            <div class="grid grid-cols-3 gap-1 sm:gap-2 text-center text-[10px] sm:text-[11px] font-mono">
+                                <div class="p-1.5 sm:p-2 bg-slate-50 dark:bg-slate-950 rounded-lg border border-slate-100 dark:border-slate-800">
                                     <span class="text-slate-400 block text-[9px]">PURSAT</span>
-                                    <strong>$7 / 28,000៛</strong>
+                                    <strong class="text-[10px] sm:text-xs">$7 / 28k៛</strong>
                                 </div>
-                                <div class="p-2 bg-slate-50 dark:bg-slate-950 rounded-lg border border-slate-100 dark:border-slate-800">
+                                <div class="p-1.5 sm:p-2 bg-slate-50 dark:bg-slate-950 rounded-lg border border-slate-100 dark:border-slate-800">
                                     <span class="text-slate-400 block text-[9px]">BATTAMBANG</span>
-                                    <strong>$8 / 32,000៛</strong>
+                                    <strong class="text-[10px] sm:text-xs">$8 / 32k៛</strong>
                                 </div>
-                                <div class="p-2 bg-slate-50 dark:bg-slate-950 rounded-lg border border-slate-100 dark:border-slate-800">
+                                <div class="p-1.5 sm:p-2 bg-slate-50 dark:bg-slate-950 rounded-lg border border-slate-100 dark:border-slate-800">
                                     <span class="text-slate-400 block text-[9px]">POIPET</span>
-                                    <strong>$10 / 40,000៛</strong>
+                                    <strong class="text-[10px] sm:text-xs">$10 / 40k៛</strong>
                                 </div>
                             </div>
                         </div>
@@ -226,17 +224,17 @@
                         class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl p-4 shadow-xs hover:border-blue-400 dark:hover:border-blue-600 transition-all flex flex-col justify-between space-y-3">
                         
                         <div>
-                            <div class="flex items-start justify-between">
-                                <div>
-                                    <span class="text-[10px] font-mono uppercase tracking-wider font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-2 py-0.5 rounded">
+                            <div class="flex items-start justify-between gap-2">
+                                <div class="min-w-0 flex-1">
+                                    <span class="text-[9px] sm:text-[10px] font-mono uppercase tracking-wider font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-2 py-0.5 rounded">
                                         PHNOM PENH ➔ {{ route.code }}
                                     </span>
-                                    <h3 class="text-base font-bold text-slate-900 dark:text-white mt-1">
+                                    <h3 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white mt-1 leading-snug">
                                         {{ isKhmer ? route.destinationKm : route.destinationEn }}
                                     </h3>
                                 </div>
-                                <div class="text-right">
-                                    <span class="text-base font-mono font-black text-blue-600 dark:text-blue-400 block">{{ route.priceRange }}</span>
+                                <div class="text-right shrink-0">
+                                    <span class="text-sm sm:text-base font-mono font-black text-blue-600 dark:text-blue-400 block">{{ route.priceRange }}</span>
                                     <span class="text-[9px] font-mono text-slate-400">{{ route.duration }}</span>
                                 </div>
                             </div>

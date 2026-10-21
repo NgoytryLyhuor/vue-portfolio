@@ -1118,3 +1118,18 @@ export default {
     }
 };
 </script>
+
+<style scoped>
+.scrollbar-none::-webkit-scrollbar,
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.scrollbar-none,
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+button {
+    -webkit-tap-highlight-color: transparent;
+}
+</style>

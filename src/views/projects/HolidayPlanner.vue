@@ -1,72 +1,72 @@
 <template>
-    <div class="min-h-screen bg-gradient-to-b from-slate-50 via-gray-50 to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-800 dark:text-slate-100 py-4 sm:py-10 px-3 sm:px-6 lg:px-8 transition-colors duration-300">
-        <div class="max-w-7xl mx-auto space-y-6 sm:space-y-8">
+    <div class="min-h-screen bg-gradient-to-b from-slate-50 via-gray-50 to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-800 dark:text-slate-100 py-3 sm:py-8 px-2.5 sm:px-6 lg:px-8 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto space-y-4 sm:space-y-6">
 
             <!-- Hero Section -->
-            <div class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-8 relative overflow-hidden shadow-sm">
-                <div class="flex flex-wrap items-center justify-between gap-2 pb-4 sm:pb-6 border-b border-slate-200 dark:border-slate-800 text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">
+            <div class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-7 relative overflow-hidden shadow-xs">
+                <div class="flex flex-wrap items-center justify-between gap-2 pb-3.5 sm:pb-5 border-b border-slate-200 dark:border-slate-800 text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">
                     <div class="flex items-center gap-2">
                         <span class="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></span>
-                        <span class="font-bold text-slate-700 dark:text-slate-200">
-                            {{ isKhmer ? 'ប្រតិទិនឈប់សម្រាកបុណ្យជាតិផ្លូវការ & គម្រោង LONG WEEKEND (PRIVATE)' : 'CAMBODIA OFFICIAL PUBLIC HOLIDAYS & LONG WEEKEND PLANNER' }}
+                        <span class="font-bold text-slate-700 dark:text-slate-200 truncate">
+                            {{ isKhmer ? 'ប្រតិទិនបុណ្យជាតិផ្លូវការ & គម្រោង LONG WEEKEND' : 'CAMBODIA OFFICIAL PUBLIC HOLIDAYS & PLANNER' }}
                         </span>
                     </div>
-                    <div class="flex items-center gap-3">
-                        <span class="font-mono text-amber-600 dark:text-amber-400 font-bold">🔒 PASSCODE PROTECTED</span>
-                        <span class="hidden sm:inline">|</span>
-                        <button @click="lockSession" class="text-rose-600 dark:text-rose-400 hover:underline font-bold">
-                            {{ isKhmer ? 'ចាក់សោ (Lock)' : 'Lock Session' }}
+                    <div class="flex items-center gap-2 sm:gap-3">
+                        <span class="font-mono text-amber-600 dark:text-amber-400 font-bold text-[10px] sm:text-xs">🔒 PRIVATE</span>
+                        <span>|</span>
+                        <button @click="lockSession" class="text-rose-600 dark:text-rose-400 hover:underline font-bold text-[10px] sm:text-xs">
+                            {{ isKhmer ? 'ចាក់សោ (Lock)' : 'Lock' }}
                         </button>
                     </div>
                 </div>
 
-                <div class="pt-5 sm:pt-6">
-                    <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5 sm:gap-6">
-                        <div class="max-w-3xl space-y-3">
-                            <div class="flex flex-wrap items-center gap-2">
-                                <div class="inline-flex items-center gap-1.5 px-3 py-1 text-[10px] sm:text-[11px] font-mono uppercase tracking-widest font-bold bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800/60 rounded-md">
+                <div class="pt-4 sm:pt-6">
+                    <div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 sm:gap-6">
+                        <div class="max-w-3xl space-y-2.5 sm:space-y-3">
+                            <div class="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                                <div class="inline-flex items-center gap-1 px-2.5 py-0.5 text-[9px] sm:text-[10px] font-mono uppercase tracking-widest font-bold bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800/60 rounded-md">
                                     <span>🌴</span>
-                                    <span>{{ isKhmer ? 'ផែនការវិស្សមកាល & ដើរលេង' : 'VACATION & GETAWAY PLANNER' }}</span>
+                                    <span>{{ isKhmer ? 'ផែនការវិស្សមកាល' : 'VACATION PLANNER' }}</span>
                                 </div>
 
                                 <!-- Sub-decree Badge -->
-                                <div class="inline-flex items-center gap-1 px-2.5 py-1 text-[10px] sm:text-[11px] font-mono bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-md border border-slate-200 dark:border-slate-700">
+                                <div class="inline-flex items-center gap-1 px-2 py-0.5 text-[9px] sm:text-[10px] font-mono bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-md border border-slate-200 dark:border-slate-700">
                                     <span>📜</span>
                                     <span>{{ currentSubDecree }}</span>
                                 </div>
                             </div>
 
-                            <h1 class="text-xl sm:text-3xl lg:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
-                                {{ isKhmer ? `ប្រតិទិនបុណ្យជាតិឆ្នាំ ${toKhmerNumeral(selectedYear)} & យុទ្ធសាស្ត្រសុំច្បាប់ ៥-៩ ថ្ងៃ` : `Cambodia Public Holidays ${selectedYear} & Long Weekend Vacation Planner` }}
+                            <h1 class="text-lg sm:text-2xl lg:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight leading-tight">
+                                {{ isKhmer ? `ប្រតិទិនបុណ្យជាតិឆ្នាំ ${toKhmerNumeral(selectedYear)} & យុទ្ធសាស្ត្រសុំច្បាប់ ៥-៩ ថ្ងៃ` : `Cambodia Public Holidays ${selectedYear} & Long Weekend Planner` }}
                             </h1>
                             <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                                 {{ isKhmer 
-                                    ? `បញ្ជីថ្ងៃឈប់សម្រាកបុណ្យជាតិផ្លូវការចំនួន ២២ ថ្ងៃ ស្របតាមអនុក្រឹត្យរាជរដ្ឋាភិបាលកម្ពុជា ជាមួយនាឡិការាប់ថយក្រោយជាក់ស្តែង និងយុទ្ធសាស្ត្រ "Bridge Days" សុំច្បាប់បន្ថែម ១-២ ថ្ងៃ ដើម្បីបានដើរលេងវិស្សមកាលជាប់គ្នា ៥ ទៅ ៩ ថ្ងៃពេញ។` 
-                                    : `Official 22-day public holiday calendar authorized by the Royal Government of Cambodia Sub-Decree with live holiday countdown and smart "Bridge Day" strategies to unlock 5 to 9 consecutive vacation days.` }}
+                                    ? `បញ្ជីថ្ងៃឈប់សម្រាកបុណ្យជាតិផ្លូវការចំនួន ២២ ថ្ងៃ ស្របតាមអនុក្រឹត្យរាជរដ្ឋាភិបាលកម្ពុជា ជាមួយនាឡិការាប់ថយក្រោយជាក់ស្តែង និងយុទ្ធសាស្ត្រ "Bridge Days" សុំច្បាប់បន្ថែម ១-២ ថ្ងៃ ដើម្បីបានដើរលេង ៥ ទៅ ៩ ថ្ងៃពេញ។` 
+                                    : `Official 22-day public holiday calendar authorized by Royal Government Sub-Decree with live countdown and "Bridge Day" strategies to unlock 5 to 9 consecutive vacation days.` }}
                             </p>
 
-                            <!-- Year Switcher -->
-                            <div class="pt-2 flex items-center gap-2">
-                                <span class="text-xs font-mono font-bold text-slate-500">{{ isKhmer ? 'ជ្រើសរើសឆ្នាំ៖' : 'Select Year:' }}</span>
-                                <div class="inline-flex p-1 bg-slate-100 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-mono font-bold">
+                            <!-- Year Switcher (Mobile Responsive Segmented Control) -->
+                            <div class="pt-1 flex flex-col sm:flex-row sm:items-center gap-2">
+                                <span class="text-[11px] sm:text-xs font-mono font-bold text-slate-500">{{ isKhmer ? 'ជ្រើសរើសឆ្នាំ៖' : 'Select Year:' }}</span>
+                                <div class="grid grid-cols-2 sm:inline-flex p-1 bg-slate-100 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-mono font-bold w-full sm:w-auto">
                                     <button 
                                         @click="selectedYear = 2026"
-                                        class="px-3 py-1 rounded-lg transition-all"
+                                        class="py-1.5 px-3 rounded-lg text-center transition-all"
                                         :class="selectedYear === 2026 ? 'bg-amber-500 text-white shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'">
-                                        {{ isKhmer ? 'ឆ្នាំ ២០២៦ (ផ្លូវការ)' : 'Year 2026 (Official)' }}
+                                        {{ isKhmer ? 'ឆ្នាំ ២០២៦ (ផ្លូវការ)' : 'Year 2026' }}
                                     </button>
                                     <button 
                                         @click="selectedYear = 2025"
-                                        class="px-3 py-1 rounded-lg transition-all"
+                                        class="py-1.5 px-3 rounded-lg text-center transition-all"
                                         :class="selectedYear === 2025 ? 'bg-amber-500 text-white shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'">
-                                        {{ isKhmer ? 'ឆ្នាំ ២០២៥ (ផ្លូវការ)' : 'Year 2025 (Official)' }}
+                                        {{ isKhmer ? 'ឆ្នាំ ២០២៥ (ផ្លូវការ)' : 'Year 2025' }}
                                     </button>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Next Holiday Countdown Card (Dynamic Live Date) -->
-                        <div class="p-4 sm:p-5 border-2 border-amber-500/30 bg-amber-50/50 dark:bg-amber-950/20 rounded-2xl space-y-3 lg:w-80 shrink-0">
+                        <div class="p-4 sm:p-5 border-2 border-amber-500/30 bg-amber-50/50 dark:bg-amber-950/20 rounded-2xl space-y-2.5 lg:w-80 shrink-0 w-full">
                             <div class="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-700 dark:text-amber-300 flex items-center justify-between">
                                 <span>⏳ {{ isKhmer ? 'បុណ្យជាតិបន្ទាប់' : 'NEXT HOLIDAY COUNTDOWN' }}</span>
                                 <span 
@@ -76,21 +76,21 @@
                                 </span>
                             </div>
 
-                            <div class="space-y-1">
-                                <h3 class="text-base font-bold text-slate-900 dark:text-white line-clamp-2">
+                            <div class="space-y-0.5">
+                                <h3 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white line-clamp-2">
                                     {{ isKhmer ? nextHoliday.nameKm : nextHoliday.nameEn }}
                                 </h3>
-                                <div class="text-xs text-slate-500 font-mono">
+                                <div class="text-[11px] sm:text-xs text-slate-500 font-mono">
                                     📅 {{ nextHoliday.dateFormatted }} ({{ isKhmer ? nextHoliday.dayOfWeekKm : nextHoliday.dayOfWeekEn }})
                                 </div>
                             </div>
 
                             <div class="pt-2 border-t border-amber-200 dark:border-amber-800/40 flex items-center justify-between font-mono">
                                 <div>
-                                    <span v-if="nextHoliday.isToday" class="text-xl font-black text-emerald-600 dark:text-emerald-400">
+                                    <span v-if="nextHoliday.isToday" class="text-lg sm:text-xl font-black text-emerald-600 dark:text-emerald-400">
                                         🎉 {{ isKhmer ? 'កំពុងឈប់សម្រាក' : 'Holiday Today!' }}
                                     </span>
-                                    <span v-else class="text-2xl font-black text-amber-600 dark:text-amber-400">
+                                    <span v-else class="text-2xl sm:text-3xl font-black text-amber-600 dark:text-amber-400">
                                         {{ isKhmer ? toKhmerNumeral(nextHoliday.daysRemaining) : nextHoliday.daysRemaining }}
                                     </span>
                                 </div>
@@ -109,25 +109,25 @@
             </div>
 
             <!-- Bridge Day Vacation Hacks (Long Weekend Strategies) -->
-            <div class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl p-5 sm:p-6 shadow-sm space-y-4">
-                <div class="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
-                    <span class="text-2xl">💡</span>
+            <div class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-6 shadow-xs space-y-3 sm:space-y-4">
+                <div class="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-2.5">
+                    <span class="text-xl sm:text-2xl">💡</span>
                     <div>
-                        <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white">
-                            {{ isKhmer ? `យុទ្ធសាស្ត្រសុំច្បាប់ឈប់សម្រាកយូរ ឆ្នាំ ${toKhmerNumeral(selectedYear)} (Long Weekend Vacation Hacks)` : `Long Weekend & Vacation Leave Strategies (${selectedYear})` }}
+                        <h2 class="text-xs sm:text-base font-bold text-slate-900 dark:text-white">
+                            {{ isKhmer ? `យុទ្ធសាស្ត្រសុំច្បាប់ឈប់សម្រាកយូរ ឆ្នាំ ${toKhmerNumeral(selectedYear)} (Vacation Hacks)` : `Long Weekend & Leave Strategies (${selectedYear})` }}
                         </h2>
-                        <p class="text-xs text-slate-500 dark:text-slate-400">
-                            {{ isKhmer ? 'គន្លឹះសុំច្បាប់ការងារ ១ ទៅ ២ ថ្ងៃ ដើម្បីបានដើរលេង ៥ ទៅ ៩ ថ្ងៃជាប់គ្នា' : 'Take 1-2 days of annual leave to unlock 5 to 9 consecutive vacation days' }}
+                        <p class="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400">
+                            {{ isKhmer ? 'គន្លឹះសុំច្បាប់ការងារ ១ ទៅ ២ ថ្ងៃ ដើម្បីបានដើរលេង ៥ ទៅ ៩ ថ្ងៃជាប់គ្នា' : 'Take 1-2 leave days to unlock 5 to 9 consecutive vacation days' }}
                         </p>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 text-xs">
                     <!-- Hack 1: Khmer New Year -->
-                    <div class="p-4 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 space-y-3">
+                    <div class="p-3.5 sm:p-4 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2.5">
                         <div class="flex items-center justify-between">
-                            <span class="font-bold text-amber-600 dark:text-amber-400 font-mono text-sm">🇰🇭 {{ isKhmer ? 'ចូលឆ្នាំខ្មែរ' : 'Khmer New Year' }}</span>
-                            <span class="text-[10px] font-mono font-bold bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 px-1.5 py-0.5 rounded">9 DAYS OFF</span>
+                            <span class="font-bold text-amber-600 dark:text-amber-400 font-mono text-xs sm:text-sm">🇰🇭 {{ isKhmer ? 'ចូលឆ្នាំខ្មែរ' : 'Khmer New Year' }}</span>
+                            <span class="text-[9px] sm:text-[10px] font-mono font-bold bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 px-1.5 py-0.5 rounded">9 DAYS OFF</span>
                         </div>
                         <p class="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
                             <span v-if="selectedYear === 2026">
@@ -141,16 +141,16 @@
                                     : 'Khmer New Year 2025 spans Mon-Wed (14-16 Apr). Taking Thursday (17) & Friday (18) off yields 9 consecutive vacation days (12-20 Apr)!' }}
                             </span>
                         </p>
-                        <div class="p-2 bg-white dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-800 font-mono text-[10px] text-slate-500">
+                        <div class="p-2 bg-white dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-800 font-mono text-[9px] sm:text-[10px] text-slate-500">
                             🎯 {{ isKhmer ? 'ស័ក្តិសមសម្រាប់៖ ទៅលេងស្រុកកំណើត ជួបជុំគ្រួសារ ឬហោះដើរលេងក្រៅប្រទេស' : 'Best for: Hometown visit, family reunion, or overseas trip' }}
                         </div>
                     </div>
 
                     <!-- Hack 2: Pchum Ben -->
-                    <div class="p-4 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 space-y-3">
+                    <div class="p-3.5 sm:p-4 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2.5">
                         <div class="flex items-center justify-between">
-                            <span class="font-bold text-emerald-600 dark:text-emerald-400 font-mono text-sm">🌾 {{ isKhmer ? 'បុណ្យភ្ជុំបិណ្ឌ' : 'Pchum Ben Festival' }}</span>
-                            <span class="text-[10px] font-mono font-bold bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 px-1.5 py-0.5 rounded">
+                            <span class="font-bold text-emerald-600 dark:text-emerald-400 font-mono text-xs sm:text-sm">🌾 {{ isKhmer ? 'បុណ្យភ្ជុំបិណ្ឌ' : 'Pchum Ben' }}</span>
+                            <span class="text-[9px] sm:text-[10px] font-mono font-bold bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 px-1.5 py-0.5 rounded">
                                 {{ selectedYear === 2026 ? '5 - 9 DAYS OFF' : '9 DAYS OFF' }}
                             </span>
                         </div>
@@ -166,16 +166,16 @@
                                     : 'Pchum Ben 2025 falls on Sun-Tue (21-23 Sep). Adding Wed-Fri creates a massive 9-day autumn vacation!' }}
                             </span>
                         </p>
-                        <div class="p-2 bg-white dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-800 font-mono text-[10px] text-slate-500">
-                            🎯 {{ isKhmer ? 'ស័ក្តិសមសម្រាប់៖ ដើរលេងមណ្ឌលគិរី រតនគិរី មើលទឹកធ្លាក់រដូវវស្សា និងធ្វើបុណ្យ ៧ វត្ត' : 'Best for: Mondulkiri, Ratanakiri waterfalls, & temple tours' }}
+                        <div class="p-2 bg-white dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-800 font-mono text-[9px] sm:text-[10px] text-slate-500">
+                            🎯 {{ isKhmer ? 'ស័ក្តិសមសម្រាប់៖ ដើរលេងមណ្ឌលគិរី រតនគិរី មើលទឹកធ្លាក់ និងធ្វើបុណ្យ ៧ វត្ត' : 'Best for: Mondulkiri, Ratanakiri waterfalls, & temple tours' }}
                         </div>
                     </div>
 
                     <!-- Hack 3: Water Festival -->
-                    <div class="p-4 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 space-y-3">
+                    <div class="p-3.5 sm:p-4 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2.5">
                         <div class="flex items-center justify-between">
-                            <span class="font-bold text-blue-600 dark:text-blue-400 font-mono text-sm">🌊 {{ isKhmer ? 'ព្រះរាជពិធីបុណ្យអុំទូក' : 'Water Festival' }}</span>
-                            <span class="text-[10px] font-mono font-bold bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 px-1.5 py-0.5 rounded">
+                            <span class="font-bold text-blue-600 dark:text-blue-400 font-mono text-xs sm:text-sm">🌊 {{ isKhmer ? 'ពិធីបុណ្យអុំទូក' : 'Water Festival' }}</span>
+                            <span class="text-[9px] sm:text-[10px] font-mono font-bold bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 px-1.5 py-0.5 rounded">
                                 {{ selectedYear === 2026 ? '9 DAYS OFF' : '6 - 9 DAYS OFF' }}
                             </span>
                         </div>
@@ -191,47 +191,47 @@
                                     : 'Water Festival 2025 falls on Tue-Thu (04-06 Nov). Taking Monday & Friday off provides 9 days off (01-09 Nov)!' }}
                             </span>
                         </p>
-                        <div class="p-2 bg-white dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-800 font-mono text-[10px] text-slate-500">
-                            🎯 {{ isKhmer ? 'ស័ក្តិសមសម្រាប់៖ សម្រាកលំហែកាយនៅឆ្នេរកោះរ៉ុង មើលការប្រណាំងទូក ឬឡើងភ្នំបូកគោ' : 'Best for: Koh Rong beaches, boat races, or Bokor Mountain' }}
+                        <div class="p-2 bg-white dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-800 font-mono text-[9px] sm:text-[10px] text-slate-500">
+                            🎯 {{ isKhmer ? 'ស័ក្តិសមសម្រាប់៖ សម្រាកនៅឆ្នេរកោះរ៉ុង មើលការប្រណាំងទូក ឬឡើងភ្នំបូកគោ' : 'Best for: Koh Rong beaches, boat races, or Bokor Mountain' }}
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Full Year Public Holidays Table -->
-            <div class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl p-5 sm:p-6 shadow-sm space-y-4">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
+            <!-- Full Year Public Holidays Section -->
+            <div class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-6 shadow-xs space-y-3.5 sm:space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800 pb-3">
                     <div class="flex items-center gap-2">
                         <span class="text-xl">📅</span>
                         <div>
-                            <h2 class="text-base font-bold text-slate-900 dark:text-white">
-                                {{ isKhmer ? `តារាងថ្ងៃឈប់សម្រាកការងារផ្លូវការ ឆ្នាំ ${toKhmerNumeral(selectedYear)} (សរុប ២២ ថ្ងៃ)` : `Official Public Holidays Calendar ${selectedYear} (Total 22 Days)` }}
+                            <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white">
+                                {{ isKhmer ? `តារាងថ្ងៃឈប់សម្រាកផ្លូវការ ឆ្នាំ ${toKhmerNumeral(selectedYear)} (២២ ថ្ងៃ)` : `Official Public Holidays Calendar ${selectedYear} (22 Days)` }}
                             </h2>
-                            <p class="text-xs text-slate-400">
-                                {{ currentSubDecree }} • {{ isKhmer ? 'ស្របតាមច្បាប់ការងារ និងអនុក្រឹត្យរាជរដ្ឋាភិបាលកម្ពុជា' : 'Authorized by Royal Government of Cambodia' }}
+                            <p class="text-[11px] text-slate-400">
+                                {{ currentSubDecree }} • {{ isKhmer ? 'ស្របតាមច្បាប់ការងាររាជរដ្ឋាភិបាលកម្ពុជា' : 'Kingdom of Cambodia Official Calendar' }}
                             </p>
                         </div>
                     </div>
 
-                    <!-- Search & Filter Controls -->
-                    <div class="flex flex-wrap items-center gap-2">
+                    <!-- Search & Filter Controls (Mobile Friendly Grid) -->
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-2 w-full sm:w-auto">
                         <!-- Status Filter -->
-                        <div class="inline-flex p-1 bg-slate-100 dark:bg-slate-800 rounded-lg text-xs font-mono font-medium">
+                        <div class="grid grid-cols-3 sm:inline-flex p-1 bg-slate-100 dark:bg-slate-800 rounded-lg text-xs font-mono font-medium">
                             <button 
                                 @click="statusFilter = 'all'"
-                                class="px-2.5 py-1 rounded transition-all"
+                                class="py-1 px-2.5 rounded text-center transition-all"
                                 :class="statusFilter === 'all' ? 'bg-white dark:bg-slate-900 text-amber-600 dark:text-amber-400 shadow-xs font-bold' : 'text-slate-500'">
                                 {{ isKhmer ? 'ទាំងអស់' : 'All' }}
                             </button>
                             <button 
                                 @click="statusFilter = 'upcoming'"
-                                class="px-2.5 py-1 rounded transition-all"
+                                class="py-1 px-2.5 rounded text-center transition-all"
                                 :class="statusFilter === 'upcoming' ? 'bg-white dark:bg-slate-900 text-amber-600 dark:text-amber-400 shadow-xs font-bold' : 'text-slate-500'">
                                 {{ isKhmer ? 'ខាងមុខ' : 'Upcoming' }}
                             </button>
                             <button 
                                 @click="statusFilter = 'passed'"
-                                class="px-2.5 py-1 rounded transition-all"
+                                class="py-1 px-2.5 rounded text-center transition-all"
                                 :class="statusFilter === 'passed' ? 'bg-white dark:bg-slate-900 text-amber-600 dark:text-amber-400 shadow-xs font-bold' : 'text-slate-500'">
                                 {{ isKhmer ? 'កន្លងផុត' : 'Passed' }}
                             </button>
@@ -243,13 +243,76 @@
                                 v-model="searchQuery"
                                 type="text"
                                 :placeholder="isKhmer ? 'ស្វែងរកបុណ្យជាតិ...' : 'Search holiday...'"
-                                class="w-full px-3 py-1 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-amber-500 font-sans"
+                                class="w-full px-3 py-1.5 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-amber-500 font-sans"
                             />
                         </div>
                     </div>
                 </div>
 
-                <div class="overflow-x-auto">
+                <!-- 1. MOBILE RESPONSIVE CARD VIEW (< sm: Oppo / Phone screen) -->
+                <div class="block sm:hidden space-y-2.5">
+                    <div 
+                        v-for="(item, idx) in filteredHolidayList" 
+                        :key="'mob-' + item.id"
+                        class="p-3.5 rounded-xl border transition-all"
+                        :class="item.isToday 
+                            ? 'bg-amber-500/10 border-amber-500/40 shadow-xs' 
+                            : 'bg-slate-50/70 dark:bg-slate-950/70 border-slate-200 dark:border-slate-800'">
+                        
+                        <!-- Top Meta Row: Date & Status Badge -->
+                        <div class="flex items-center justify-between gap-2 text-xs font-mono mb-1.5">
+                            <div class="flex items-center gap-1.5">
+                                <span class="text-[10px] font-bold text-slate-400">#{{ (idx + 1).toString().padStart(2, '0') }}</span>
+                                <span class="font-bold text-slate-900 dark:text-white">{{ item.dateFormatted }}</span>
+                            </div>
+                            
+                            <!-- Status Badge -->
+                            <span 
+                                v-if="item.isToday"
+                                class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 animate-pulse">
+                                🎉 {{ isKhmer ? 'ថ្ងៃនេះ' : 'Today' }}
+                            </span>
+                            <span 
+                                v-else-if="item.passed"
+                                class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-200/70 dark:bg-slate-800 text-slate-400">
+                                {{ isKhmer ? 'កន្លងផុត' : 'Passed' }}
+                            </span>
+                            <span 
+                                v-else
+                                class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 border border-amber-300 dark:border-amber-800">
+                                {{ item.daysRemaining === 1 ? (isKhmer ? 'ស្អែកនេះ' : 'Tomorrow') : (isKhmer ? `${toKhmerNumeral(item.daysRemaining)} ថ្ងៃទៀត` : `In ${item.daysRemaining}d`) }}
+                            </span>
+                        </div>
+
+                        <!-- Holiday Name -->
+                        <div class="space-y-0.5">
+                            <h4 class="text-sm font-bold text-slate-900 dark:text-white leading-snug">
+                                {{ isKhmer ? item.nameKm : item.nameEn }}
+                            </h4>
+                            <p class="text-[10px] text-slate-400">
+                                {{ isKhmer ? item.nameEn : item.nameKm }}
+                            </p>
+                        </div>
+
+                        <!-- Bottom Sub-details Row -->
+                        <div class="mt-2 pt-2 border-t border-slate-200/60 dark:border-slate-800/60 flex items-center justify-between text-[11px] font-mono text-slate-500">
+                            <span class="flex items-center gap-1">
+                                <span>🗓️</span>
+                                <span>{{ isKhmer ? item.dayOfWeekKm : item.dayOfWeekEn }}</span>
+                            </span>
+                            <span class="px-2 py-0.5 rounded bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 font-bold text-slate-700 dark:text-slate-300">
+                                {{ isKhmer ? toKhmerNumeral(item.days) : item.days }} {{ isKhmer ? 'ថ្ងៃ' : 'days off' }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div v-if="filteredHolidayList.length === 0" class="text-center py-6 text-xs text-slate-400 font-mono">
+                        {{ isKhmer ? 'មិនមានទិន្នន័យពិធីបុណ្យជាតិត្រូវគ្នានឹងការស្វែងរកឡើយ' : 'No public holidays match your search criteria' }}
+                    </div>
+                </div>
+
+                <!-- 2. DESKTOP FULL TABLE VIEW (hidden on mobile, visible on sm and up) -->
+                <div class="hidden sm:block overflow-x-auto">
                     <table class="w-full text-left text-xs font-mono">
                         <thead>
                             <tr class="border-b border-slate-200 dark:border-slate-800 text-slate-400 text-[10px] uppercase">
@@ -264,7 +327,7 @@
                         <tbody class="divide-y divide-slate-100 dark:divide-slate-800/60">
                             <tr 
                                 v-for="(item, idx) in filteredHolidayList" 
-                                :key="item.id"
+                                :key="'dt-' + item.id"
                                 class="hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition-colors"
                                 :class="{'bg-amber-50/30 dark:bg-amber-950/20': item.isToday}">
                                 <td class="py-3 text-slate-400">{{ (idx + 1).toString().padStart(2, '0') }}</td>

@@ -66,8 +66,8 @@
             <!-- TAB 1: CHARGING STATIONS DIRECTORY -->
             <div v-if="activeTab === 'stations'" class="space-y-6">
                 <!-- Search & Filters -->
-                <div class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-6 shadow-sm space-y-4">
-                    <div class="flex flex-col sm:flex-row gap-3 items-center justify-between">
+                <div class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl p-3.5 sm:p-6 shadow-xs space-y-3 sm:space-y-4">
+                    <div class="flex flex-col sm:flex-row gap-2.5 sm:gap-3 items-stretch sm:items-center justify-between">
                         <!-- Search Box -->
                         <div class="relative w-full sm:max-w-md">
                             <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
@@ -77,15 +77,15 @@
                                 v-model="searchStation"
                                 type="text"
                                 :placeholder="isKhmer ? 'ស្វែងរកទីតាំង (ឧ. EDC, Total, Expressway, Aeon)...' : 'Search station (e.g. EDC, Total, Expressway, Aeon)...'"
-                                class="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 font-sans"
+                                class="w-full pl-10 pr-4 py-2 sm:py-2.5 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 font-sans"
                             />
                         </div>
 
                         <!-- Brand filter pills -->
-                        <div class="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs">
+                        <div class="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs w-full sm:w-auto no-scrollbar">
                             <button 
                                 @click="selectedBrand = 'ALL'"
-                                class="px-3 py-1.5 rounded-lg font-medium transition-all whitespace-nowrap"
+                                class="px-3 py-1.5 rounded-lg font-medium transition-all whitespace-nowrap touch-manipulation"
                                 :class="selectedBrand === 'ALL' ? 'bg-emerald-600 text-white shadow-xs' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'">
                                 {{ isKhmer ? 'ទាំងអស់' : 'All Brands' }}
                             </button>
@@ -93,7 +93,7 @@
                                 v-for="brand in ['EDC', 'TotalEnergies', 'Caltex', 'PTT', 'Aeon']"
                                 :key="brand"
                                 @click="selectedBrand = brand"
-                                class="px-2.5 py-1.5 rounded-lg font-medium transition-all whitespace-nowrap"
+                                class="px-2.5 py-1.5 rounded-lg font-medium transition-all whitespace-nowrap touch-manipulation"
                                 :class="selectedBrand === brand ? 'bg-emerald-600 text-white shadow-xs' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'">
                                 {{ brand }}
                             </button>
@@ -286,14 +286,14 @@
                     <!-- Comparison Results Dashboard -->
                     <div class="lg:col-span-7 space-y-4">
                         <!-- Big Money Saved Callout -->
-                        <div class="p-6 border-2 border-emerald-500/40 bg-gradient-to-br from-emerald-500/10 via-white dark:via-slate-900 to-white dark:to-slate-900 rounded-2xl shadow-sm space-y-2">
+                        <div class="p-4 sm:p-6 border-2 border-emerald-500/40 bg-gradient-to-br from-emerald-500/10 via-white dark:via-slate-900 to-white dark:to-slate-900 rounded-2xl shadow-xs space-y-2">
                             <div class="flex items-center justify-between">
-                                <span class="text-xs font-mono font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                                <span class="text-[11px] sm:text-xs font-mono font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
                                     {{ isKhmer ? 'ទឹកប្រាក់ដែលអ្នកសន្សំបាន' : 'TOTAL MONEY SAVED BY DRIVING EV' }}
                                 </span>
-                                <span class="text-2xl">💰</span>
+                                <span class="text-xl sm:text-2xl">💰</span>
                             </div>
-                            <div class="text-3xl sm:text-5xl font-black font-mono text-emerald-600 dark:text-emerald-400">
+                            <div class="text-3xl sm:text-4xl md:text-5xl font-black font-mono text-emerald-600 dark:text-emerald-400">
                                 +${{ formatNumber(monthlySavings) }} <span class="text-base sm:text-lg font-normal text-slate-500">/ {{ isKhmer ? 'ខែ' : 'mo' }}</span>
                             </div>
                             <p class="text-xs text-slate-600 dark:text-slate-300">
@@ -595,3 +595,16 @@ export default {
     }
 };
 </script>
+
+<style scoped>
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+button {
+    -webkit-tap-highlight-color: transparent;
+}
+</style>
