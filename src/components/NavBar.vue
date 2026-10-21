@@ -340,8 +340,7 @@ import {
     MapPinIcon,
     HeartIcon,
     TicketIcon,
-    Battery100Icon,
-    LockClosedIcon
+    Battery100Icon
 } from '@heroicons/vue/24/outline';
 
 const route = useRoute();
@@ -482,13 +481,6 @@ const featureLinks = computed(() => [
         badgeText: 'text-emerald-500 dark:text-emerald-400'
     },
     {
-        path: '/holiday-access',
-        label: isKhmer.value ? 'បុណ្យជាតិ & Long Weekend 🔒' : 'Holiday Planner 🔒',
-        icon: LockClosedIcon,
-        badgeBg: 'bg-amber-500/10 dark:bg-amber-500/20',
-        badgeText: 'text-amber-500 dark:text-amber-400'
-    },
-    {
         path: '/crypto-tracker-password',
         label: isKhmer.value ? 'តាមដានគ្រីបតូ' : 'Crypto Tracker',
         icon: ChartBarIcon,
@@ -507,7 +499,7 @@ const standardNavLinks = computed(() => {
 });
 
 const isFeatureActive = computed(() => {
-    return featureLinks.value.some(link => route.path === link.path || route.path === '/crypto-tracker' || route.path === '/holiday-planner');
+    return featureLinks.value.some(link => route.path === link.path || route.path === '/crypto-tracker');
 });
 
 // Single unified navigation handler that closes menus reliably and scrolls to top

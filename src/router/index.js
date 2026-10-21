@@ -27,8 +27,6 @@ const PostalCodesDirectory = () => import('@/views/projects/PostalCodesDirectory
 const CambodiaHospitals = () => import('@/views/projects/CambodiaHospitals.vue')
 const InterProvinceTransit = () => import('@/views/projects/InterProvinceTransit.vue')
 const EvChargingDirectory = () => import('@/views/projects/EvChargingDirectory.vue')
-const HolidayAccess = () => import('@/views/projects/HolidayAccess.vue')
-const HolidayPlanner = () => import('@/views/projects/HolidayPlanner.vue')
 const SpaceEvents = () => import('@/views/space/SpaceEvents.vue')
 const SpaceEventDetail = () => import('@/views/space/SpaceEventDetail.vue')
 const Login = () => import('@/views/auth/LoginView.vue')
@@ -288,26 +286,11 @@ const routes = [
     },
     {
         path: '/holiday-access',
-        name: 'holiday-access',
-        component: HolidayAccess,
-        meta: {
-            showNavBar: false,
-            title: 'Cambodia Holiday Planner - Password Protected',
-            description: 'Password protected access to Cambodia public holiday planner',
-            robots: 'noindex, nofollow'
-        }
+        redirect: '/projects'
     },
     {
         path: '/holiday-planner',
-        name: 'holiday-planner',
-        component: HolidayPlanner,
-        meta: {
-            showNavBar: true,
-            title: 'Cambodia Public Holidays 2026 & Long Weekend Planner',
-            description: 'Official Kingdom of Cambodia public holiday calendar with real-time holiday countdowns and the Bridge Day vacation hack.',
-            robots: 'noindex, nofollow',
-            requiresHolidayAuth: true
-        }
+        redirect: '/projects'
     },
     {
         path: '/crypto-tracker-password',
@@ -455,10 +438,6 @@ const checkGarageAuth = () => {
     return sessionStorage.getItem('garage_auth') === 'true'
 }
 
-// Function to check holiday planner authentication
-const checkHolidayAuth = () => {
-    return sessionStorage.getItem('holiday_auth') === 'true'
-}
 
 // Navigation guard for authentication and title updates
 router.beforeEach(async (to, from, next) => {
@@ -480,15 +459,6 @@ router.beforeEach(async (to, from, next) => {
         if (!isCryptoAuthenticated) {
             // Not authenticated, redirect to garage access page (unlocks crypto + garage)
             next({ name: 'garage-access', query: { redirect: to.fullPath } })
-            return
-        }
-    }
-
-    // Check holiday planner authentication
-    if (to.meta.requiresHolidayAuth) {
-        const isHolidayAuthenticated = checkHolidayAuth() || checkGarageAuth()
-        if (!isHolidayAuthenticated) {
-            next({ name: 'holiday-access', query: { redirect: to.fullPath } })
             return
         }
     }

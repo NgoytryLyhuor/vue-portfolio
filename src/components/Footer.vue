@@ -327,22 +327,6 @@
                                 </div>
                             </div>
                         </router-link>
-
-                        <router-link
-                            to="/holiday-access"
-                            @click="scrollToTop"
-                            class="group p-2.5 rounded-lg border border-slate-200 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-900/40 hover:bg-white dark:hover:bg-slate-800/80 hover:border-amber-500/50 dark:hover:border-amber-500/50 transition-all flex items-center gap-2.5"
-                        >
-                            <span class="text-base shrink-0 p-1 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700">🔒</span>
-                            <div class="min-w-0 flex-1">
-                                <div class="font-bold text-slate-800 dark:text-slate-200 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors truncate">
-                                    {{ isKhmer ? 'បុណ្យជាតិ & ដើរលេង 🔒' : 'Holiday Planner 🔒' }}
-                                </div>
-                                <div class="text-[10px] text-slate-400 dark:text-slate-500 truncate">
-                                    {{ isKhmer ? 'ផែនការសុំច្បាប់ Long Weekend' : 'Private vacation hacks' }}
-                                </div>
-                            </div>
-                        </router-link>
                     </div>
                 </div>
             </div>
