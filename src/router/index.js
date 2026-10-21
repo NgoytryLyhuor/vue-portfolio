@@ -22,7 +22,6 @@ const CryptoPriceTracker = () => import('@/views/projects/CryptoPriceTracker.vue
 const GarageAccess = () => import('@/views/projects/GarageAccess.vue')
 const PrivateGarage = () => import('@/views/projects/PrivateGarage.vue')
 const PriusMaintenance = () => import('@/views/projects/PriusMaintenance.vue')
-const KhqrBillSplitter = () => import('@/views/projects/KhqrBillSplitter.vue')
 const SalaryTaxCalculator = () => import('@/views/projects/SalaryTaxCalculator.vue')
 const BankLoanCalculator = () => import('@/views/projects/BankLoanCalculator.vue')
 const PostalCodesDirectory = () => import('@/views/projects/PostalCodesDirectory.vue')
@@ -205,21 +204,6 @@ const routes = [
     {
         path: '/cambodia-electricity',
         redirect: '/utility-calculator'
-    },
-    {
-        path: '/khqr-bill-splitter',
-        name: 'khqr-bill-splitter',
-        component: KhqrBillSplitter,
-        meta: {
-            showNavBar: true,
-            title: 'Bakong KHQR Generator & Bill Splitter - Cambodia Payment',
-            description: 'Generate official Bakong KHQR EMVCo payment codes for KHR and USD, split restaurant and group bills, and share receipt breakdowns on Telegram.',
-            robots: 'index, follow'
-        }
-    },
-    {
-        path: '/khqr',
-        redirect: '/khqr-bill-splitter'
     },
     {
         path: '/salary-tax-calculator',

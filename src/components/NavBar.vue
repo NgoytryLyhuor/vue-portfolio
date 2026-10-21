@@ -336,7 +336,6 @@ import {
     IdentificationIcon,
     BoltIcon,
     ArrowDownTrayIcon,
-    QrCodeIcon,
     CalculatorIcon,
     BanknotesIcon,
     MapPinIcon,
@@ -445,13 +444,6 @@ const featureLinks = computed(() => [
         icon: BoltIcon,
         badgeBg: 'bg-amber-500/10 dark:bg-amber-500/20',
         badgeText: 'text-amber-500 dark:text-amber-400'
-    },
-    {
-        path: '/khqr-bill-splitter',
-        label: isKhmer.value ? 'បង្កើត KHQR & ចែកលុយ' : 'Bakong KHQR & Bill Split',
-        icon: QrCodeIcon,
-        badgeBg: 'bg-red-500/10 dark:bg-red-500/20',
-        badgeText: 'text-red-500 dark:text-red-400'
     },
     {
         path: '/salary-tax-calculator',

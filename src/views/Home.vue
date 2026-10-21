@@ -142,16 +142,6 @@
                             </p>
                         </router-link>
 
-                        <router-link to="/khqr-bill-splitter"
-                            class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 rounded-xl hover:border-red-500 dark:hover:border-red-500 transition-all group block">
-                            <div class="text-xl mb-1 group-hover:scale-105 transition-transform">🇰🇭</div>
-                            <div class="font-bold text-xs text-slate-900 dark:text-white group-hover:text-red-600 dark:group-hover:text-red-400">
-                                {{ isKhmer ? 'បាគង KHQR & ចែកលុយញ៉ាំបាយ' : 'Bakong KHQR & Bill Splitter' }}
-                            </div>
-                            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">
-                                {{ isKhmer ? 'បង្កើតកូដ KHQR ផ្លូវការ & ចែកវិក្កយបត្រ Telegram' : 'Generate Bakong QR and split group meal receipts' }}
-                            </p>
-                        </router-link>
 
                         <router-link to="/salary-tax-calculator"
                             class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 rounded-xl hover:border-emerald-500 dark:hover:border-emerald-500 transition-all group block">

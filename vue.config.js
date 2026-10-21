@@ -15,7 +15,6 @@ const staticPaths = [
   { path: '/traffic-fines', changefreq: 'weekly', priority: 0.9 },
   { path: '/public-services', changefreq: 'weekly', priority: 0.9 },
   { path: '/utility-calculator', changefreq: 'weekly', priority: 0.9 },
-  { path: '/khqr-bill-splitter', changefreq: 'weekly', priority: 0.9 },
   { path: '/salary-tax-calculator', changefreq: 'weekly', priority: 0.9 },
   { path: '/bank-loan-calculator', changefreq: 'weekly', priority: 0.9 },
   { path: '/postal-codes', changefreq: 'weekly', priority: 0.9 },
