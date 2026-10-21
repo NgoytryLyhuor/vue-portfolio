@@ -25,7 +25,6 @@ const PriusMaintenance = () => import('@/views/projects/PriusMaintenance.vue')
 const SalaryTaxCalculator = () => import('@/views/projects/SalaryTaxCalculator.vue')
 const BankLoanCalculator = () => import('@/views/projects/BankLoanCalculator.vue')
 const PostalCodesDirectory = () => import('@/views/projects/PostalCodesDirectory.vue')
-const KhmerTypingTest = () => import('@/views/projects/KhmerTypingTest.vue')
 const CambodiaHospitals = () => import('@/views/projects/CambodiaHospitals.vue')
 const SpaceEvents = () => import('@/views/space/SpaceEvents.vue')
 const SpaceEventDetail = () => import('@/views/space/SpaceEventDetail.vue')
@@ -249,21 +248,6 @@ const routes = [
     {
         path: '/emergency-directory',
         redirect: '/postal-codes'
-    },
-    {
-        path: '/khmer-typing-test',
-        name: 'khmer-typing-test',
-        component: KhmerTypingTest,
-        meta: {
-            showNavBar: true,
-            title: 'Khmer Unicode Typing Speed Test & Accuracy Trainer',
-            description: 'Interactive typing test for Khmer Unicode NiDA keyboard. Measure WPM, CPM, keystroke accuracy, practice proverbs, and view your ranking.',
-            robots: 'index, follow'
-        }
-    },
-    {
-        path: '/typing-test',
-        redirect: '/khmer-typing-test'
     },
     {
         path: '/cambodia-hospitals',

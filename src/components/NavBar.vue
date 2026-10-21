@@ -339,7 +339,6 @@ import {
     CalculatorIcon,
     BanknotesIcon,
     MapPinIcon,
-    DocumentTextIcon,
     HeartIcon
 } from '@heroicons/vue/24/outline';
 
@@ -465,13 +464,6 @@ const featureLinks = computed(() => [
         icon: MapPinIcon,
         badgeBg: 'bg-purple-500/10 dark:bg-purple-500/20',
         badgeText: 'text-purple-500 dark:text-purple-400'
-    },
-    {
-        path: '/khmer-typing-test',
-        label: isKhmer.value ? 'តេស្តវាយអក្សរខ្មែរ' : 'Khmer Typing Speed Test',
-        icon: DocumentTextIcon,
-        badgeBg: 'bg-indigo-500/10 dark:bg-indigo-500/20',
-        badgeText: 'text-indigo-500 dark:text-indigo-400'
     },
     {
         path: '/cambodia-hospitals',

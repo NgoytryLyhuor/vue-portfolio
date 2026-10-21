@@ -176,16 +176,6 @@
                             </p>
                         </router-link>
 
-                        <router-link to="/khmer-typing-test"
-                            class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 rounded-xl hover:border-indigo-500 dark:hover:border-indigo-500 transition-all group block">
-                            <div class="text-xl mb-1 group-hover:scale-105 transition-transform">⌨️</div>
-                            <div class="font-bold text-xs text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">
-                                {{ isKhmer ? 'តេស្តល្បឿនវាយអក្សរខ្មែរ' : 'Khmer Unicode Typing Test' }}
-                            </div>
-                            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">
-                                {{ isKhmer ? 'វាស់ស្ទង់ WPM, CPM, ភាពសុក្រឹត និងកម្រិត Rank' : 'Live WPM, CPM, keystroke accuracy & NiDA guidelines' }}
-                            </p>
-                        </router-link>
 
                         <router-link to="/cambodia-hospitals"
                             class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 rounded-xl hover:border-rose-500 dark:hover:border-rose-500 transition-all group block">
