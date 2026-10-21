@@ -106,9 +106,9 @@
                 </div>
             </div>
 
-            <!-- Passcode Hint Note -->
+            <!-- Private Workspace Indicator -->
             <p class="text-[11px] text-center text-slate-400 mt-4 font-mono">
-                🔒 Security Passcode: <span class="font-bold text-slate-600 dark:text-slate-300">5503</span>
+                🔒 {{ isKhmer ? 'តំបន់សុវត្ថិភាពឯកជន (Private Workspace)' : 'Secure Private Workspace' }}
             </p>
         </div>
     </div>

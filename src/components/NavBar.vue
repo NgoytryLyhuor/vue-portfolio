@@ -334,7 +334,6 @@ import {
     FireIcon,
     ShieldExclamationIcon,
     IdentificationIcon,
-    BoltIcon,
     ArrowDownTrayIcon,
     CalculatorIcon,
     BanknotesIcon,
@@ -439,13 +438,6 @@ const featureLinks = computed(() => [
         icon: IdentificationIcon,
         badgeBg: 'bg-teal-500/10 dark:bg-teal-500/20',
         badgeText: 'text-teal-500 dark:text-teal-400'
-    },
-    {
-        path: '/utility-calculator',
-        label: isKhmer.value ? 'ថ្លៃទឹក-ភ្លើង (EDC & PPWSA)' : 'Electricity & Water (EDC)',
-        icon: BoltIcon,
-        badgeBg: 'bg-amber-500/10 dark:bg-amber-500/20',
-        badgeText: 'text-amber-500 dark:text-amber-400'
     },
     {
         path: '/salary-tax-calculator',

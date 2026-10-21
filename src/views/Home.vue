@@ -131,16 +131,6 @@
                             </p>
                         </router-link>
 
-                        <router-link to="/utility-calculator"
-                            class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 rounded-xl hover:border-amber-500 dark:hover:border-amber-500 transition-all group block">
-                            <div class="text-xl mb-1 group-hover:scale-105 transition-transform">⚡</div>
-                            <div class="font-bold text-xs text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400">
-                                {{ isKhmer ? 'ថ្លៃទឹក-ភ្លើង (EDC & PPWSA)' : 'Electricity & Water (EDC)' }}
-                            </div>
-                            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">
-                                {{ isKhmer ? 'គណនាថ្លៃភ្លើង EDC ទឹកស្អាត & ឆែកថ្លៃបន្ទប់ជួល' : 'Official tiered EDC & PPWSA bill and rental checker' }}
-                            </p>
-                        </router-link>
 
 
                         <router-link to="/salary-tax-calculator"
