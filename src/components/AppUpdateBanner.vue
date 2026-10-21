@@ -10,7 +10,7 @@
   >
     <div
       v-if="updateAvailable"
-      class="fixed top-16 sm:top-20 left-3 right-3 sm:left-auto sm:right-6 sm:w-96 z-50 bg-gradient-to-r from-blue-600/90 via-indigo-600/90 to-blue-700/90 backdrop-blur-2xl text-white shadow-[0_16px_40px_rgba(37,99,235,0.35)] p-3.5 sm:p-4 rounded-2xl border border-white/30"
+      class="fixed top-16 sm:top-20 left-3 right-3 sm:left-auto sm:right-6 sm:w-96 z-50 bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-2xl p-3.5 sm:p-4 rounded-xl border border-blue-400/40 backdrop-blur-md"
       role="alert"
       aria-live="polite"
     >

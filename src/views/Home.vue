@@ -3,7 +3,7 @@
         <!-- Main Content -->
         <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8 space-y-8 sm:space-y-12">
             <!-- Hero HUD Section (Modern Tech with subtle rounded corners) -->
-            <section class="liquid-glass-card rounded-2xl p-4 sm:p-10 relative overflow-hidden shadow-sm">
+            <section class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-10 relative overflow-hidden shadow-sm">
                 <!-- Top HUD Meta Bar -->
                 <div class="flex flex-wrap items-center justify-between gap-2 pb-4 sm:pb-6 border-b border-slate-200 dark:border-slate-800 text-[10px] sm:text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400">
                     <div class="flex items-center gap-2">
@@ -55,7 +55,7 @@
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
                         <router-link to="/vehicle-tax"
-                            class="p-4 liquid-glass-card rounded-xl hover:border-blue-500 dark:hover:border-blue-500 transition-all group block">
+                            class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 rounded-xl hover:border-blue-500 dark:hover:border-blue-500 transition-all group block">
                             <div class="text-xl mb-1 group-hover:scale-105 transition-transform">🚗</div>
                             <div class="font-bold text-xs text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400">
                                 {{ isKhmer ? 'ពន្ធផ្លូវ & ឆៀកឡាន' : 'Vehicle Tax & Inspection' }}
@@ -66,7 +66,7 @@
                         </router-link>
 
                         <router-link to="/fuel-prices"
-                            class="p-4 liquid-glass-card rounded-xl hover:border-orange-500 dark:hover:border-orange-500 transition-all group block">
+                            class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 rounded-xl hover:border-orange-500 dark:hover:border-orange-500 transition-all group block">
                             <div class="text-xl mb-1 group-hover:scale-105 transition-transform">⛽</div>
                             <div class="font-bold text-xs text-slate-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-400">
                                 {{ isKhmer ? 'តាមដានតម្លៃប្រេងសាំង' : 'Official Fuel Prices' }}
@@ -77,7 +77,7 @@
                         </router-link>
 
                         <router-link to="/traffic-fines"
-                            class="p-4 liquid-glass-card rounded-xl hover:border-rose-500 dark:hover:border-rose-500 transition-all group block">
+                            class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 rounded-xl hover:border-rose-500 dark:hover:border-rose-500 transition-all group block">
                             <div class="text-xl mb-1 group-hover:scale-105 transition-transform">⚖️</div>
                             <div class="font-bold text-xs text-slate-900 dark:text-white group-hover:text-rose-600 dark:group-hover:text-rose-400">
                                 {{ isKhmer ? 'ផាកពិន័យចរាចរណ៍ផ្លូវគោក' : 'Traffic Fines & Penalties' }}
@@ -88,7 +88,7 @@
                         </router-link>
 
                         <router-link to="/public-services"
-                            class="p-4 liquid-glass-card rounded-xl hover:border-teal-500 dark:hover:border-teal-500 transition-all group block">
+                            class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 rounded-xl hover:border-teal-500 dark:hover:border-teal-500 transition-all group block">
                             <div class="text-xl mb-1 group-hover:scale-105 transition-transform">🪪</div>
                             <div class="font-bold text-xs text-slate-900 dark:text-white group-hover:text-teal-600 dark:group-hover:text-teal-400">
                                 {{ isKhmer ? 'សេវាសាធារណៈ & Passport' : 'Public Services & Passport' }}
@@ -99,7 +99,7 @@
                         </router-link>
 
                         <router-link to="/khmer-calendar"
-                            class="p-4 liquid-glass-card rounded-xl hover:border-emerald-500 dark:hover:border-emerald-500 transition-all group block">
+                            class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 rounded-xl hover:border-emerald-500 dark:hover:border-emerald-500 transition-all group block">
                             <div class="text-xl mb-1 group-hover:scale-105 transition-transform">📅</div>
                             <div class="font-bold text-xs text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400">
                                 {{ isKhmer ? 'ប្រតិទិនចន្ទគតិខ្មែរ' : 'Khmer Lunar Calendar' }}
@@ -110,7 +110,7 @@
                         </router-link>
 
                         <router-link to="/weather-app"
-                            class="p-4 liquid-glass-card rounded-xl hover:border-sky-500 dark:hover:border-sky-500 transition-all group block">
+                            class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 rounded-xl hover:border-sky-500 dark:hover:border-sky-500 transition-all group block">
                             <div class="text-xl mb-1 group-hover:scale-105 transition-transform">⛅</div>
                             <div class="font-bold text-xs text-slate-900 dark:text-white group-hover:text-sky-600 dark:group-hover:text-sky-400">
                                 {{ isKhmer ? 'ធាតុអាកាស & គុណភាពខ្យល់' : 'Weather & Air Quality' }}
@@ -121,7 +121,7 @@
                         </router-link>
 
                         <router-link to="/currency-converter"
-                            class="p-4 liquid-glass-card rounded-xl hover:border-amber-500 dark:hover:border-amber-500 transition-all group block">
+                            class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 rounded-xl hover:border-amber-500 dark:hover:border-amber-500 transition-all group block">
                             <div class="text-xl mb-1 group-hover:scale-105 transition-transform">💱</div>
                             <div class="font-bold text-xs text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400">
                                 {{ isKhmer ? 'កម្មវិធីប្តូរប្រាក់រហ័ស' : 'Currency Converter' }}
@@ -206,7 +206,7 @@
                     <div v-else class="space-y-8">
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                             <article v-for="article in paginatedArticles" :key="article.id"
-                                class="liquid-glass-card hover:border-blue-500 dark:hover:border-blue-400 rounded-2xl flex flex-col justify-between group p-5">
+                                class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500 dark:hover:border-blue-400 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-200 flex flex-col justify-between group p-5">
                                 <div class="space-y-3">
                                     <!-- Author & Date Header -->
                                     <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 pb-3 border-b border-slate-100 dark:border-slate-800">

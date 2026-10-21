@@ -12,7 +12,7 @@
     >
       <div
         v-if="canInstall && !isInstalled && !isBannerDismissed"
-        class="fixed bottom-3 left-3 right-3 sm:left-auto sm:right-6 sm:bottom-6 sm:w-96 z-50 liquid-glass shadow-2xl p-3.5 sm:p-4 rounded-2xl text-slate-800 dark:text-slate-100"
+        class="fixed bottom-3 left-3 right-3 sm:left-auto sm:right-6 sm:bottom-6 sm:w-96 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border border-slate-300 dark:border-slate-700 shadow-2xl p-3.5 sm:p-4 rounded-xl text-slate-800 dark:text-slate-100"
         role="dialog"
         aria-label="Install Application"
       >
@@ -89,7 +89,7 @@
         aria-modal="true"
         aria-label="iOS Install Instructions"
       >
-        <div class="w-full max-w-md liquid-glass shadow-2xl rounded-2xl p-5 text-slate-800 dark:text-slate-100 space-y-4">
+        <div class="w-full max-w-md bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 shadow-2xl rounded-2xl p-5 text-slate-800 dark:text-slate-100 space-y-4">
           <!-- Header -->
           <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
             <div class="flex items-center gap-2.5">
