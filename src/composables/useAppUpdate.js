@@ -1,15 +1,51 @@
 // useAppUpdate.js - Composable to monitor PWA & service worker updates and allow instant 1-tap app refresh
 import { ref, onMounted } from 'vue';
+import { APP_VERSION, BUILD_TIMESTAMP } from '@/version';
 
 const updateAvailable = ref(false);
 const isCheckingUpdate = ref(false);
 const updateStatus = ref(null); // 'checking' | 'updated' | 'up_to_date' | 'error' | null
 const lastCheckedTime = ref(null);
-const currentVersion = ref('v4.1.0');
+const currentVersion = ref(APP_VERSION);
 let swRegistration = null;
 
 export function useAppUpdate() {
-    // Check if a service worker update is waiting or available
+    // 1. Check version.json endpoint on the server
+    const checkVersionEndpoint = async () => {
+        if (typeof window === 'undefined') return false;
+
+        try {
+            const res = await fetch(`/version.json?_t=${Date.now()}`, {
+                cache: 'no-store',
+                headers: {
+                    'Cache-Control': 'no-cache, no-store, must-revalidate',
+                    'Pragma': 'no-cache'
+                }
+            });
+
+            if (!res.ok) return false;
+
+            const serverData = await res.json();
+            if (!serverData) return false;
+
+            // Check if server version or build time is newer
+            const isNewerVersion = serverData.version && serverData.version !== APP_VERSION;
+            const isNewerBuild = serverData.buildTime && serverData.buildTime > BUILD_TIMESTAMP;
+
+            if (isNewerVersion || isNewerBuild) {
+                console.log('[AppUpdate] Newer version detected on server:', serverData.version, 'Local:', APP_VERSION);
+                updateAvailable.value = true;
+                return true;
+            }
+
+            return false;
+        } catch (err) {
+            console.warn('[AppUpdate] Version endpoint check warning:', err);
+            return false;
+        }
+    };
+
+    // 2. Check if a service worker update is waiting or available
     const checkServiceWorkerUpdate = async () => {
         if (typeof window === 'undefined' || !('serviceWorker' in navigator)) {
             return false;
@@ -22,13 +58,13 @@ export function useAppUpdate() {
 
             if (!swRegistration) return false;
 
-            // 1. Check if there is already a waiting worker
+            // Check if there is already a waiting worker
             if (swRegistration.waiting) {
                 updateAvailable.value = true;
                 return true;
             }
 
-            // 2. Trigger check on the server
+            // Trigger check on the server
             await swRegistration.update();
 
             if (swRegistration.waiting) {
@@ -38,57 +74,12 @@ export function useAppUpdate() {
 
             return false;
         } catch (err) {
-            console.warn('[AppUpdate] SW check error:', err);
+            console.warn('[AppUpdate] SW check warning:', err);
             return false;
         }
     };
 
-    // Check server ETag/hash to see if a newer build was deployed
-    const checkServerBuildUpdate = async () => {
-        if (typeof window === 'undefined') return false;
-
-        try {
-            // Fetch root HTML with cache-busting param and no-cache headers
-            const response = await fetch(`/?_t=${Date.now()}`, {
-                method: 'HEAD',
-                cache: 'no-store',
-                headers: {
-                    'Cache-Control': 'no-cache, no-store, must-revalidate',
-                    'Pragma': 'no-cache'
-                }
-            });
-
-            const newEtag = response.headers.get('etag');
-            const newLastModified = response.headers.get('last-modified');
-            const storedEtag = localStorage.getItem('app_build_etag');
-            const storedModified = localStorage.getItem('app_build_last_modified');
-
-            if (newEtag && storedEtag && newEtag !== storedEtag) {
-                updateAvailable.value = true;
-                return true;
-            }
-
-            if (newLastModified && storedModified && newLastModified !== storedModified) {
-                updateAvailable.value = true;
-                return true;
-            }
-
-            // Save initial values if not present
-            if (newEtag && !storedEtag) {
-                localStorage.setItem('app_build_etag', newEtag);
-            }
-            if (newLastModified && !storedModified) {
-                localStorage.setItem('app_build_last_modified', newLastModified);
-            }
-
-            return false;
-        } catch (err) {
-            console.warn('[AppUpdate] Server build check warning:', err);
-            return false;
-        }
-    };
-
-    // User or automatic trigger to check for updates
+    // 3. User or automatic trigger to check for updates
     const checkForUpdate = async () => {
         if (isCheckingUpdate.value) return;
 
@@ -96,12 +87,12 @@ export function useAppUpdate() {
         updateStatus.value = 'checking';
 
         try {
+            const versionHasUpdate = await checkVersionEndpoint();
             const swHasUpdate = await checkServiceWorkerUpdate();
-            const serverHasUpdate = await checkServerBuildUpdate();
 
             lastCheckedTime.value = new Date();
 
-            if (swHasUpdate || serverHasUpdate || updateAvailable.value) {
+            if (versionHasUpdate || swHasUpdate || updateAvailable.value) {
                 updateAvailable.value = true;
                 updateStatus.value = 'updated';
             } else {
@@ -110,7 +101,7 @@ export function useAppUpdate() {
                     if (updateStatus.value === 'up_to_date') {
                         updateStatus.value = null;
                     }
-                }, 4000);
+                }, 3500);
             }
         } catch (err) {
             console.warn('[AppUpdate] Check error:', err);
@@ -125,26 +116,34 @@ export function useAppUpdate() {
         }
     };
 
-    // Apply the update: trigger service worker skipWaiting and hard reload
+    // 4. Apply the update: nuke old caches, activate new SW, and hard reload with cache buster
     const applyUpdate = async () => {
         try {
-            if (swRegistration && swRegistration.waiting) {
-                swRegistration.waiting.postMessage({ type: 'SKIP_WAITING' });
+            if (typeof window !== 'undefined') {
+                // Post skip waiting to any waiting service worker
+                if (swRegistration && swRegistration.waiting) {
+                    swRegistration.waiting.postMessage({ type: 'SKIP_WAITING' });
+                }
+
+                // Delete all caches in CacheStorage
+                if ('caches' in window) {
+                    const keys = await caches.keys();
+                    await Promise.all(keys.map(key => caches.delete(key)));
+                }
+
+                // Clear sessionStorage
+                if (window.sessionStorage) {
+                    window.sessionStorage.clear();
+                }
+
+                // Clear stored etags
+                localStorage.removeItem('app_build_etag');
+                localStorage.removeItem('app_build_last_modified');
+
+                // Force hard reload bypassing cache
+                const freshUrl = window.location.origin + window.location.pathname + '?_fresh=' + Date.now();
+                window.location.replace(freshUrl);
             }
-
-            // Clear sessionStorage to discard any stale state
-            if (typeof window !== 'undefined' && window.sessionStorage) {
-                window.sessionStorage.clear();
-            }
-
-            // Refresh localStorage deployment stamps
-            localStorage.removeItem('app_build_etag');
-            localStorage.removeItem('app_build_last_modified');
-
-            // Hard reload to load latest chunks
-            setTimeout(() => {
-                window.location.reload();
-            }, 250);
         } catch (err) {
             console.warn('[AppUpdate] Apply update error:', err);
             window.location.reload();
@@ -158,8 +157,15 @@ export function useAppUpdate() {
     onMounted(() => {
         if (typeof window === 'undefined') return;
 
-        // Listen for new service worker controller taking over
+        // Listen for SW broadcast messages
         if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.addEventListener('message', (event) => {
+                if (event.data && (event.data.type === 'UPDATE_AVAILABLE' || event.data.type === 'CONTROLLER_ACTIVE')) {
+                    console.log('[AppUpdate] Received SW update message');
+                    updateAvailable.value = true;
+                }
+            });
+
             navigator.serviceWorker.getRegistration().then((reg) => {
                 swRegistration = reg;
                 if (!reg) return;
@@ -172,31 +178,40 @@ export function useAppUpdate() {
                     const newWorker = reg.installing;
                     if (newWorker) {
                         newWorker.addEventListener('statechange', () => {
-                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                            if (newWorker.state === 'installed') {
                                 updateAvailable.value = true;
                             }
                         });
                     }
                 });
             });
-
-            navigator.serviceWorker.addEventListener('controllerchange', () => {
-                // If controller changes, ensure page reflects the newest assets
-                console.log('[AppUpdate] New Service Worker active.');
-            });
         }
 
-        // Automatic background check when app resumes focus or tab becomes visible
+        // Run immediate version check right after mount
+        checkVersionEndpoint();
+
+        // Also check SW after 1 second
+        setTimeout(() => {
+            checkServiceWorkerUpdate();
+            checkVersionEndpoint();
+        }, 1200);
+
+        // Automatic background check on visibility change (user returns to app)
         document.addEventListener('visibilitychange', () => {
             if (document.visibilityState === 'visible') {
+                checkVersionEndpoint();
                 checkServiceWorkerUpdate();
             }
         });
 
-        // Initial silent check after 3 seconds of page load
-        setTimeout(() => {
-            checkServiceWorkerUpdate();
-        }, 3000);
+        // Periodic check every 30 seconds
+        const intervalId = setInterval(() => {
+            checkVersionEndpoint();
+        }, 30000);
+
+        window.addEventListener('beforeunload', () => {
+            clearInterval(intervalId);
+        });
     });
 
     return {

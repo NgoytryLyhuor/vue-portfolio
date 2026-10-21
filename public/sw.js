@@ -1,6 +1,6 @@
-// Service Worker for Portfolio - Clean Cache & Fast Updates
-const CACHE_NAME = 'portfolio-v4.1-20261020';
-const RUNTIME_CACHE = 'portfolio-runtime-v4.1-20261020';
+// Service Worker for Portfolio - Clean Cache & Fast Updates v4.2
+const CACHE_NAME = 'portfolio-v4.2-20261021-1615';
+const RUNTIME_CACHE = 'portfolio-runtime-v4.2-20261021-1615';
 
 // Assets to cache immediately
 const STATIC_ASSETS = [
@@ -25,10 +25,11 @@ function safeCacheAdd(cache, url) {
   });
 }
 
-// Install event - Cache static assets & skip waiting immediately
+// Install event - Cache static assets & notify clients (wait for user confirmation)
 self.addEventListener('install', (event) => {
-  console.log('[Service Worker] Installing v4.1 (cache refreshed)...');
-  self.skipWaiting();
+  console.log('[Service Worker] Installing v4.2...');
+  // Do NOT call self.skipWaiting() here so the worker enters the "waiting" state.
+  // This allows the app UI to detect reg.waiting and display the Update Banner to the user.
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
@@ -37,7 +38,7 @@ self.addEventListener('install', (event) => {
         );
       })
       .then(() => {
-        console.log('[Service Worker] Installed & activated immediately');
+        console.log('[Service Worker] v4.2 installed and waiting for user activation');
       })
       .catch((err) => {
         console.warn('[Service Worker] Install warning:', err.message);
@@ -45,9 +46,9 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Activate event - Wipe ALL old caches completely
+// Activate event - Wipe ALL old caches completely & take control
 self.addEventListener('activate', (event) => {
-  console.log('[Service Worker] Activating & wiping old caches...');
+  console.log('[Service Worker] Activating v4.2 & purging old caches...');
   event.waitUntil(
     caches.keys()
       .then((cacheNames) => {
@@ -55,23 +56,35 @@ self.addEventListener('activate', (event) => {
           cacheNames
             .filter((name) => name !== CACHE_NAME && name !== RUNTIME_CACHE)
             .map((name) => {
-              console.log('[Service Worker] Deleting outdated cache:', name);
+              console.log('[Service Worker] Deleting obsolete cache:', name);
               return caches.delete(name);
             })
         );
       })
       .then(() => self.clients.claim())
+      .then(() => {
+        return self.clients.matchAll({ type: 'window' }).then((clients) => {
+          clients.forEach((client) => {
+            client.postMessage({ type: 'CONTROLLER_ACTIVE', version: 'v4.2.0' });
+          });
+        });
+      })
   );
 });
 
-// Message listener to trigger immediate skipWaiting
+// Message listener to trigger immediate skipWaiting or cache wipe
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
+  if (event.data && event.data.type === 'CLEAR_CACHE') {
+    caches.keys().then((names) => {
+      names.forEach((name) => caches.delete(name));
+    });
+  }
 });
 
-// Fetch event - Network-First for HTML/Navigation, Cache-First for versioned assets
+// Fetch event
 self.addEventListener('fetch', (event) => {
   // Skip non-GET requests
   if (event.request.method !== 'GET') {
@@ -83,13 +96,14 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Skip analytics and external API calls
+  // ALWAYS BYPASS cache for version.json and live API queries
   if (
+    event.request.url.includes('/version.json') ||
     event.request.url.includes('googletagmanager.com') ||
     event.request.url.includes('google-analytics.com') ||
     event.request.url.includes('api.')
   ) {
-    return;
+    return; // Pass through to network
   }
 
   // 1. Navigation / HTML Requests: ALWAYS Network-First

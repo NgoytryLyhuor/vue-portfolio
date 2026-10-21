@@ -1,72 +1,71 @@
-<!-- AppUpdateBanner.vue - Floating Notification when a new App version is available -->
+<!-- AppUpdateBanner.vue - Prominent Notification when a new App version is available -->
 <template>
   <transition
     enter-active-class="transition duration-350 ease-[cubic-bezier(0.2,0.9,0.1,1)]"
-    enter-from-class="opacity-0 -translate-y-5 scale-95 blur-[4px]"
+    enter-from-class="opacity-0 translate-y-6 sm:-translate-y-5 scale-95 blur-[4px]"
     enter-to-class="opacity-100 translate-y-0 scale-100 blur-0"
     leave-active-class="transition duration-220 ease-[cubic-bezier(0.2,0.9,0.1,1)]"
     leave-from-class="opacity-100 translate-y-0 scale-100 blur-0"
-    leave-to-class="opacity-0 -translate-y-4 scale-95 blur-[2px]"
+    leave-to-class="opacity-0 translate-y-6 sm:-translate-y-4 scale-95 blur-[2px]"
   >
     <div
       v-if="updateAvailable"
-      class="fixed top-16 sm:top-20 left-3 right-3 sm:left-auto sm:right-6 sm:w-96 z-50 bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-2xl p-3.5 sm:p-4 rounded-xl border border-blue-400/40 backdrop-blur-md"
+      class="fixed bottom-4 left-3 right-3 sm:bottom-auto sm:top-20 sm:left-auto sm:right-6 sm:w-96 z-[9999] bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white shadow-2xl p-4 sm:p-4.5 rounded-2xl border-2 border-white/20 backdrop-blur-xl animate-bounce-slight"
       role="alert"
       aria-live="polite"
     >
       <div class="flex items-start gap-3">
-        <!-- Animated Update Icon -->
+        <!-- Animated Update Rocket Icon -->
         <div class="relative shrink-0 mt-0.5">
-          <div class="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center text-white">
-            <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
+          <div class="w-10 h-10 rounded-xl bg-white/20 border border-white/30 flex items-center justify-center text-xl shadow-inner">
+            <span>🚀</span>
           </div>
-          <span class="absolute -top-1 -right-1 flex h-2.5 w-2.5">
+          <span class="absolute -top-1 -right-1 flex h-3 w-3">
             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-300"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-400"></span>
           </span>
         </div>
 
         <!-- Content -->
         <div class="flex-1 min-w-0 pr-1">
           <div class="flex items-center justify-between">
-            <h4 class="text-xs font-black uppercase tracking-wider text-white truncate">
-              {{ isKhmer ? '🚀 មានកំណែថ្មី! (Update Available)' : '🚀 New Update Available' }}
+            <h4 class="text-xs sm:text-sm font-black uppercase tracking-wider text-white truncate flex items-center gap-1.5">
+              <span>{{ isKhmer ? 'មានកំណែថ្មី! (Update Available)' : 'New Update Available' }}</span>
+              <span class="text-[9px] bg-emerald-400 text-slate-900 font-bold px-1.5 py-0.2 rounded font-mono">NEW</span>
             </h4>
             <button
               @click="dismissNotification"
-              class="text-white/70 hover:text-white p-0.5 -mr-1 -mt-1 transition-colors"
+              class="text-white/70 hover:text-white p-1 -mr-1 -mt-1 transition-colors touch-manipulation"
               aria-label="Close update notification"
             >
               <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
           </div>
 
-          <p class="text-[11px] text-white/90 mt-0.5 leading-snug">
+          <p class="text-[11px] sm:text-xs text-white/95 mt-1 leading-snug">
             {{ isKhmer
-              ? 'កំណែថ្មីនៃគេហទំព័រ / App ត្រូវបានដាក់ឱ្យដំណើរការ។ សូមចុច Update ដើម្បីទទួលបានមុខងារចុងក្រោយ!'
-              : 'A newer version of the app is ready. Refresh now to experience the latest features and fixes!'
+              ? 'កំណែចុងក្រោយត្រូវបានដាក់ឱ្យដំណើរការ។ សូមចុចប៊ូតុងខាងក្រោមដើម្បី Refresh យកមុខងារថ្មីៗ!'
+              : 'A newer version has been deployed. Tap below to refresh and load the latest features instantly!'
             }}
           </p>
 
           <!-- Action Buttons -->
-          <div class="mt-2.5 flex items-center gap-2">
+          <div class="mt-3 flex items-center gap-2">
             <button
               @click="applyUpdate"
-              class="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-1.5 bg-white text-blue-700 hover:bg-blue-50 active:bg-blue-100 text-xs font-bold uppercase tracking-wider rounded-md transition-colors shadow cursor-pointer"
+              class="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-3 bg-white text-blue-700 hover:bg-blue-50 active:scale-95 text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-md cursor-pointer touch-manipulation font-mono"
             >
-              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg class="w-4 h-4 animate-spin text-blue-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
               </svg>
-              <span>{{ isKhmer ? 'Update ឥឡូវនេះ' : 'Update Now' }}</span>
+              <span>{{ isKhmer ? 'Update & Refresh ឥឡូវនេះ' : 'Refresh Now' }}</span>
             </button>
+
             <button
               @click="dismissNotification"
-              class="px-2.5 py-1.5 text-xs text-white/80 hover:text-white transition-colors cursor-pointer"
+              class="px-3 py-2 text-xs text-white/80 hover:text-white transition-colors cursor-pointer touch-manipulation"
             >
               {{ isKhmer ? 'ពេលក្រោយ' : 'Later' }}
             </button>
@@ -84,3 +83,17 @@ import { useLanguage } from '@/composables/useLanguage';
 const { isKhmer } = useLanguage();
 const { updateAvailable, applyUpdate, dismissNotification } = useAppUpdate();
 </script>
+
+<style scoped>
+@keyframes bounceSlight {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+.animate-bounce-slight {
+  animation: bounceSlight 3s ease-in-out infinite;
+}
+</style>

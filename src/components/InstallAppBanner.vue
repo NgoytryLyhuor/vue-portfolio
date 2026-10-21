@@ -11,7 +11,7 @@
       leave-to-class="opacity-0 translate-y-4 scale-95 blur-[2px]"
     >
       <div
-        v-if="canInstall && !isInstalled && !isBannerDismissed"
+        v-if="canInstall && !isInstalled && !isBannerDismissed && !updateAvailable"
         class="fixed bottom-3 left-3 right-3 sm:left-auto sm:right-6 sm:bottom-6 sm:w-96 z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border border-slate-300 dark:border-slate-700 shadow-2xl p-3.5 sm:p-4 rounded-xl text-slate-800 dark:text-slate-100"
         role="dialog"
         aria-label="Install Application"
@@ -203,8 +203,10 @@
 <script setup>
 import { usePwaInstall } from '@/composables/usePwaInstall';
 import { useLanguage } from '@/composables/useLanguage';
+import { useAppUpdate } from '@/composables/useAppUpdate';
 
 const { isKhmer } = useLanguage();
+const { updateAvailable } = useAppUpdate();
 const {
   canInstall,
   isInstalled,

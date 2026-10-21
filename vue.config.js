@@ -14,7 +14,7 @@ const staticPaths = [
   { path: '/fuel-prices', changefreq: 'daily', priority: 0.9 },
   { path: '/traffic-fines', changefreq: 'weekly', priority: 0.9 },
   { path: '/public-services', changefreq: 'weekly', priority: 0.9 },
-  { path: '/utility-calculator', changefreq: 'weekly', priority: 0.9 },
+  { path: '/holiday-access', changefreq: 'weekly', priority: 0.9 },
   { path: '/salary-tax-calculator', changefreq: 'weekly', priority: 0.9 },
   { path: '/bank-loan-calculator', changefreq: 'weekly', priority: 0.9 },
   { path: '/postal-codes', changefreq: 'weekly', priority: 0.9 },
