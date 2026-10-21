@@ -339,7 +339,10 @@ import {
     CalculatorIcon,
     BanknotesIcon,
     MapPinIcon,
-    HeartIcon
+    HeartIcon,
+    TicketIcon,
+    Battery100Icon,
+    LockClosedIcon
 } from '@heroicons/vue/24/outline';
 
 const route = useRoute();
@@ -473,6 +476,27 @@ const featureLinks = computed(() => [
         badgeText: 'text-rose-500 dark:text-rose-400'
     },
     {
+        path: '/transit-guide',
+        label: isKhmer.value ? 'រថភ្លើង ឡានក្រុង & ទូកកោះ' : 'Transit, Train & Ferries',
+        icon: TicketIcon,
+        badgeBg: 'bg-blue-500/10 dark:bg-blue-500/20',
+        badgeText: 'text-blue-500 dark:text-blue-400'
+    },
+    {
+        path: '/ev-charging',
+        label: isKhmer.value ? 'ស្ថានីយ៍សាកឡាន EV' : 'EV Charging & Savings',
+        icon: Battery100Icon,
+        badgeBg: 'bg-emerald-500/10 dark:bg-emerald-500/20',
+        badgeText: 'text-emerald-500 dark:text-emerald-400'
+    },
+    {
+        path: '/holiday-access',
+        label: isKhmer.value ? 'បុណ្យជាតិ & Long Weekend 🔒' : 'Holiday Planner 🔒',
+        icon: LockClosedIcon,
+        badgeBg: 'bg-amber-500/10 dark:bg-amber-500/20',
+        badgeText: 'text-amber-500 dark:text-amber-400'
+    },
+    {
         path: '/crypto-tracker-password',
         label: isKhmer.value ? 'តាមដានគ្រីបតូ' : 'Crypto Tracker',
         icon: ChartBarIcon,
@@ -491,7 +515,7 @@ const standardNavLinks = computed(() => {
 });
 
 const isFeatureActive = computed(() => {
-    return featureLinks.value.some(link => route.path === link.path || route.path === '/crypto-tracker');
+    return featureLinks.value.some(link => route.path === link.path || route.path === '/crypto-tracker' || route.path === '/holiday-planner');
 });
 
 // Single unified navigation handler that closes menus reliably and scrolls to top

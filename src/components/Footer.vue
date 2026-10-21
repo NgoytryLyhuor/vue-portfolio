@@ -96,7 +96,7 @@
                 <div class="lg:col-span-5 space-y-3">
                     <div class="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 pb-2 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
                         <span>{{ isKhmer ? 'ឧបករណ៍ & មុខងារ' : 'UTILITIES & TOOLS' }}</span>
-                        <span class="text-[10px] text-blue-600 dark:text-blue-400 font-bold">13 TOOLS</span>
+                        <span class="text-[10px] text-blue-600 dark:text-blue-400 font-bold">16 TOOLS</span>
                     </div>
 
                     <!-- 2-Column Responsive Tactile Grid -->
@@ -307,6 +307,54 @@
                                 </div>
                                 <div class="text-[10px] text-slate-400 dark:text-slate-500 truncate">
                                     {{ isKhmer ? 'ពេទ្យ ២៥ ខេត្ត & ឡានពេទ្យ' : '25 provinces 24/7 ER' }}
+                                </div>
+                            </div>
+                        </router-link>
+
+                        <router-link
+                            to="/transit-guide"
+                            @click="scrollToTop"
+                            class="group p-2.5 rounded-lg border border-slate-200 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-900/40 hover:bg-white dark:hover:bg-slate-800/80 hover:border-blue-500/50 dark:hover:border-blue-500/50 transition-all flex items-center gap-2.5"
+                        >
+                            <span class="text-base shrink-0 p-1 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700">🚆</span>
+                            <div class="min-w-0 flex-1">
+                                <div class="font-bold text-slate-800 dark:text-slate-200 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate">
+                                    {{ isKhmer ? 'រថភ្លើង ឡានក្រុង & ទូក' : 'Transit & Railway' }}
+                                </div>
+                                <div class="text-[10px] text-slate-400 dark:text-slate-500 truncate">
+                                    {{ isKhmer ? 'កាលវិភាគ & សំបុត្រ' : 'Fares & schedules' }}
+                                </div>
+                            </div>
+                        </router-link>
+
+                        <router-link
+                            to="/ev-charging"
+                            @click="scrollToTop"
+                            class="group p-2.5 rounded-lg border border-slate-200 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-900/40 hover:bg-white dark:hover:bg-slate-800/80 hover:border-emerald-500/50 dark:hover:border-emerald-500/50 transition-all flex items-center gap-2.5"
+                        >
+                            <span class="text-base shrink-0 p-1 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700">⚡</span>
+                            <div class="min-w-0 flex-1">
+                                <div class="font-bold text-slate-800 dark:text-slate-200 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors truncate">
+                                    {{ isKhmer ? 'ស្ថានីយ៍សាកឡាន EV' : 'EV Charging Hubs' }}
+                                </div>
+                                <div class="text-[10px] text-slate-400 dark:text-slate-500 truncate">
+                                    {{ isKhmer ? 'ទីតាំងសាក DC & សន្សំប្រាក់' : 'DC Fast & fuel savings' }}
+                                </div>
+                            </div>
+                        </router-link>
+
+                        <router-link
+                            to="/holiday-access"
+                            @click="scrollToTop"
+                            class="group p-2.5 rounded-lg border border-slate-200 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-900/40 hover:bg-white dark:hover:bg-slate-800/80 hover:border-amber-500/50 dark:hover:border-amber-500/50 transition-all flex items-center gap-2.5"
+                        >
+                            <span class="text-base shrink-0 p-1 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700">🔒</span>
+                            <div class="min-w-0 flex-1">
+                                <div class="font-bold text-slate-800 dark:text-slate-200 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors truncate">
+                                    {{ isKhmer ? 'បុណ្យជាតិ & ដើរលេង 🔒' : 'Holiday Planner 🔒' }}
+                                </div>
+                                <div class="text-[10px] text-slate-400 dark:text-slate-500 truncate">
+                                    {{ isKhmer ? 'ផែនការសុំច្បាប់ Long Weekend' : 'Private vacation hacks' }}
                                 </div>
                             </div>
                         </router-link>

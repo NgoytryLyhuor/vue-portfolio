@@ -187,6 +187,28 @@
                                 {{ isKhmer ? 'ស្វែងរកមន្ទីរពេទ្យពេលមានគ្រោះថ្នាក់ ឡានពេទ្យ ១១៩ & ប.ស.ស' : '24/7 ER directory, road accident response & SAMU 119' }}
                             </p>
                         </router-link>
+
+                        <router-link to="/transit-guide"
+                            class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 rounded-xl hover:border-blue-500 dark:hover:border-blue-500 transition-all group block">
+                            <div class="text-xl mb-1 group-hover:scale-105 transition-transform">🚆</div>
+                            <div class="font-bold text-xs text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400">
+                                {{ isKhmer ? 'រថភ្លើង ឡានក្រុង & ទូកកោះ' : 'Inter-Province Transit & Rail' }}
+                            </div>
+                            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">
+                                {{ isKhmer ? 'កាលវិភាគរថភ្លើង សំបុត្រឡានក្រុង ២៥ ខេត្ត & ទូកកោះរ៉ុង' : 'Royal Railway timetables, express bus fares & island ferries' }}
+                            </p>
+                        </router-link>
+
+                        <router-link to="/ev-charging"
+                            class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 rounded-xl hover:border-emerald-500 dark:hover:border-emerald-500 transition-all group block">
+                            <div class="text-xl mb-1 group-hover:scale-105 transition-transform">⚡</div>
+                            <div class="font-bold text-xs text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400">
+                                {{ isKhmer ? 'ស្ថានីយ៍សាកឡាន EV & សន្សំប្រាក់' : 'EV Charging & Savings' }}
+                            </div>
+                            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">
+                                {{ isKhmer ? 'ទីតាំងសាកល្បឿនលឿន DC 120kW & គណនាថ្លៃសន្សំ' : 'Fast DC chargers nationwide & fuel savings calculator' }}
+                            </p>
+                        </router-link>
                     </div>
                 </div>
             </section>
