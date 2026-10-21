@@ -141,6 +141,61 @@
                                 {{ isKhmer ? 'គណនាថ្លៃភ្លើង EDC ទឹកស្អាត & ឆែកថ្លៃបន្ទប់ជួល' : 'Official tiered EDC & PPWSA bill and rental checker' }}
                             </p>
                         </router-link>
+
+                        <router-link to="/khqr-bill-splitter"
+                            class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 rounded-xl hover:border-red-500 dark:hover:border-red-500 transition-all group block">
+                            <div class="text-xl mb-1 group-hover:scale-105 transition-transform">🇰🇭</div>
+                            <div class="font-bold text-xs text-slate-900 dark:text-white group-hover:text-red-600 dark:group-hover:text-red-400">
+                                {{ isKhmer ? 'បាគង KHQR & ចែកលុយញ៉ាំបាយ' : 'Bakong KHQR & Bill Splitter' }}
+                            </div>
+                            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">
+                                {{ isKhmer ? 'បង្កើតកូដ KHQR ផ្លូវការ & ចែកវិក្កយបត្រ Telegram' : 'Generate Bakong QR and split group meal receipts' }}
+                            </p>
+                        </router-link>
+
+                        <router-link to="/salary-tax-calculator"
+                            class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 rounded-xl hover:border-emerald-500 dark:hover:border-emerald-500 transition-all group block">
+                            <div class="text-xl mb-1 group-hover:scale-105 transition-transform">💼</div>
+                            <div class="font-bold text-xs text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400">
+                                {{ isKhmer ? 'គណនាពន្ធលើប្រាក់ខែ (GDT)' : 'Salary Tax & NSSF Calculator' }}
+                            </div>
+                            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">
+                                {{ isKhmer ? 'កម្រិតពន្ធតាមថ្នាក់ បេឡាជាតិ ប.ស.ស និងបន្ទុកគ្រួសារ' : 'GDT progressive tax rates, NSSF pension & family allowances' }}
+                            </p>
+                        </router-link>
+
+                        <router-link to="/bank-loan-calculator"
+                            class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 rounded-xl hover:border-blue-500 dark:hover:border-blue-500 transition-all group block">
+                            <div class="text-xl mb-1 group-hover:scale-105 transition-transform">🏦</div>
+                            <div class="font-bold text-xs text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400">
+                                {{ isKhmer ? 'គណនាកម្ចីផ្ទះបុរី & រំលស់ឡាន' : 'Bank Loan & Mortgage' }}
+                            </div>
+                            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">
+                                {{ isKhmer ? 'ប្រៀបធៀបការប្រាក់ថយ vs ការប្រាក់ស្មើ & តារាងបង់រំលស់' : 'Declining vs flat rates with full amortization schedule' }}
+                            </p>
+                        </router-link>
+
+                        <router-link to="/postal-codes"
+                            class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 rounded-xl hover:border-purple-500 dark:hover:border-purple-500 transition-all group block">
+                            <div class="text-xl mb-1 group-hover:scale-105 transition-transform">📮</div>
+                            <div class="font-bold text-xs text-slate-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400">
+                                {{ isKhmer ? 'កូដប្រៃសណីយ៍ ២៥ ខេត្ត & សង្គ្រោះបន្ទាន់' : '25 Provinces Postal & Emergency' }}
+                            </div>
+                            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">
+                                {{ isKhmer ? 'លេខកូដទិញទំនិញក្រៅប្រទេស & លេខ ១១៧, ១១៨, ១១៩' : 'Zip codes for international delivery & 24/7 hotlines' }}
+                            </p>
+                        </router-link>
+
+                        <router-link to="/khmer-typing-test"
+                            class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 rounded-xl hover:border-indigo-500 dark:hover:border-indigo-500 transition-all group block">
+                            <div class="text-xl mb-1 group-hover:scale-105 transition-transform">⌨️</div>
+                            <div class="font-bold text-xs text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">
+                                {{ isKhmer ? 'តេស្តល្បឿនវាយអក្សរខ្មែរ' : 'Khmer Unicode Typing Test' }}
+                            </div>
+                            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">
+                                {{ isKhmer ? 'វាស់ស្ទង់ WPM, CPM, ភាពសុក្រឹត និងកម្រិត Rank' : 'Live WPM, CPM, keystroke accuracy & NiDA guidelines' }}
+                            </p>
+                        </router-link>
                     </div>
                 </div>
             </section>

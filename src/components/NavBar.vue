@@ -61,7 +61,7 @@
                             leave-to-class="opacity-0 -translate-y-2 scale-95 blur-[2px]"
                         >
                             <div v-if="isFeaturesMenuOpen"
-                                class="absolute left-0 w-72 rounded-xl dark:bg-slate-900 mt-2 shadow-2xl z-50 border border-slate-300 dark:border-slate-700 bg-white backdrop-blur-xl p-1.5 space-y-0.5">
+                                class="absolute left-0 w-72 rounded-xl dark:bg-slate-900 mt-2 shadow-2xl z-50 border border-slate-300 dark:border-slate-700 bg-white backdrop-blur-xl p-1.5 space-y-0.5 max-h-[75vh] overflow-y-auto">
                                 <router-link v-for="feature in featureLinks" :key="feature.path" :to="feature.path"
                                     class="flex items-center px-3.5 py-2.5 text-xs rounded-lg text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 w-full text-left transition-all duration-150 cursor-pointer"
                                     :class="{ 'bg-slate-100 dark:bg-slate-800 font-bold text-blue-600 dark:text-blue-400': $route.path === feature.path }"
@@ -335,7 +335,12 @@ import {
     ShieldExclamationIcon,
     IdentificationIcon,
     BoltIcon,
-    ArrowDownTrayIcon
+    ArrowDownTrayIcon,
+    QrCodeIcon,
+    CalculatorIcon,
+    BanknotesIcon,
+    MapPinIcon,
+    DocumentTextIcon
 } from '@heroicons/vue/24/outline';
 
 const route = useRoute();
@@ -439,6 +444,41 @@ const featureLinks = computed(() => [
         icon: BoltIcon,
         badgeBg: 'bg-amber-500/10 dark:bg-amber-500/20',
         badgeText: 'text-amber-500 dark:text-amber-400'
+    },
+    {
+        path: '/khqr-bill-splitter',
+        label: isKhmer.value ? 'បង្កើត KHQR & ចែកលុយ' : 'Bakong KHQR & Bill Split',
+        icon: QrCodeIcon,
+        badgeBg: 'bg-red-500/10 dark:bg-red-500/20',
+        badgeText: 'text-red-500 dark:text-red-400'
+    },
+    {
+        path: '/salary-tax-calculator',
+        label: isKhmer.value ? 'គណនាពន្ធលើប្រាក់បៀវត្ស' : 'Salary Tax & NSSF (GDT)',
+        icon: CalculatorIcon,
+        badgeBg: 'bg-emerald-500/10 dark:bg-emerald-500/20',
+        badgeText: 'text-emerald-500 dark:text-emerald-400'
+    },
+    {
+        path: '/bank-loan-calculator',
+        label: isKhmer.value ? 'គណនាកម្ចីផ្ទះ & រំលស់ឡាន' : 'Bank Loan & Mortgage',
+        icon: BanknotesIcon,
+        badgeBg: 'bg-blue-500/10 dark:bg-blue-500/20',
+        badgeText: 'text-blue-500 dark:text-blue-400'
+    },
+    {
+        path: '/postal-codes',
+        label: isKhmer.value ? 'កូដប្រៃសណីយ៍ & សង្គ្រោះបន្ទាន់' : 'Postal Codes & Emergency',
+        icon: MapPinIcon,
+        badgeBg: 'bg-purple-500/10 dark:bg-purple-500/20',
+        badgeText: 'text-purple-500 dark:text-purple-400'
+    },
+    {
+        path: '/khmer-typing-test',
+        label: isKhmer.value ? 'តេស្តវាយអក្សរខ្មែរ' : 'Khmer Typing Speed Test',
+        icon: DocumentTextIcon,
+        badgeBg: 'bg-indigo-500/10 dark:bg-indigo-500/20',
+        badgeText: 'text-indigo-500 dark:text-indigo-400'
     },
     {
         path: '/crypto-tracker-password',
