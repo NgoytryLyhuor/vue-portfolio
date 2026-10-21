@@ -20,6 +20,7 @@ const staticPaths = [
   { path: '/bank-loan-calculator', changefreq: 'weekly', priority: 0.9 },
   { path: '/postal-codes', changefreq: 'weekly', priority: 0.9 },
   { path: '/khmer-typing-test', changefreq: 'weekly', priority: 0.9 },
+  { path: '/cambodia-hospitals', changefreq: 'weekly', priority: 0.9 },
   // Exclude dynamic routes (like /blog/:id) and protected routes (login, dashboard)
 ];
 

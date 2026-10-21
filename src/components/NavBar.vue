@@ -340,7 +340,8 @@ import {
     CalculatorIcon,
     BanknotesIcon,
     MapPinIcon,
-    DocumentTextIcon
+    DocumentTextIcon,
+    HeartIcon
 } from '@heroicons/vue/24/outline';
 
 const route = useRoute();
@@ -479,6 +480,13 @@ const featureLinks = computed(() => [
         icon: DocumentTextIcon,
         badgeBg: 'bg-indigo-500/10 dark:bg-indigo-500/20',
         badgeText: 'text-indigo-500 dark:text-indigo-400'
+    },
+    {
+        path: '/cambodia-hospitals',
+        label: isKhmer.value ? 'មន្ទីរពេទ្យ & សង្គ្រោះបន្ទាន់' : 'Hospitals & Emergency',
+        icon: HeartIcon,
+        badgeBg: 'bg-rose-500/10 dark:bg-rose-500/20',
+        badgeText: 'text-rose-500 dark:text-rose-400'
     },
     {
         path: '/crypto-tracker-password',

@@ -96,7 +96,7 @@
                 <div class="lg:col-span-5 space-y-3">
                     <div class="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 pb-2 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
                         <span>{{ isKhmer ? 'ឧបករណ៍ & មុខងារ' : 'UTILITIES & TOOLS' }}</span>
-                        <span class="text-[10px] text-blue-600 dark:text-blue-400 font-bold">14 TOOLS</span>
+                        <span class="text-[10px] text-blue-600 dark:text-blue-400 font-bold">15 TOOLS</span>
                     </div>
 
                     <!-- 2-Column Responsive Tactile Grid -->
@@ -321,6 +321,22 @@
                                 </div>
                                 <div class="text-[10px] text-slate-400 dark:text-slate-500 truncate">
                                     {{ isKhmer ? 'វាស់ស្ទង់ល្បឿន WPM' : 'NiDA typing speed trainer' }}
+                                </div>
+                            </div>
+                        </router-link>
+
+                        <router-link
+                            to="/cambodia-hospitals"
+                            @click="scrollToTop"
+                            class="group p-2.5 rounded-lg border border-slate-200 dark:border-slate-800/80 bg-slate-50/50 dark:bg-slate-900/40 hover:bg-white dark:hover:bg-slate-800/80 hover:border-rose-500/50 dark:hover:border-rose-500/50 transition-all flex items-center gap-2.5"
+                        >
+                            <span class="text-base shrink-0 p-1 bg-white dark:bg-slate-800 rounded border border-slate-200 dark:border-slate-700">🏥</span>
+                            <div class="min-w-0 flex-1">
+                                <div class="font-bold text-slate-800 dark:text-slate-200 group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors truncate">
+                                    {{ isKhmer ? 'មន្ទីរពេទ្យ & សង្គ្រោះបន្ទាន់' : 'Hospitals & 119' }}
+                                </div>
+                                <div class="text-[10px] text-slate-400 dark:text-slate-500 truncate">
+                                    {{ isKhmer ? 'ពេទ្យ ២៥ ខេត្ត & ឡានពេទ្យ' : '25 provinces 24/7 ER' }}
                                 </div>
                             </div>
                         </router-link>

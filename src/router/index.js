@@ -27,6 +27,7 @@ const SalaryTaxCalculator = () => import('@/views/projects/SalaryTaxCalculator.v
 const BankLoanCalculator = () => import('@/views/projects/BankLoanCalculator.vue')
 const PostalCodesDirectory = () => import('@/views/projects/PostalCodesDirectory.vue')
 const KhmerTypingTest = () => import('@/views/projects/KhmerTypingTest.vue')
+const CambodiaHospitals = () => import('@/views/projects/CambodiaHospitals.vue')
 const SpaceEvents = () => import('@/views/space/SpaceEvents.vue')
 const SpaceEventDetail = () => import('@/views/space/SpaceEventDetail.vue')
 const Login = () => import('@/views/auth/LoginView.vue')
@@ -279,6 +280,25 @@ const routes = [
     {
         path: '/typing-test',
         redirect: '/khmer-typing-test'
+    },
+    {
+        path: '/cambodia-hospitals',
+        name: 'cambodia-hospitals',
+        component: CambodiaHospitals,
+        meta: {
+            showNavBar: true,
+            title: 'Cambodia 25 Provinces Emergency Hospitals & Ambulance Directory',
+            description: '24/7 nationwide emergency referral hospitals, ambulance hotlines (SAMU 119), pediatric trauma centers, and blood bank directory across all 25 provinces in Cambodia.',
+            robots: 'index, follow'
+        }
+    },
+    {
+        path: '/hospitals',
+        redirect: '/cambodia-hospitals'
+    },
+    {
+        path: '/emergency-hospitals',
+        redirect: '/cambodia-hospitals'
     },
     {
         path: '/crypto-tracker-password',
