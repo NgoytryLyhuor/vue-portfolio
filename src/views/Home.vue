@@ -130,8 +130,16 @@
                                 {{ isKhmer ? 'អត្រាប្តូរប្រាក់ផ្លូវការធនាគារជាតិ NBC' : 'Live NBC bank exchange rates KHR/USD/THB' }}
                             </p>
                         </router-link>
-
-
+                        <router-link to="/crypto-tracker"
+                            class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 rounded-xl hover:border-indigo-500 dark:hover:border-indigo-500 transition-all group block">
+                            <div class="text-xl mb-1 group-hover:scale-105 transition-transform">📈</div>
+                            <div class="font-bold text-xs text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">
+                                {{ isKhmer ? 'តាមដានតម្លៃគ្រីបតូ (Crypto Tracker)' : 'Crypto Price Tracker' }}
+                            </div>
+                            <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">
+                                {{ isKhmer ? 'តម្លៃផ្ទាល់ BTC, ETH & 250+ កាក់ ជាមួយតារាងវិភាគ' : 'Real-time prices, interactive charts & market cap for 250+ coins' }}
+                            </p>
+                        </router-link>
 
                         <router-link to="/salary-tax-calculator"
                             class="p-4 border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 rounded-xl hover:border-emerald-500 dark:hover:border-emerald-500 transition-all group block">

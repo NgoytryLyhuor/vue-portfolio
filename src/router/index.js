@@ -16,7 +16,6 @@ const VehicleTaxGuide = () => import('@/views/projects/VehicleTaxGuide.vue')
 const FuelPriceTracker = () => import('@/views/projects/FuelPriceTracker.vue')
 const TrafficFines = () => import('@/views/projects/TrafficFines.vue')
 const PublicServices = () => import('@/views/projects/PublicServices.vue')
-const CryptoPassword = () => import('@/views/projects/CryptoPassword.vue')
 const CryptoPriceTracker = () => import('@/views/projects/CryptoPriceTracker.vue')
 const GarageAccess = () => import('@/views/projects/GarageAccess.vue')
 const PrivateGarage = () => import('@/views/projects/PrivateGarage.vue')
@@ -294,14 +293,7 @@ const routes = [
     },
     {
         path: '/crypto-tracker-password',
-        name: 'crypto-tracker-password',
-        component: CryptoPassword,
-        meta: {
-            showNavBar: false,
-            title: 'Crypto Tracker - Password Protected',
-            description: 'Password protected access to cryptocurrency price tracker',
-            robots: 'noindex, nofollow'
-        }
+        redirect: '/crypto-tracker'
     },
     {
         path: '/crypto-tracker',
@@ -311,8 +303,7 @@ const routes = [
             showNavBar: true,
             title: 'Crypto Price Tracker - Real-time Cryptocurrency Prices',
             description: 'Real-time cryptocurrency prices, market data, and tracking for Bitcoin, Ethereum, and 250+ cryptocurrencies.',
-            robots: 'noindex, nofollow',
-            requiresCryptoAuth: true
+            robots: 'index, follow'
         }
     },
     {
@@ -428,10 +419,6 @@ const validateToken = async () => {
     }
 }
 
-// Function to check crypto tracker authentication
-const checkCryptoAuth = () => {
-    return sessionStorage.getItem('crypto_tracker_auth') === 'true'
-}
 
 // Function to check garage/private tools authentication
 const checkGarageAuth = () => {
@@ -448,16 +435,6 @@ router.beforeEach(async (to, from, next) => {
     if (to.meta.requiresGarageAuth) {
         const isGarageAuthenticated = checkGarageAuth()
         if (!isGarageAuthenticated) {
-            next({ name: 'garage-access', query: { redirect: to.fullPath } })
-            return
-        }
-    }
-
-    // Check crypto tracker authentication
-    if (to.meta.requiresCryptoAuth) {
-        const isCryptoAuthenticated = checkCryptoAuth() || checkGarageAuth()
-        if (!isCryptoAuthenticated) {
-            // Not authenticated, redirect to garage access page (unlocks crypto + garage)
             next({ name: 'garage-access', query: { redirect: to.fullPath } })
             return
         }

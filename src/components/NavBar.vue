@@ -481,7 +481,7 @@ const featureLinks = computed(() => [
         badgeText: 'text-emerald-500 dark:text-emerald-400'
     },
     {
-        path: '/crypto-tracker-password',
+        path: '/crypto-tracker',
         label: isKhmer.value ? 'តាមដានគ្រីបតូ' : 'Crypto Tracker',
         icon: ChartBarIcon,
         badgeBg: 'bg-indigo-500/10 dark:bg-indigo-500/20',

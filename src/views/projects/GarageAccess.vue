@@ -6,7 +6,7 @@
                     <div>
                         <p class="text-xs uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400">Private</p>
                         <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mt-1">Lyhuor Garage Access</h1>
-                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Unlock your private tools: Crypto Tracker + Prius 2011 maintenance.</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">Unlock your private Toyota Prius 2011 maintenance hub.</p>
                     </div>
                     <div class="hidden sm:flex h-12 w-12 rounded-full bg-blue-100 dark:bg-blue-900/40 items-center justify-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600 dark:text-blue-400" viewBox="0 0 20 20" fill="currentColor">
@@ -70,7 +70,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-600 dark:text-blue-400" viewBox="0 0 20 20" fill="currentColor">
                                 <path d="M18 13V9a1 1 0 00-1-1h-4l-2-4-2 4H3a1 1 0 00-1 1v4a1 1 0 001 1h14a1 1 0 001-1z" />
                             </svg>
-                            One password unlocks both Crypto Tracker + Prius maintenance (session only).
+                            Enter password to unlock private Prius maintenance records (session only).
                         </div>
 
                         <div class="text-xs text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg px-4 py-2">
@@ -92,10 +92,6 @@
                         </div>
 
                         <div class="space-y-3">
-                            <div class="p-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                                <p class="text-sm font-semibold text-gray-900 dark:text-white">Crypto Price Tracker</p>
-                                <p class="text-xs text-gray-500 dark:text-gray-400">Password-locked real-time prices</p>
-                            </div>
                             <div class="p-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
                                 <p class="text-sm font-semibold text-gray-900 dark:text-white">Prius 2011 Maintenance</p>
                                 <p class="text-xs text-gray-500 dark:text-gray-400">Cambodia-ready reminders & specs</p>

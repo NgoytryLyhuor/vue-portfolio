@@ -20,6 +20,7 @@ const staticPaths = [
   { path: '/cambodia-hospitals', changefreq: 'weekly', priority: 0.9 },
   { path: '/transit-guide', changefreq: 'weekly', priority: 0.9 },
   { path: '/ev-charging', changefreq: 'weekly', priority: 0.9 },
+  { path: '/crypto-tracker', changefreq: 'daily', priority: 0.9 },
   // Exclude dynamic routes (like /blog/:id) and protected routes (login, dashboard)
 ];
 
