@@ -43,7 +43,7 @@
                         </router-link>
                         <router-link to="/vehicle-tax"
                             class="px-4 sm:px-5 py-2.5 text-center bg-blue-50 dark:bg-blue-950/30 text-blue-700 dark:text-blue-300 text-xs font-mono font-bold uppercase tracking-wider border border-blue-300 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-900/40 rounded-lg transition-all">
-                            {{ isKhmer ? '🧮 ម៉ាស៊ីនគណនាពន្ធឡាន' : '🧮 Cambodia Vehicle Tax' }}
+                            {{ isKhmer ? '🧮 គណនាពន្ធយានយន្ត & ឆៀក' : '🧮 Cambodia Vehicle Tax' }}
                         </router-link>
                     </div>
                 </div>
@@ -105,7 +105,7 @@
                                 {{ isKhmer ? 'ប្រតិទិនចន្ទគតិខ្មែរ' : 'Khmer Lunar Calendar' }}
                             </div>
                             <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">
-                                {{ isKhmer ? 'ឆែកមើលថ្ងៃសីល បុណ្យជាតិ និងរាសីចក្រ' : 'Traditional Buddhist Holy Days & Moon Phases' }}
+                                {{ isKhmer ? 'ពិនិត្យមើលថ្ងៃសីល ថ្ងៃបុណ្យជាតិ និងរាសីចក្រ' : 'Traditional Buddhist Holy Days & Moon Phases' }}
                             </p>
                         </router-link>
 

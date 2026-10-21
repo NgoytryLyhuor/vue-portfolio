@@ -192,7 +192,7 @@
                         <div class="border border-slate-200 dark:border-slate-800 p-5 bg-slate-50/50 dark:bg-slate-950/40 rounded-xl hover:border-blue-500 transition-colors">
                             <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
                                 <h3 class="text-base font-bold text-slate-900 dark:text-white">
-                                    {{ isKhmer ? 'សាស្ត្រាចារ្យបណ្តុះបណ្តាល (Instructor)' : 'IT Instructor' }}
+                                    {{ isKhmer ? 'គ្រូបណ្តុះបណ្តាលព័ត៌មានវិទ្យា (IT Instructor)' : 'IT Instructor' }}
                                 </h3>
                                 <span class="px-2.5 py-0.5 text-[11px] font-mono font-bold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 rounded-md">
                                     {{ isKhmer ? 'មីនា ២០២២ – មីនា ២០២៣' : 'Mar 2022 – Mar 2023' }}
@@ -334,7 +334,7 @@
                                         {{ isKhmer ? 'ភាសាអង់គ្លេស (English)' : 'English' }}
                                     </span>
                                     <span class="text-[10px] font-mono font-bold text-blue-600 dark:text-blue-400">
-                                        {{ isKhmer ? 'កម្រិតការងារ' : 'Working' }}
+                                        {{ isKhmer ? 'កម្រិតប្រើប្រាស់ក្នុងការងារ' : 'Working' }}
                                     </span>
                                 </div>
                                 <div class="w-full bg-slate-200 dark:bg-slate-800 h-1.5 rounded-full mt-2 overflow-hidden">

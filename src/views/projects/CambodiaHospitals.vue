@@ -30,7 +30,7 @@
                             </h1>
                             <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                                 {{ isKhmer 
-                                    ? 'ស្វែងរកមន្ទីរពេទ្យបង្អែកជាតិ ខេត្ត-ក្រុង មន្ទីរពេទ្យកុមារ ធនាគារឈាម និងលេខទូរស័ព្ទហៅឡានពេទ្យសង្គ្រោះបន្ទាន់ ២៤/៧ ពេលជួបគ្រោះថ្នាក់ចរាចរណ៍ ឬករណីសង្គ្រោះជីវិតបន្ទាន់ ជាមួយប៊ូតុងចុចតេភ្លាមៗ និងទីតាំង Google Maps។' 
+                                    ? 'ស្វែងរកមន្ទីរពេទ្យបង្អែកជាតិ ខេត្ត-ក្រុង មន្ទីរពេទ្យកុមារ ធនាគារឈាម និងលេខទូរស័ព្ទហៅឡានពេទ្យសង្គ្រោះបន្ទាន់ ២៤/៧ ពេលជួបគ្រោះថ្នាក់ចរាចរណ៍ ឬករណីសង្គ្រោះជីវិតបន្ទាន់ ជាមួយប៊ូតុងចុចហៅទូរស័ព្ទភ្លាមៗ និងទីតាំង Google Maps។' 
                                     : 'Quickly find 24/7 emergency referral hospitals, ambulance hotlines, pediatric trauma centers, and blood banks across all 25 Cambodian provinces for road accidents and critical medical emergencies.' }}
                             </p>
                         </div>
@@ -53,7 +53,7 @@
                                     </div>
                                 </div>
                                 <span class="text-xs font-mono font-bold bg-white/20 px-2.5 py-1 rounded-lg group-hover:bg-white group-hover:text-rose-600 transition-colors">
-                                    {{ isKhmer ? 'ចុចតេ' : 'CALL' }}
+                                    {{ isKhmer ? 'ហៅចេញ' : 'CALL' }}
                                 </span>
                             </a>
 

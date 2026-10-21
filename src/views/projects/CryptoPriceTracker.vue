@@ -19,19 +19,19 @@
             <!-- Stats Overview Cards -->
             <div v-if="!loading && !error" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                 <div class="animate-fade-in-up bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-4 text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300" style="animation-delay: 0ms">
-                    <div class="text-sm opacity-90 mb-1">Total Market Cap</div>
+                    <div class="text-sm opacity-90 mb-1">{{ isKhmer ? 'មូលធនបត្រទីផ្សារសរុប' : 'Total Market Cap' }}</div>
                     <div class="text-xl font-bold">{{ formatCurrency(totalMarketCap) }}</div>
                 </div>
                 <div class="animate-fade-in-up bg-gradient-to-br from-green-500 to-green-600 rounded-xl p-4 text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300" style="animation-delay: 50ms">
-                    <div class="text-sm opacity-90 mb-1">24h Volume</div>
+                    <div class="text-sm opacity-90 mb-1">{{ isKhmer ? 'ទំហំជួញដូរ ២៤ ម៉ោង' : '24h Volume' }}</div>
                     <div class="text-xl font-bold">{{ formatCurrency(totalVolume) }}</div>
                 </div>
                 <div class="animate-fade-in-up bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl p-4 text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300" style="animation-delay: 100ms">
-                    <div class="text-sm opacity-90 mb-1">Active Cryptos</div>
+                    <div class="text-sm opacity-90 mb-1">{{ isKhmer ? 'ចំនួនកាក់សកម្ម' : 'Active Cryptos' }}</div>
                     <div class="text-xl font-bold">{{ filteredCryptos.length }}</div>
                 </div>
                 <div class="animate-fade-in-up bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl p-4 text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300" style="animation-delay: 150ms">
-                    <div class="text-sm opacity-90 mb-1">BTC Dominance</div>
+                    <div class="text-sm opacity-90 mb-1">{{ isKhmer ? 'ឥទ្ធិពលទីផ្សារ Bitcoin' : 'BTC Dominance' }}</div>
                     <div class="text-xl font-bold">{{ btcDominance }}%</div>
                 </div>
             </div>
@@ -44,9 +44,9 @@
                         <input 
                             v-model="searchQuery" 
                             type="text" 
-                            placeholder="Search cryptocurrencies (e.g., Bitcoin, BTC, Ethereum)..."
+                            :placeholder="isKhmer ? 'ស្វែងរកកាក់គ្រីបតូ (ឧ. Bitcoin, BTC, Ethereum)...' : 'Search cryptocurrencies (e.g., Bitcoin, BTC, Ethereum)...'"
                             class="w-full px-4 py-3 pl-10 pr-4 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 shadow-sm focus:outline-none focus:shadow-glow-blue focus:ring-2 focus:ring-blue-500/30 transition-all"
-                            aria-label="Search cryptocurrencies"
+                            :aria-label="isKhmer ? 'ស្វែងរកកាក់គ្រីបតូ' : 'Search cryptocurrencies'"
                         />
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 absolute left-3 top-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -94,7 +94,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" :class="{ 'animate-spin': loading }" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                         </svg>
-                        <span class="hidden sm:inline">Refresh</span>
+                        <span class="hidden sm:inline">{{ isKhmer ? 'ផ្ទុកទិន្នន័យថ្មី' : 'Refresh' }}</span>
                     </button>
                 </div>
             </div>
@@ -105,7 +105,7 @@
                     <div class="w-16 h-16 sm:w-20 sm:h-20 border-4 border-blue-200 dark:border-blue-900 rounded-full"></div>
                     <div class="w-16 h-16 sm:w-20 sm:h-20 border-4 border-blue-500 border-t-transparent rounded-full animate-spin absolute top-0 left-0"></div>
                 </div>
-                <p class="mt-4 sm:mt-6 text-gray-600 dark:text-gray-400 font-medium text-sm sm:text-base">Loading cryptocurrency data...</p>
+                <p class="mt-4 sm:mt-6 text-gray-600 dark:text-gray-400 font-medium text-sm sm:text-base">{{ isKhmer ? 'កំពុងទាញយកទិន្នន័យទីផ្សារគ្រីបតូ...' : 'Loading cryptocurrency data...' }}</p>
             </div>
 
             <!-- Error State -->
@@ -113,7 +113,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 sm:h-16 sm:w-16 mx-auto mb-3 sm:mb-4 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
-                <h2 class="text-xl sm:text-2xl font-bold mb-2">Error Loading Data</h2>
+                <h2 class="text-xl sm:text-2xl font-bold mb-2">{{ isKhmer ? 'មានបញ្ហាក្នុងការទាញយកទិន្នន័យ' : 'Error Loading Data' }}</h2>
                 <p class="opacity-90 mb-4 sm:mb-6 text-sm sm:text-base">{{ error }}</p>
                 <button @click="fetchCryptoData"
                     class="px-5 py-2.5 sm:px-6 sm:py-3 bg-white text-red-500 font-semibold rounded-xl hover:bg-gray-100 transition-all shadow-lg text-sm sm:text-base">
@@ -124,7 +124,7 @@
             <!-- Crypto List -->
             <div v-else class="space-y-4">
                 <div v-if="filteredCryptos.length === 0" class="text-center py-12 bg-white dark:bg-gray-800 rounded-xl">
-                    <p class="text-gray-600 dark:text-gray-400">No cryptocurrencies found matching your criteria.</p>
+                    <p class="text-gray-600 dark:text-gray-400">{{ isKhmer ? 'រកមិនឃើញកាក់គ្រីបតូដែលត្រូវនឹងពាក្យស្វែងរករបស់អ្នកឡើយ។' : 'No cryptocurrencies found matching your criteria.' }}</p>
                 </div>
 
                 <div v-else class="grid grid-cols-1 gap-4">
@@ -157,9 +157,9 @@
                                         </span>
                                     </div>
                                     <div class="flex flex-wrap items-center gap-3 text-sm text-gray-600 dark:text-gray-400">
-                                        <span>Market Cap: {{ formatCurrency(crypto.market_cap) }}</span>
+                                        <span>{{ isKhmer ? 'មូលធនបត្រ៖ ' : 'Market Cap: ' }}{{ formatCurrency(crypto.market_cap) }}</span>
                                         <span class="hidden sm:inline">•</span>
-                                        <span>Volume: {{ formatCurrency(crypto.total_volume) }}</span>
+                                        <span>{{ isKhmer ? 'ទំហំ៖ ' : 'Volume: ' }}{{ formatCurrency(crypto.total_volume) }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -184,7 +184,7 @@
                                     </div>
                                 </div>
                                 <div class="text-xs text-gray-500 dark:text-gray-400">
-                                    24h: {{ formatCurrency(crypto.high_24h) }} / {{ formatCurrency(crypto.low_24h) }}
+                                    {{ isKhmer ? 'កម្រិត ២៤ ម៉ោង៖ ' : '24h: ' }}{{ formatCurrency(crypto.high_24h) }} / {{ formatCurrency(crypto.low_24h) }}
                                 </div>
                             </div>
                         </div>
@@ -202,7 +202,7 @@
                         Previous
                     </button>
                     <span class="px-4 py-2 text-gray-700 dark:text-gray-300">
-                        Page {{ currentPage }} of {{ totalPages }}
+                        {{ isKhmer ? ('ទំព័រ ' + currentPage + ' នៃ ' + totalPages) : ('Page ' + currentPage + ' of ' + totalPages) }}
                     </span>
                     <button 
                         @click="currentPage = Math.min(totalPages, currentPage + 1)"
@@ -241,7 +241,7 @@
                                 </h2>
                                 <p class="text-gray-600 dark:text-gray-400 uppercase">{{ selectedCrypto.symbol }}</p>
                                 <p v-if="selectedCrypto.market_cap_rank" class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                                    Rank #{{ selectedCrypto.market_cap_rank }}
+                                    {{ isKhmer ? 'ចំណាត់ថ្នាក់លេខ #' : 'Rank #' }}{{ selectedCrypto.market_cap_rank }}
                                 </p>
                             </div>
                         </div>
@@ -283,7 +283,7 @@
                     <!-- Chart Section -->
                     <div class="mb-6 bg-gray-50 dark:bg-gray-700 rounded-xl p-4 border border-gray-200/60 dark:border-gray-600/60">
                         <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Price Chart</h3>
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ isKhmer ? 'តារាងតម្លៃប្រវត្តិសាស្ត្រ' : 'Price Chart' }}</h3>
                             <div class="flex gap-2">
                                 <button
                                     v-for="period in chartPeriods"
@@ -307,7 +307,7 @@
                         <div v-if="chartLoading" class="flex items-center justify-center py-12">
                             <div class="text-center">
                                 <div class="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
-                                <p class="text-gray-600 dark:text-gray-400">Loading chart data...</p>
+                                <p class="text-gray-600 dark:text-gray-400">{{ isKhmer ? 'កំពុងទាញយកទិន្នន័យតារាង...' : 'Loading chart data...' }}</p>
                             </div>
                         </div>
                         
@@ -332,7 +332,7 @@
                         
                         <!-- Initial State -->
                         <div v-else class="flex items-center justify-center py-12">
-                            <p class="text-gray-600 dark:text-gray-400">Select a time period to view the chart</p>
+                            <p class="text-gray-600 dark:text-gray-400">{{ isKhmer ? 'សូមជ្រើសរើសចន្លោះពេលដើម្បីមើលតារាង' : 'Select a time period to view the chart' }}</p>
                         </div>
                     </div>
 
@@ -346,14 +346,14 @@
                         </h3>
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <div class="bg-white/20 backdrop-blur-sm rounded-lg p-4">
-                                <div class="text-sm opacity-90 mb-1">7-Day Forecast</div>
+                                <div class="text-sm opacity-90 mb-1">{{ isKhmer ? 'ការព្យាករណ៍ ៧ ថ្ងៃ' : '7-Day Forecast' }}</div>
                                 <div class="text-2xl font-bold">{{ formatCurrency(pricePrediction.forecast7d) }}</div>
                                 <div class="text-xs mt-1 opacity-80">
                                     {{ pricePrediction.change7d >= 0 ? '+' : '' }}{{ pricePrediction.change7d.toFixed(2) }}%
                                 </div>
                             </div>
                             <div class="bg-white/20 backdrop-blur-sm rounded-lg p-4">
-                                <div class="text-sm opacity-90 mb-1">30-Day Forecast</div>
+                                <div class="text-sm opacity-90 mb-1">{{ isKhmer ? 'ការព្យាករណ៍ ៣០ ថ្ងៃ' : '30-Day Forecast' }}</div>
                                 <div class="text-2xl font-bold">{{ formatCurrency(pricePrediction.forecast30d) }}</div>
                                 <div class="text-xs mt-1 opacity-80">
                                     {{ pricePrediction.change30d >= 0 ? '+' : '' }}{{ pricePrediction.change30d.toFixed(2) }}%
@@ -368,13 +368,13 @@
                             </div>
                         </div>
                         <p class="text-xs mt-4 opacity-80 italic">
-                            * Predictions are based on historical trends and technical analysis. Not financial advice.
+                            {{ isKhmer ? '* ការព្យាករណ៍ផ្អែកលើនិន្នាការប្រវត្តិសាស្ត្រ និងការវិភាគបច្ចេកទេស។ មិនមែនជាការផ្តល់ដំបូន្មានហិរញ្ញវត្ថុឡើយ។' : '* Predictions are based on historical trends and technical analysis. Not financial advice.' }}
                         </p>
                     </div>
 
                     <!-- Technical Indicators -->
                     <div v-if="technicalIndicators" class="mb-6">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Technical Indicators</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">{{ isKhmer ? 'សូចនាករបច្ចេកទេស (Technical Indicators)' : 'Technical Indicators' }}</h3>
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                             <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
                                 <div class="text-sm text-gray-600 dark:text-gray-400 mb-1">RSI (14)</div>
@@ -396,7 +396,7 @@
                                 </div>
                             </div>
                             <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
-                                <div class="text-sm text-gray-600 dark:text-gray-400 mb-1">Volatility</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400 mb-1">{{ isKhmer ? 'ភាពប្រែប្រួល' : 'Volatility' }}</div>
                                 <div class="text-lg font-bold text-gray-900 dark:text-white">
                                     {{ technicalIndicators.volatility.toFixed(2) }}%
                                 </div>
@@ -407,7 +407,7 @@
                     <!-- Stats Grid -->
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
                         <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
-                            <div class="text-sm text-gray-600 dark:text-gray-400 mb-1">Market Cap</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400 mb-1">{{ isKhmer ? 'មូលធនបត្រទីផ្សារ' : 'Market Cap' }}</div>
                             <div class="text-lg font-bold text-gray-900 dark:text-white">{{ formatCurrency(selectedCrypto.market_cap) }}</div>
                         </div>
                         <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
@@ -415,35 +415,35 @@
                             <div class="text-lg font-bold text-gray-900 dark:text-white">{{ formatCurrency(selectedCrypto.total_volume) }}</div>
                         </div>
                         <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
-                            <div class="text-sm text-gray-600 dark:text-gray-400 mb-1">Volume/Market Cap</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400 mb-1">{{ isKhmer ? 'សមាមាត្រទំហំ/មូលធនបត្រ' : 'Volume/Market Cap' }}</div>
                             <div class="text-lg font-bold text-gray-900 dark:text-white">
                                 {{ ((selectedCrypto.total_volume / selectedCrypto.market_cap) * 100).toFixed(2) }}%
                             </div>
                         </div>
                         <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
-                            <div class="text-sm text-gray-600 dark:text-gray-400 mb-1">24h High</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400 mb-1">{{ isKhmer ? 'តម្លៃខ្ពស់បំផុត ២៤ ម៉ោង' : '24h High' }}</div>
                             <div class="text-lg font-bold text-green-600 dark:text-green-400">{{ formatCurrency(selectedCrypto.high_24h) }}</div>
                         </div>
                         <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
-                            <div class="text-sm text-gray-600 dark:text-gray-400 mb-1">24h Low</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400 mb-1">{{ isKhmer ? 'តម្លៃទាបបំផុត ២៤ ម៉ោង' : '24h Low' }}</div>
                             <div class="text-lg font-bold text-red-600 dark:text-red-400">{{ formatCurrency(selectedCrypto.low_24h) }}</div>
                         </div>
                         <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
-                            <div class="text-sm text-gray-600 dark:text-gray-400 mb-1">Price Range</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400 mb-1">{{ isKhmer ? 'គម្លាតតម្លៃ' : 'Price Range' }}</div>
                             <div class="text-lg font-bold text-gray-900 dark:text-white">
                                 {{ formatCurrency(selectedCrypto.low_24h) }} - {{ formatCurrency(selectedCrypto.high_24h) }}
                             </div>
                         </div>
                         <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
-                            <div class="text-sm text-gray-600 dark:text-gray-400 mb-1">Circulating Supply</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400 mb-1">{{ isKhmer ? 'កាក់កំពុងចរាចរណ៍' : 'Circulating Supply' }}</div>
                             <div class="text-lg font-bold text-gray-900 dark:text-white">{{ formatNumber(selectedCrypto.circulating_supply) }} {{ selectedCrypto.symbol.toUpperCase() }}</div>
                         </div>
                         <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
-                            <div class="text-sm text-gray-600 dark:text-gray-400 mb-1">Total Supply</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400 mb-1">{{ isKhmer ? 'កាក់សរុប' : 'Total Supply' }}</div>
                             <div class="text-lg font-bold text-gray-900 dark:text-white">{{ formatNumber(selectedCrypto.total_supply) }} {{ selectedCrypto.symbol.toUpperCase() }}</div>
                         </div>
                         <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
-                            <div class="text-sm text-gray-600 dark:text-gray-400 mb-1">Fully Diluted Valuation</div>
+                            <div class="text-sm text-gray-600 dark:text-gray-400 mb-1">{{ isKhmer ? 'តម្លៃទីផ្សារសរុប (FDV)' : 'Fully Diluted Valuation' }}</div>
                             <div class="text-lg font-bold text-gray-900 dark:text-white">
                                 {{ formatCurrency(selectedCrypto.total_supply * selectedCrypto.current_price) }}
                             </div>
@@ -452,7 +452,7 @@
 
                     <!-- Additional Price Changes -->
                     <div v-if="selectedCrypto.price_change_percentage_7d !== undefined || selectedCrypto.price_change_percentage_30d !== undefined" class="mb-6">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Price Changes</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">{{ isKhmer ? 'បម្រែបម្រួលតម្លៃតាមកាលកំណត់' : 'Price Changes' }}</h3>
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                             <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
                                 <div class="text-sm text-gray-600 dark:text-gray-400 mb-1">24h</div>
@@ -503,6 +503,9 @@
 import { ref, computed, watch, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { Chart, registerables } from 'chart.js'
 import logger from '@/utils/logger'
+import { useLanguage } from '@/composables/useLanguage'
+
+const { isKhmer } = useLanguage()
 
 Chart.register(...registerables)
 
@@ -535,6 +538,17 @@ const chartPeriods = [
 // Prediction and indicators
 const pricePrediction = ref(null)
 const technicalIndicators = ref(null)
+const getTrendLabel = (trend) => {
+    if (!trend) return '';
+    if (!isKhmer.value) return trend;
+    const map = {
+        'Bullish': 'កើនឡើង (Bullish)',
+        'Bearish': 'ធ្លាក់ចុះ (Bearish)',
+        'Neutral': 'ធម្មតា (Neutral)'
+    };
+    return map[trend] || trend;
+};
+
 
 // Computed properties
 const filteredCryptos = computed(() => {

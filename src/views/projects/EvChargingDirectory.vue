@@ -179,7 +179,7 @@
                         <div class="p-3 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-100 dark:border-slate-800 space-y-1">
                             <span class="font-bold text-emerald-600 dark:text-emerald-400 font-mono">1. កន្លែងឈប់សម្រាក Km 63 (កំពង់ស្ពឺ)</span>
                             <p class="text-[11px] text-slate-600 dark:text-slate-300">
-                                មានឆ្នាំងសាកល្បឿនលឿន DC Fast Charger 120kW ទាំងសងខាងផ្លូវ (ទៅ និងមក) សាកត្រឹម ២០-៣០ នាទី បាន ៨០%។
+                                មានឧបករណ៍សាកល្បឿនលឿន DC Fast Charger 120kW ទាំងសងខាងផ្លូវ (ទៅ និងមក) សាកត្រឹម ២០-៣០ នាទី បាន ៨០%។
                             </p>
                         </div>
                         <div class="p-3 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-100 dark:border-slate-800 space-y-1">
@@ -199,7 +199,7 @@
                     <div class="lg:col-span-5 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl p-5 sm:p-6 shadow-sm space-y-5">
                         <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
                             <h2 class="text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-white font-mono">
-                                ⚙️ {{ isKhmer ? 'ប៉ារ៉ាម៉ែត្រធ្វើដំណើរប្រចាំថ្ងៃ' : 'DRIVING PARAMETERS' }}
+                                ⚙️ {{ isKhmer ? 'ព័ត៌មាននៃការបើកបរប្រចាំថ្ងៃ' : 'DRIVING PARAMETERS' }}
                             </h2>
                             <button 
                                 @click="resetDefaults" 
@@ -229,7 +229,7 @@
                         <!-- EV Battery Consumption -->
                         <div class="space-y-1.5">
                             <label class="block text-xs font-bold text-slate-700 dark:text-slate-300">
-                                {{ isKhmer ? 'អត្រាស៊ីភ្លើងរបស់ EV (kWh / 100km)' : 'EV Efficiency (kWh / 100km)' }}
+                                {{ isKhmer ? 'កម្រិតប្រើប្រាស់ថាមពលអគ្គិសនីរបស់ EV (kWh / 100km)' : 'EV Efficiency (kWh / 100km)' }}
                             </label>
                             <input 
                                 v-model.number="evEfficiency" 
@@ -257,7 +257,7 @@
                         <!-- Gasoline Car Fuel Economy -->
                         <div class="space-y-1.5 pt-2 border-t border-slate-100 dark:border-slate-800">
                             <label class="block text-xs font-bold text-slate-700 dark:text-slate-300">
-                                {{ isKhmer ? 'អត្រាស៊ីសាំងរបស់ឡានធម្មតា (Liters / 100km)' : 'Gasoline Car Fuel (L / 100km)' }}
+                                {{ isKhmer ? 'កម្រិតស៊ីសាំងរបស់រថយន្តធម្មតា (Liters / 100km)' : 'Gasoline Car Fuel (L / 100km)' }}
                             </label>
                             <input 
                                 v-model.number="gasEfficiency" 

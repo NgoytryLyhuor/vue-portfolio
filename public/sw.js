@@ -1,6 +1,6 @@
-// Service Worker for Portfolio - Clean Cache & Fast Updates v4.4
-const CACHE_NAME = 'portfolio-v4.4-20261021-1640';
-const RUNTIME_CACHE = 'portfolio-runtime-v4.4-20261021-1640';
+// Service Worker for Portfolio - Clean Cache & Fast Updates v4.5
+const CACHE_NAME = 'portfolio-v4.5-20261021-1710';
+const RUNTIME_CACHE = 'portfolio-runtime-v4.5-20261021-1710';
 
 // Assets to cache immediately
 const STATIC_ASSETS = [
@@ -27,7 +27,7 @@ function safeCacheAdd(cache, url) {
 
 // Install event - Cache static assets & notify clients (wait for user confirmation)
 self.addEventListener('install', (event) => {
-  console.log('[Service Worker] Installing v4.4...');
+  console.log('[Service Worker] Installing v4.5...');
   // Do NOT call self.skipWaiting() here so the worker enters the "waiting" state.
   // This allows the app UI to detect reg.waiting and display the Update Banner to the user.
   event.waitUntil(
@@ -38,7 +38,7 @@ self.addEventListener('install', (event) => {
         );
       })
       .then(() => {
-        console.log('[Service Worker] v4.4 installed and waiting for user activation');
+        console.log('[Service Worker] v4.5 installed and waiting for user activation');
       })
       .catch((err) => {
         console.warn('[Service Worker] Install warning:', err.message);
@@ -48,7 +48,7 @@ self.addEventListener('install', (event) => {
 
 // Activate event - Wipe ALL old caches completely & take control
 self.addEventListener('activate', (event) => {
-  console.log('[Service Worker] Activating v4.4 & purging old caches...');
+  console.log('[Service Worker] Activating v4.5 & purging old caches...');
   event.waitUntil(
     caches.keys()
       .then((cacheNames) => {
@@ -65,7 +65,7 @@ self.addEventListener('activate', (event) => {
       .then(() => {
         return self.clients.matchAll({ type: 'window' }).then((clients) => {
           clients.forEach((client) => {
-            client.postMessage({ type: 'CONTROLLER_ACTIVE', version: 'v4.4.0' });
+            client.postMessage({ type: 'CONTROLLER_ACTIVE', version: 'v4.5.0' });
           });
         });
       })

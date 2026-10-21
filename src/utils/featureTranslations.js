@@ -4,7 +4,7 @@
 export const translations = {
     common: {
         language: { km: 'ភាសា', en: 'Language' },
-        theme: { km: 'ស្បែករចនា', en: 'Theme' },
+        theme: { km: 'រចនាប័ទ្ម', en: 'Theme' },
         light: { km: 'ពន្លឺ', en: 'Light' },
         dark: { km: 'ងងឹត', en: 'Dark' },
         auto: { km: 'ស្វ័យប្រវត្តិ', en: 'Auto' },

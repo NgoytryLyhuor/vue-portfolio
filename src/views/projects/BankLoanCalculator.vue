@@ -276,11 +276,11 @@
                         <thead class="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 sticky top-0">
                             <tr>
                                 <th class="p-2.5">#</th>
-                                <th class="p-2.5">{{ isKhmer ? 'ប្រាក់ដើមដើមគ្រា' : 'Beg. Balance' }}</th>
+                                <th class="p-2.5">{{ isKhmer ? 'សមតុល្យដើមគ្រា' : 'Beg. Balance' }}</th>
                                 <th class="p-2.5">{{ isKhmer ? 'ប្រាក់ត្រូវបង់' : 'Payment' }}</th>
                                 <th class="p-2.5 text-blue-600 dark:text-blue-400">{{ isKhmer ? 'ប្រាក់ដើម' : 'Principal' }}</th>
                                 <th class="p-2.5 text-rose-600 dark:text-rose-400">{{ isKhmer ? 'ការប្រាក់' : 'Interest' }}</th>
-                                <th class="p-2.5">{{ isKhmer ? 'ប្រាក់ដើមចុងគ្រា' : 'Ending Balance' }}</th>
+                                <th class="p-2.5">{{ isKhmer ? 'សមតុល្យចុងគ្រា' : 'Ending Balance' }}</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-[11px]">

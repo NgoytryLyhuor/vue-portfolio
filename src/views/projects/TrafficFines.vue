@@ -929,7 +929,7 @@ const driverRights = [
         icon: '📱',
         titleKhmer: '៣. ពិនិត្យពិន្ទុប័ណ្ណបើកបរលើ App MPWT Driver Care',
         titleEn: '3. Track Demerit Balance on MPWT App',
-        descKhmer: 'អ្នកអាចទាញយកកម្មវិធី "Cambodia Driver Care" របស់ក្រសួងសាធារណការ ដើម្បីឆែកមើលចំនួនពិន្ទុប័ណ្ណបើកបរដែលនៅសល់ និងប្រវត្តិល្មើសចរាចរណ៍បានគ្រប់ពេលវេលា។',
+        descKhmer: 'អ្នកអាចទាញយកកម្មវិធី "Cambodia Driver Care" របស់ក្រសួងសាធារណការ និងដឹកជញ្ជូន ដើម្បីពិនិត្យមើលចំនួនពិន្ទុប័ណ្ណបើកបរដែលនៅសល់ និងប្រវត្តិល្មើសចរាចរណ៍បានគ្រប់ពេលវេលា។',
         descEn: 'Download the official MPWT "Driver Care" app to monitor remaining license demerit points and review roadside infringement records.'
     },
     {

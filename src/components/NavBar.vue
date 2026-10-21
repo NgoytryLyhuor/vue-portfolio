@@ -277,7 +277,7 @@
 
                     <!-- Theme Switcher Row -->
                     <div class="pt-2 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between px-3 py-2">
-                        <span class="text-xs font-mono uppercase text-slate-500 dark:text-slate-400">{{ isKhmer ? 'ស្បែករចនា' : 'Theme' }}</span>
+                        <span class="text-xs font-mono uppercase text-slate-500 dark:text-slate-400">{{ isKhmer ? 'រចនាប័ទ្ម' : 'Theme' }}</span>
                         <div class="flex items-center bg-slate-100 dark:bg-slate-800 p-0.5 border border-slate-300 dark:border-slate-700 rounded-lg space-x-1">
                             <button @click="setTheme('light')"
                                 class="px-2.5 py-1 rounded-md text-xs font-medium flex items-center space-x-1 transition-all"
