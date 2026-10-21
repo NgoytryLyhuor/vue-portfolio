@@ -170,7 +170,7 @@
                                         aria-label="Select Month"
                                         class="w-full sm:w-auto px-2.5 sm:px-3 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 border-0 focus:ring-2 focus:ring-blue-500 cursor-pointer truncate">
                                         <option v-for="(mName, mIdx) in solarKhmerMonths" :key="mIdx" :value="mIdx">
-                                            {{ isKhmer ? mName : englishMonthsFull[mIdx] }}
+                                            {{ isKhmer ? mName : (englishMonthsFull && englishMonthsFull[mIdx] ? englishMonthsFull[mIdx] : mName) }}
                                         </option>
                                     </select>
 
@@ -641,6 +641,10 @@ export default {
                 { full: 'Saturday', short: 'Sat', khmer: 'សៅរ៍' }
             ],
             englishMonthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            englishMonthsFull: [
+                'January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'
+            ],
             solarKhmerMonths: [
                 'មករា', 'កុម្ភៈ', 'មីនា', 'មេសា', 'ឧសភា', 'មិថុនា',
                 'កក្កដា', 'សីហា', 'កញ្ញា', 'តុលា', 'វិច្ឆិកា', 'ធ្នូ'
@@ -941,30 +945,30 @@ export default {
             const currentYear = todayMidnight.getFullYear();
             
             const allHolidays = [
-                ...this.getHolidaysForYear(currentYear),
-                ...this.getHolidaysForYear(currentYear + 1)
-            ].filter(h => h.isPublicHoliday !== false);
+                ...(this.getHolidaysForYear(currentYear) || []),
+                ...(this.getHolidaysForYear(currentYear + 1) || [])
+            ].filter(h => h && h.isPublicHoliday !== false);
             
             return allHolidays
                 .map(h => this.EnrichHolidayItem(h, todayMidnight))
-                .filter(h => h.daysUntil >= 0)
+                .filter(h => h && h.daysUntil >= 0)
                 .slice(0, 10);
         },
         nextUpcomingHoliday() {
-            return this.upcomingHolidays.length > 0 ? this.upcomingHolidays[0] : null;
+            return (this.upcomingHolidays && this.upcomingHolidays.length > 0) ? this.upcomingHolidays[0] : null;
         },
         displayedHolidays() {
             const now = new Date();
             const todayMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
             let list = [];
             if (this.holidayTab === 'year') {
-                list = this.getHolidaysForYear(this.currentYear).map(h => this.EnrichHolidayItem(h, todayMidnight));
+                list = (this.getHolidaysForYear(this.currentYear) || []).map(h => this.EnrichHolidayItem(h, todayMidnight));
             } else {
-                list = this.upcomingHolidays;
+                list = this.upcomingHolidays || [];
             }
             if (this.holidaySearch) {
                 const q = this.holidaySearch.toLowerCase();
-                list = list.filter(h => h.khmer.toLowerCase().includes(q) || h.english.toLowerCase().includes(q));
+                list = list.filter(h => h && ((h.khmer && h.khmer.toLowerCase().includes(q)) || (h.english && h.english.toLowerCase().includes(q))));
             }
             return list;
         }
@@ -974,12 +978,14 @@ export default {
             const holidayDate = new Date(h.year, h.month - 1, h.day);
             const timeDiff = holidayDate.getTime() - todayMidnight.getTime();
             const daysUntil = Math.round(timeDiff / (1000 * 60 * 60 * 24));
+            const dayOfWeek = holidayDate.getDay();
+            const dayNameObj = (this.dayNames && this.dayNames[dayOfWeek]) ? this.dayNames[dayOfWeek] : { full: '', khmer: '' };
             return {
                 ...h,
                 day: h.day,
                 monthShort: holidayDate.toLocaleString('en-US', { month: 'short' }),
-                weekdayName: this.dayNames[holidayDate.getDay()].full,
-                weekdayKhmer: `ថ្ងៃ${this.dayNames[holidayDate.getDay()].khmer}`,
+                weekdayName: dayNameObj.full,
+                weekdayKhmer: `ថ្ងៃ${dayNameObj.khmer}`,
                 daysUntil,
                 isPast: daysUntil < 0
             };
@@ -1136,14 +1142,17 @@ export default {
                 return this.holidaysCache[year];
             }
 
-            const newYearDays = this.getKhmerNewYearDays(year);
+            const newYearDays = this.getKhmerNewYearDays(year) || [14, 15, 16];
+            const ny0 = newYearDays[0] || 14;
+            const ny1 = newYearDays[1] || 15;
+            const ny2 = newYearDays[2] || 16;
             const fixedHolidays = [
                 { month: 1, day: 1, khmer: 'ទិវាចូលឆ្នាំសកល', english: 'International New Year\'s Day', description: 'Official public holiday celebrating the start of the Gregorian calendar year.', isPublicHoliday: true },
                 { month: 1, day: 7, khmer: 'ទិវាជ័យជម្នះលើរបបប្រល័យពូជសាសន៍', english: 'Victory over Genocide Day', description: 'Commemorates the fall of the Khmer Rouge regime on January 7, 1979.', isPublicHoliday: true },
                 { month: 3, day: 8, khmer: 'ទិវាអន្តរជាតិនារី', english: 'International Women\'s Day', description: 'Official public holiday celebrating women\'s rights and achievements.', isPublicHoliday: true },
-                { month: 4, day: newYearDays[0], khmer: 'ពិធីបុណ្យចូលឆ្នាំថ្មីប្រពៃណីជាតិ (ថ្ងៃមហាសង្ក្រាន្ត)', english: 'Khmer New Year (Maha Sangkran)', description: 'First official day of traditional Cambodian New Year celebrations.', isPublicHoliday: true },
-                { month: 4, day: newYearDays[1], khmer: 'ពិធីបុណ្យចូលឆ្នាំថ្មីប្រពៃណីជាតិ (ថ្ងៃវារៈវ័នបត)', english: 'Khmer New Year (Virak Vanabat)', description: 'Second official day of Cambodian New Year celebrations.', isPublicHoliday: true },
-                { month: 4, day: newYearDays[2], khmer: 'ពិធីបុណ្យចូលឆ្នាំថ្មីប្រពៃណីជាតិ (ថ្ងៃវារៈឡើងស័ក)', english: 'Khmer New Year (Virak Loeng Sak)', description: 'Third official day of Cambodian New Year marking the new Sak.', isPublicHoliday: true },
+                { month: 4, day: ny0, khmer: 'ពិធីបុណ្យចូលឆ្នាំថ្មីប្រពៃណីជាតិ (ថ្ងៃមហាសង្ក្រាន្ត)', english: 'Khmer New Year (Maha Sangkran)', description: 'First official day of traditional Cambodian New Year celebrations.', isPublicHoliday: true },
+                { month: 4, day: ny1, khmer: 'ពិធីបុណ្យចូលឆ្នាំថ្មីប្រពៃណីជាតិ (ថ្ងៃវារៈវ័នបត)', english: 'Khmer New Year (Virak Vanabat)', description: 'Second official day of Cambodian New Year celebrations.', isPublicHoliday: true },
+                { month: 4, day: ny2, khmer: 'ពិធីបុណ្យចូលឆ្នាំថ្មីប្រពៃណីជាតិ (ថ្ងៃវារៈឡើងស័ក)', english: 'Khmer New Year (Virak Loeng Sak)', description: 'Third official day of Cambodian New Year marking the new Sak.', isPublicHoliday: true },
                 { month: 5, day: 1, khmer: 'ទិវាពលកម្មអន្តរជាតិ', english: 'International Labor Day', description: 'Official public holiday honoring workers across Cambodia.', isPublicHoliday: true },
                 { month: 5, day: 14, khmer: 'ព្រះរាជពិធីបុណ្យចម្រើនព្រះជន្ម ព្រះករុណាព្រះបាទសម្តេចព្រះបរមនាថ នរោត្តម សីហមុនី', english: 'King Norodom Sihamoni\'s Birthday', description: 'Official public holiday celebrating the birthday of His Majesty King Norodom Sihamoni.', isPublicHoliday: true },
                 { month: 6, day: 18, khmer: 'ព្រះរាជពិធីបុណ្យចម្រើនព្រះជន្ម សម្តេចព្រះមហាក្សត្រី នរោត្តម មុនីនាថ សីហនុ', english: 'Queen Mother\'s Birthday', description: 'Official public holiday celebrating the birthday of Her Majesty Queen Mother Norodom Monineath Sihanouk.', isPublicHoliday: true },
@@ -1154,7 +1163,7 @@ export default {
                 { month: 12, day: 29, khmer: 'ទិវាសន្តិភាពនៅកម្ពុជា', english: 'Peace Day in Cambodia', description: 'Official public holiday celebrating complete peace and national reconciliation in Cambodia.', isPublicHoliday: true }
             ];
 
-            if (newYearDays.length === 4) {
+            if (newYearDays.length === 4 && newYearDays[3]) {
                 fixedHolidays.push({
                     month: 4,
                     day: newYearDays[3],
@@ -1176,6 +1185,7 @@ export default {
                 const daysInMonth = new Date(year, m + 1, 0).getDate();
                 for (let d = 1; d <= daysInMonth; d++) {
                     const l = this.calculateKhmerLunar(year, m, d);
+                    if (!l || !l.period || !Array.isArray(l.period) || !l.month) continue;
                     const pNum = l.period[0];
                     const pPhase = l.period[1];
                     const mName = l.month.name;
@@ -1306,9 +1316,12 @@ export default {
         getLunarDay(year, month, day) {
             try {
                 const lunarData = this.calculateKhmerLunar(year, month, day);
-                const lunarDayNumber = lunarData.period[0];
+                if (!lunarData || !lunarData.period || !Array.isArray(lunarData.period) || !lunarData.month) {
+                    throw new Error('Invalid lunar calculation');
+                }
+                const lunarDayNumber = lunarData.period[0] ?? 1;
                 const isWaxing = lunarData.period[1] === 'K';
-                const monthLength = lunarData.monthLength;
+                const monthLength = lunarData.monthLength || 30;
                 const monthKhmer = this.lunarMonthKhmerMap[lunarData.month.name] || '';
                 const lunarDayKhmer = this.toKhmerNumeral(lunarDayNumber);
 
@@ -1356,16 +1369,25 @@ export default {
                     zodiacEnglish: this.zodiacEnglishMap[lunarData.zodiac] || '',
                     sakKhmer: this.sakKhmerList[lunarData.sequence] || '',
                     sakEnglish: this.sakEnglishList[lunarData.sequence] || '',
-                    beYear: lunarData.years.BE
+                    beYear: (lunarData.years && lunarData.years.BE) ? lunarData.years.BE : (year + 544)
                 };
             } catch (error) {
                 console.error('Error calculating lunar day:', error);
                 return {
                     day: '',
                     baseDay: '',
+                    dayEnglish: '',
+                    baseDayEnglish: '',
                     phase: null,
                     isHolyDay: false,
-                    dayNumber: null
+                    dayNumber: null,
+                    monthKhmer: '',
+                    monthEnglish: '',
+                    zodiacKhmer: '',
+                    zodiacEnglish: '',
+                    sakKhmer: '',
+                    sakEnglish: '',
+                    beYear: year + 544
                 };
             }
         },

@@ -663,6 +663,7 @@ const fetchChartData = async () => {
 }
 
 const renderChart = (prices) => {
+    if (!prices || !Array.isArray(prices) || prices.length === 0) return;
     if (!chartCanvas.value) {
         // Wait a bit for canvas to be ready
         setTimeout(() => {
