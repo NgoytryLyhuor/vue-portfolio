@@ -1,6 +1,6 @@
-// Service Worker for Portfolio - Clean Cache & Fast Updates v4.6
-const CACHE_NAME = 'portfolio-v4.6-20261116-1325';
-const RUNTIME_CACHE = 'portfolio-runtime-v4.6-20261116-1325';
+// Service Worker for Portfolio - Clean Cache & Fast Updates v4.7
+const CACHE_NAME = 'portfolio-v4.7-20261116-1335';
+const RUNTIME_CACHE = 'portfolio-runtime-v4.7-20261116-1335';
 
 // Assets to cache immediately
 const STATIC_ASSETS = [

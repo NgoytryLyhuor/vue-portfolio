@@ -91,15 +91,25 @@
 
             <!-- Projects Grid -->
             <div>
-                <div v-if="filteredProjects.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div
+                    v-if="filteredProjects.length > 0"
+                    :class="filteredProjects.length === 1 ? 'grid grid-cols-1 gap-6' : 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'"
+                >
                     <article 
                         v-for="project in filteredProjects" 
                         :key="project.id"
-                        class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl overflow-hidden flex flex-col hover:border-blue-500 dark:hover:border-blue-500 shadow-sm hover:shadow-xl transition-all duration-200 group"
-                        :class="{ 'ring-2 ring-emerald-500/20 dark:ring-emerald-400/20': project.featured }">
+                        :class="[
+                            'border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl overflow-hidden hover:border-blue-500 dark:hover:border-blue-500 shadow-sm hover:shadow-xl transition-all duration-200 group',
+                            filteredProjects.length === 1 ? 'grid grid-cols-1 lg:grid-cols-12' : 'flex flex-col',
+                            { 'ring-2 ring-emerald-500/20 dark:ring-emerald-400/20': project.featured }
+                        ]">
 
                         <!-- Image / Visual Preview Box -->
-                        <div class="h-48 bg-slate-100 dark:bg-slate-800 relative overflow-hidden border-b border-slate-200 dark:border-slate-800">
+                        <div
+                            :class="[
+                                'bg-slate-100 dark:bg-slate-800 relative overflow-hidden border-slate-200 dark:border-slate-800',
+                                filteredProjects.length === 1 ? 'h-56 sm:h-72 lg:h-full lg:min-h-[340px] lg:col-span-7 border-b lg:border-b-0 lg:border-r' : 'h-48 border-b'
+                            ]">
                             <!-- Top Status & Featured Badges -->
                             <div class="absolute top-3 left-3 right-3 flex items-center justify-between gap-2 z-10 pointer-events-none">
                                 <span v-if="project.status" class="px-2.5 py-0.5 text-[10px] font-mono font-bold bg-blue-600 text-white uppercase tracking-wider rounded-md shadow-sm">
@@ -144,12 +154,24 @@
                         </div>
 
                         <!-- Card Body -->
-                        <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
+                        <div
+                            :class="[
+                                'p-5 flex-1 flex flex-col justify-between space-y-4',
+                                filteredProjects.length === 1 ? 'lg:col-span-5 sm:p-7' : ''
+                            ]">
                             <div>
-                                <h2 class="text-base font-bold text-slate-900 dark:text-white mb-2 line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                                <h2
+                                    :class="[
+                                        'font-bold text-slate-900 dark:text-white mb-2.5 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors',
+                                        filteredProjects.length === 1 ? 'text-lg sm:text-xl' : 'text-base line-clamp-2'
+                                    ]">
                                     {{ isKhmer && project.titleKm ? project.titleKm : project.title }}
                                 </h2>
-                                <p class="text-xs text-slate-600 dark:text-slate-400 line-clamp-3 leading-relaxed">
+                                <p
+                                    :class="[
+                                        'text-slate-600 dark:text-slate-400 leading-relaxed',
+                                        filteredProjects.length === 1 ? 'text-xs sm:text-sm' : 'text-xs line-clamp-3'
+                                    ]">
                                     {{ isKhmer && project.descriptionKm ? project.descriptionKm : project.description }}
                                 </p>
                             </div>
