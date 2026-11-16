@@ -24,15 +24,15 @@
                 <!-- Main Title & Bio -->
                 <div class="py-4 sm:py-6 space-y-3 max-w-3xl">
                     <div class="inline-block px-3 py-1 text-[10px] sm:text-[11px] font-mono uppercase tracking-widest font-bold bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 rounded-md">
-                        {{ isKhmer ? 'ស្នាដៃអភិវឌ្ឍន៍ផ្ទាល់ខ្លួន' : 'ENGINEERING & PRODUCTION BUILDS' }}
+                        {{ isKhmer ? 'ស្នាដៃអភិវឌ្ឍន៍ផ្ទាល់ខ្លួន & អតិថិជន' : 'CLIENT & PRODUCTION BUILDS' }}
                     </div>
                     <h1 class="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
                         {{ isKhmer ? 'គម្រោង និងស្នាដៃរបស់ខ្ញុំ' : 'FEATURED PROJECTS' }}
                     </h1>
                     <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
                         {{ isKhmer 
-                            ? 'ការប្រមូលផ្តុំនៃគម្រោងគេហទំព័រ កម្មវិធីជំនួយការ និងឧបករណ៍ជាក់ស្តែងដែលខ្ញុំបានអភិវឌ្ឍដោយប្រើ Vue.js, Java, Spring Boot, PHP Laravel និងបច្ចេកវិទ្យាទំនើបៗ។' 
-                            : 'A curated catalog of production web applications, utility services, and open-source software built across modern stacks.' }}
+                            ? 'ការប្រមូលផ្តុំនៃគម្រោងគេហទំព័រអតិថិជន ប្រព័ន្ធគ្រប់គ្រង Laravel Sanctum និងឧបករណ៍ឌីជីថលជាក់ស្តែងដែលខ្ញុំបានអភិវឌ្ឍដោយប្រើ Vue.js, Java, Spring Boot និង PHP Laravel។' 
+                            : 'A curated catalog of client production systems, Sanctum-protected admin studios, and civic web applications built with Vue.js, Laravel, Java, and Tailwind CSS.' }}
                     </p>
                 </div>
 
@@ -89,52 +89,55 @@
                 </div>
             </section>
 
-            <!-- Loading State -->
-            <div v-if="isLoading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <LoadingSkeleton v-for="i in 6" :key="i" type="project" />
-            </div>
-
-            <!-- Error State -->
-            <div v-else-if="error" class="border border-red-300 dark:border-red-900 bg-red-50 dark:bg-red-950/30 p-8 text-center space-y-4 rounded-2xl">
-                <div class="w-12 h-12 mx-auto text-red-500">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                    </svg>
-                </div>
-                <h3 class="text-base font-bold text-red-600 dark:text-red-400">
-                    {{ isKhmer ? 'មានបញ្ហាក្នុងការទាញទិន្នន័យគម្រោង' : 'Error loading projects' }}
-                </h3>
-                <p class="text-xs font-mono text-slate-600 dark:text-slate-400">{{ error }}</p>
-                <button 
-                    @click="fetchProjects"
-                    class="px-4 py-2 bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-xs font-mono uppercase font-bold border border-slate-900 dark:border-white rounded-lg hover:bg-blue-600 transition-colors">
-                    {{ isKhmer ? 'ព្យាយាមម្តងទៀត' : 'Retry Connection' }}
-                </button>
-            </div>
-
             <!-- Projects Grid -->
-            <div v-else>
+            <div>
                 <div v-if="filteredProjects.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     <article 
                         v-for="project in filteredProjects" 
                         :key="project.id"
-                        class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl overflow-hidden flex flex-col hover:border-blue-500 dark:hover:border-blue-500 shadow-sm hover:shadow-lg transition-all duration-200 group">
+                        class="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-2xl overflow-hidden flex flex-col hover:border-blue-500 dark:hover:border-blue-500 shadow-sm hover:shadow-xl transition-all duration-200 group"
+                        :class="{ 'ring-2 ring-emerald-500/20 dark:ring-emerald-400/20': project.featured }">
 
-                        <!-- Image Preview Box -->
+                        <!-- Image / Visual Preview Box -->
                         <div class="h-48 bg-slate-100 dark:bg-slate-800 relative overflow-hidden border-b border-slate-200 dark:border-slate-800">
-                            <span v-if="project.status" class="absolute top-3 left-3 px-2 py-0.5 text-[10px] font-mono font-bold bg-blue-600 text-white uppercase tracking-wider rounded-md z-10">
-                                {{ formatCategory(project.status) }}
-                            </span>
+                            <!-- Top Status & Featured Badges -->
+                            <div class="absolute top-3 left-3 right-3 flex items-center justify-between gap-2 z-10 pointer-events-none">
+                                <span v-if="project.status" class="px-2.5 py-0.5 text-[10px] font-mono font-bold bg-blue-600 text-white uppercase tracking-wider rounded-md shadow-sm">
+                                    {{ project.status }}
+                                </span>
+                                <span v-if="project.featured" class="px-2.5 py-0.5 text-[10px] font-mono font-bold bg-emerald-500 text-white uppercase tracking-wider rounded-md shadow-sm">
+                                    ★ {{ isKhmer ? 'គម្រោងពិសេស' : 'FEATURED' }}
+                                </span>
+                            </div>
+
+                            <!-- Real Screenshot Image -->
                             <img 
+                                v-if="project.image"
                                 :src="getProjectImage(project.image)" 
-                                :alt="project.title"
-                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
+                                :alt="isKhmer && project.titleKm ? project.titleKm : project.title"
+                                class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" 
                                 @error="handleImageError"
                                 loading="lazy"
+                            />
+
+                            <!-- Clean Architectural Visual Header for Built-in Tools -->
+                            <div 
+                                v-else
+                                class="w-full h-full bg-gradient-to-br flex flex-col items-center justify-center p-6 relative group-hover:scale-105 transition-transform duration-500"
+                                :class="project.accent || 'from-slate-800 to-slate-950'"
                             >
-                            <div class="absolute bottom-3 left-3 z-10">
-                                <span class="px-2 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider bg-slate-900/90 text-white border border-slate-700 rounded-md">
+                                <div class="absolute inset-0 opacity-15" style="background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 0); background-size: 18px 18px;"></div>
+                                <div class="w-16 h-16 rounded-2xl bg-white/15 backdrop-blur-sm border border-white/25 flex items-center justify-center text-3xl shadow-lg mb-2">
+                                    {{ project.icon || '⚡' }}
+                                </div>
+                                <span class="text-[10px] font-mono font-bold uppercase tracking-widest text-white/80">
+                                    {{ project.technologies[0] }} // {{ project.category }}
+                                </span>
+                            </div>
+
+                            <!-- Bottom Category Pill -->
+                            <div class="absolute bottom-3 left-3 z-10 pointer-events-none">
+                                <span class="px-2.5 py-0.5 text-[10px] font-mono font-bold uppercase tracking-wider bg-slate-900/90 text-white border border-slate-700 rounded-md backdrop-blur-sm">
                                     {{ project.category }}
                                 </span>
                             </div>
@@ -143,10 +146,12 @@
                         <!-- Card Body -->
                         <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
                             <div>
-                                <h2 class="text-base font-bold text-slate-900 dark:text-white mb-2 line-clamp-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                                    {{ project.title }}
+                                <h2 class="text-base font-bold text-slate-900 dark:text-white mb-2 line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                                    {{ isKhmer && project.titleKm ? project.titleKm : project.title }}
                                 </h2>
-                                <p class="text-xs text-slate-600 dark:text-slate-400 line-clamp-3 leading-relaxed" v-html="project.description"></p>
+                                <p class="text-xs text-slate-600 dark:text-slate-400 line-clamp-3 leading-relaxed">
+                                    {{ isKhmer && project.descriptionKm ? project.descriptionKm : project.description }}
+                                </p>
                             </div>
 
                             <!-- Technologies Badges -->
@@ -161,21 +166,36 @@
                                 </div>
 
                                 <!-- Action Buttons -->
-                                <div class="pt-3 border-t border-slate-200 dark:border-slate-800 flex items-center gap-2">
+                                <div class="pt-3 border-t border-slate-200 dark:border-slate-800 flex flex-wrap items-center gap-2">
                                     <a 
                                         v-if="project.demo_url"
                                         :href="project.demo_url" 
                                         target="_blank" 
                                         rel="noopener noreferrer"
-                                        class="flex-1 text-center py-2 px-3 bg-blue-600 hover:bg-blue-700 text-white text-xs font-mono font-bold uppercase tracking-wider border border-blue-600 rounded-lg transition-all">
+                                        class="flex-1 text-center py-2 px-3 bg-blue-600 hover:bg-blue-700 text-white text-xs font-mono font-bold uppercase tracking-wider border border-blue-600 rounded-lg transition-all whitespace-nowrap">
                                         {{ isKhmer ? 'ចូលមើលគេហទំព័រ →' : 'Visit Live Site →' }}
+                                    </a>
+                                    <router-link
+                                        v-else-if="project.route"
+                                        :to="project.route"
+                                        class="flex-1 text-center py-2 px-3 bg-blue-600 hover:bg-blue-700 text-white text-xs font-mono font-bold uppercase tracking-wider border border-blue-600 rounded-lg transition-all whitespace-nowrap">
+                                        {{ isKhmer ? 'បើកប្រើប្រាស់ →' : 'Open App →' }}
+                                    </router-link>
+                                    <a 
+                                        v-if="project.admin_url" 
+                                        :href="project.admin_url" 
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class="py-2 px-3 bg-emerald-50 dark:bg-emerald-950/40 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 text-xs font-mono font-bold uppercase border border-emerald-200 dark:border-emerald-800 rounded-lg transition-all whitespace-nowrap"
+                                        :title="isKhmer ? 'ប្រព័ន្ធគ្រប់គ្រង Sanctum Protected Studio' : 'Sanctum Protected Admin Studio'">
+                                        🔒 Studio
                                     </a>
                                     <a 
                                         v-if="shouldShowGithub(project)" 
                                         :href="project.github" 
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        class="py-2 px-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-mono font-bold uppercase border border-slate-300 dark:border-slate-700 rounded-lg transition-all">
+                                        class="py-2 px-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 text-xs font-mono font-bold uppercase border border-slate-300 dark:border-slate-700 rounded-lg transition-all whitespace-nowrap">
                                         GitHub
                                     </a>
                                 </div>
@@ -206,29 +226,35 @@
 </template>
 
 <script setup>
-// Projects Page - Architectural Sharp Tech Minimalist
-import api from '@/service/api'
+// Projects Page - Static Local Data (No API Dependency)
 import { ref, computed, onMounted } from 'vue'
-import logger from '@/utils/logger'
-import LoadingSkeleton from '@/components/LoadingSkeleton.vue'
+import { projectsData } from '@/data/projects'
 import { useStructuredData } from '@/composables/useStructuredData'
 import { useLanguage } from '@/composables/useLanguage'
 
 const { isKhmer } = useLanguage()
 
-// Reactive state
+// Reactive state loaded directly from static catalog
 const activeCategory = ref('all')
 const searchQuery = ref('')
-const projects = ref([])
-const categories = ref([])
-const isLoading = ref(true)
-const error = ref(null)
+const projects = ref(projectsData)
 const fallbackImage = ref(require('@/assets/no-image.jpg'))
+
+// Extract unique categories dynamically from static list
+const categories = computed(() => {
+    const allCategories = projects.value
+        .map(project => project.category ? project.category.trim() : '')
+        .filter(Boolean)
+
+    const uniqueCategories = [...new Set(allCategories)]
+    uniqueCategories.sort()
+    return ['All', ...uniqueCategories.filter(c => c.toLowerCase() !== 'all')]
+})
 
 // Methods
 const getProjectImage = (imageUrl) => {
     if (!imageUrl) return fallbackImage.value
-    if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) {
+    if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://') || imageUrl.startsWith('/')) {
         return imageUrl
     }
     try {
@@ -249,46 +275,6 @@ const shouldShowGithub = (project) => {
         !project.github.includes('undefined')
 }
 
-const fetchProjects = async () => {
-    isLoading.value = true
-    error.value = null
-    try {
-        const response = await api.get('/project')
-        projects.value = response.data.data
-        extractCategories()
-    } catch (err) {
-        logger.error('Error loading projects:', err)
-        error.value = err.response?.data?.message || 'Failed to load projects. Please try again later.'
-    } finally {
-        isLoading.value = false
-    }
-}
-
-const formatCategory = (category) => {
-    if (!category) return ''
-    
-    return category
-        .split('-')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-        .join(' ')
-}
-
-const extractCategories = () => {
-    const allCategories = projects.value
-        .map(project => project.category ? project.category.trim() : '')
-        .filter(Boolean)
-        .map(category => category.toLowerCase())
-
-    const uniqueCategories = [...new Set(allCategories)]
-    
-    categories.value = uniqueCategories.map(category =>
-        category.charAt(0).toUpperCase() + category.slice(1)
-    )
-
-    categories.value.sort()
-    categories.value = ['All', ...categories.value.filter(c => c !== 'All')]
-}
-
 // Computed properties
 const filteredProjects = computed(() => {
     if (!Array.isArray(projects.value)) return []
@@ -296,25 +282,29 @@ const filteredProjects = computed(() => {
     let filtered = projects.value
 
     // Filter by category
-    if (activeCategory.value !== 'all') {
+    if (activeCategory.value.toLowerCase() !== 'all') {
         filtered = filtered.filter(project => {
             return project.category &&
                 project.category.toLowerCase() === activeCategory.value.toLowerCase()
         })
     }
 
-    // Filter by search query
+    // Filter by search query (supports English & Khmer)
     if (searchQuery.value.trim()) {
         const query = searchQuery.value.toLowerCase().trim()
         filtered = filtered.filter(project => {
             const title = (project.title || '').toLowerCase()
+            const titleKm = (project.titleKm || '').toLowerCase()
             const description = (project.description || '').toLowerCase()
+            const descriptionKm = (project.descriptionKm || '').toLowerCase()
             const technologies = Array.isArray(project.technologies) 
                 ? project.technologies.join(' ').toLowerCase()
                 : (project.technologies || '').toLowerCase()
             
             return title.includes(query) || 
+                   titleKm.includes(query) ||
                    description.includes(query) || 
+                   descriptionKm.includes(query) ||
                    technologies.includes(query)
         })
     }
@@ -323,10 +313,7 @@ const filteredProjects = computed(() => {
 })
 
 // Lifecycle hook
-onMounted(async () => {
-    await fetchProjects()
-    
-    // Add structured data for projects
+onMounted(() => {
     if (projects.value && projects.value.length > 0) {
         const { addStructuredData, getProjectData, getBreadcrumbData } = useStructuredData()
         const structuredData = getProjectData(projects.value)
@@ -334,7 +321,6 @@ onMounted(async () => {
             addStructuredData(structuredData)
         }
         
-        // Add breadcrumb structured data
         const breadcrumbData = getBreadcrumbData([
             { name: 'Home', url: 'https://ngoytrylyhuor.vercel.app/' },
             { name: 'Projects', url: 'https://ngoytrylyhuor.vercel.app/projects' }
