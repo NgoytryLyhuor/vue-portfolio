@@ -6,19 +6,20 @@
     "dev": "vue-cli-service serve",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "test:smoke": "node scripts/smoke-check.js"
   },
   "dependencies": {
     "@heroicons/vue": "^2.2.0",
     "axios": "^1.8.4",
     "chart.js": "^4.5.1",
     "core-js": "^3.8.3",
+    "dompurify": "^3.4.18",
     "khmercal": "^0.1.0",
     "portfolio-project": "file:",
     "vue": "^3.2.13",
     "vue-chartjs": "^5.3.3",
-    "vue-router": "^4.5.0",
-    "vue-rss-feed": "^0.2.4"
+    "vue-router": "^4.5.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

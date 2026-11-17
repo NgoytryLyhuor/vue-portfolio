@@ -52,7 +52,7 @@
 
                 <!-- Article Body -->
                 <div class="p-6 sm:p-8 prose prose-lg dark:prose-invert max-w-none">
-                    <div v-html="article.body_html" class="article-content"></div>
+                    <div v-html="sanitizedBody" class="article-content"></div>
                 </div>
 
                 <!-- Footer -->
@@ -102,7 +102,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import DOMPurify from 'dompurify'
 import { useRoute } from 'vue-router'
 import LoadingSkeleton from '@/components/LoadingSkeleton.vue'
 import logger from '@/utils/logger'
@@ -113,6 +114,10 @@ const route = useRoute()
 const article = ref(null)
 const loading = ref(true)
 const error = ref(null)
+
+const sanitizedBody = computed(() => {
+    return article.value?.body_html ? DOMPurify.sanitize(article.value.body_html) : ''
+})
 
 const formatDate = (dateString) => {
     if (!dateString) return ''

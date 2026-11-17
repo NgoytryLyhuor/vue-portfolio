@@ -11,7 +11,7 @@ export const projectsData = [
     category: 'Client Production',
     status: 'Live Production',
     featured: true,
-    image: '/images/projects/consatech-home.png',
+    image: '/images/projects/consatech-home.jpg',
     icon: '🧪',
     accent: 'from-emerald-800 via-teal-900 to-slate-900',
     technologies: ['Vue.js 3', 'Laravel', 'Sanctum Studio', 'Tailwind CSS', 'MySQL', 'REST API'],
