@@ -6,7 +6,7 @@ export function useMetaTags() {
     const route = useRoute()
 
     const updateMetaTags = (meta) => {
-        const siteUrl = process.env.VUE_APP_SITE_URL || 'https://ngoytrylyhuor.vercel.app'
+        const siteUrl = process.env.VUE_APP_SITE_URL || 'https://ngoytry-lyhuor.vercel.app'
         const defaultImage = `${siteUrl}/seo-img.jpg`
         
         const {

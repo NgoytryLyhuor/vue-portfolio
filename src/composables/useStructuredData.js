@@ -43,19 +43,19 @@ export function useStructuredData() {
             author: {
                 '@type': 'Person',
                 name: article.user?.name || 'Ngoytry Lyhuor',
-                url: article.user?.website_url || 'https://ngoytrylyhuor.vercel.app'
+                url: article.user?.website_url || 'https://ngoytry-lyhuor.vercel.app'
             },
             publisher: {
                 '@type': 'Organization',
                 name: 'Ngoytry Lyhuor',
                 logo: {
                     '@type': 'ImageObject',
-                    url: 'https://ngoytrylyhuor.vercel.app/logo.png'
+                    url: 'https://ngoytry-lyhuor.vercel.app/logo.png'
                 }
             },
             mainEntityOfPage: {
                 '@type': 'WebPage',
-                '@id': article.url || `https://ngoytrylyhuor.vercel.app/blog/${article.id}`
+                '@id': article.url || `https://ngoytry-lyhuor.vercel.app/blog/${article.id}`
             }
         }
     }

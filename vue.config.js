@@ -30,7 +30,7 @@ module.exports = defineConfig({
   configureWebpack: {
     plugins: [
       new (require('sitemap-webpack-plugin').default)({
-        base: 'https://ngoytrylyhuor.vercel.app',
+        base: 'https://ngoytry-lyhuor.vercel.app',
         paths: staticPaths, // <-- USE THE MANUALLY DEFINED PATHS HERE
         options: {
           filename: 'sitemap.xml',

@@ -6,7 +6,7 @@ Disallow: /dashboard
 Disallow: /api/
 
 # Sitemap
-Sitemap: https://ngoytrylyhuor.vercel.app/sitemap.xml
+Sitemap: https://ngoytry-lyhuor.vercel.app/sitemap.xml
 
 # Crawl-delay (optional, helps prevent server overload)
 Crawl-delay: 1

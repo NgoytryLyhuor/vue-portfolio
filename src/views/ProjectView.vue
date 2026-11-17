@@ -344,8 +344,8 @@ onMounted(() => {
         }
         
         const breadcrumbData = getBreadcrumbData([
-            { name: 'Home', url: 'https://ngoytrylyhuor.vercel.app/' },
-            { name: 'Projects', url: 'https://ngoytrylyhuor.vercel.app/projects' }
+            { name: 'Home', url: 'https://ngoytry-lyhuor.vercel.app/' },
+            { name: 'Projects', url: 'https://ngoytry-lyhuor.vercel.app/projects' }
         ])
         addStructuredData(breadcrumbData)
     }

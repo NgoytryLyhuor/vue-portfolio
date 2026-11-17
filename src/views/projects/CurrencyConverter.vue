@@ -609,7 +609,7 @@ import { ref, computed, onMounted } from 'vue';
 import { useLanguage } from '@/composables/useLanguage';
 import logger from '@/utils/logger';
 
-const { currentLang, isKhmer, isEnglish, setLanguage, t } = useLanguage();
+const { isKhmer } = useLanguage();
 
 // State
 const loading = ref(true);

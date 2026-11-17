@@ -210,7 +210,6 @@ const { updateAvailable } = useAppUpdate();
 const {
   canInstall,
   isInstalled,
-  isIos,
   showIosGuide,
   isBannerDismissed,
   installApp,

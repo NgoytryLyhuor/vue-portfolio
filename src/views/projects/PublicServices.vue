@@ -114,7 +114,7 @@
                                     ≈ {{ isKhmer ? toKhmerNumeral(formatKhr(400000)) : formatKhr(400000) }} ៛ ({{ isKhmer ? 'មនុស្សពេញវ័យ' : 'Adults' }})
                                 </div>
                                 <div class="text-xs font-mono text-slate-400">
-                                    កុមារ < ៥ ឆ្នាំ៖ $80 (សុពលភាព ៥ ឆ្នាំ)
+                                    កុមារក្រោម ៥ ឆ្នាំ៖ $80 (សុពលភាព ៥ ឆ្នាំ)
                                 </div>
                             </div>
 
@@ -142,7 +142,7 @@
                                     ≈ {{ isKhmer ? toKhmerNumeral(formatKhr(600000)) : formatKhr(600000) }} ៛ ({{ isKhmer ? 'មនុស្សពេញវ័យ' : 'Adults' }})
                                 </div>
                                 <div class="text-xs font-mono text-slate-400">
-                                    កុមារ < ៥ ឆ្នាំ៖ $120
+                                    កុមារក្រោម ៥ ឆ្នាំ៖ $120
                                 </div>
                             </div>
 
@@ -170,7 +170,7 @@
                                     ≈ {{ isKhmer ? toKhmerNumeral(formatKhr(800000)) : formatKhr(800000) }} ៛ ({{ isKhmer ? 'មនុស្សពេញវ័យ' : 'Adults' }})
                                 </div>
                                 <div class="text-xs font-mono text-slate-400">
-                                    កុមារ < ៥ ឆ្នាំ៖ $160
+                                    កុមារក្រោម ៥ ឆ្នាំ៖ $160
                                 </div>
                             </div>
 
