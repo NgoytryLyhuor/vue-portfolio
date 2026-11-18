@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 transition-colors duration-300 py-4 sm:py-10 px-3 sm:px-6 lg:px-8">
+    <div class="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 transition-colors duration-300 py-4 sm:py-10 pb-28 sm:pb-36 px-3 sm:px-6 lg:px-8">
         <div class="max-w-7xl mx-auto space-y-6 sm:space-y-10">
 
             <!-- Header Section (Modern Architectural HUD with subtle rounded corners) -->
@@ -253,6 +253,7 @@ import { ref, computed, onMounted } from 'vue'
 import { projectsData } from '@/data/projects'
 import { useStructuredData } from '@/composables/useStructuredData'
 import { useLanguage } from '@/composables/useLanguage'
+import consatechImage from '@/assets/consatech-home.jpg'
 
 const { isKhmer } = useLanguage()
 
@@ -276,6 +277,9 @@ const categories = computed(() => {
 // Methods
 const getProjectImage = (imageUrl) => {
     if (!imageUrl) return fallbackImage.value
+    if (imageUrl.includes('consatech')) {
+        return consatechImage
+    }
     if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://') || imageUrl.startsWith('/')) {
         return imageUrl
     }
